@@ -1,0 +1,243 @@
+[changepass]
+back="Powrót do podglądu"
+changed="Twoje hasło zostało zmienione."
+changePass="Zmień swoje hasło"
+pass1="Hasło"
+pass2="Powtórz hasło"
+password_mismatch="Twoja hasła różnią się"
+submit="Zmień hasło"
+
+[clanPassword]
+about="Ten klan jest chroniony hasłem,  kontynuuj jeśli je znasz."
+back="Wróć"
+joinClan="Dołącz do @@clan"
+password="Hasło"
+submit="Dołącz do klanu"
+wrongPass="Podałeś złe hasło. Spróbuj ponownie."
+
+[choosemail]
+about="Nie podałeś jeszcze adresu e-mail. Niektóre funkcje gry mogę być jak narazie niedostępne."
+certification="Podałeś nam swój adres e-mail, jednak nie został on potwierdzony. Wysłaliśmy ci wiadomość z linkem aktywacyjnym."
+email="E-mail"
+email_exists="Ten e-mail jest już używany na tym serverze. Możesz mieć tylko jedno konto na każdym serverze."
+email_title="Potwierdzenie e-mail'a"
+invalid_syntax="Podany adres e-mail jest niepoprawny."
+mail_subject="Weryfikacja e-mail'a w Dolumar"
+submit="Potwierdź adres email"
+toCertAgain="aby wysłać wiadomość z linkiem aktywacyjnym ponownie."
+toReturn="aby wrócić do podglądu"
+welcome="Witaj,  @@0!"
+
+[errors]
+clan_is_full="Wybrany klan jest pełny i nie może przyjąć już żadnych użytkowników. Wybierz inny klan."
+emailFound="Ten E-mail jest już w użyciu."
+emailFormat="E-mail jest niepoprawny."
+passwordMismatch="Hasła do siebie nie pasują."
+server_not_online="Server aktualnie niedostępny ze względu na konfigurację."
+user_not_found="Zły login / hasło. Spróbuj ponownie."
+userFound="Ta nazwa użytkownika jest już zajęta. Wybierz inną nazwę."
+usernameFormat="Nazwa użytkownika jest niepoprawna."
+passwordFormat="Hasło musi składać się z conajmniej 3 znaków."
+no_location_found="Nie znaleziono pozycji w pobliżu twojego klanu. Prosimy o wybranie innego klanu"
+
+[ignorelist]
+about="Tutaj możesz zarządzać listą aktualnie ignorowanych przez ciebie użytkowników. Gdy kogoś zignorujesz, wtedy ta osoba nie może wysyłać do ciebie wiadomości a ty nie widzisz jej wiadomości na chatcie."
+button="Zignoruj"
+ignore="Ignoruj gracza"
+ignore_yourself="Nie możesz siebie zignorować"
+ignoring="Osoby, które ignorujesz"
+nickname="Nazwa gracza"
+notIgnoring="Nie ignorujesz nikogo."
+player_not_found="Nie znaleziono takiego użytkownika. Sprawdz czy dobrze wpisałeś nazwę."
+unignore="przestań ignorować"
+validateEmail="Musisz najpierw potwierdzić swój adres e-mail."
+
+[invite]
+url="Twój link rekrutacyjny"
+legend="Wyślij ten link znajomym aby otrzymać bonus:"
+invite="Zaproś znajomych do grania w Dolumar i zdobądź darmowe runy. Za każdego zrekrutowanego znajomego, otrzymasz jedną losową runę."
+
+[language]
+language="Wybierz swój język"
+submit="Zmień język"
+
+[locked]
+code="Kod zaproszenia"
+invitation="Jeśli otrzymałeś kod zaproszenia, kontunuuj z uwagą."
+invNotFound="Nie mogę znaleźć takiego kodu:"
+legend="Zaproszenie"
+submit="Następny Krok"
+locked="Jak narazie grać mogą tylko zaproszeni gracze. Znasz kogoś, kto jest zarejestrowany ? Poproś go o kod zaproszenia."
+
+[login]
+gambic="Zaloguj się z kontem Gambic Games"
+login="Musisz się najpierw zalogować."
+login_title="Dane Logowania"
+openid="Zaloguj się za pomocą OpenID"
+password="Hasło"
+submit="Login"
+toRegister="aby zarejestrować nowe konto"
+username="Nazwa Użytkownika"
+welcome="Witaj!"
+toRequest="jeśli zapomniałeś swojego hasła"
+
+[main]
+noPremium="Ta opcja jest dostępna tylko dla użytkowników premium."
+
+[lostPassword]
+submit="Zresetuj hasło"
+mail_subject="Dolumar - Zapomnianie Hasło"
+loggedIn="Jesteś już zalogowany"
+email="Twój adres e-mail"
+done="Wysłaliśmy nowe hasło"
+about="Ten formularz pozwala ci zresetować hasło. Działa to tylko wtedy jeśli podałeś aktualny adres e-mail."
+
+[myAccount]
+account="Opcje Konta"
+changePass="Zmień hasło"
+logout="Wyloguj"
+premium="Konto Premium"
+premiumLast="Konto Premium aktywne.  Wygaśnie @@0."
+notPremium="Konto Premium wygasło."
+resetAccount="Resetuj konto"
+setEmail="Potwierdź adres email"
+todo="Rzeczy do zrobienia:"
+toPremium="aby przedłużyć konto premium."
+vacationMode="Urlop"
+welcome="Witaj, @@0"
+
+[logbook]
+title="Dziennik"
+
+[nickname]
+welcome="Witamy w Dolumar!"
+username="Nick"
+user_found="Ten nick jest już zajęty. Wybierz inny."
+submit="Wybierz Nick"
+error_username="Nieprawidłowa nazwa użytkownika. Powinna składać się z conajmniej 3 liter."
+chooseName="Zanim rzpoczniesz grę musisz wybrać nazwę gracza. Musi być one unikalna."
+
+[openid]
+about="Masz OpenID? Czemu nie użyjesz go do Dolumar ?"
+legend="Konto OpenID"
+loginFail="Niepoprawny OpenID, spróbuj ponownie."
+popular="Popularni dostawcy."
+specify="Wybierz dostawcę"
+submit="Loguj"
+title="Login OpenID"
+toReturn="aby powrócić do formularza logowania."
+url="OpeniD URL:"
+whatIs="Co to jest OpenID?"
+
+[preferences]
+advertisement="Reklamy"
+bottomLeft="Lewy Dół"
+bottomRight="Prawy Dół"
+change="Zatwierdź właściwości"
+doubleClick="Podwójne kliknięcie myszką"
+dragable="Przeciągane"
+hideAdvertisement="Schowaj reklamy"
+minimap="Pozycja minimapy"
+preferences="Właściwości"
+openBuilding="Opcje Budowania"
+showAdvertisement="Pokaż reklamy"
+singleClick="Pojedyńcze kliknięcie myszką"
+upperLeft="Lewa Góra"
+upperRight="Prawa Góra"
+
+[premium]
+about_buy="Proszę wybrać ilość i walutę którą chcesz użyć.  Wtedy pojawi się bazpieczny pop-up"
+amount="Ilość"
+credits="Masz @@0 kredytów."
+currency="Waluta"
+isoptional="Konto premium jest @@optional. Możesz grać w tą grę za darmo."
+not_enough_credits="Masz za mało kredytów."
+optional="opcjonalne"
+proceed="Idź do kasy"
+toBuyCredit="aby kupić więcej kredytów"
+toUseCredit="aby przedłużyć swoje konto premium o 15 dni."
+unsufficient_credits="Wygląda na to, że nie masz już kredytów."
+validateEmail="Musisz najpierw potwierdzić swoje konto premium"
+perPiece="podpisywać z upoważnienia"
+
+[premiumbenefits]
+about="Dolumar jest darmową grą. Jednak jest możliwość kupienia opcji premium. Korzyści z konta premium: "
+uinfo="Automatyczne obliczanie ilości żołnierzy, których możesz wytrenować."
+tqueue="Kolejka trenowania żołnierzy."
+searchtool="Zaawansowane wyszukiwanie graczy i wiosek."
+bqueue="Nowe funkcje w budowie i ustawianie budynków w kolejce"
+
+[profile]
+clans="Klany"
+creation="Data dołączenia"
+lastRef="Ostatnie Online"
+offline="Offline"
+online="Online"
+onlineAgo="@@0 temu."
+onlineNow="Teraz Online"
+playerProfile="Profil Gracza"
+removal="Data usunięcia"
+status="Status:"
+vacation="Urlop"
+village="Wioska"
+villages="Wioski"
+removed="Porzucone"
+
+[register]
+about="Przygotuj się do dołaczenia do Świata Dolumar"
+accept="Akceptuję @@terms."
+done="Twoje konto zostało utworzone."
+email="E-mail"
+login="Teraz możesz się zalogować."
+password="Hasło"
+password2="Powtórz hasło"
+register="Proszę wypełnić formularz"
+submit="Zarejestruj konto"
+terms="Regulamin"
+username="Nazwa użytkownika"
+
+[resetaccount]
+about="Czasami lepiej jest zresetować konto i zacząć grę od początku. Zamiast tworzyć nowe konto zresetuj swoje tutaj."
+confirm="aby zresetować konto. To nie może być cofnięte."
+done="Aby zresetować konto, kliknij na link w otrzymanym e-mail'u."
+emailcert="Musisz potwierdzić adres e-mail, zanim zresetujesz swoje konto"
+instadone="Twoje konto zostało zresetowane"
+msubject="Dolumar - Resetowanie Konta"
+yousure="Czy na pewno chcesz zrestartować konto ? Będziesz przeniesiony na inną pozycję."
+
+[selectRace]
+clanFull="pełny"
+clanLocked="zablokowany"
+joinClan="Dołącz do klanu"
+location="Lub wybierz pozycję startu"
+select="Witaj ! Teraz wybierz rasę i swoją pozycję. Każda rasa ma swoje korzyści."
+selectLocation="Twoja pozycja"
+selectRace="Wybierz rasę"
+submit="Kolejny Krok"
+
+[serverOffline]
+title="Server chwilowo zablokowany"
+not_installed="Server nie został jeszcze zainstalowany"
+error="Błąd Uruchamiania:"
+daily_cron_failed="Wygląda na to, że codzienne czyszczenie servera zawiodło"
+about="Server jest chwilowo offline z powodu problemów. Server zostanie przywrócony tak szybko jak to możliwe."
+
+[tos]
+pp="Oświadczenie o ochronie danych osobowych"
+register="Przez rejestrację potwierdzasz, że masz conajmiej 13 lat oraz że akceptujesz @@pp i @@tos. "
+tos="Regulamin"
+
+[vacationMode]
+about="Wyjeżdżasz na wakacje i nie chcesz stracić swojej wioski ? Aktywuj na urlop w grze."
+activate="Aktywuj urlop"
+active="Masz aktywowany urlop od @@since. Pamiętaj, że jeśli opuścisz urlop, to nie będziesz mógł go znowu aktywować w ciągu kolejnych 14 dni."
+confirm="Czy jesteś pewien, że chcesz aktywować urlop?"
+disable="Opuść Urlop"
+disabled="Witaj ! Brakowało nam ciebie!"
+done="Masz aktywowany Urlop. Po 7 dniach możesz znowu grać. Powodzenia!"
+rules="Po aktywowaniu Urlopu nie możesz go opuścić przez 7 dni"
+title="Urlop"
+too_early="Urlop możesz opuścić dopiero po 7 dniach."
+vacation_disabled="Urlop jest jak narazie wyłączony. Jak narazie nie możesz nas opuścić."
+vacation_limit="Nie możesz aktywować urlopu, ponieważ w ostatnich 14 dniach korzystałeś już z Urlopu."
+

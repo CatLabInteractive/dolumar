@@ -1,0 +1,183 @@
+[RainSeason]
+title = "Rain Season"
+description = "Crop production is increased with @@bonus%."
+
+[FavorOfTheWoods]
+title = "Favor of the Woods"
+description = "Wood production is increased with @@bonus%"
+
+[GoldenMines]
+title = "Golden Mines"
+description = "Gold production is increased with @@bonus%"
+
+[RollingRocks]
+title = "Rolling Rocks"
+description = "Stone production is increased with @@bonus%"
+
+[ShiningOre]
+title = "Shining Ore"
+description = "Iron production is increased with @@bonus%"
+
+[DryLands]
+title = "Dry Lands"
+description = "Crop production is reduced by @@bonus%."
+
+[PoisonWater]
+title = "Poison Water Supply"
+description = "Crop production is reduced by @@bonus%."
+
+[OpenPortal]
+title = "Open portal"
+description = "Open a magic portal to a random player with about the same size of your village."
+onSuccess = "Your wizard has opened a portal to @@target."
+
+[Dispel]
+title = "Dispel"
+description = "Cancels all spells that are currently affecting target village."
+onSuccess = "All spells in @@target have been dispelled."
+
+[Haste]
+title = "Haste"
+description = "All units in target village move @@bonus% faster."
+onSuccess = "All units in @@target will move faster now."
+
+[Shadows]
+title = "Shadows"
+description = "Thieve actions have @@bonus% more chance to succeed."
+
+[CityOfLight]
+title = "City of Light"
+description = "Thieve actions have @@bonus% less chance to succeed."
+
+[MagicalShield]
+title = "Magical Shield"
+description = "Magical spells casted on target village have @@bonus% less chance to succeed."
+
+[MagicMirror]
+title = "Magic Mirror"
+description = "See all buildings and building levels of a village."
+onSuccess = "Your wizard has casted Magic Mirror on @@target. @@report"
+
+[FireWeapons]
+title = "Fire weapons"
+description = "All troops in target village fight with a @@bonus% health bonus until the end of next battle."
+
+[SummonGhosts]
+title = "Summon ghosts"
+description = "All troops in target village fight with a @@bonus% health penalty."
+
+[Earthquake]
+title = "Earthquake"
+description = "Defense tower bonus is reduced by @@bonus% for all units in target village."
+
+[Tornado]
+title = "Tornado"
+description = "Destroy a random level @@level building."
+
+[Floods]
+title = "Floods"
+description = "All running build orders are delayed by @@delay."
+
+[LightningStorm]
+title = "Lightning Storm"
+description = "All troops in target village flee @@bonus% faster."
+
+[Invisibility]
+title = "Invisibility"
+description = "Incoming attacks will only be visible @@hidden hours before they reach target village."
+
+[SandStorm]
+title = "Sand storm"
+description = "All troops in target village move @@bonus% slower."
+
+[HotSmithyFires]
+title = "Hot Smithy Fires"
+description = "Equipment is made @@bonus% faster."
+
+[SabotageWizards]
+title = "Sabotage wizards"
+description = "Magical spells have @@penalty% less chance to succeed."
+
+[KillWizard]
+title = "Assasinate wizard"
+description = "Kills one random wizard in target village."
+
+[StealMaps]
+title = "Steal maps"
+description = "Target troops move @@bonus% slower."
+
+[Demoralize]
+title = "Demoralize"
+description = "Target troops will flee the battlefield @@penalty% faster."
+
+;; Battle
+[Fireball]
+title = "Fireball"
+description = "A fireball deals @@damage damage to one random regiment."
+onSuccess = "A @@unit killed @@casualties units of @@target with a @@spell! (@@probability% probability)"
+
+[Frost]
+title = "Frost"
+description = "Deal @@damage icy damage one random regiment. Will cause the regiment to miss it's first action."
+onSuccess = "A @@unit killed @@casualties units of @@target with a @@spell! (@@probability% probability)"
+
+[Cold]
+title = "Cold"
+description = "One random units health is reduced by @@damage%."
+onSuccess = "A @@unit reduced the health of @@target by @@bonus% with a @@spell! (@@probability% probability)"
+
+[CrackedEarth]
+title = "Cracked Earth"
+description = "All cavalry attack is reduced by @@penalty%."
+onSuccess = "A @@unit casted a @@spell! The attack of all horses is reduced by @@penalty%. (@@probability% probability)"
+
+[Fear]
+title = "Fear"
+description = "All target units flee @@penalty% faster."
+onSuccess = "A @@unit casted a @@spell spell! Defending units will flee @@penalty% faster. (@@probability% probability)"
+
+[LightningBolt]
+title = "Lightning Bolt"
+description = "A powerful lightning strike deals @@damage damage to one random regiment."
+onSuccess = "A @@unit killed @@casualties units of @@target with a @@spell! (@@probability% probability)"
+
+[MeteorRain]
+title = "Meteor Rain"
+description = "A powerful meteor rain deals @@damage damage to all regiments."
+onSuccess = "A @@unit killed @@casualties units in  @@squads regiments with a @@spell! (@@probability% probability)"
+
+[Quicksand]
+title = "Quicksand"
+description = "@@damage% of one random regiment drowns in quicksand."
+onSuccess = "A @@unit killed @@casualties units of @@target with a @@spell spell. (@@probability% probability)"
+
+[SoakingRains]
+title = "Soaking Rains"
+description = "@@effect prevents @@penalty% of all defending archers from shooting."
+onSuccess = "A @@unit casted @@spell. @@penalty% of the defending archers cannot shoot. (@@probability% probability)"
+
+[DorDaedeloth]
+title = "Mysterious spell"
+description = "Suddenly a scroll appeared in all wizard towers of the world. It seems to hold instructions for a spell. It has some resemblance to a portal spell."
+onSuccess = "The earth trembles and the sky turns blue. A portal appears in all clan portals of the world."
+
+[types]
+boost = "Boost action (@@duration)"
+instant = "Instant action"
+battle = "Battle action"
+
+[magic]
+onSuccess = "Your wizard has successfully cast the spell."
+onFailed = "Your spell did not work. Keep training!"
+
+[thievery]
+onSuccess = "Your thief successfully sabotaged."
+onFailed = "Your thief was caught! He will hang for this!"
+
+[general]
+onSuccess = "Your action is done."
+onFailed = "Your action did not work."
+report = "watch report"
+
+[battle]
+onFailed = "An attacking @@unit failed to cast a @@spell (@@probability% success probability)."

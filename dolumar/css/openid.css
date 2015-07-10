@@ -1,0 +1,128 @@
+*
+{
+	margin: 0px;
+	padding: 0px;
+}
+
+body
+{
+	background: black;
+	color: white;
+}
+
+div#container
+{
+	width: 530px;
+	margin: auto;
+	padding: 10px;
+	margin-top: 75px;
+	position: static;
+}
+
+#register, #login
+{
+	float: left;
+	width: 200px;
+	margin-top: 10px;
+	border: 1px solid gray;
+	padding: 5px;
+	margin-left: 5px;
+}
+
+div.clear
+{
+	clear: both;
+	margin-bottom: 20px;
+}
+
+h1
+{
+	text-align: center;
+	font-size: 16px;
+	margin-bottom: 15px;
+}
+
+h2
+{
+	font-size: 13px;
+	margin: 3px;
+}
+
+p
+{
+	font-family: Verdana;
+	margin: 3px;
+	font-size: 12px;
+	margin-bottom: 10px;
+}
+
+p.false
+{
+	color: red;
+}
+
+fieldset
+{
+	border: none;
+}
+
+label
+{
+	width: 150px;
+	font-size: 11px;
+	font-family: Verdana;
+	margin-left: 3px;
+}
+
+input, button
+{
+	margin-left: 3px;
+	margin-bottom: 5px;
+}
+
+a
+{
+	color: red;
+}
+
+form ol
+{
+	list-style-type: none;
+}
+
+#welcome-choise
+{
+	margin-top: 25px;
+	height: 50px;
+}
+
+#welcome-choise a
+{
+	display: block;
+	border: 3px solid gold;
+	width: 168px;
+	text-align: center;
+	padding: 10px;
+	background: #ffec86;
+	text-decoration: none;
+	color: black;
+	font-weight: bold;
+}
+
+#welcome-choise a.left
+{
+	float: left;
+	margin-left: 10px;
+}
+
+#welcome-choise a.right
+{
+	float: right;
+	margin-right: 10px;
+}
+
+#welcome-choise a:hover
+{
+	border: 3px solid #ff8300;
+	background: #ffe350;
+}

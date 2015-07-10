@@ -1,0 +1,739 @@
+/*
+	Squad windows
+*/
+.squads fieldset img
+{
+	float: left;
+	margin: 5px;
+}
+
+.squads div.equipment
+{
+	float: left;
+	clear: none;
+}
+
+.squads div.equipment select
+{
+	width: 175px;
+}
+
+/* Squad overview */
+.squads div.unitimage
+{
+	float: left;
+	padding: 5px;
+}
+
+.squads div.stats
+{
+	clear: left;
+	margin: 2px;
+}
+
+.squads p.actions
+{
+	clear: both;
+}
+
+.squads h3
+{
+	margin-bottom: 0px;
+}
+
+/* Battle */
+.battle ul.available-units li 
+{
+	float: left;
+}
+
+.battle ul.available-units li span
+{
+	display: none;
+}
+
+/* Battle */
+div.battle form.chooseUnits fieldset,
+div.innerbattlefield
+{
+	overflow: hidden;
+	border: 0px solid black;
+}
+
+div.battle form.chooseUnits label
+{
+	display: none;
+}
+
+div.battle div.battlefield-slot select
+{
+	display: none;
+}
+
+div.battle form.chooseUnits button
+{
+	display: block;
+	clear: both;
+	margin-top: 5px;
+}
+
+div.available-units div
+{
+	float: left;
+}
+
+div.battle label.checkbox
+{
+	width: 120px;
+}
+
+div.battle select.specialAction
+{
+	float: left;
+	clear: none;
+	width: 300px;
+}
+
+div.battle img
+{
+	border: 1px solid black;
+	margin-left: 2px;
+}
+
+div.battle img.unit-selected
+{
+	position: absolute;
+	left: 10px;
+	top: 50px;
+}
+
+div.battle div.battlefield div.unit
+{
+	padding: 0px;
+}
+
+div.battle div.battlefield div.unit img
+{
+	margin: 0px 0px 0px 0px;
+	display: block;
+}
+
+div.battle div.clear-button
+{
+	position: absolute;
+	left: 0px;
+	width: 74px;
+	bottom: 10px;
+	text-align: center;
+}
+
+div.battle div.clear-button span
+{
+	text-transform: uppercase;
+	font-weight: bold;
+	color: black;
+	background: white;
+	border: 2px solid white;
+	border-left: 5px solid white;
+	border-right: 5px solid white;
+}
+
+div.battle div.battlefield div.unit.defender
+{
+	position: absolute;
+	left: 9px;
+	top: 10px;
+}
+
+div.battle div.battlefield div.unit.attacker
+{
+	position: absolute;
+	left: 9px;
+	bottom: 9px;
+}
+
+div.battle div.battlefield div.unit.attacker.attacking,
+div.battle div.battlefield div.unit.attacker.dying,
+div.battle div.battlefield div.unit.attacker.fled,
+div.battle div.battlefield div.unit.attacker.whiped,
+div.battle div.battlefield div.unit.attacker.stunned
+{
+	left: 6px;
+	bottom: 6px;
+}
+
+div.battle div.battlefield div.unit.defender.attacking,
+div.battle div.battlefield div.unit.defender.dying,
+div.battle div.battlefield div.unit.defender.fled,
+div.battle div.battlefield div.unit.defender.whiped,
+div.battle div.battlefield div.unit.defender.stunned
+{
+	left: 6px;
+	top: 7px;
+}
+
+
+div.battle div.battlefield div.unit.attacking
+{
+	border: 3px solid green;
+}
+
+div.battle div.battlefield div.unit.dying
+{
+	border: 3px solid red;
+}
+
+div.battle div.battlefield div.unit.fled,
+div.battle div.battlefield div.unit.whiped
+{
+	border: 3px solid yellow;
+}
+
+div.battle div.battlefield div.unit.stunned
+{
+	border: 3px solid purple;
+}
+
+div.battle div.battlefield div.unit.fled img,
+div.battle div.battlefield div.unit.whiped img
+{
+	filter:alpha(opacity=50);
+	-moz-opacity:0.5;
+	-khtml-opacity: 0.5;
+	opacity: 0.5;
+}
+
+/*
+	Challenge slots
+*/
+div.battlefield-slot.elevation
+{
+	background-image:url('../images/slots/elevation.png');
+}
+
+div.battlefield-slot.forest
+{
+	background-image:url('../images/slots/forest.png');
+}
+
+div.battlefield-slot.grass
+{
+	background-image:url('../images/slots/grass.png');
+}
+
+div.battlefield-slot.ruins
+{
+	background-image:url('../images/slots/ruins.png');
+}
+
+div.battlefield-slot.swamp
+{
+	background-image:url('../images/slots/swamp.png');
+}
+
+div.battlefield-decoration-left
+{
+	background-image:url('../images/slots/links.png');
+}
+
+div.battlefield-decoration-right
+{
+	background-image:url('../images/slots/rechts.png');
+}
+
+div.battlefield-decoration-left,
+div.battlefield-decoration-right
+{
+	float: left;
+	border: none;
+	position: relative;
+	width: 16px;
+	height: 150px;
+}
+
+div.battle div.challenge-slot,
+div.battle div.battlefield-slot
+{
+	float: left;
+	width: 75px;
+	height: 150px;
+	border: none;
+	position: relative;
+}
+
+div.battle div.clear-button span:hover
+{
+	cursor: pointer;
+}
+
+div.battle form.chooseUnits button.clear
+{
+	display: none;
+}
+
+div.chooseUnitContainer,
+div.battlefield
+{
+	overflow: auto;
+	position: relative;
+	width: 100%;
+	height: 171px;
+}
+
+ul.fightlog
+{
+	margin-top: 3px;
+}
+
+ul.fightlog a
+{
+	color: black;
+	text-decoration: none;
+}
+
+ul.fightlog li.current a
+{
+	color: red;
+}
+
+div.battle ul.fightlog
+{
+	overflow: auto;
+	height: 115px;
+	padding: 2px;
+}
+
+div.battle.simulator ul.fightlog
+{
+	height: auto;
+}
+
+/*
+	Simulator
+*/
+.selected_units
+{
+	width: 30px;
+	position: absolute;
+	top: 10px;
+	left: 20px;
+	margin: 0px 0px 0px 0px
+}
+
+/* Spells! */
+div.spell
+{
+	margin-top: 5px;
+	padding-top: 5px;
+}
+
+/* HELP */
+div.help p
+{
+	clear: both;
+}
+
+/* Formation */
+div.formation label
+{
+	float: left;
+	width: 100px;
+}
+
+div.formation select
+{
+	float: left;
+	clear: none;
+	width: 75px;
+}
+
+/* Clan */
+div.clan form.membermanager label
+{
+	float: left;
+	width: 100px;
+}
+
+div.clan form.membermanager select
+{
+	float: left;
+	clear: none;
+}
+
+div.clan textarea
+{
+	width: 215px;
+	height: 75px;
+}
+
+div.clan span.clanmember
+{
+	float: left;
+}
+
+div.clan span.online-status
+{
+	float: right;
+}
+
+div.clan ul.clanmembers li
+{
+	clear: both;
+}
+
+div.clan p
+{
+	clear: left;
+}
+
+/* News bar */
+.newsbar div.newsbar-line
+{
+	z-index: 5;
+	background-image:url('../images/statusbar.png');
+	width: 100%;
+	height: 21px;
+	position: relative;
+}
+
+.newsbar .goLeft
+{
+	float: left;
+}
+
+.newsbar .goLeft a
+{
+	width: 40px;
+	height: 21px;
+	background-image:url('../images/statusbar_left.png');
+	display: block;
+	position: relative; 
+	left: -33px;
+	z-index: 2;
+	outline: none;
+}
+
+.newsbar .goRight
+{
+	float: right;
+}
+
+.newsbar .goRight a
+{
+	width: 40px;
+	height: 21px;
+	background-image:url('../images/statusbar_right.png');
+	display: block;
+	position: relative; 
+	left: 33px;
+	z-index: 2;
+	outline: none;
+}
+
+.newsbar .newsbar-villagename .goLeft
+{
+	float: left;
+}
+
+.newsbar .newsbar-villagename .goLeft a
+{
+	width: 33px;
+	height: 21px;
+	background-image:url('../images/villagebar_left.png');
+	display: block;
+	position: relative; 
+	left: -33px;
+	z-index: 2;
+	outline: none;
+}
+
+.newsbar .newsbar-villagename .goRight
+{
+	float: right;
+}
+
+.newsbar .newsbar-villagename .goRight a
+{
+	width: 33px;
+	height: 21px;
+	background-image:url('../images/villagebar_right.png');
+	display: block;
+	position: relative; 
+	left: 33px;
+	z-index: 2;
+	outline: none;
+}
+
+.newsbar .goLeft a span,
+.newsbar .goRight a span
+{
+	display: none;
+}
+
+.newsbar div.newsbar-content
+{
+	line-height: 20px;
+	text-align: center;
+	position: absolute;
+	left: 0px;
+	width: 88%;
+	z-index: 2;
+}
+
+.newsbar div.newsbar-content a
+{
+	color: black;
+}
+
+.newsbar div.newsbar-content a:hover
+{
+	color: red;
+}
+
+.newsbar div.newsbar-content ul
+{
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+.newsbar div.newsbar-content ul li
+{
+	float: left;
+	display: block;
+	width: 100px;
+}
+
+.newsbar div.newsbar-villagename
+{
+	position: absolute;
+	z-index: 0;
+	width: 350px;
+	left: 50%;
+	margin-left: -175px;
+	text-align: center;
+	background:url('../images/villagebar.png');
+	bottom: 21px;
+	height: 20px;
+	line-height: 20px;
+}
+
+.newsbar div.newsbar-villagename a
+{
+	color: black;
+	text-decoration: none;
+}
+
+/* Newsflash! */
+div.newsflash
+{
+	line-height: 21px;
+	background:url(../images/statusbar.png);
+}
+
+/* Overview */
+.overview img
+{
+	height: 25px;
+	float: right;
+}
+
+.overview li
+{
+	line-height: 25px;
+}
+
+.overview td.building-cors
+{
+	width: 25%;
+	text-align: center;
+}
+
+.overview td.building-level
+{
+	width: 50px;
+	text-align: center;
+}
+
+div.dialog table.table_window div.guiwindow.overview table td.building-name
+{
+	padding-left: 5px;
+}
+
+/* Help */
+.help p.navigation
+{
+	margin-top: 15px;
+	border-top: 1px solid gold;
+}
+
+/* Special units */
+.specialunit
+{
+	background:url('../images/background_yellow.png');
+	border: 1px solid #FFCC00;
+	padding: 5px;
+	margin-bottom: 5px;
+}
+
+/*
+	Messages
+*/
+div.messages tr.unread td
+{
+	font-weight: bold;
+}
+
+/*
+	Ranking
+*/
+table tr.current td
+{
+	background: yellow;
+}
+
+/*
+	Logbook
+*/
+.logbook a
+{
+	color: black;
+}
+
+/*
+	Searchbox
+*/
+div.searchbox
+{
+	border: 1px solid gold;
+	padding: 5px;
+}
+
+form.searchbox li
+{
+	width: 50%;
+	float: left;
+	clear: none;
+}
+
+form.searchbox li.search_filter
+{
+	width: 100%;
+}
+
+form.searchbox li.minimum-distance
+{
+	width: 20%;
+}
+
+form.searchbox li.maximum-distance
+{
+	width: 30%;
+}
+
+form.searchbox fieldset
+{
+	border: 0px none black;
+}
+
+form.searchbox legend
+{
+	margin-bottom: 2px;
+}
+
+form.searchbox input,
+form.searchbox select
+{
+	float: left;
+	width: 150px;
+}
+
+form.searchbox input.checkbox
+{
+	width: auto;
+}
+
+form.searchbox label
+{
+	float: none;
+	text-align: left;
+	width: auto;
+}
+
+form.searchbox span.minus
+{
+	display: block;
+	float: left;
+	padding: 2px;
+	font-weight: bold;
+}
+
+form.searchbox li.distance input
+{
+	width: 50px;
+}
+
+/*
+	Spells
+*/
+div.spell p.castdetails
+{
+	padding-top: 0px;
+	margin-top: -4px;
+	border-bottom: 1px solid #bfb39b;
+}
+
+ul.bonusbuildings li
+{
+	clear: left;
+}
+
+ul.bonusbuildings li div.image
+{
+	float: left;
+}
+
+ul.bonusbuildings li div.description
+{
+	float: left;
+	width: 235px;
+	overflow: hidden;
+}
+
+form#selectrace select
+{
+	width: 200px;
+}
+
+.dialog table.table_window div.guiwindow table.logbook td.actions
+{
+	width: 100px;
+	text-align: center;
+}
+
+/**  Underworld **/
+.underworld.army input[type=checkbox]
+{
+	float: left;
+}
+
+h3 label
+{
+	display: inline;
+	padding: 0;
+}
+
+.dialog table.table_window div.guiwindow.underworld.battle table
+{
+	border-collapse: collapse;
+}
+
+.underworld.battle tr.success
+{
+	background: green;
+}
+
+.underworld.battle tr.failure
+{
+	background: red;
+}

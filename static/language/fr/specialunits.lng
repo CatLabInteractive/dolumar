@@ -1,0 +1,12 @@
+[DarkElves]
+Mages1="Sorcier"
+Mages2="Sorciers"
+Thieves1="Voleur"
+Thieves2="Voleurs"
+
+[global]
+Mages1="Enchanteur"
+Mages2="Enchanteurs"
+Thieves1="Voleur"
+Thieves2="Voleurs"
+

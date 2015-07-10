@@ -1,0 +1,6 @@
+[general]
+date = "Date:"
+target = "Target:"
+
+[types]
+BuildingReport = "Building Report"

@@ -1,0 +1,35 @@
+[Tutorial1]
+line1="Ce court tutoriel vous apprendra les bases nécessaires pour joueur à Dolumar."
+line2="Cliquez sur l'icône construire et choisissez un bâtiment. Commençons par une ferme. Cliquez sur construire le bâtiment et choisissez un emplacement sur la carte pour lancer la construction."
+line3="Construire un bâtiment nécessite du temps, continuons donc vers la seconde partie du tutoriel."
+
+[Tutorial2]
+line1="Comme vous l'avez peut être remarqué, vous avez besoin de ressources ET de runes pour construire des bâtiments. Les runes sont de loin l'élément le plus important du jeu. Vous les récoltez en envoyant vos éclaireurs explorer les alentours de votre village. Allez chercher des runes maintenant."
+line2="Cliquez sur votre château et cliquez sur \"chercher des runes\". Vos éclaireurs reviendrons avec 4 runes (1 de chaque sorte) quand ils auront terminé."
+line3="Continuons avec la troisième partie du tutoriel."
+
+[Tutorial3]
+line1="Cependant les runes ne font pas tout. Vous aurez besoin des autres ressources pour construire les bâtiments, entraîner les troupes, fabriquer des équipements, invoquer des magiciens, recruter des voleurs, lancer des sorts...."
+line2="Les ressources sont produites dans certains bâtiments. La ferme, par exemple, produit la nourriture. Pour avoir un aperçu des productions actuelles de ressources, ouvrez la fenêtre économie."
+line3="Vérifiez vos ressources et continuez vers la 4ème partie du tutoriel."
+
+[Tutorial4]
+line1="Votre village peut stocker un montant limité de ressource. Ce maximum dépend du nombre d'entrepot que vous possédez. Lorsqu'un entreport est plein, vous perdrez les ressources produites. Veillez donc à toujours avoir du stockage disponible !"
+line2="Pendant que vous développez votre village, des nouveaux bâtiments apparaîtront dans la liste. Ayez AU MINIMUM un entrepôt, une ferme, un camp de bucheron, une mine de fer et une mine de pierres avant de passer à la 5ème étape du tutoriel."
+
+[Tutorial5]
+line1="Vous avez maintenant la possibilité de construire des bâtiments militaires. Commençons par un baraquement. Ces bâtiments sont utilisés pour former l'infanterie de base de votre armée."
+line2="Les soldats doivent être entrainés. L'entraînement requiert des ressources. Cependant, même après leur entrainement , ils nécessiterons toujours de la nourriture et un salaire. Ce salaire sera directement prélevé sur vos revenus en or."
+line3="Entraînez 5 soldats pour commencer et passez à l'étape suivante."
+
+[Tutorial6]
+line1="la guerre est inévitable. Pour surpasser vos ennemis, vous devrez leur voler des runes. Pour attaquer une cible, vous devrez placer vos soldats dans des régiments. Cliquez sur le bouton des unités et créez une nouveau régiment pour vos 5 soldats."
+line2="Si vous avez la moindre question, vous pouvez utilisez le chat en jeu afin de demander de l'aide aux autres joueurs."
+line3="Saluez les autres joueurs avant de passer à l'étape 7 du tutoriel."
+
+[Tutorial7]
+line1="Vous êtes maintenant prêt pour le combat. Trouvez une cible adéquate (de préférence quelqu'un de votre niveau) et lancez une attaque contre lui ! Si vous êtes assez fort, vous pourrez voler quelques runes. Mais attention, les autres joueurs sont aussi capables de vous écraser facilement. Discutez avec les autres joueurs, trouvez des alliées et rejoignez un clan ! Vous ne survivrez pas tout seul..."
+line2="Cliquez sur le bouton de classement et trouvez une cible adéquate."
+line3="Cliquez sur le bouton de Clans et rejoignez un clan."
+line4="Allez, mon jeune apprentit, et bâtissez vous un empire à votre gloire. Une empire que vous menerez à la victoire !"
+

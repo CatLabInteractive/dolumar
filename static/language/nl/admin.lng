@@ -1,0 +1,7 @@
+[login]
+login="Gelieve in te loggen"
+password="Paswoord"
+submit="Login"
+user_not_found="Paswoord of gebruikersnaam zijn fout."
+username="Gebruikersnaam"
+

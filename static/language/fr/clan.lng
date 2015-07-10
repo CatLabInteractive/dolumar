@@ -1,0 +1,84 @@
+[clanlogs]
+about="Il existe des comptes rendus de vos camarades de clan. Seul les comptes rendus importants seront affichés."
+
+[errors]
+err_full="Ce clan à atteint sa capacité maximum. Vous ne pouvez pas le rejoindre pour le moment."
+
+[forum]
+title="Forum du clan @@clan"
+
+[government]
+aDescription="Changer le nom du clan et sa description"
+changePassword="Changer le mot de passe du clan"
+description="Description du clan"
+descSubmit="Sauvegarder la description"
+isProtected="Votre clan est protégé par un mot de passe. Transmettez le à vos amis pour qu'ils rejoignent votre clan."
+kick_warning="Les membres exclus ne pourront pas rejoindre le clan pendant @@kicked jours. "
+ldesc="Description"
+lname="Nom du clan"
+noPassword="Pour le moment, tout le monde peut rejoindre le clan. Vous pouvez créer un mot de passe pour restreindre l'accès."
+password="Mot de passe du clan"
+storeChanges="Sauvegarder les modifications"
+submit="Créer le mot de passe"
+title="Gouvernement du clan"
+toOverview="pour retourner à la page précédente"
+usermanager="Gestion des membres"
+
+[join]
+about="Tout le monde peut rejoindre ce clan. Etes-vous sur de vouloir le rejoindre ?"
+err_clanhop="Vous avez quitté un clan dans les @@clanhop derniers jours.Vous ne pouvez pas rejoindre un clan pour le moment."
+err_clanhop_ownclan="Vous avez quitté ce clan dans les @@own_clanhop derniers jours.Vous ne pouvez pas rejoindre ce clan pour le moment."
+err_inclan="Vous avez déjà rejoint ce clan."
+err_joinhop="Vous avez rejoint un clan dans les @@joinhop derniers jours.Vous ne pouvez pas rejoindre un clan pour le moment."
+err_kicked="Vous avez exclu de ce clan dans les @@kicked derniers jours.Vous ne pouvez pas rejoindre un clan pour le moment."
+err_password="Le mot de passe fourni est erroné. Veuillez recommencer."
+inClan="Vous avez déjà rejoint un clan. Vous ne pouvez pas appartenir à deux clans en même temps."
+join="Rejoindre @@clan"
+label="Protégé par mot de passe"
+password="Mot de passe du clan"
+protected="Ce clan est protégé par un mot de passe. Si le chef de clan vous transmet ce mot de passe, vous pourrez le rejoindre."
+submit="Rejoindre le clan"
+toJoin="pour rejoindre ce clan."
+
+[leave]
+done="Vous avez quitté le clan. Bonne chance avec vos nouveaux alliés !"
+leave="Quitter @@clan"
+
+[noclan]
+about="Vous êtes un loup solitaire, combattant le reste du monde. Rejoignez un clan et trouvez vos frères d'armes."
+aboutF="Vous n'avez pas trouvé un clan qui partage votre vision du jeu ? Sinon, pourquoi ne pas rejoindre un clan ?"
+clans="Clans dans votre voisinage"
+details="Infos du clan"
+distance="La distance maximum entre deux villages du même clan ne peut excéder @@distance."
+err_clanname="Le nom de votre clan contient des caractères invalides."
+found="Trouver un clan"
+name="Nom du clan"
+name_duplicate="Le nom de votre clan doit être unique. Choisissez une autre nom."
+noclans="Il n'y a pas de clan dans votre voisinage."
+submit="Trouver un clan"
+title="Vous n'avez pas de clan"
+
+[overview]
+actions="Actions"
+clan="Clan @@clan"
+conLeave="Etes-vous sur de vouloir quitter le clan ? Vous ne pourrez pas rejoindre un autre clan avant @@clanhop jours, et vous ne pourrez pas revenir dans ce clan avant @@own_clanhop jours."
+forum="Forum"
+government="Gouvernement"
+join="Rejoindre le clan"
+leave="Quitter le clan"
+logs="Rapports du clan"
+members="Membres"
+notFound="Le clan que vous cherchez est introuvable."
+overview="Accueil"
+toForum="pour ouvrir le forum du clan."
+toGovern="pour gouverner votre clan."
+toJoin="pour rejoindre ce clan."
+toLeave="pour quitter le clan."
+toLogs="pour voir les comptes rendus du clan."
+
+[roles]
+captain="Capitaine"
+kick="Renvoyer du clan"
+leader="Leader"
+member="Membre"
+

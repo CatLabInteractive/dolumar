@@ -1,0 +1,77 @@
+[building]
+notFound = "This building is probably destroyed in combat..."
+owner = "Owner"
+village = "Village"
+race = "Race"
+location = "Location"
+lvl = "lvl"
+level = "Level"
+buildDate = "Build Date"
+back = "to return to the overview."
+general = "Show information"
+upgrade = "Upgrade @@0"
+overview = "General Options"
+constructing = "This building is being constructed."
+upgrading = "Your builders are working really hard upgrading this building!"
+timeLeft = "Estimated time left"
+cancel = "to cancel the construction."
+destruct = "Destroy building"
+desTC = "You can not destroy a Town Center..."
+destroyed = "destroyed"
+usedRune = "Used Runes"
+inactive = "This building is abandoned. All values have been taken away."
+
+[destruct]
+done = "Your building has been destroyed."
+confirm = "Are you sure you want to destroy this building?"
+
+[upgrade]
+upgrade = "Upgrade Buildings"
+about = "Upgrade your buildings to make them better and stronger. Upgrading sometimes opens new options."
+cost = "Upgrade Cost"
+duration = "This upgrade will take @@duration."
+upgradeAll = "This upgrade cost covers the upgrade of this building only."
+startUpgrade = "Start upgrade"
+
+[build]
+intro = "To build new buildings you need the right rune and sufficient resources. You can find runes by exploring the surroundings and by attacking other players. While some buildings require specific runes, others allow you to choose one of your runes. First select a rune, then construct your building."
+requires = "Requires @@0."
+construct = "Construct Building"
+click = "First click the Construct button, then choose a location on the map. Right-click to cancel construction."
+selectRune = "You have to select a rune before you can build this building."
+upgradeFirst = "Upgrade your other @@buildings first."
+
+[buildError]
+noResources = "You don't have enough resources."
+noRunes = "You don't have the right rune to build this building."
+techlevel = "I'm sorry, you simply don't have the required tech level."
+outOfRange = "Your building range is @@0 tiles around your Town Center. You can't build outside your building range."
+buildingOverlap = "There already is a building on that location. Select a (bigger) empty area."
+done = "You have succesfully built a new building!"
+stillConstructing = "Your builders are already working full speed. You need to finish a building first."
+minimalRange = "A town center must be built at least 35 feet away from any other building."
+buildinglevel = "Before you are able to build a new @@building, you must first upgrade all your other @@buildings to level @@level."
+
+[upgradeError]
+noResources = "You don't have enough resources."
+done = "You have succesfully upgraded your buildings."
+unfinished = "This building is not finished yet. The building will be ready in @@0."
+busy = "Your builders are already working full speed. You can't order them to upgrade until another project is finished."
+noRunes = "You don't have the right runes to upgrade this building."
+
+[technology]
+technology = "Technology Upgrades"
+notFound = "What are you talking about, kind sir?"
+youSure = "Are you sure you want to research @@0?"
+costTime = "This upgrade will cost you @@0"
+duration = "This research will take @@0."
+toConfirm = "to start this research."
+notEnoughResources = "You don't have enough resources to start this research."
+done = "We started working on the research..."
+toReturn = "to return to the overview."
+
+[queue]
+queueBuild = "Queue it"
+doneBuild = "This building has been added to your queue. It will be build as soon as possible."
+queueUpgrade = "Queue it"
+doneUpgrade = "This upgrade has been added to your queue. It will be upgraded as soon as possible."

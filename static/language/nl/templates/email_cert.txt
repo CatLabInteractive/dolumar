@@ -1,0 +1,10 @@
+Hallo @@0!
+
+Je hebt dit e-mail adres opgegeven op Dolumar.
+Als je dit niet gedaan hebt, negeer deze mail dan.
+
+Klik hier om je account te activeren:
+@@1
+
+Veel plezier!
+Het Dolumar team.

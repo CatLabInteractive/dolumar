@@ -1,0 +1,130 @@
+div.fancybox-checked
+{
+}
+
+div.fancybox-checked .fancybox-content
+{
+	padding: 0px 0px;
+}
+
+div.fancybox-checked div.fancybox-top
+{
+	background:url('../images/fancybox/top_mid.png');
+	background-repeat: repeat-x;
+	background-position: bottom left;
+	height: 7px;
+	margin: 0px 7px;
+	padding: 0px;
+}
+
+div.fancybox-checked div.fancybox-bottom
+{
+	background:url('../images/fancybox/bottom_mid.png');
+	background-position: top left;
+	background-repeat: repeat-x;
+	height: 7px;
+	margin: 0px 7px;
+	padding: 0px;
+	margin-top: 0px;
+}
+
+div.fancybox-checked div.fancybox-top div.fancybox-leftcorner
+{
+	background:url('../images/fancybox/top_left.png');
+	background-position: bottom left;
+	background-repeat: no-repeat;
+	height: 7px;
+	width: 7px;
+	padding: 0px;
+	margin: 0px;
+	
+	float: left;
+	margin-left: -7px;
+}
+
+div.fancybox-checked div.fancybox-top div.fancybox-rightcorner
+{
+	background:url('../images/fancybox/top_right.png');
+	background-position: bottom left;
+	background-repeat: no-repeat;
+	height: 7px;
+	width: 7px;
+	padding: 0px;
+	margin: 0px;
+	
+	float: right;
+	margin-right: -7px;
+}
+
+div.fancybox-checked div.fancybox-bottom div.fancybox-leftcorner
+{
+	background:url('../images/fancybox/bottom_left.png');
+	background-position: top left;
+	background-repeat: no-repeat;
+	height: 7px;
+	width: 7px;
+	padding: 0px;
+	margin: 0px;
+	
+	float: left;
+	margin-left: -7px;
+}
+
+div.fancybox-checked div.fancybox-bottom div.fancybox-rightcorner
+{
+	background:url('../images/fancybox/bottom_right.png');
+	background-position: top left;
+	background-repeat: no-repeat;
+	height: 7px;
+	width: 7px;
+	padding: 0px;
+	margin: 0px;
+	
+	float: right;
+	margin-right: -7px;
+}
+
+div.fancybox-checked div.fancybox-middle div.fancybox-leftcorner
+{
+	background:url('../images/fancybox/center_left.png');
+	background-repeat: repeat-y;
+	background-position: top left;
+
+	padding: 0px;
+	margin: 0px;
+	
+	overflow: hidden;
+}
+
+div.fancybox-checked div.fancybox-middle div.fancybox-rightcorner
+{
+	background:url('../images/fancybox/center_right.png');
+	background-repeat: repeat-y;
+	background-position: top right;
+
+	padding: 0px;
+	margin: 0px;
+	
+	overflow: hidden;
+}
+
+div.fancybox-checked div.fancybox-middle
+{
+}
+
+div.fancybox-checked div.fancybox-middle div.fancybox-content
+{
+	background:url('../images/fancybox/background.png');
+	margin: 0px 7px;
+	overflow: hidden;
+}
+
+div.fancybox-content blockquote
+{
+	border: 1px solid black;
+}
+
+div.fancybox-content div.text
+{
+	padding: 1px;
+}

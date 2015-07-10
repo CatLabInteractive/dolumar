@@ -1,0 +1,5 @@
+Great! You have a barrack. Time to train some troops.
+
+All your troops [b]consume food[/b] and some special troops even consume other resources. You can review your current consumption in the Units window.
+
+Click your barrack and train some troops.

@@ -1,0 +1,12 @@
+[register]
+about="Dolumar ist ein ständiges,browerbasiertes Spiel. Du wirst gegen Tausende Spieler kämpfen um einen guten Platz in der Dolumarwelt zu erringen."
+btnRegister="Neue Figur erstellen"
+btnLogin="Existierende Figur laden"
+register="Figur erstellen"
+aboutRegister="Falls du bereits eine Figur auf diesem Server hast, kannst du dich jetzt einloggen. Klick ansonsten auf erstellen. "
+login="Figur laden"
+wrongLogin="Dein Benutzername und Passwort wurden nicht gefunden. Versuche es bitte noch einmal."
+username="Benutzername:"
+password="Passwort:"
+doLogin="Login"
+

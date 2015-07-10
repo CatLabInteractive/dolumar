@@ -1,0 +1,42 @@
+[casualties_error]
+1="@@amount jednostek zginęło w ataku @@atacker na @@defender. BŁĄD!!!"
+
+[casualties_melee]
+1="@@attacker zabił @@amount jednostek @@defender w bijatyce."
+
+[casualties_shooting]
+1="Dobrze umieszczona salwa @@attacker zabiła @@amount jednostek z @@defender."
+2="@@attacker nie czeka i zabił @@amount jednostek z @@defender."
+
+[flee]
+1="@@unit - oni uciekli płacząc. Mówiłem ci, żę to wszystko skończy się płaczem."
+
+[introtext]
+1="Ziemia się trzęsie, gdy dwie armie zbliżają się do siebie. Chłopi uciekają od @@defender krzycząc, gdy armia @@attacker podbija ich tereny "
+
+[move]
+1="@@unit przeniesiósł się z @@from do @@to."
+2="@@unit przestraszył się pająka i uciekł do @@to."
+3="@@unit uciekł w kierunku @@to."
+
+[specialunitdied]
+1="Zginął @@unit z  @@level poziomem."
+
+[status_0]
+1="Czarodzieje przygotowywują się do walki"
+
+[status_1]
+1="Twój kapitan zauważył, że łucznicy przeciwnika zajumją miesca. Z tego powodu, rozkazał twoim łucznikom celować i strzelać."
+
+[status_2]
+1="Twój kapitan rozkazał żołnierzom zbiliżyć się do wojska przeciwnika."
+
+[status_3]
+1="Rzeka pełna krwii wypływa z miesca bitwy. Twój kapitan spogląda na pole bitwy, pełne ciał żołnierzy. Bitwa skończona... ale czy wojna też ?"
+
+[stunned]
+1="@@unit został zagłuszony i nie może atakować przeciwników."
+
+[whipe]
+1="Ciała @@unit leżą opuszczone w jeziorze krwii."
+

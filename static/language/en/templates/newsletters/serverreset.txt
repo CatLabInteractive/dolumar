@@ -1,0 +1,20 @@
+[h2]@@winner[/h2]
+The world has changed. The clan @@winner has conquered the underworld and therfore secured power over the lands of Dolumar. 
+
+Bow to your new masters:
+@@members
+
+[h2]A new dawn[/h2]
+The age of @@servername has hereby ended. We will launch a new server tomorrow. Registrations for the new age are now open and you can register now at [url=@@serverurl]here[/url].
+
+[h2]@@servername ranking[/h2]
+[h3]Players[/h3]
+@@players
+
+[h3]Villages[/h3]
+@@villages
+
+[h3]Clans[/h3]
+@@clans
+
+We hope to all see you again in the next round. It starts tomorrow.

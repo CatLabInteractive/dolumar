@@ -1,0 +1,5 @@
+Wspaniale! Wybudowałeś barak. Teraz możesz wytrenować trochę wojska.
+
+Całe twoje wojska  [b]spożywa jedzenie[/b], a niektórzy żołnierze używają także inne surowce. Możesz sprawdzić aktualne zużycie surowców w oknie jednostek.
+
+Kliknij na barak i wytrenuj kilku żołnierzy.

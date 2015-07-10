@@ -1,0 +1,11 @@
+[guide]
+noadvice="Nie mam żadnych propozycji w tej chwili."
+
+[navigation]
+callguide="Zawołaj przewodnika"
+hide="Schowaj się"
+next="Dalej"
+previous="Wstecz"
+shownext="Pokaż nstępną historię"
+showprevious="Pokaż poprzednią historię"
+

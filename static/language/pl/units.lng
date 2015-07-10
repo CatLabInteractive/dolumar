@@ -1,0 +1,28 @@
+[global]
+Spearmen_1="Włócznik"
+Spearmen="Włócznicy"
+Knights_1="Rycerz"
+Knights="Rycerze"
+Archers="Łucznicy"
+Archers_1="Łucznik"
+Cavalry="Jeźdźcy"
+Cavalry_1="Jeździec"
+Guards_1="Obrońca Twierdzy"
+Guards="Obrońcy Twierdzy"
+Longswordsmen="Rycerze z długimi mieczami"
+Longswordsmen_1="Rycerz z długim mieczem"
+
+[DarkElves]
+Witches_1="Wiedźma"
+Witches="Wiedźmy"
+WolfRiders="Jeźdźcy Wilków"
+WolfRiders_1="Jeździec Wilków"
+Guards_1="Wartownik Świątyni"
+Guards="Wartownicy Świątyni"
+GualCavalry_1="Jeździec  Gu'al"
+GualCavalry="Kawaleria Gu'al"
+Executioners_1="Kat"
+Executioners="Kaci"
+DarkWarriors_1="Ciemny Wojownik"
+DarkWarriors="Ciemni Wojownicy"
+

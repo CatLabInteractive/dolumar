@@ -1,0 +1,37 @@
+[inbox]
+toNewMsg="eine neue Nachricht senden"
+
+[read]
+msg_from="Von"
+msg_to="An"
+toInbox="zurück zur Inbox"
+toOutbox="zurück zur Outbox"
+reply="antworten"
+remove="löschen"
+
+[write]
+write="neue Nachricht schreiben"
+sent="Deine Nachricht wurde versendet."
+toInbox="zurück zur Inbox"
+player_not_found="Deine Zielperson wurde nicht gefunden. Kontrolliere bitte deine Eingabe."
+yourMessage="Deine Nachrichten"
+to="An"
+subject="Betreff"
+message="Nachricht"
+sendMessage="deine Nachricht senden"
+
+[messages]
+from="Von"
+to="An "
+date="Datum"
+toInbox="zur Inbox"
+toOutbox="zur Outbox"
+subject="Betreff"
+inbox="Inbox"
+outbox="Outbox"
+noSubject="Kein Betreff"
+banned="Du wurdest vom Nachrichtensystem ausgeschlossen. Du kannst diese Option in @@duration wieder verwenden."
+read="Diese Nachricht lesen"
+remove="Diese Nachricht löschen"
+confirmremove="Bist du sicher, dass du diese Nachricht löschen willst?"
+

@@ -1,0 +1,78 @@
+[build]
+click="Cliquez d'abord sur le bouton de construction, puis choisissez une position sur la carte. Faites un clic-droit pour annuler la construction."
+construct="Construire ce bâtiment"
+intro="Pour construire un bâtiment vous aurez besoin d'une rune adéquate et des ressources nécessaires. Vous pouvez trouver des runes en explorant les alentours ou en attaquant d'autres joueurs. Si certains bâtiment requièrent des runes spécifiques, d'autres vous laisse le choix. Sélectionnez alors une rune, puis lancer la construction."
+requires="Requière @@0."
+selectRune="Vous devez d'abord choisir une rune avant de lancer la construction."
+upgradeFirst="Améliorez votre autre @@buildings d'abord."
+
+[buildError]
+buildinglevel="Avant de pouvoir construire un nouveau @@building, vous devez d'abord améliorer tous vos autres @@buildings au niveau @@level."
+buildingOverlap="Il y a déjà un batîment à cette position. Choisissez un endroit plus dégagé."
+done="Vous avez construit un nouveau bâtiment avec succès !"
+minimalRange="Un château doit être construit à moins de 10 mètre d'un autre bâtiment."
+noResources="Vous n'avez pas assez de ressources."
+noRunes="Vous n'avez pas la rune adéquate pour construire ce bâtiment."
+outOfRange="Votre rayon de construction est de @@0 cases autour du château. "
+stillConstructing="Vos ouvriers sont tous occupés. Vous devez d'abord terminer la construction d'un bâtiment."
+techlevel="Désolé, mais n'avez pas le niveau technologique requis."
+
+[building]
+back="pour retourner à la page précédente"
+buildDate="Date de construction"
+cancel="Annuler la construction"
+constructing="Construction du bâtiment en cours."
+desTC="Vous ne pouvez pas détruire votre château"
+destroyed="détruit"
+destruct="Détruire le bâtiment"
+general="Plus d'infos"
+inactive="Ce bâtiment semble abandonné. Tous les objets de valeurs ont disparu."
+level="Niveau"
+location="Position"
+lvl="Niv"
+notFound="Ce bâtiment a été probablement détruit lors d'une bataille..."
+overview="Options générales"
+owner="Propriétaire"
+race="Race"
+timeLeft="Temps restant estimé"
+upgrade="Améliorer @@0"
+upgrading="Vos ouvriers travaillent vraiment dur pour améliorer ce bâtiment !"
+usedRune="Runes utilisées"
+village="Village"
+
+[destruct]
+confirm="Etes-vous sûr de vouloir détruire ce bâtiment ?"
+done="Le bâtiment a été détruit."
+
+[queue]
+doneBuild="Cette construction a été ajoutée à la liste d'attente. Elle sera lancée dès que possible."
+doneUpgrade="Cette amélioration a été ajoutée à la liste d'attente. Elle sera lancée dès que possible."
+queueBuild="Mettre en liste d'attente"
+queueUpgrade="Mettre en liste d'attente"
+
+[technology]
+costTime="Cette amélioration vous coûtera @@0."
+done="Nous avons démarré nos recherches..."
+duration="Cette recherche prendra @@0."
+notEnoughResources="Vous n'avez pas assez de ressoures pour démarrer cette recherche."
+notFound="De quoi parlez-vous, Monseigneur ?"
+technology="Améliorations technologiques"
+toConfirm="lancer cette recherche"
+toReturn="page précédente"
+youSure="Etes-vous sûr de vouloir rechercher @@0 ?"
+
+[upgrade]
+about="Améliorer vos bâtiments afin d'accroître leur capacités. Parfois même cela débloque de nouvelles options."
+cost="Coût d'amélioration"
+duration="Cette amélioration prendra @@duration."
+startUpgrade="Lancer l'amélioration"
+upgrade="Améliorer les bâtiments"
+upgradeAll="Ce coût ne comprend que l'amélioration de ce bâtiment seulement."
+
+[upgradeError]
+busy="Vos ouvriers sont tous occupés, impossible d'améliorer pour le moment."
+done="Vôtre amélioration est lancée avec succès."
+noResources="Vous n'avez pas assez de ressource."
+noRunes="Vous n'avez pas les runes adéquates pour améliorer ce bâtiment."
+unfinished="Ce bâtiment n'est pas encore terminé. Il sera prêt dans @@0."
+

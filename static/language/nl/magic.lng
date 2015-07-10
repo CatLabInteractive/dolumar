@@ -1,0 +1,28 @@
+[cast]
+title="Doe een betovering"
+about="Help je vrienden met je krachtige betoveringen of versterk jezelf."
+choose="Kies één van de betoveringen."
+castcost="Schatting kosten:"
+toCast="Tover @@spell."
+dif="dif."
+return="Keer terug naar het overzicht."
+learn="Leer @@effect."
+
+[confirm]
+title="Bevestig de magie"
+confirm="Ben je zeker dat je @@spell wilt doen op @@village?"
+cost="Betoveringskosten"
+stype="Betoveringstype"
+difficulty="moeilijkheidsgraad"
+probability="Cast Probability"
+toCast="Toever @@spell."
+confirm_notarget="Ben je zeker dat je de spreuk @@spell wilt toveren?"
+
+[result]
+title="Een betovering doen"
+err_resources="Je hebt niet genoeg grondstoffen om deze betovering te doen."
+toRetry="om opnieuw te proberen."
+
+[overview]
+title="Magie"
+

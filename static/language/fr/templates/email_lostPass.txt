@@ -1,0 +1,17 @@
+Bonjour @@nickname !
+
+Vous avez effectuer une demande de réinitialisation de votre mot de passe.
+
+Vous pouvez utilisez les identifiants suivant afin de jouer à Dolumar :
+
+Pseudo :
+@@nickname
+
+Mot de passe :
+@@password
+
+Ces identifiants ne seront valable QU'UNE SEULE FOIS.
+Une fois en jeu, merci de changer au plus tôt votre mot de passe.
+
+Bon jeu !
+L'équipe de Dolumar.

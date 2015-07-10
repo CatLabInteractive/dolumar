@@ -1,0 +1,175 @@
+[RainSeason]
+title="Regenseizoen"
+description="De gewassen productie is gestegen met @@bonus%."
+
+[DryLands]
+title="Droge landerijen"
+description="De gewassen productie is gedaald met @@bonus%."
+
+[PoisonWater]
+title="Vergiftigde waterpoelen"
+description="De gewassen productie is gedaald met @@bonus%."
+
+[Fireball]
+title="Vuurbal"
+description="Een vuurbal geeft @@damage verlies aan 1 willekeurig regiment."
+onSuccess="Een @@unit vermoordt @@casualties eenheden van @@target met een @@spell! (@@probability% waarschijnlijkheid)"
+
+[Frost]
+title="Vriesweer"
+description="Dit geeft @@damage ijzig verlies aan 1 willekeurig regiment. Dit zal er ook voor zorgen dat dat regiment zijn eerste actie zal missen."
+onSuccess="Een @@unit vermoordde @@casualties troepen van @@target met @@spell! (@@probability% waarschijnlijkheid)"
+
+[types]
+boost="Bonus actie (@@duration)"
+instant="Directe actie"
+battle="Aanvalsactie"
+
+[magic]
+onSuccess="Je Tovenaar heeft met succes een betovering gedaan."
+onFailed="Je betovering heeft niet gewerkt. Blijven oefenen!"
+
+[thievery]
+onSuccess="Je dief heeft met succes gesaboteerd."
+onFailed="Je dief is gevangen! Hij zal hiervoor worden opgehangen."
+
+[general]
+onSuccess="Je actie is gedaan."
+onFailed="Je actie heeft niet gewerkt."
+report="bekijk rapport"
+
+[battle]
+onFailed="An attacking @@unit failed to cast a @@spell (@@probability% success probability)."
+
+[FavorOfTheWoods]
+title="Gunst van het woud"
+description="Houtproductie stijgt met @@bonus%."
+
+[GoldenMines]
+title="Gouden mijnen"
+description="Goudproductie stijgt met @@bonus%."
+
+[RollingRocks]
+title="Rollende stenen"
+description="Steenproductie stijgt met @@bonus%"
+
+[ShiningOre]
+title="Glinsterend erts"
+description="IJzerproductie stijgt met @@bonus%"
+
+[OpenPortal]
+title="Open magische poort"
+description="Open een magische poort naar een willekeurige speler met dezelfde grootte als jouw dorp."
+onSuccess="Jouw tovenaar heeft een magische poort geopend."
+
+[MagicMirror]
+title="Magische spiegel"
+description="Bekijk alle gebouwen van een dorp."
+
+[Dispel]
+title="Spreuken annuleren"
+description="Verwijder alle spreuken die momenteel op een dorp actief zijn."
+
+[Haste]
+title="Snelheid"
+description="Alle troepen van een dorp bewegen @@bonus% sneller."
+
+[Shadows]
+title="Schaduwen"
+description="Dievenacties hebben @@bonus% meer kans om te slagen."
+
+[CityOfLight]
+title="Stad van Licht"
+description="Dievenacties heben @@bonus% minder kans om te slagen."
+
+[MagicalShield]
+title="Magisch schild"
+description="Magische acties op het gekozen dorp hebben @@bonus% minder kans om te slagen."
+
+[FireWeapons]
+title="Vuurwapens"
+description="Alle troepen in een dorp vechten met een @@bonus% levensbonus tot het einde van de volgende aanval."
+
+[SummonGhosts]
+title="Geesten oproepen"
+description="Alle troepen in een dorp vechten met @@bonus% minder leven."
+
+[Earthquake]
+title="Aardbeving"
+description="De bonus van verdedigingstorens is verminderd met @@bonus%."
+
+[Tornado]
+title="Tornado"
+description="Vernietig een willkeurig level @@level gebouw."
+
+[Floods]
+title="Overstroming"
+description="Alle huidige bouwacties worden vertraagd met @@delay."
+
+[LightningStorm]
+title="Onweer"
+description="Alle troepen in een dorp vluchten @@bonus% sneller."
+
+[Invisibility]
+title="Onzichtbaarheid"
+description="Alle aanvallen zijn verborgen tot ze @@hidden uur in de buurt zijn."
+
+[SandStorm]
+title="Zandstorm"
+description="Alle troepen in een dorp bewegen @@bonus% trager."
+
+[HotSmithyFires]
+title="Hete vuren"
+description="Wapens en uitrusing wordt @@bonus% sneller gemaakt."
+
+[SabotageWizards]
+title="Saboteer tovenaar"
+description="Magische acties hebben @@penalty% minder kans om te slagen."
+
+[KillWizard]
+title="Tovenaar vermoorden"
+description="Vermoord één willekeurige tovenaar."
+
+[StealMaps]
+title="Steel kaarten"
+description="Alle troepen bewegen @@bonus% trager."
+
+[Demoralize]
+title="Demoralizeer"
+description="Troepen lopen @@penalty% sneller weg tijdens een aanval."
+
+[Cold]
+title="Koudegolf"
+description="Eén willekeurig regiment verliest @@damage% leven."
+onSuccess="Een @@unit heeft het leven van @@target met @@bonus% verlaagt met een @@spell. (@@probability% kans)"
+
+[CrackedEarth]
+title="Gebarsten aarde"
+description="Alle cavalerie aanval is verlaagt met @@penalty%."
+onSuccess="Een @@unit heeft @@spell getoverd. De aanval van alle paarden is verminderd met @@penalty%. (@@probability% kans)"
+
+[Fear]
+title="Angst"
+description="Alle troepen lopen @@penalty% sneller weg."
+onSuccess="Een @@unit heeft @@spell getoverd. Alle verdedigende troepen zullen @@penalty% sneller weglopen. (@@probability% kans)"
+
+[LightningBolt]
+title="Bliksemschicht"
+description="Een krachtige bliksem doet @@damage schade aan één regiment."
+onSuccess="Een @@unit heeft @@casualties troepen van @@target vermoord met een @@spell. (@@probability% kans)"
+
+[MeteorRain]
+title="Meteoren regen"
+description="Een meteorenregen doet @@damage schade aan alle regimenten."
+onSuccess="Een @@unit heeft @@casualties troepen in @@squads regimenten vermoord met een @@spell. (@@probability% kans)"
+
+[Quicksand]
+title="Drijfzand"
+description="@@damage% van één willekeurig regiment verdrinkt in drijfzand."
+onSuccess="Een @@unit heeft @@casualties troepen van @@target laten verdringen in @@spell. (@@probability% kans)"
+
+[SoakingRains]
+title="Natte regen"
+description="@@effect zorgt ervoor dat @@penalty% van alle verdedigende boogschutters niet kunnen schieten."
+onSuccess="Een @@unit heeft @@spell getoverd. @@penalty van alle boogschutters kan niet schieten. (@@probability% kans)"
+

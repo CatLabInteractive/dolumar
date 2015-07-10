@@ -1,0 +1,10 @@
+Ciao @@0!
+
+Ci hai dato questo inidrizzo e-mail per Dolumar.
+Se non hai fatto questo, ignora questo e-mail.
+
+Se l'hai fatto comunque, clica questa link per verificare il tuo indirizzo e-mail:
+@@1
+
+Buon divertimento!
+Il team Dolumar.

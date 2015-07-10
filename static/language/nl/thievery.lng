@@ -1,0 +1,43 @@
+[cast]
+title="Sabotage"
+about="Sluip achter vijandelijke linies and veroorzaak chaos bij de vijand."
+choose="Kies welke actie u wilt ondernemen."
+castcost="Kosten voor deze actie"
+toCast="@@spell"
+dif="dif."
+return="Keer terug naar overzicht."
+learn="Leer @@effect."
+
+[confirm]
+title="Bevestig de actie"
+confirm="Ben je zeker dat je @@spell op @@village wilt doen?"
+cost="Kosten voor deze actie"
+stype="Type van actie"
+difficulty="Moeilijkheidsgraad"
+probability="Kans op succes"
+toCast="@@spell"
+confirm_notarget="Ben je zeker dat je de spreuk @@spell wilt toveren?"
+
+[result]
+title="Sabotage"
+err_resources="Je hebt niet genoeg grondstoffen om deze actie te ondernemen."
+
+[chooseUnit]
+about="Kies een van je dieven om op een gevaarlijke missie te sturen."
+location="Locatie: @@0."
+sendAway="Verplaats dief"
+travelling="Dief op weg naar @@0."
+timeLeft="Komt toe in @@0."
+doAction="Sabotage"
+
+[commandUnit]
+isMoving="Deze dief is onderweg. Je kan geen dief commanderen wanneer hij onderweg is."
+
+[moveUnit]
+title="Verplaats eenheid"
+done="Je dief heeft zijn gevaarlijke missie gestart in vijandig gebied..."
+toReturn="om terug te keren naar het overzicht."
+distance="Afstand:"
+duration="Duur:"
+confirm="Verplaats"
+

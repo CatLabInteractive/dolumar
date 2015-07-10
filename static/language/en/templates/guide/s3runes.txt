@@ -1,0 +1,5 @@
+Runes are by far the most important resource in the game. It is hard acquiring them, but since you need runes for buildings, they are very important.
+
+You can see the amount of unused runes in the Economy window.
+
+Runes can be found all over the world. In order to find new runes, you will have to send your scouts out on a mission to find runes. Click your castle and scout for new runes.

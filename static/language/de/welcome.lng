@@ -1,0 +1,16 @@
+[welcome]
+clanlogs="Clanlogbucheinträge"
+gamenews="Spielneuigkeiten"
+noclan="Du bist noch keinem Clan beigetreten. Teamwork ist essentiell bei Dolumar, darum ist es äusserst wichtig, einem guten Clan beizutreten. @@join"
+joinclan="Clan beitreten"
+premiumtitle="Premiumaccount"
+inbox="Briefkasten"
+okay="Okay"
+unreadmessages="Du hast @@amount ungelesene Nachrichten in @@inbox"
+extend="Premiumaccount erweitern"
+become="Premiumaccount anfragen"
+nopremium="Wusstest du, dass ein Premiumaccount den Spielspass deutlich vergrössert? @@extend"
+welcome="Willkommen zurück, @@nickname"
+premium="Dein Premiumaccount ist bis @@date gültig. @@extend"
+freepremium="Wusstest du, dass ein Premiumaccount den Spielspass deutlich vergrössert? Du hast gratis Premiumleistungen bis @@date. @@extend."
+

@@ -1,0 +1,17 @@
+Ciao @@nickname!
+
+Abbiamo ricevuto una richiesta password perduta per Dolumar.
+
+Puoi utilizzare questa password per accedere a Dolumar:
+
+Nome utente:
+@@nickname
+
+Password:
+@@password
+
+...
+...
+
+Buon divertimento!
+Dolumar.

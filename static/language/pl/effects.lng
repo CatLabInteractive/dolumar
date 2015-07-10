@@ -1,0 +1,178 @@
+[CityOfLight]
+title="Miasto Światła"
+description="Akcje złodziei mają @@bonus% mniejszą szansę powodzenia."
+
+[battle]
+onFailed="Atakującej jednostce - @@unit nie udało się rzucić zaklęcia @@spell (@@probability% szasy zwycięstwa)."
+
+[Cold]
+description="Życie jednej losowej jednostki spadło o @@damage%."
+title="Zimno"
+onSuccess="@@unit zmniejszył życie @@target o @@bonus%  zaklęciem - @@spell! (@@probability% szansy)."
+
+[CrackedEarth]
+description="Wszystkie ataki kawalerii zmniejszone o @@penalty%."
+onSuccess="@@unit rzucił zaklęcie - @@spell! Wszystkie ataki kawaleri zmniejszone o @@penalty%. (@@probability% szansy)"
+title="Pęknięta Ziemia"
+
+[Demoralize]
+title="Demoralizacja"
+description="Wojska przeciwnika ucieknie z pola walki @@penalty% szybciej."
+
+[Dispel]
+description="Cofa wszystkie zaklęcia rzucone na wioskę (cel)."
+onSuccess="Wszystkie zaklęcia w @@target cofnięte."
+title="Cofnij zaklęcia"
+
+[DryLands]
+title="Szucha Ziemia"
+description="Produkcja plonów zmniejszona o @@bonus%."
+
+[Earthquake]
+title="Trzęsienie Ziemi."
+description="Bonus Wież Obronnych zmniejszony o @@bonus% dla wszystkich jednostek w dolcelowej wiosce."
+
+[FavorOfTheWoods]
+description="Produkcja drewna zwiękaszona o @@bonus%."
+title="Łaska Lasu"
+
+[Fear]
+description="Wszystkie jednostki przeciwnika uciekają @@penalty% szybciej."
+title="Strach"
+onSuccess="@@unit rzucił zaklęcie @@spell. Jednostki obronne uciekają @@penalty% szybciej. (@@probability% szansy)"
+
+[Fireball]
+description="Kula ognia zadała @@damage zniszczenia jednemu losowemu pułkowi."
+onSuccess="@@unit zabił  @@casualties jednostek od @@target z @@spell! (@@probability% szansy)"
+title="Kula Ognia"
+
+[FireWeapons]
+title="Ogniste Bronie"
+description="Wszyscy żołnierze w docelowej wiosce walczą z @@bonus% większym zdrowiem do końca kolejnej bitwy."
+
+[Floods]
+title="Powodzie"
+description="Wszystkie zamówienia rozbudowy opóźnione o @@delay."
+
+[Frost]
+title="Mróz"
+onSuccess="@@unit zabił  @@casualties jednostek od @@target z @@spell! (@@probability% szansy)"
+description="Mróz zniszczył jeden pułk - @@damage zniszczeń. Z tego powodu pułk straci swoją pierwszą kolejkę do akcji."
+
+[GoldenMines]
+title="Złote Kopalnie"
+description="Produkcja złota wzrosła o @@bonus%"
+
+[Invisibility]
+title="Niewidzialność"
+description="Przychodzące ataki będą widoczne tylko @@hidden godziny przed dotarciem do wioski."
+
+[general]
+onFailed="Twoja akcja nie zadziałała."
+onSuccess="Twoja akcja wykonana."
+report="zobacz raport"
+
+[Haste]
+title="Pośpiech"
+onSuccess="Wszystkie jednostki w @@target będą poruszać się szybciej."
+description="Wszystkie jednostki w dolcelowej wiosce ruszają się @@bonus% szybciej."
+
+[HotSmithyFires]
+description="Wyposażenie jest tworzone @@bonus% szybciej."
+title="Gorący Ogień Kuźnii"
+
+[KillWizard]
+description="Zabija jednego czarodzieja w docelowej wiosce."
+title="Pokonaj Czarodzieja"
+
+[LightningBolt]
+description="Potężny piorun zadał @@damage jednemu losowemu pułkowi."
+onSuccess="@@unit zabił @@casualties jednostek od @@target z @@spell! (@@probability% szansy)"
+title="Uderzenie Pioruna"
+
+[LightningStorm]
+description="Wszyscy żołnieże wioski docelowej uciekają @@bonus% szybciej."
+title="Burza z Piorunami"
+
+[magic]
+onFailed="Twoje zaklęcie nie zadziałało. Nadal Trenuj!"
+onSuccess="Twój czarodziej poprawnie rzucił zaklęcie."
+
+[MagicalShield]
+title="Magiczna Tarcza"
+description="Magiczne zaklęcia rzucane na docelową wioskę mają @@bonus% mniejszą szansę powodzenia."
+
+[MagicMirror]
+description="Zobacz wszystkie budynki w wiosce."
+title="Magiczne Lustro"
+onSuccess="Twój czarodziej rzucił Magiczne Lustro na @@target. @@report"
+
+[MeteorRain]
+title="Decz Meteorytów"
+description="Potężny desz metorytów zadał @@damage zniszczenia wszystkim pułkom."
+onSuccess="@@unit zabił @@casualties jednostek w @@squads pułkach z @@spell! (@@probability% szansy)"
+
+[OpenPortal]
+title="Otwarty Portal"
+onSuccess="Twój czarodziej otworzył portal do @@target."
+description="Otwórz portal do innej wioski o podobnym rozmiarze do twojej."
+
+[PoisonWater]
+title="Zatruta Woda"
+description="Produkcja plonów spadła o @@bonus%."
+
+[Quicksand]
+title="Ruchome Piaski"
+description="Jeden pułk osiągnął @@damage% zniszczeń w wyniku ruchomych piasków."
+onSuccess="@@unit zabił @@casualties jednostek od @@target z @@spell - zaklęcie. (@@probability% szansy)"
+
+[RainSeason]
+description="Produkcja plonów wzrosła o @@bonus%."
+title="Okresowy Deszcz"
+
+[SandStorm]
+title="Burze Piaskowe"
+description="Wszyscy żołnierze w docelowej wiosce będą poruszać się @@bonus% wolniej."
+
+[SabotageWizards]
+title="Sabotaż Czarodziei"
+description="Magiczne zaklęcia mają @@penalty% mniejszą szansę udania się."
+
+[RollingRocks]
+title="Spadające Skały"
+description="Produkcja skał wzrosła o @@bonus%."
+
+[Shadows]
+title="Cienie"
+description="Akcje Złodziei mają @@bonus% większą szansę udania się."
+
+[ShiningOre]
+title="Świecąca Ruda"
+description=" Produkcja żelaza wzrosła o @@bonus%."
+
+[StealMaps]
+description="Zołnierze przeciwnika poruszają się @@bonus% wolniej."
+title="Ukradnij Mapy"
+
+[SoakingRains]
+description="@@effect uniemożliwia strzelanie @@penalty% wszystkich łuczników."
+onSuccess="@@unit rzucił zaklęcie @@spell. @@penalty% łuczników nie może strzelać. (@@probability% szansy)"
+title="Obfity Deszcz"
+
+[SummonGhosts]
+title="Wezwij Duchy"
+description="Zołnierze w docelowej wiosce tracą @@bonus% życia."
+
+[thievery]
+onSuccess="Twój złodziej dokonał sabotażu."
+onFailed="Twój złodziej został złapany. Zostanie za to powieszony."
+
+[Tornado]
+title="Tornado"
+description="Zniszcz losowy budyne z poziomem @@level."
+
+[types]
+battle="Akcje Bitwy"
+boost="Skróć czas walki (@@duration)"
+instant="Natychmiastowa Akcja"
+

@@ -1,0 +1,24 @@
+[global]
+Cavalry="Reiter"
+Archers="Bogenschützen"
+Spearmen_1="Speerkämpfer"
+Swordsmen_1="Schwertkämpfer"
+Cavalry_1="Reiter"
+Archers_1="Bogenschütze"
+Guards="Burgwache"
+Spearmen="Speerkämpfer"
+Swordsmen="Schwertkämpfer"
+Guards_1="Burgwächter"
+
+[DarkElves]
+Guards="Tempelwache"
+Spearmen="Dunkle Krieger"
+Swordsmen="Henker"
+Cavalry="Wolfreiter"
+Archers="Hexen"
+Guards_1="Tempelbewacher"
+Spearmen_1="Dunkler Krieger"
+Swordsmen_1="Henker"
+Cavalry_1="Wolfreiter"
+Archers_1="Hexe"
+

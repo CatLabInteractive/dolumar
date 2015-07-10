@@ -1,0 +1,28 @@
+[equipments]
+sling="Schlingen"
+leatherArmour="Lederrüstung"
+bow2="Bogen"
+bow1="Kurzbögen"
+spear="Speere"
+sword2="Schwerter"
+dagger="Dolche"
+weapon="Allgemeine Waffen"
+battleAxe="Kriegsäxte"
+sword1="Stumpfe Schwerter"
+
+[types]
+weapon="Waffe"
+armour="Rüstung"
+
+[equipment]
+sling="Schlinge"
+battleAxe="Kriegsaxt"
+leatherArmour="Lederrüstung"
+bow2="Bogen"
+bow1="Kurzbogen"
+spear="Speer"
+dagger="Dolch"
+sword2="Schwert"
+weapon="Allgemeine Waffe"
+sword1="Stumpfes Schwert"
+

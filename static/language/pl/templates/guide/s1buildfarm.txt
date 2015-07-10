@@ -1,0 +1,3 @@
+Z początku musisz wybudować farmę, kliknij na ikonę budowania na górze i [b]wybuduj farmę[/b]. Farmy produkują jedzenie, które jest niezbędne do zdobycia wojska.
+
+Kliknij na ikonę budowania ([span class="navigation build"][span]młotek[/span][/span]) i wybuduj farmę.

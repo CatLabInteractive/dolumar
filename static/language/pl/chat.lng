@@ -1,0 +1,10 @@
+[chat]
+banned="Zostałeś zbanowany. Będziesz mógł ponownie pisać za @@duration."
+channel="Teraz rozmawiasz w @@channel."
+chat="Chat"
+login="Musisz się zalogować zanim będziesz mógł wysyłać wiadomości."
+registerfirst="Zarejestruj się przed korzystaniem z chat'a."
+send="Wyślij"
+tos="Regulamin"
+rules="Korzystając z chatu musisz przestrzegać @@tos."
+

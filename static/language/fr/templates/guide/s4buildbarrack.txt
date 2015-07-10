@@ -1,0 +1,3 @@
+Mais commençons par le début : construisons un baraquement.
+
+Vous noterez que pour certains bâtiment vous pouvez choisir la runes utilisée. Parfois, le choix de la rune influencera sur les capacités d'un bâtiment. Mais ici, cela n'a aucune importance, choisissez donc n’importe qu’elle rune.

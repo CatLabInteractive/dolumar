@@ -1,0 +1,72 @@
+[noclan]
+details="Clan Details"
+name="Clan Name"
+submit="Clan gefunden"
+aboutF="Du findest keinen Clan der deine Interessen vertritt?Wie wäre es dann, deinen eigenen Clan zu gründen?"
+title="Du hast keinen Clan"
+distance="Die maximale Entfernung zwischen zwei Siedlungen desselben Clans beträgt @@distance"
+about="Du bist ein einsamer Soldat, der gegen jeden kämpft. Tritt jetzt einem Clan bei und finde deinesgleichen."
+found="Gründe einen Clan"
+clans="Clans in der Nähe"
+noclans="Es gibt keine Clans in der Nähe."
+err_clanname="Dein Clanname enthält ungültige Zeichen"
+name_duplicate="Dein Clanname darf noch nicht verwendet werden. Wähle bitte einen anderen Namen."
+
+[overview]
+clan="Clan @@clan"
+members="Mitglieder"
+notFound="Der Clan den du suchst, wurde nicht gefunden."
+toJoin="diesem Clan beitreten."
+toForum="ein Clanforum eröffnen"
+toGovern="deinen Clan regieren"
+toLeave="den Clan verlassen"
+conLeave="Bist du sicher, dass du diesen Clan verlassen willst?"
+toLogs="die Logbucheinträge des Clans lesen"
+
+[join]
+join="@@clan beitreten"
+label="Passwort geschützt"
+password="Clanpasswort"
+protected="Dieser Clan ist mit einem Passwort geschützt. Wenn der Anführer dir das Passwort gegeben hat, kannst du beitreten."
+submit="Clan beitreten"
+about="Jeder kann diesem Clan beitreten. Bist du sicher, dass du beitreten möchtest?"
+toJoin="diesem Clan beitreten"
+err_password="Das Passwort,das du angegeben hast, ist falsch. Bitte gebe ein gültiges Passwort an."
+err_inclan="Du bist diesem Clan bereits beigetreten."
+inClan="Du bist bereits einem Clan beigetreten. Du kannst nicht gleichzeitig zwei Clans beitreten."
+
+[leave]
+leave="@@clan verlassen"
+done="Du hast diesen Clan verlassen. Viel Glück mit deinen neuen Verbündeten!"
+
+[forum]
+title="@@clan Clanforum"
+
+[government]
+title="Clanregierung"
+password="Clanpasswort"
+noPassword="Momentan kann jeder diesem Clan beitreten. Du kannst ein Passwort einrichten um andere Leute daran zu hindern, Mitglied deines Clans zu werden."
+isProtected="Dein Clan ist passwortgeschützt. Gib deinen Freunden das richtige Passwort, damit sie deinem Clan beitreten können."
+changePassword="Clanpasswort ändern"
+submit="Passwort einrichten"
+toOverview="zurück zur Übersicht "
+usermanager="Mitglieds"
+description="Clanbeschreibung"
+aDescription="Clanname und Beschreibung ändern"
+lname="Clanname"
+ldesc="Beschreibung"
+descSubmit="Beschreibung speichern"
+storeChanges="Änderungen speichern"
+
+[roles]
+leader="Leiter"
+captain="Kommandant"
+member="Mitglied"
+kick="vom Clan ausstossen"
+
+[errors]
+err_full="Dieser Clan hat seine maximale Kapazität erreicht. Momentan kannst du nicht beitreten."
+
+[clanlogs]
+about="Das sind die Logbucheinträge deiner Clangenossen. Nur die Einträge, welche für den Clan relevant sind, werden angezeigt."
+

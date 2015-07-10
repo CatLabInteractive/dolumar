@@ -1,0 +1,11 @@
+Witaj @@0!
+
+Zdecydowałeś się zresetować swoje konto w grze Dolumar.
+Teraz masz ostatnią szansę aby cofnąć decyzję i wrócić do swojej wioski.
+
+Jeśli jednak jesteś pewien, że chcesz zresetować swoje konto, to kliknij w poniższy link:
+
+@@1
+
+Powodzenia,
+Administracja Dolumar

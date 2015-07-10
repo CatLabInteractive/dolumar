@@ -1,0 +1,27 @@
+[battle]
+attacking="@@actor zendt zijn troepen van @@village om @@defender (@@pl_defender) aan te vallen."
+defending="Jouw dorp @@village wordt aangevallen door @@attacker (@@pl_attacker)."
+
+[messages]
+received="Je hebt een bericht ontvangen van @@player."
+
+[runes]
+received="Je hebt @@runes ontvangen van @@player."
+
+[resources]
+received="Je hebt @@resources ontvangen van @@player."
+
+[system]
+test="Dit is een test notificatie. Je proefkonijn was @@user."
+
+[clan]
+join="@@actor is lid geworden van clan @@clan."
+leave="@@actor is geen lid meer van clan @@clan."
+
+[portal]
+open="@@player heeft een magische poort geöpend tussen @@village en @@target_village. Hij zal open blijven tot @@date en is beschikbaar voor alle clanleden."
+opened="@@player heeft een magische poort geöpend tussen @@village en @@target_village. Hij zal open blijven tot @@date en is beschikbaar voor alle clanleden."
+
+[bonusbuilding]
+build="@@actor heeft een @@building gekocht voor @@village."
+

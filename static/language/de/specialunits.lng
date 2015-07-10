@@ -1,0 +1,12 @@
+[global]
+Mages1="Zauberer"
+Mages2="Zauberer"
+Thieves1="Dieb"
+Thieves2="Diebe"
+
+[DarkElves]
+Mages1="Hexenmeister"
+Mages2="Hexenmeister"
+Thieves1="Dieb"
+Thieves2="Diebe"
+

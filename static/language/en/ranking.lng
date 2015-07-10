@@ -1,0 +1,9 @@
+[ranking]
+villageRating = "Village Rating"
+villageRanking = "Villages"
+playerRanking = "Players"
+clanRanking = "Clans"
+value = "Value"
+village = "Village"
+distance = "Distance from @@name."
+clan = "Clan"

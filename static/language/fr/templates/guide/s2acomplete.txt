@@ -1,0 +1,1 @@
+Bravo, vous avez un entrepôt. Lorsque que votre entrepôt est plein, votre production s’arrête et tous la production de ressource s’arrête. Soyez certains de dépenser les ressources avant que cela n'arrive !

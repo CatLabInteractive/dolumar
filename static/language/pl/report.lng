@@ -1,0 +1,7 @@
+[general]
+date="Data:"
+target="Cel:"
+
+[types]
+BuildingReport="Raport Budowy"
+

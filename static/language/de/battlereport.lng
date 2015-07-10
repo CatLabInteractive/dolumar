@@ -1,0 +1,42 @@
+[introtext]
+1="Der Boden erzittert, während die beiden Armeen aufeinander zu marschieren. Die Bauern von @@defender flüchten panisch und verzweifelt, während die Truppen von @@attacker ihr Land heimfallen."
+
+[move]
+1="@@unit ist von location @@from nach @@to marschiert."
+2="@@unit hat eine Spinne gesehen und ist zu @@to gesprungen."
+3="@@unit rannte in Richtung location @@to."
+
+[stunned]
+1="@@unit ist betäubt und kann seine Feinde nicht angreifen."
+
+[casualties_melee]
+1="@@attacker tötet @@amount Einheiten von @@defender im Nahkampf."
+
+[casualties_shooting]
+1="Eine gut geplante Salve von @@attacker tötet @@amount von @@defender."
+2="@@attacker wartet nicht und tötet @@amount Einheiten von @@defender."
+
+[casualties_error]
+1="@@amount Einheiten von @@defender sind in einem Angriff von @@atacker getötet worden. FEHLER!!!"
+
+[specialunitdied]
+1="Eine Stufe @@level @@unit ist gestorben."
+
+[status_0]
+1="Die Magier bereiten sich vor auf den Kampf."
+
+[status_1]
+1="Plötzlich bemerkt dein Anführer, dass sich die feindlichen Bogenschützen gruppieren. Er befiehlt deinen Bogenschützen schnell zu zielen und zu schiessen!"
+
+[status_2]
+1="Dein Anführer befiehlt deinen Truppen in Richtung der feindlichen Truppen zu eilen."
+
+[status_3]
+1="Blut fliesst in Strömen vom Schlachtfeld. Während die Sonne langsam untergeht, betrachtet dein Anführer still den Ort des Geschehens,voll von verwundeten und toten Soldaten. Der Kampf ist vorbei...aber der Krieg? "
+
+[flee]
+1="@@unit ist weinend weggelaufen. Ich habe dir gesagt, dass das alles mit Tränen enden würde."
+
+[whipe]
+1="Die Körper der @@unit liegen zerschmettert, in einer Blutlache, auf dem Schlachtfeld."
+

@@ -1,0 +1,45 @@
+[economics]
+resources = "Resources"
+runes = "Village Runes"
+norunes = "You don't have any runes at the moment."
+stock = "Stock"
+max = "Max"
+income = "Income"
+honour = "Your honour influences your income. At the moment, your village honour is @@honour%."
+bruto = "Production"
+consuming = "Consumption"
+hourly = "Hourly production"
+rune = "Rune"
+available = "Available"
+used = "Used"
+usedpercentage = "Used %"
+
+[profile]
+location = "Location:"
+villageProfile = "Village Profile"
+owner = "Owner"
+rank = "Ranking:"
+ranking = "@@0 out of @@1"
+race = "Race:"
+honour = "Honour"
+notActive = "This village is abandoned. All valuables have been taken away."
+challenge = "Send troops from @@0."
+networth = "Networth:"
+distance = "@@distance from @@name."
+
+[techview]
+noResearch = "You did not do any research yet."
+
+[technology]
+Writing = "Writing"
+Agriculture = "Improved Agriculture"
+BronzeWorking = "Bronze Working"
+
+[techdesc]
+Writing = "Writing gives you +10% storage in your silos."
+Agriculture = "Improved Argriculture gives you +5% production on your farm."
+BronzeWorking = "Master the skill of crafting usuable and strong items and equip your army with weaponry your enemies have never seen."
+
+[queue]
+queuelimit = "You have reached your queue limit. Please clear some previous queues before adding a new one."
+not_premium = "This feature is only available for premium users."

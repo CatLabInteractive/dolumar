@@ -1,0 +1,175 @@
+[MagicalShield]
+title="Magisches Schild"
+description="Magische Zauber gegen die Zielsiedlung haben @@bonus% weniger Chancen auf Erfolg."
+
+[Shadows]
+title="Schatten"
+description="Diebesaktionen haben @@bonus% mehr Chancen auf Erfolg."
+
+[MagicMirror]
+title="Magischer Spiegel"
+description="alle Gebäude und Ausbaustufen einer Siedlung anzeigen"
+
+[RollingRocks]
+title="Rollende Felsen"
+description="Steinproduktion ist mit @@bonus% gestiegen"
+
+[ShiningOre]
+description="Eisenproduktion ist mit @@bonus% gestiegen"
+title="Glänzendes Erz"
+
+[OpenPortal]
+title="Portal öffnen"
+description="Portal für willkürlichen Spieler, dessen Siedlung ungefähr die Grösse deiner Siedlung hat, öffnen."
+onSuccess="Dein Zauberer hat ein Portal geöffnet."
+
+[RainSeason]
+title="Regnen lassen"
+description="Getreideproduktion ist mit @@bonus% gestiegen"
+
+[DryLands]
+title="Land austrocknen lassen"
+description="Getreideproduktion ist mit @@bonus% gesunken."
+
+[PoisonWater]
+title="Brunnen vergiften"
+description="Getreideproduktion wurde mit @@bonus% reduziert."
+
+[Fireball]
+title="Feuerball "
+description="Ein Feuerball verursacht @@damage Schaden bei einem beliebigen Regiment."
+onSuccess="Eine @@unit hat @@casualties Einheiten von @@target mit  @@spell getötet. (@@probability% Wahrscheinlichkeit)"
+
+[Frost]
+title="Frost"
+description="Verwende @@damage Frostschaden gegen ein beliebiges Regiment. Das wird dafür sorgen, dass das Regiment seine erste Aktion verpassen wird?"
+onSuccess="@@unit tötete @@casualties Einheiten von @@target durch @@spell! (@@probability% Wahrscheinlichkeit)"
+
+[magic]
+onSuccess="Dein Zauberer hat seinen Zauber erfolgreich ausgesprochen"
+onFailed="Dein Zauber hat nicht funktioniert. Übe noch eine Weile!"
+
+[thievery]
+onSuccess="Dein Dieb hat erfolgreich sabotiert."
+onFailed="Dein Dieb wurde gefangen genommen! Er kommt für seine Taten an den Galgen!"
+
+[general]
+onSuccess="Deine Aktion wurde ausgeführt."
+onFailed="Deine Aktion  hat nicht funktioniert."
+report="Bericht lesen"
+
+[FavorOfTheWoods]
+title="Holzproduktion"
+description="Holzproduktion ist mit @@bonus% gestiegen"
+
+[Invisibility]
+title="Unsichtbarkeit"
+description="Attacken der Angreifer werden erst @@hidden Stunden bevor sie ihr Ziel erreichen, sichtbar sein."
+
+[SandStorm]
+title="Sandsturm"
+description="Alle Truppen in der Zielsiedlung marschieren @@bonus% langsamer."
+
+[LightningStorm]
+title="Gewitter"
+description="Alle Truppen in de Zielsiedlung fliehen @@bonus% schneller."
+
+[Floods]
+title="Überströmungen"
+description="Alle laufenden Bauaufträge verzögern sich um @@delay."
+
+[Tornado]
+title="Tornado"
+description=" Zerstöre ein beliebiges Gebäude der Stufe @@level."
+
+[Earthquake]
+title="Erdbeben"
+description="Der Verteidigungsturmbonus wurde mit @@bonus% für alle Truppen in der Zielsiedlung reduziert."
+
+[GoldenMines]
+title="Goldminen "
+description="Goldproduktion ist mit @@bonus% gestiegen"
+
+[types]
+battle="Schlachtaktiot"
+instant="Sofortaktion"
+boost="Verstärkungsaktion (@@duration)"
+
+[battle]
+onFailed="Eine angreifende @@unit schaffte es nicht @@spell auszusprechen(@@probability% Wahrscheinlichkeit auf Erfolg)."
+
+[CityOfLight]
+title="Stadt des Lichts"
+description="Diebesaktionen haben @@bonus% weniger Chancen auf Erfolg."
+
+[FireWeapons]
+title="Feuerwaffen"
+description="Alle Truppen in der angegriffenen Siedlung kämpfen mit einem @@bonus% Gesundheitsbonus."
+
+[SummonGhosts]
+title="Geister rufen"
+description="Alle Truppen  in der angegriffenen Siedlung kämpfen mit einer @@bonus% Gesundheitsverschlechterung."
+
+[StealMaps]
+title="Karten stehlen"
+description="Zieltruppen bewegen sich @@bonus% langsamer."
+
+[SoakingRains]
+title="Durchnässender Regen"
+description="@@effect hindert @@penalty% aller verteidigenden Bogenschützen beim Schiessen."
+onSuccess="Eine @@unit sprach einen @@spell Zauber aus. @@penalty% der Verteidigungsschützen können nicht schiessen. (@@probability%  Wahrscheinlichkeit)probability)"
+
+[Quicksand]
+title="Treibsand"
+description="@@damage eines willkürlichen Regiments, das im Treibsand versunken ist."
+onSuccess="@@unit tötete @@casualties Einheiten von @@target durch @@spell zu verwenden.  (@@probability%  Wahrscheinlichkeit)probability)"
+
+[MeteorRain]
+title="Meteorregen"
+description="Ein mächtiger Meteorregen verursacht @@damage Schaden für alle Regimenter."
+onSuccess="@@unit tötete@@casualties Einheiten in @@squads Regimentern durch @@spell zu verwenden! (@@probability%  Wahrscheinlichkeit)probability)"
+
+[LightningBolt]
+title="Blitzschlag"
+description="Ein starker Blitz verursacht @@damage  Schaden in einem willkürlichen Regiment."
+onSuccess="Eine @@unit tötete @@casualties Einheiten von @@target mit @@spell (@@probability%  Wahrscheinlichkeit)"
+
+[Fear]
+title="Angst"
+description="Alle Zieleinheiten werden @@penalty% schneller fliehen."
+onSuccess="@@@@unit hat @@spell verwendet! Die Verteidigungseinheiten werden @@penalty% schneller flüchten. (@@probability%  Wahrscheinlichkeit"
+
+[Demoralize]
+title="Moral austreiben"
+description="Die Zieltruppe werden @@penalty% schneller vom Schlachtfeld flüchten."
+
+[Cold]
+title="Kälte"
+description="Die Lebensdauer eines beliebigen Regiments wird durch @@damage verringert."
+onSuccess="@@unit verringerte die Lebensdauer van @@target durch @@bonus% mit @@spell! (@@probability% Wahrscheinlichkeit)"
+
+[HotSmithyFires]
+title="Heisse Schmiedefeuer"
+description="Ausrüstung wird @@bonus schneller produziert."
+
+[SabotageWizards]
+title="Zauberer sabotieren"
+description="Magische Sprüche haben jetzt @@penalty% weniger Chancen auf Erfolg."
+
+[KillWizard]
+title="Zauberer ermorden"
+description="tötet einen willkürlichen Zauberer in der Zielsiedlung."
+
+[CrackedEarth]
+title="Gespaltene Erde"
+description="Alle Reiterangriffe werden um @@penalty% verringert."
+onSuccess="@@unit sprach @@spell aus! Der Angriff von allen Pferden wird um @@penalty% verringert. (@@probability% Wahrscheinlichkeit)"
+
+[Dispel]
+title="Zerstreuen"
+description="Bricht alle Zauber, die die Zielsiedlung momentan beeinflussen, ab."
+
+[Haste]
+title="Eile"
+description="Alle Einheiten in der Zielsiedlung bewegen sich @@bonus% schneller."
+

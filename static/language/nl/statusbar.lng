@@ -1,0 +1,26 @@
+[status]
+construct="Bezig met bouwen van @@0."
+upgrade="Bezig met het verbeteren van @@0."
+scout="Zoeken naar nieuwe runen."
+moveTroops="Verplaats regiment @@squad naar @@target."
+research="Onderzoek @@technology."
+training="Train @@amount @@unit."
+battle_sending="Marcheer naar @@target om aan te vallen."
+battle_preparing="(waarschijnlijk) Maak troepen klaar om @@target aan te vallen."
+battle_fighting="Vecht in @@target."
+battle_returning="Keer terug van @@target."
+crafting="Maak @@amount @@equipment."
+effect_unknown="actief effect: @@effect"
+effect_known="actief effect: @@effect (van @@actor)"
+
+[queue]
+cancel="annuleer"
+confirm="Ben je zeker dat je dit wachtrij object wilt annuleren?"
+build="Wachten om een @@building te bouwen op (@@x,@@y) (@@cancel)"
+upgrade="Wachten om een @@building te verbeteren naar niveau @@level op (@@x,@@y) (@@cancel)"
+training="Aan het wachten om @@amount @@unit te trainen (@@cancel)"
+
+[battle]
+withdraw="terugtrekken"
+confirmWithdraw="Ben je zeker dat je deze aanval wilt terugtrekken?"
+

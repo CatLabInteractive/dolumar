@@ -1,0 +1,15 @@
+Hallo @@nickname!
+
+Je kan dit wachtwoord gebruiken om in te loggen op Dolumar:
+
+Gebruikersnaam:
+@@nickname
+
+Wachtwoord:
+@@password
+
+Je kan dit wachtwoord maar één keer gebruiken.
+Vergeet dus niet je wachtwoord onmiddellijk aan te passen.
+
+Veel plezier!
+Het Dolumar Team

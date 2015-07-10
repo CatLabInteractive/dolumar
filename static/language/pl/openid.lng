@@ -1,0 +1,12 @@
+[register]
+username="Login:"
+register="Utwórz nową postać"
+wrongLogin="Nie znaleziono konta z takim hasłem i loginem. Spróbuj ponownie."
+password="Hasło:"
+doLogin="Loguj"
+login="Załaduj postać"
+btnRegister="Utwórz nową postać"
+btnLogin="Załaduj istniejącą postać"
+aboutRegister="Jeśli masz już konto na tej grze, to możesz się zalogować. W innym przypadku kliknij 'Utwórz nową postać'"
+about="Dolumar to trwała gra przeglądarkowa. Będziesz walczyć przeciwko tysiącom graczy, walczyć o miejsce na Świecie."
+

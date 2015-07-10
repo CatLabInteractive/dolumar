@@ -1,0 +1,11 @@
+Bonjour @@nickname,
+
+Votre village à besoin de vous !
+@@message
+
+Connectez-vous dès maintenant à Dolumar:
+@@loginurl
+
+Bon jeu !
+
+(Vous ne voulez plus recevoir ce mail ? Désinscription : @@unsubsribe)

@@ -1,0 +1,10 @@
+[units]
+about="To lista wszystkich jednostek w twojej wiosce"
+noUnits="Jeszcze nie masz żadnych jednostek"
+toSquads="aby porozmieszczać twoich żołnierzy do batalionów"
+
+[equipment]
+available="Dostępne"
+noItems="Nie masz żadnych przediotów"
+total="Wszystkie"
+

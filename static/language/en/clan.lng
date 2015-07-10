@@ -1,0 +1,83 @@
+[noclan]
+title = "You have no clan"
+distance = "The maximum distance between two villages in the same clan is @@distance."
+about = "You are a lonely soldier, fighting against everyone of the world. Join a clan now and find your equals."
+found = "Found a clan"
+details = "Clan Details"
+name = "Clan Name"
+submit = "Found clan"
+aboutF = "Can't you find an existing clan sharing your vision? Then why not found your own clan?"
+clans = "Clans in the Neighbourhood"
+noclans = "There are no clans in the neighbourhood."
+err_clanname = "Your clan name contains invalid characters."
+name_duplicate = "Your clan name must be unique. Please choose another name."
+
+[overview]
+clan = "Clan @@clan"
+members = "Members"
+notFound = "Couldn't find the clan you're looking for."
+toJoin = "to join this clan."
+toForum = "to open the clan forum."
+toGovern = "to govern your clan."
+toLeave = "to leave the clan."
+conLeave = "Are you sure you want to leave this clan? You cannot join another clan for @@clanhop days or join this clan for @@own_clanhop days."
+toLogs = "to view the clan logs."
+government = "Government"
+forum = "Forum"
+logs = "Clan logs"
+overview = "Overview"
+join = "Join clan"
+leave = "Leave clan"
+actions = "Actions"
+
+[join]
+join = "Join @@clan"
+label = "Password Protected"
+password = "Clan password"
+protected = "This clan is password protected. If the leader provided you with a password, you can join."
+submit = "Join clan"
+about = "Everyone can join this clan. Are you sure you want to join?"
+toJoin = "to join this clan."
+err_password = "The password you provided is wrong. Please provide a valid password."
+err_inclan = "You already joined this clan."
+inClan = "You did already join a clan. You cannot join two clans at the same time."
+err_clanhop_ownclan = "You have left this clan in the past @@own_clanhop days. You cannot rejoin this clan at this time."
+err_clanhop = "You have left a clan in the last @@clanhop days. You cannot join a clan at this time."
+err_joinhop = "You have joined a clan in the last @@joinhop days. You cannot join a clan at this time."
+err_kicked = "You have been kicked from this clan within the last @@kicked days. You cannot rejoin this clan at this time."
+
+[leave]
+leave = "Leave @@clan"
+done = "You have left the clan. Good luck with your new allies!"
+
+[forum]
+title = "@@clan Clan Forum"
+
+[government]
+title = "Clan Government"
+password = "Clan Password"
+noPassword = "At the moment, everyone can join the clan. You can set a password to prevent people from joining your clan."
+isProtected = "Your clan is protected with a password. Give your friends the right password to join your clan."
+changePassword = "Change clan password"
+submit = "Set password"
+toOverview = "to return to the overview."
+usermanager = "Member Management"
+storeChanges = "Store Changes"
+description = "Clan Description"
+aDescription = "Change Clan Name and Description"
+lname = "Clan Name"
+ldesc = "Description"
+descSubmit = "Save description"
+kick_warning = "Please note that kicked people will not be able to rejoin this clan for @@kicked days."
+
+[roles]
+leader = "Leader"
+captain = "Captain"
+member = "Member"
+kick = "Kick from clan"
+
+[clanlogs]
+about = "These are the logs of your clan mates. Only the logs that are relevant to the clan are shown."
+
+[errors]
+err_full = "This clan is at maximum capacity. You can't join it at this moment."

@@ -1,0 +1,13 @@
+Hey @@0!
+
+Du hast die "Account zurücksetzen" Prozedur gestartet.
+Das ist deine letzte Chance, zurückzukehren und deine Siedlung zu bewahren. 
+
+Falls du deinen Account trotzdem zurücksetzen möchtest, folge bitte unterstehendem Link:
+
+@@1
+
+Viel Spass!
+Das Dolumar Team.
+Have fun!
+The Dolumar team.

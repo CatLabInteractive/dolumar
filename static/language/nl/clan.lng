@@ -1,0 +1,84 @@
+[noclan]
+title="Je hebt nog geen clan"
+distance="De maximum afstand tussen 2 stadjes in de zelfde clan is @@distance."
+about="Je bent een eenzaam stadje, vechtend tegen iedereen van de wereld. Vervoeg een een clan nu en vind je echte vrienden."
+found="Richt een clan op"
+details="Clandetails"
+name="Clannaam"
+submit="Richt clan op"
+aboutF="Kan je geen bestaande clan vinden die jouw visie deelt? Dan kan je beter zelf een clan maken."
+clans="Clans in de buurt"
+noclans="Er zijn geen clans in de buurt."
+err_clanname="Je clannaam bevat verkeerde karakters."
+name_duplicate="Je clannaam moet uniek zijn. Kies aub een andere naam."
+
+[overview]
+clan="Clan @@clan"
+members="Leden"
+notFound="Kon de clan niet vinden waar ja op zoek naar was."
+toJoin="om deze clan te vervoegen."
+toForum="om je clanforum te openen."
+toGovern="om je clan te besturen."
+toLeave="om de clan te verlaten."
+conLeave="Ben je zeker dat je deze clan wilt verlaten? Je kan, gedurende @@clanhop dagen, niet meer in een andere clan gaan. Ook kan je voor @@own_clanhop dagen niet in deze clan terug komen."
+toLogs="om de clan logs te bekijken."
+actions="Acties"
+forum="Forum"
+government="Overheid"
+join="Kom bij clan"
+leave="Verlaat clan"
+logs="Clan logboek"
+overview="Overzicht"
+
+[join]
+join="Vervoeg @@clan"
+label="Beveiligd met een wachtwoord"
+password="Clanwachtwoord"
+protected="Deze clan is met een wachtwoord beveiligd. Als de leider jouw het wachtwoord heeft verteld,kan je deze clan vervoegen."
+submit="Ga in de clan"
+about="Iedereen kan deze clan vervoegen. Ben je zeker dat je hen wilt vervoegen?"
+toJoin="om de clan te vervoegen."
+err_password="Het wachtwoord dat je gegeven hebt is vals. Geef het juiste wachtwoord in."
+err_inclan="Je hebt al deze clan vervoegd."
+inClan="Je hebt al een clan. Je kan niet in 2 verschillende clans zijn."
+err_clanhop="Je hebt in de laatste @@clanhop dagen een clan verlaten. Je kan momenteel niet terug in een clan gaan."
+err_clanhop_ownclan="Je hebt deze clan in de laatste @@own_clanhop dagen verlaten, je kan nog niet terug komen."
+err_joinhop="Je bent in de laatste @@joinhop dagen al in een clan gegaan, je kan nog niet in een clan gaan."
+err_kicked="Je bent uit deze clan gesmeten in de laatste @@kicked dagen. Je kan momenteel nog niet terug in de clan komen."
+
+[leave]
+leave="Verlaat @@clan"
+done="Je hebt de clan verlaten. Veel geluk met je nieuwe vrienden!"
+
+[forum]
+title="@@clan ClanFora"
+
+[government]
+title="Clanbestuur"
+password="Clanwachtwoord"
+noPassword="Voor het ogenblik, iederen kan je clan vervoegen. Je kan een wachtwoord plaatsen om te voorkomen dat mensen je clan vervoegen."
+isProtected="Je clan is beveiligd met een wachtwoord. Geef je vrienden het correcte wachtwoord om je clan te vervoegen."
+changePassword="Verander clanwachtwoord"
+submit="Stel wachtwoord in"
+toOverview="om terug te keren naar het overzicht."
+usermanager="Ledenmanagement"
+storeChanges="Sla wijzigingen op"
+description="ClanBeschrijving"
+aDescription="Verander de clannaam en beschrijving"
+lname="Clannaam"
+ldesc="Beschrijving"
+descSubmit="Sla beschrijving op"
+kick_warning="Let er op dat spelers die gekicked worden niet meer in de clan kunnen voor @@kicked dagen."
+
+[roles]
+leader="Leider"
+captain="Kapitein"
+member="Lid"
+kick="Verwijder uit de clan"
+
+[errors]
+err_full="Deze clan heeft zijn maximale capaciteit bereikt. Je kan deze clan voor het ogenblik niet vervoegen."
+
+[clanlogs]
+about="Dit zijn de logs van je clan leden. Enkel logs die relevant zijn voor de clan, worden getoond."
+

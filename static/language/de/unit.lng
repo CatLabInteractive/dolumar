@@ -1,0 +1,10 @@
+[units]
+noUnits="Du hast noch keine Einheiten. Du musst erst eine Kaserne bauen."
+about="Hier ist eine Liste mit den Einheiten deiner Siedlung. "
+toSquads="deine Truppen in Battaillons gruppieren"
+
+[equipment]
+noItems="Du besitzt keine Gegenstände."
+available="Verfügbar"
+total="Gesamt"
+

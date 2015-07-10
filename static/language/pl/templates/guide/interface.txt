@@ -1,0 +1,3 @@
+Spójrzmy najpierw na interfejs użytkownika. U góry możesz zobaczyć [b]Główne Menu[/b], a na dole znajduje się twój [b]pasek surowców[/b] i [b]minimapa[/b].
+
+Możesz przewijać mapę poprzez przeciąganie jej dookoła. Aby powrócić do swojej wioski kliknij [b]domek[/b] ([span class="footer-navigation home"][span]na dole strony[/span][/span]).

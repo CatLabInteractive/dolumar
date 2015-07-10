@@ -1,0 +1,9 @@
+Witaj @@0!
+Podałeś ten e-mail w grze przeglądarkowej Dolumar.
+Aby aktywować konto w grze i potwierdzić adres email kliknij poniższy link:
+@@1
+
+Jeśli nie rejestrowałeś się w tej grze, zignoruj ten email.
+
+Powodzenia!
+Administracja Dolumar

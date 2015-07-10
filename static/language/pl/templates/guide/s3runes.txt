@@ -1,0 +1,3 @@
+Runy są najważniejszym surowcem w grze. Trudno jest je zdobyć, ale jednak są potrzebe do budowania.
+
+W oknie gospodarki możesz sprawdzić ile run nie jest jeszcze w użytku.

@@ -1,0 +1,18 @@
+{
+  "name": "catlabinteractive/dolumar",
+
+  "require": {
+	"catlabinteractive/dolumar-engine" : "dev-master"
+  },
+
+  "autoload" : {
+    "classmap" : [
+      "src"
+    ]
+  },
+
+  "require-dev": {
+	"heroku/heroku-buildpack-php": "*",
+	"zircote/swagger-php" : "*"
+  }
+}

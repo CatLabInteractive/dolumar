@@ -1,0 +1,29 @@
+[global]
+Guards = "Citadel Guards"
+Spearmen = "Spearmen"
+Longswordsmen = "Longswordsmen"
+Cavalry = "Horsemen"
+Archers = "Archers"
+Knights = "Knights"
+
+Guards_1 = "Citadel Guard"
+Spearmen_1 = "Spearman"
+Longswordsmen_1 = "Longswordsman"
+Cavalry_1 = "Horseman"
+Archers_1 = "Archer"
+Knights_1 = "Knight"
+
+[DarkElves]
+Guards = "Temple Sentinels"
+DarkWarriors = "Dark Warriors"
+Executioners = "Executioners"
+WolfRiders = "Wolf Riders"
+Witches = "Witches"
+GualCavalry = "Gu'al Cavalry"
+
+Guards_1 = "Temple Sentinel"
+DarkWarriors_1 = "Dark Warrior"
+Executioners_1 = "Executioner"
+WolfRiders_1 = "Wolf Rider"
+Witches_1 = "Witch"
+GualCavalry_1 = "Gu'al Rider"

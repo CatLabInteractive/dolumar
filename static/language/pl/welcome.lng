@@ -1,0 +1,16 @@
+[welcome]
+become="Zdobądź konto premium"
+clanlogs="Dziennik Klanu"
+extend="Przedłuż konto premium"
+gamenews="Wiadomości gry"
+inbox="twoja skrzynka odbiorcza"
+joinclan="Dołącz do klanu"
+okay="OK"
+welcome="Witaj , @@nickname!"
+unreadmessages="Masz @@amount nieprzeczytanych wiadomości w @@inbox."
+premiumtitle="Konto premium"
+premium="Konto premium ważne do @@date. @@extend"
+nopremium="Czy wiedziałeś, że konto premium znacznie ułatwia grę ?  @@extend"
+noclan="Nie dołączyłeś jeszcze do klanu. Gra w grupie jest bardzo ważna w Dolumar, więc lepiej dołącz do klanu. @@join"
+freepremium="Czy wiedziałeś, że konto premium znacznie ułatwia grę ?  Masz darmowe konto premium do @@date. @@extend"
+

@@ -1,0 +1,28 @@
+[equipment]
+weapon="Wapensysteem"
+dagger="Dolk"
+sword1="Bot zwaard"
+sword2="zwaard"
+spear="Speer"
+bow1="Korte afstandsboog"
+bow2="Boog"
+leatherArmour="Lederen Wapenuitrusting"
+battleAxe="Slagbijl"
+sling="Sling"
+
+[equipments]
+weapon="Wapensystemen"
+dagger="Dolken"
+sword1="Botte zwaarden"
+sword2="Zwaarden"
+spear="Speren"
+bow1="Korte afstandsbogen"
+bow2="Bogen"
+leatherArmour="Lederen Wapenuitrustingen"
+battleAxe="Slagbijlen"
+sling="Slings"
+
+[types]
+weapon="Wapen"
+armour="wapenuitrusting"
+

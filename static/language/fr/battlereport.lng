@@ -1,0 +1,46 @@
+[casualties_error]
+1="@@amount unités sont mortes dans l'attaque de @@atacker contre @@defender. ERREUR !!!"
+
+[casualties_melee]
+1="@@attacker (front de @@frontage) tuent @@amount unités de @@defender en mêlée."
+
+[casualties_shooting]
+1="Une salve bien ajustée de @@attacker tue @@amount unités de @@defender."
+2="@@attacker ne se repose pas sur ses lauriers et tue @@amount unités de @@defender."
+
+[flee]
+1="Les @@unit fuient en hurlant et en pleurant. Je vous avais bien dit que tout cela se terminerait dans les larmes."
+2="Les @@unit choisissent stratégiquement de quitter le champ de bataille."
+3="Les @@unit battent en retraite."
+4="Les @@unit fuient le champs de bataille."
+
+[move]
+1="Les @@unit se déplacent de la position @@from à @@to."
+2="Les @@unit tombent sur une araignée et s'enfuient à la position @@to."
+3="Les @@unit avancent sur la position @@to."
+
+[specialunitdied]
+1="Les @@unit de niveau @@level meurent."
+
+[status_0]
+1="Les magiciens se préparent au  combat."
+
+[introtext]
+1="Le sol tremble sous la marche des armées prêtent à se battre. Les paysans de @@defender fuient en hurlant pendant que les armées de @@attacker envahissent leurs terres."
+
+[status_1]
+1="Soudain, vôtre capitaine s'aperçoit que les archers ennemis se mettent place. Rapidement, il ordonne à vos archers de faire feu !"
+
+[status_2]
+1="Votre capitaine ordonne à vos troupes de charger vos ennemis !"
+
+[status_3]
+1="Une rivière de sang noie le champ de bataille. Et alors que le soleil se couche, votre capitaine jette un dernier regard sur le champ de bataille, couvert de soldats blessés et morts. Le bataille est terminée... mais qu'en est il de la guerre ?"
+2="Le combat est terminée."
+
+[stunned]
+1="Les @@unit sont sonnés et ne peuvent pas attaquer leurs cibles."
+
+[whipe]
+1="Les corps sans vie des @@unit gisent à même le champ de bataille."
+

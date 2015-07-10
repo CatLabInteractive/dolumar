@@ -1,0 +1,3 @@
+This game is all about [b]gathering resources[/b], [b]finding runes[/b] and [b]waging war[/b] against your enemies.
+
+Your village produces resources all the time. You can review your current resources at the [b]bottom bar[/b] or at the [b]economy window[/b] ([span class="navigation economy"][span]golden coins icon[/span][/span]).

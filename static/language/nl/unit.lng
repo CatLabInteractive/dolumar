@@ -1,0 +1,10 @@
+[units]
+noUnits="Je hebt nog geen troepen. Je moet eerst een barrak bouwen."
+about="Hier is een lijst van de eenheden in je dorp."
+toSquads="om je troepen in te delen in bataljons."
+
+[equipment]
+noItems="Je hebt nog geen wapens of wapenuitrusting."
+available="Beschikbaar"
+total="Totaal"
+

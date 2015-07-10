@@ -1,0 +1,12 @@
+[register]
+about="Dolumar is een browser based game. Je zal moeten vechten tegen duizenden andere spelers. Vecht voor jouw plaats op de wereld."
+btnRegister="Maak nieuw account"
+btnLogin="Account inladen"
+register="Account aanmaken"
+aboutRegister="Als je al een karakter hebt op deze server, kan je het hier inladen."
+login="Account inladen"
+wrongLogin="Je gebruikersnaam en wachtwoord zijn niet gevonden. Probeer het nog eens."
+username="Gebruikersnaam:"
+password="Wachtwoord:"
+doLogin="inloggen"
+

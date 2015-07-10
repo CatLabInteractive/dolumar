@@ -1,0 +1,20 @@
+[errors]
+cannot_demote="Vous n'êtes pas autorisé à dégrader ce joueur."
+cannot_promote="Vous n'êtes pas autorisé à promouvoir ce joueur."
+move_not_authorized="Vous n'êtes pas autorisé à commander cette armée."
+
+[squad]
+actions="Ordres"
+attack="Etes-vous sûr de vouloir attaquer cette armée avec @@0 ?"
+demote="dégradé"
+merge="Etes-vous sûr de vouloir fusionner cette armée avec @@0 ? Vous pourriez perdre le commandement."
+move="Déplacer l'armée"
+movepoints="(@@0  points de mouvement restant)"
+players="Joueurs"
+promote="promouvoir"
+squads="Régiments"
+
+[status]
+leader="leader"
+normal="soldat"
+

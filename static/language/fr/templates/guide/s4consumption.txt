@@ -1,0 +1,5 @@
+Bravo ! Vous avez un baraquement. Il est temps de former des troupes !
+
+Toutes vos troupes [b]consomme de la nourriture[/b] et certaines troupes spéciales consomment d'autres types de ressources. Vous pouvez voir les niveaux de consommations dans la fenêtre des unités.
+
+Cliquez sur le baraquement et formez quelques troupes.

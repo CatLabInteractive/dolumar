@@ -1,0 +1,1 @@
+Now let's build a lumber camp. A lumber camp produces wood, which is mostly used to construct buildings.

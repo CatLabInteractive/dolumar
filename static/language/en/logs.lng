@@ -1,0 +1,104 @@
+[mylogs]
+build = "You have build a @@0."
+upgrade = "You have upgraded your @@0."
+destruct = "You have destructed your @@0."
+receiveMsg = "You have received a message from @@1."
+sendMsg = "You have sent a message to @@1."
+scout = "You have scouted for runes."
+trained = "You have started training @@amount @@unit."
+research = "You have researched @@0."
+troops_starving = "@@1 of your @@0 died of hunger."
+
+;; Trading
+res_send = "You have sent @@0 to @@1."
+res_received = "You have received @@0 from @@1."
+runes_send = "You have sent @@0 to @@1."
+runes_received = "You have received @@0 from @@1."
+res_sending = "You are sending @@0 to @@1. The goods will arrive at @@2."
+res_receiving = "@@1 is sending @@0 to you. The goods will arrive at @@2."
+runes_sending = "You are sending @@0 to @@1. The goods will arrive at @@2."
+runes_receiving = "@@1 is sending @@0 to you. The goods will arrive at @@2."
+equipment_send = "You have sent @@1 @@0 to @@2."
+equipment_received = "You have received @@1 @@0 from @@2."
+transfer_complete = "You have received @@0."
+transfer_complete_from = "You have received @@0 from @@1."
+
+referal_bonus = "You have received @@0 for refering @@1 to the game."
+
+;; Battle
+attack = "You have attacked @@defender_name. @@stolen_runes runes were stolen."
+defend = "You have been attacked by @@attacker_name. @@stolen_runes runes were stolen."
+att_withdraw = "@@0 has withdrawn an attack against @@1."
+def_withdraw = "@@0 has withdrawn an attack against @@1."
+
+;; Effects
+effect_sent_s_v = "You have executed @@0 on @@1. @@3"
+effect_sent_s_h = "You have executed @@0 on @@1 without him noticing. @@3"
+effect_sent_f_v = "You have failed executing @@0 on @@1. @@3"
+effect_sent_f_h = "You have failed executing @@0 on @@1 without him noticing. @@3"
+
+effect_rec_s_v = "@@2 has executed @@0 on @@1."
+effect_rec_s_h = "Someone has executed @@0 on @@1."
+effect_rec_f_v = "@@2 has failed executing @@0 on @@1."
+effect_rec_f_h = "Someone has failed executing @@0 on @@1."
+
+;; Magic
+magic_sent_s_v = "You have casted @@0 on @@1. @@3"
+magic_sent_s_h = "You have casted @@0 on @@1 without him noticing. @@3"
+magic_sent_f_v = "You have failed casting @@0 on @@1. @@3"
+magic_sent_f_h = "You have failed casting @@0 on @@1 without him noticing. @@3"
+
+magic_rec_s_v = "@@2 has casted @@0 on @@1."
+magic_rec_s_h = "Someone has casted @@0 on @@1."
+magic_rec_f_v = "@@2 has failed casting @@0 on @@1."
+magic_rec_f_h = "Someone has failed casting @@0 on @@1."
+
+destroy_building = "@@0 has destroyed a @@1 of your village @@village."
+
+;; Thievery
+thievery_sent_s_v = "You have caused trouble at @@1 with @@0. @@3"
+thievery_sent_s_h = "You have caused trouble at @@1 with @@0 without him noticing. @@3"
+thievery_sent_f_v = "You have failed executing @@0 on @@1. Your thief was hanged. @@3"
+thievery_sent_f_h = "You have failed executing @@0 on @@1 without him noticing. @@3"
+
+thievery_rec_s_v = "@@2 has caused trouble in @@1 with @@0."
+thievery_rec_s_h = "Someone has caused trouble at @@1 with @@0."
+thievery_rec_f_v = "@@2 has failed executing @@0 on @@1. The thief was hanged."
+thievery_rec_f_h = "Someone has failed executing @@0 on @@1. The thief was hanged."
+
+;; premium
+premium_runes_bought = "You have bought @@0 from the premium shop. Thanks for your support!"
+premium_movevillage = "You have moved your village from @@0 to @@1. You can move buildings for free for one hour."
+premium_movebuilding = "You have moved a @@0 from @@1 to @@2."
+premium_res_bought = "You have bought resources: @@0."
+
+;; portal
+portal_open = "You have opened a portal to @@0. It will remain open until @@1."
+portal_opened = "@@player has opened a portal from @@0 to @@village. It will remain open until @@1, or until it is closed."
+
+premium_bonusbuild = "You have bought a @@0."
+
+clan_join = "You have joined clan @@0."
+clan_leave = "You have left clan @@0."
+clan_kicked = "You have been kicked from clan @@0."
+
+;;vacationmode
+vacation_start = "You have entered vacation mode."
+vacation_end = "You have left vacation mode."
+
+invitegift_receive = "You have received a free gift of @@0 from @@1. Why not return the favour?"
+invitegift_received = "@@0 has received your gift."
+
+[hislogs]
+runes_send = "@@player has send @@0 to @@1."
+
+attack = "@@player has attacked @@defender_name. @@stolen_runes runes were stolen."
+defend = "@@player has been attacked by @@attacker_name. @@stolen_runes runes were stolen."
+premium_movevillage = "@@player has moved his village from @@0 to @@1."
+portal_open = "@@player has opened a portal from @@village to @@0. It will remain open until @@1, or until it is closed."
+
+premium_bonusbuild = "@@player has bought a @@0."
+
+clan_join = "@@player has joined clan @@0."
+clan_leave = "@@player has left clan @@0."
+clan_kicked = "@@player has been kicked from clan @@0."

@@ -1,0 +1,3 @@
+Le but du jeu [b]d’amasser des ressources[/b], [b]de trouver des ressources[/b], et [b]de mener des guerres contre vos ennemis[/b].
+
+Votre village produit des ressources en permanence. Vous pouvez voir vos réserves actuelle de ressources dans la [b]barre en bas de vôtre écran[/b] ou dans la fenêtre [b]économie[/b], ([span class="navigation economy"][span]golden coins icon[/span][/span]).

@@ -1,0 +1,242 @@
+.overlay_dolumar img 
+{
+	border: none; 
+}
+
+.overlay_dolumar 
+{
+	background-color: black;
+	filter:alpha(opacity=40);
+	-moz-opacity: 0.4;
+	opacity: 0.4;
+}
+
+.dolumar_nw {
+	width: 42px;
+	height: 68px;
+	background: transparent url(dolumar/top_left.png) no-repeat 0 0;		
+}
+
+.dolumar_n {
+	background: url(dolumar/top_mid.png) repeat-x;
+	height: 68px;
+	vertical-align: top;
+}
+
+.dolumar_ne {
+	width: 37px;
+	height: 68px;
+	background: url(dolumar/top_right.png) no-repeat;		
+}
+
+/*
+.dolumar_e {
+	width: 37px;
+	background: url(dolumar/center_right.png)  repeat-y top right;
+}
+*/
+
+.dolumar_content
+{
+	background: url(dolumar/center_left.png) repeat-y top left;	
+}
+
+.dolumar_content_inner1
+{
+	background: url(dolumar/center_right.png) repeat-y top right;
+	padding-left: 42px;
+	padding-right: 37px;
+
+}
+
+.dialog.small-border .dolumar_content_inner1
+{
+	padding-left: 17px;
+	padding-right: 12px;
+	margin-top: -22px;
+	margin-bottom: -24px;
+}
+
+.dialog.no-overflow .dolumar_content_inner2
+{
+	overflow: hidden;
+}
+
+.dolumar_content_inner2 table
+{
+	width: 100%;
+}
+
+.dolumar_content_inner2
+{
+	background: url(dolumar/overlay.png) repeat;
+	color: #40331f;
+	overflow: auto;
+}
+
+.dolumar_w {
+	width: 42px;
+	background: url(dolumar/center_left.png) repeat-y top left;			
+}
+
+.dolumar_sw {
+	width: 42px;
+	height: 32px;
+	background: url(dolumar/bottom_left.png) no-repeat;			
+}
+
+.dolumar_s {
+	background: url(dolumar/bottom_mid.png) repeat-x 0 0;				
+	height: 32px;
+}
+
+.dolumar_se, .dolumar_sizer {
+	width: 37px;
+	height: 32px;
+	background: url(dolumar/bottom_right.png) no-repeat;			
+}
+
+.dolumar_close {
+	width: 21px;
+	height: 24px;
+	background: url(dolumar/close.png) no-repeat;			
+	position:absolute;
+	top:19px;
+	right:15px;
+	cursor:pointer;
+	z-index:2000;
+}
+
+.dolumar_minimize {
+	width: 21px;
+	height: 18px;
+	background: url(dolumar/minimize.png) no-repeat;			
+	position:absolute;
+	top:21px;
+	right:40px;
+	cursor:pointer;
+	z-index:2000;
+}
+
+.dolumar_title 
+{
+	float:left;
+	font-size:120%;
+	color: black;
+	width: 100%;
+	font-weight: bold;
+	font-family: Verdana;
+	overflow: hidden;
+	padding-right: 30px;
+	vertical-align: middle;
+	margin-top: 16px;
+	line-height: 30px;
+}
+
+
+
+.dolumar_sizer 
+{
+	cursor:se-resize;	
+}
+
+
+.top_draggable, .bottom_draggable 
+{
+	cursor:move
+}
+/* FOR IE */
+/*
+* html .dolumar_nw {
+	background-color: transparent;
+	background-image: none;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="../themes/dolumar/top_left.png", sizingMethod="crop");
+}
+
+* html .dolumar_n {
+	background-color: transparent;
+	background-image: none;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="../themes/dolumar/top_mid.png", sizingMethod="scale");
+}
+
+* html .dolumar_ne {
+	background-color: transparent;
+	background-image: none;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="../themes/dolumar/top_right.png", sizingMethod="crop");
+}
+
+* html .dolumar_w {
+	background-color: transparent;
+	background-image: none;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="../themes/dolumar/center_left.png", sizingMethod="scale");
+}
+
+* html .dolumar_e {
+	background-color: transparent;
+	background-image: none;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="../themes/dolumar/center_right.png", sizingMethod="scale");
+}
+
+* html .dolumar_sw {
+	background-color: transparent;
+	background-image: none;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="../themes/dolumar/bottom_left.png", sizingMethod="crop");
+}
+
+* html .dolumar_s {
+	background-color: transparent;
+	background-image: none;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="../themes/dolumar/bottom_mid.png", sizingMethod="scale");
+}
+
+* html .dolumar_se {
+	background-color: transparent;
+	background-image: none;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="../themes/dolumar/bottom_right.png", sizingMethod="crop");
+}
+
+* html .dolumar_sizer {
+	background-color: transparent;
+	background-image: none;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="../themes/dolumar/bottom_right.png", sizingMethod="crop");
+}
+
+* html .dolumar_close {
+	background-color: transparent;
+	background-image: none;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="../themes/dolumar/close.png", sizingMethod="crop");
+}
+
+* html .dolumar_minimize {
+	background-color: transparent;
+	background-image: none;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="../themes/dolumar/minimize.png", sizingMethod="crop");
+}
+*/
+
+.dolumar_wired_frame 
+{
+	background: #FFF;
+	filter:alpha(opacity=30);
+	-moz-opacity: 0.3;
+	opacity: 0.3;
+}
+
+.dolumar_buttons
+{
+	position: absolute;
+	right: 30px;
+	top: 125px;
+}
+
+.dolumar_buttons input
+{
+	padding: 3px 6px;
+	display: inline;
+	margin: 0px;
+}
+
+div.dolumar_message p.alert
+{
+	color: red;
+}

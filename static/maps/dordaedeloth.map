@@ -1,0 +1,74 @@
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bxxxx  1 1 1 1 1  xxxxxx  8 8 8 8 8 xx   b
+bxxxx              xxxxx             xx  b
+b xx                  xxx             xx b
+b                    xx                xxb
+b     ww ww         xxx                  b
+b2    w9 9w       xxxx         ww ww    7b
+b       c          xxxxx       wA Aw     b
+b2    w9 9w     xxxx   x         c      7b
+b     ww ww    xxx             wA Aw     b
+b2           xxxx    D         ww ww    7b
+b            xx    xDcDx                 b
+b2          xxx    xxxxx                7b
+b             x             xxxx         b
+b2                           xxxxx      7b
+b      x         xxx   xxx    xx xxx     b
+b     xx         xww   wwx       xx      b
+b   xxxx     xx  xwH   Hwx  xx    xxx    b
+b xxxxx      Fx             xE     xxxxxxb
+bxxx xxx    Fcx      c      xcE    xxxxxxb
+bxxx   xx    Fx             xE       xxxxb
+bxxx   xxx   xx  xwH   Hwx  xx         xxb
+bxxx    xx       xww   wwx              xb
+bxxx    x        xxx   xxx               b
+b       xx                               b
+b3       xxxx                           6b
+b           xx     xxxxx   xxxx          b
+b3                 xGcGx   xxx          6b
+b                    G    xx             b
+b3                      xxx             6b
+b     ww ww     xxx     x      ww ww     b
+b3    wB Bw       xxxxxxx      wC Cw    6b
+b       c             xxxx       c       b
+b3    wB Bw             xxxx   wC Cw    6b
+b     ww ww             xx     ww ww     b
+b                      xxx               b
+bxxx                  xxx           xx xxb
+bxxx                 xxxxx          xxxxxb
+bxxx                xxxxx             xxxb
+bxxxx  4 4 4 4 4 xxxxxxxx 5 5 5 5 5  xxxxb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+Spawnpoint names
+1=North Forest 1
+2=North Forest 2
+3=West Forest 1
+4=West Forest 2
+5=South Forest 1
+6=South Forest 2
+7=East Forest 1
+8=East Forest 2
+9=North Castle
+A=East Castle
+B=West Castle
+C=South Castle
+D=North-East Siege
+E=South-East Siege
+G=South-West Siege
+F=North-West Siege
+H=Castle
+
+Spawnpoint requirements
+9=checkpoint(7,8)
+A=checkpoint(8,33)
+B=checkpoint(32,8)
+C=checkpoint(32,33)
+D=checkpoint(11,21)
+E=checkpoint(19,29)
+F=checkpoint(19,13)
+G=checkpoint(27,21)
+H=checkpoint(19,21)
+
+Objectives
+checkpoint(19,21)

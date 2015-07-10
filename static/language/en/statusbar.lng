@@ -1,0 +1,40 @@
+[status]
+construct = "Constructing a @@0."
+upgrade = "Upgrading a @@0."
+scout = "Searching for new Runes."
+moveTroops = "Moving regiment @@squad to @@target."
+research = "Researching @@technology."
+training = "Training @@amount @@unit."
+battle_sending = "Marching to attack @@target."
+battle_preparing = "(aprox) Preparing troops to fight in @@target."
+battle_fighting = "Fighting in @@target."
+battle_returning = "Returning troops from @@target."
+crafting = "Crafting @@amount @@equipment."
+effect_unknown = "Active effect: @@effect"
+effect_known = "Active effect: @@effect (from @@actor)"
+speedup = "Speed up"
+
+[queue]
+cancel = "cancel"
+confirm = "Are you sure you want to cancel this queued action?"
+build = "Waiting to build a @@building on (@@x,@@y) (@@cancel)"
+upgrade = "Waiting to upgrade a @@building to level @@level on (@@x,@@y) (@@cancel)"
+training = "Waiting to train @@amount @@unit (@@cancel)"
+
+[battle]
+withdraw = "withdraw"
+confirmWithdraw = "Are you sure you want to withdraw this battle?"
+
+[speedup]
+title = "Hurry up!"
+submit = "Speed up"
+selectduration = "How much credits would you like to spend?"
+selectoption = "Speed up @@time for @@price credits."
+description = "Don't want to wait?"
+description_building = "Don't want to wait? Use your credits to speed up construction."
+description_scouting = "Don't want to wait until your scouts are back? Use your credits to speed them up."
+description_training = "Don't want to wait until your troops are ready? Use your credits to speed things up."
+confirm = "Speed up"
+confdesc_building = "Speed up @@building construction with @@amount."
+confdesc_training = "Speed up training of @@unit with @@amount."
+confdesc_scouting = "Speed up scouting for @@village with @@amount."

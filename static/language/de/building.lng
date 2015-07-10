@@ -1,0 +1,78 @@
+[building]
+notFound="Dieses Gebäude wurde wahrscheinlich im Kampf zerstört"
+owner="Besitzer"
+village="Siedlung"
+race="Volk"
+location="Ort"
+lvl="Stufe"
+level="Stufe"
+buildDate="Errichtungsdatum"
+back="zurück zur Übersicht"
+general="Informationen anzeigen"
+upgrade="@@0 ausbauen"
+overview="Allgemeine Optionen"
+constructing="Dieses Gebäude wird gerade errichtet."
+upgrading="Deine Arbeiter bemühen sich sehr dein Gebäude auszubauen!"
+timeLeft="Geschätzte Restzeit"
+cancel="die Arbeiten abbrechen"
+destruct="Zerstöre Gebäude"
+desTC="Du kannst kein Siedlungszentrum zerstören..."
+destroyed="zerstört"
+usedRune="Verwendete Runen"
+inactive="Dieses Gebäude ist verlassen. Alles von Wert wurde mitgenommen."
+
+[technology]
+costTime="Diese Erweiterung kostet dich @@0"
+technology="Technologie-Erweiterung"
+notFound="Wovon sprechen Sie, edler Herr?"
+youSure="Bist du sicher, dass du @@0 untersuchen willst?"
+duration="Diese Untersuchung dauert @@0."
+toConfirm="Untersuchung starten"
+notEnoughResources="Du verfügst nicht über genügend Rohstoffe um diese Untersuchung zu starten."
+done="Wir sind mit der Untersuchung begonnen."
+toReturn="zurück zur Übersicht"
+
+[destruct]
+done="Dein Gebäude wurde zerstört."
+confirm="Bist du sicher, dass du dieses Gebäude zerstören willst?"
+
+[upgrade]
+upgrade="Baue deine Gebäude aus"
+about="Baue deine Gebäude aus, um sie besser und stärker zu machen. "
+cost="Kosten des Ausbaus"
+duration="Dieser Ausbau wird @@duration dauern."
+upgradeAll="Die Ausbaukosten decken nur den Ausbau von diesem Gebäude."
+startUpgrade="Ausbau starten"
+
+[buildError]
+noResources="Du hast nicht genügend Rohstoffe."
+techlevel="Du hast leider nicht die erforderliche Technologiestufe. "
+buildingOverlap="Es steht bereits ein Gebäude an diesem Ort. Wähle eine (grössere),leere Fläche."
+done="Du hast mit Erfolg ein neues Gebäude errichtet!"
+stillConstructing="Deine Arbeiter bauen bereits mit höchster Geschwindigkeit. Du musst erst die Bauarbeiten an einem Gebäude beenden."
+minimalRange="Ein Siedlungszentrum muss auf mindestens 35 Fuss Abstand von einem anderen Gebäude errichtet werden."
+buildinglevel="Bevor du ein neues @@building errichten kannst, musst du erst all deine anderen @@buildings auf Stufe @@level ausbauen."
+noRunes="Du besitzt nicht die richtige Rune um dieses Gebäude zu errichten."
+outOfRange="Deine Gebäudezone liegt @@0 rund um dein Siedlungszentrum. Du kannst nicht ausserhalb der Gebäudezone bauen."
+
+[upgradeError]
+noResources="Du hast nicht genügend Rohstoffe."
+done="Du hast deine Gebäude erfolgreich ausgebaut."
+unfinished="Dieses Gebäude ist noch nicht vollendet. Das Gebäude wird in @@0 fertig sein."
+busy="Deine Arbeiter bauen bereits mit höchster Geschwindigkeit. Du kannst ihnen nicht befehlen auszubauen, bis sie eines der anderen Projekte vollendet haben."
+noRunes="Du verfügst nicht über die passenden Runen om dieses Gebäude auszubauen."
+
+[build]
+intro="Um neue Gebäude errichten zu können, musst du die richtige Rune besitzen und über ausreichende Rohstoffe verfügen. Du kannst Runen finden, indem du die Umgebung untersuchst oder andere Spieler angreifst. Während für manche Gebäude bestimmte Runen nötig sind, kannst du für andere selbst eine Rune auswählen. Wähle erst eine Rune und errichte dann dein Gebäude."
+construct="Errichte Gebäude"
+click="Klicke erst auf den Errichtungsbutton und wähle dann einen Ort auf der Karte. Mit einem rechten Mausklick kannst du die Bauarbeiten abbrechen."
+selectRune="Du musst erst eine Rune auswählen bevor du dieses Gebäude errichten kannst."
+upgradeFirst="Baue erst deine anderen @@buildings aus."
+requires="Erfordert @@0."
+
+[queue]
+queueBuild="auf die Warteliste setzen"
+doneBuild="Dieses Gebäude wurde auf deine Warteliste gesetzt. Es wird so schnell wie möglich gebaut."
+doneUpgrade="Dieser Ausbau wurde auf deine Warteliste gesetzt. Er wird so schnell wie möglich ausgeführt."
+queueUpgrade="auf die Warteliste setzen"
+

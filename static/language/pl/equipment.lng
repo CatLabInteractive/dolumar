@@ -1,0 +1,65 @@
+[category]
+Arrow="Strzała"
+GreatWeapon="Wielki Rynsztunek"
+HeavyArmour="Ciężki Rynsztunek"
+LightArmour="Lekki pancerz"
+Sword="Miecz"
+Spear="Oszczep"
+
+[armour-quality]
+level2="Utwardzony @@equipment"
+level1="Pęknięty @@equipment"
+
+[equipment]
+battleAxe="Topór"
+Broadsword="Pałasz"
+dagger="Sztylet"
+Fullplate="Pancerz Pełnopłytowy"
+Hallberd="Topór Rzeźnicki"
+Chainmail="Pancerz Łańcuchowy"
+leatherArmour="Skórzany Pancerz"
+Platearmour="Pancerz Płytowy"
+Platemail="Kolczuga Płytowa"
+Sabre="Szabla"
+Scalearmour="Pancerz Kamienny"
+sling="Pas"
+spear="Oszczep"
+Steelsword="Stalowy Miecz"
+Spike="Pika"
+StuddedLeather="Nabita Skóra"
+weapon="Typowy Rynsztunek"
+
+[equipments]
+battleAxe="Topory"
+Broadsword="Pałasze"
+Chainmail="Pancerze Łańcuchowe"
+dagger="Sztylety"
+Fullplate="Pancerze Pełnopłytowe"
+Hallberd="Topóry Rzeźnickie"
+leatherArmour="Skórzane Pancerze "
+Platearmour="Pancerze Płytowe"
+Platemail="Kolczugi Płytowe"
+Sabre="Szable"
+Scalearmour="Pancerze Kamienne"
+sling="Pasy"
+spear="Oszczepy"
+Spike="Piki"
+Steelsword="Stalowe Miecze"
+StuddedLeather="Nabite Skóry"
+weapon="Typowe Rynsztunki"
+
+[qualities]
+level1="Zardzewiałe @@equipment"
+level2="Zaostrzone @@equipment"
+
+[quality]
+level1="Zardzewiały @@equipment"
+level2="Zaostrzony @@equipment"
+
+[stats]
+racelimit="Tylko dla @@races"
+
+[types]
+armour="Zbroja"
+weapon="Broń"
+

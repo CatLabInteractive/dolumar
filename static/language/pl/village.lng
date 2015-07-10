@@ -1,0 +1,46 @@
+[techview]
+noResearch="Nie dokonałeś jeszcze żadnych badań."
+
+[technology]
+Writing="Pisanie"
+BronzeWorking="Pracowanianie z Brązem"
+Agriculture="Ulepszone Rolnictwo"
+
+[techdesc]
+Writing="Pisanie daje ci +10% miejsca w silosie."
+Agriculture="Ulepszone Rolnictwo daje ci +5% wydobycia na farmie."
+BronzeWorking="Opanuj umiejętności przetapiania i używania bronzu, a wtedy będziesz mógł wyposarzyć swoje wojsko w broń o jakiej inni mogą tylko pomarzyć."
+
+[queue]
+not_premium="Ta opcja jest dostępna tylko dla graczy premium."
+queuelimit="Limit kolejki osiągnięty. Prosimy o wyczyszczenie kolejek przed dodaniem nowej."
+
+[profile]
+villageProfile="Profil Wioski"
+ranking="@@0 z @@1"
+rank="Ranking:"
+race="Rasa:"
+owner="Właściciel"
+notActive="Wioska porzucona. Wszystkie wartościowe przedmioty zostały zabrane."
+location="Pozycja:"
+honour="Honor"
+distance="@@distance od @@name."
+challenge="Wyślij wojsko z @@0."
+networth="Punkty:"
+
+[economics]
+usedpercentage="Użyte %"
+used="Użyte"
+stock="Osada"
+runes="Runy Wioski"
+rune="Runa"
+resources="Surowce"
+norunes="Aktualnie nie masz żadnych run."
+max="Max"
+income="Dochód"
+hourly="Produkcja na godzinę"
+available="Dostępne"
+bruto="Produkcja"
+consuming="Zużycie"
+honour="Twój honor wpływa na twój dochód.  Teraz honor twojej wioski jest równy @@honour%."
+

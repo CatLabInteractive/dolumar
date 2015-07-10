@@ -1,0 +1,34 @@
+[Tutorial1]
+line1 = "This short tutorial will guide you trough the basics of playing Dolumar."
+line2 = "Click the build icon and choose a building. Let's start with a farm. Click "Construct building" and choose a location on the map to start building."
+line3 = "Building a building takes a while, so let's continue with  part 2 of the tutorial."
+
+[Tutorial2]
+line1 = "As you might have noticed while building, you need resources and runes to construct buildings. Runes are by far the most important things things in the game. You receive them by scouting for them in your castle. Let's do that now."
+line2 = "Click your castle and click scout for runes. Your scouts will return with 4 runes when they are done."
+line3 = "Let's continue with part 3."
+
+[Tutorial3]
+line1 = "It goes without saying that runes are not everything. You will need resources as well to build buildings, train units, craft items, summon wizards, train thieves, perform magic, ..."
+line2 = "Resources are produced in some buildings. A farm, for example, produces food. To get an overview of your current resources and income, click the Economy button."
+line3 = "Check the resources and continue to part 4 of the tutorial."
+
+[Tutorial4]
+line1 = "Your village can hold a maximum amount of resources. This maximum depends on the amount of warehouses you have. When your warehouses are full, you will lose income, so always make sure you have some space left."
+line2 = "While raising your village, new buildings will appear in your list. Make sure you have at least a warehouse, a farm and a lumber camp and an stone mine before reading part 5 of the tutorial."
+
+[Tutorial5]
+line1 = "You will now have the option to build military buildings. Let's start with a barrack. These barracks are used to train the basic foot soldiers."
+line2 = "Soldiers need to be trained. Training them requires resources. However, even when your soldiers are done training, they will still need food and a salary. This salary will be taken from your income."
+line3 = "Let's train 5 soldiers and go to the the next step."
+
+[Tutorial6]
+line1 = "War is inevitable. In order to grow bigger than your enemies, you will have to steal runes from them. In order to attack your foes, you will have to arrange your soldiers in regiments. Click the Units button and create a new regiment from your 5 soldiers."
+line2 = "If you haven't discovered the in-game chat window yet, go to the question mark button and open the Chat Channel."
+line3 = "Say hi to everyone before going to the 7th part."
+
+[Tutorial7]
+line1 = "You are now ready for combat. Find a suitable target (preferably someone your own size) and launch an attack on them. If you are strong enough, you might steal some runes. But beware, other players might be able to crush you easily. Talk with some people, find a nice clan to join and make some allies. You will not survive this alone..."
+line2 = "Click the Ranking button to find suitable targets."
+line3 = "Click the Clan button to find and join a clan."
+line4 = "Go now, my young apprentice, and build a new world. A world where you will lead your people to victory!"

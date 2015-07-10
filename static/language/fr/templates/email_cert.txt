@@ -1,0 +1,10 @@
+Oyez ! Oyez  @@0 !
+
+Vous avez renseigné cette adresse email dans le jeu DOLUMAR.
+Si ce n'est pas le cas, merci d'ignorer ce message.
+
+Merci de cliquer sur le lien suivant afin de valider votre adresse email:
+@@1
+
+Bon jeu !
+L'équipe de Dolumar.

@@ -1,0 +1,10 @@
+[chat]
+chat="Chat"
+send="Verstuur"
+login="Je moet inloggen voor je kan chatten."
+tos="Gebruiksregels"
+rules="Het gebruik van deze chat is onderworpen aan deze @@tos. Gedraag je aub."
+channel="Je praat nu in kanaal @@channel."
+banned="Je bent gebanned van de chat. Je kan terug chatten over @@duration."
+registerfirst="Je moet eerst registreren voor je kan beginnen chatten."
+

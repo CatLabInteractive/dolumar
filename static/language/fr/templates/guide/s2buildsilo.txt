@@ -1,0 +1,1 @@
+Vos ressources sont stockées dans l'entrepôt. Votre château peut stocker quelques ressources, mais pas assez pour permette à votre économie de se développer. Construisons donc un entrepôt !

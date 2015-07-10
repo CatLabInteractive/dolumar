@@ -1,0 +1,10 @@
+[ranking]
+villageRanking="Siedlungen"
+clanRanking="Clans"
+value="Wert"
+village="Siedlung"
+distance="Entfernung von @@name"
+clan="Clan "
+playerRanking="Spieler"
+villageRating="Siedlungseinstufung"
+

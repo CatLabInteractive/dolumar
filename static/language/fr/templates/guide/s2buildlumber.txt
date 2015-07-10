@@ -1,0 +1,1 @@
+Construisons maintenant un camp de bûcherons. Un camp de bûcherons produit du bois, qui est principalement utilisé pour construire des bâtiments.

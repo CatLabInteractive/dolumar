@@ -1,0 +1,28 @@
+[DarkElves]
+DarkWarriors="Guerriers noirs"
+DarkWarriors_1="Guerrier noir"
+Executioners="Exécuteurs"
+Executioners_1="Exécuteur"
+GualCavalry="Cavalerie Gu'al"
+GualCavalry_1="Cavalier Gu'al"
+Guards="Sentinelles du temple"
+Guards_1="Sentinelle du temple"
+Witches="Sorcières"
+Witches_1="Sorcière"
+WolfRiders="Monteurs de loups"
+WolfRiders_1="Monteur de loups"
+
+[global]
+Archers="Archers"
+Archers_1="Archer"
+Cavalry="Cavaliers"
+Cavalry_1="Cavalier"
+Guards="Gardes de la citadelle"
+Guards_1="Garde de la citadelle"
+Knights="Chevaliers"
+Knights_1="Chevalier"
+Longswordsmen="Epéistes"
+Longswordsmen_1="Epéiste"
+Spearmen="Lanciers"
+Spearmen_1="Lancier"
+

@@ -1,0 +1,46 @@
+[technology]
+Agriculture="Agriculture améliorée"
+BronzeWorking="Travail du bronze"
+Writing="Ecriture"
+
+[economics]
+available="Disponible"
+bruto="Production"
+consuming="Consommation"
+honour="Votre honneur influence votre production. Pour le moment, l'honneur de votre village est à @@honour%."
+hourly="Production horaire"
+income="Revenu"
+max="Max"
+norunes="Vous n'avez de rune pour le moment."
+resources="Ressources"
+rune="Rune"
+runes="Runes du village"
+stock="Stock"
+used="Utilisées"
+usedpercentage="% utilisées"
+
+[profile]
+challenge="Envoyez vos troupes depuis @@0."
+distance="@@distance de @@name."
+honour="Honneur"
+location="Position :"
+networth="Points :"
+notActive="Ce village est abandonné. Tout ce qui pouvait avoir de la valeur a déjà été volé."
+owner="Propriétraire"
+race="Race :"
+rank="Classement :"
+ranking="@@0 sur @@1"
+villageProfile="Profil du village"
+
+[queue]
+not_premium="Cette fonctionnalité est disponible pour les comptes Premium seulement."
+queuelimit="Vous avez atteint les limites de la file d'attente. Enlevez des actions de la liste si vous voulez en ajouter une autre."
+
+[techdesc]
+Agriculture="L'agriculture améliorée donne un bonus de 5% pour la production des fermes."
+BronzeWorking="Maitriser l'artisanat vous permettra de fabriquer des puissants objets pour équipper votre armée."
+Writing="L'écriture donne un bonus de 10% pour le stockage de vos entrepôts."
+
+[techview]
+noResearch="Vous n'avez pas encore effectué de recherche."
+

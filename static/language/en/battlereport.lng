@@ -1,0 +1,45 @@
+[introtext]
+1 = "The ground trembles as both armies march towards each other. The peasants of @@defender run away screaming, while the armies of @@attacker invade their lands."
+
+[move]
+1 = "@@unit move from location @@from to @@to."
+2 = "@@unit see a spider and jump to location @@to."
+3 = "@@unit run towards location @@to."
+
+[stunned]
+1 = "@@unit is stunned and cannot attack it foes."
+
+[casualties_melee]
+1 = "@@attacker (frontage @@frontage) kill @@amount units from @@defender in a melee."
+
+[casualties_shooting]
+1 = "A well placed salvo of @@attacker kills @@amount units from @@defender."
+2 = "@@attacker don't wait and kill @@amount units of @@defender."
+
+[casualties_error]
+1 = "@@amount units died in an attack from @@atacker to @@defender. ERROR!!!"
+
+[specialunitdied]
+1 = "A level @@level @@unit died."
+
+[status_0]
+1 = "The mages prepare for combat."
+
+[status_1]
+1 = "Suddenly, your captain notices that the enemies archers are getting into place. Quickly, he orders your archers to take aim and fire!"
+
+[status_2]
+1 = "Your captain orders your troops to rush towards the enemy troops."
+
+[status_3]
+1 = "A river of blood flows from the battlefield. While the sun sets, your captain looks over the battlefield, full of wounded and dead soldiers. The fight is over... but is the battle?"
+2 = "The fight is over."
+
+[flee]
+1 = "@@unit run away crying. I told you all of this would end in tears."
+2 = "@@unit strategically leaves the battlefield."
+3 = "@@unit withdraws."
+4 = "@@unit flee the battlefield."
+
+[whipe]
+1 = "The bodies of @@unit lie shattered, in a pool of blood, on the battlefield."

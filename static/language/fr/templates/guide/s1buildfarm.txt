@@ -1,0 +1,3 @@
+Premièrement, nous devons construire une ferme, cliquez sur l'icône de construction en haut et [b]construisez une ferme[/b]. Les fermes produisent de la nourriture, dont vous aurez besoin pour recruter des troupes.
+
+Cliquez sur l'icône de construction ([span class="navigation build"][span]the hammer at the top[/span][/span]) et construisez une ferme.

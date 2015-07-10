@@ -1,0 +1,41 @@
+[battle]
+confirmWithdraw="Etes-vous sûr de vouloir battre en retraite ?"
+withdraw="battre en retraite"
+
+[queue]
+cancel="annuler"
+build="En attente de construction : @@building sur (@@x, @@y) (@@cancel)"
+confirm="Etes-vous sûr de vouloir annuler cette action en liste d'attente ?"
+training="En attente pour entraîner @@amount @@unit (@@cancel)"
+upgrade="En attente pour améliorer : @@building au niveau @@level sur (@@x, @@y) (@@cancel)"
+
+[status]
+battle_fighting="Combat à @@target."
+battle_preparing="(aprox) Préparation de vos troupes au combat à @@target."
+battle_returning="Retour des troupes de @@target."
+battle_sending="En marche pour attaquer @@target."
+construct="Construction en cours : @@0."
+crafting="Fabrication de @@amount @@equipment."
+effect_known="Effet actif : @@effect (de @@actor)"
+effect_unknown="Effet actif : @@effect"
+moveTroops="Déplacement du régiment @@squad vers @@target."
+research="Recherche de la technologie @@technology."
+scout="Recherche de nouvelles runes."
+training="Entraînement de @@amount @@unit."
+upgrade="Amélioration en cours : @@0."
+speedup="Accélérer"
+
+[speedup]
+title="Dépéchez-vous !"
+submit="Accélérer"
+selectduration="Combien de crédits voulez-vous dépenser ?"
+selectoption="Accélérer @@time pour @@price crédits."
+description="Vous ne voulez pas attendre ?"
+description_building="Vous ne voulez pas attendre ? Utilisez vos crédits pour accélérer la construction."
+description_scouting="Vous ne voulez pas attendre que vos éclaireurs reviennent ? Utilisez vos crédits pour les faire revenir plus vite."
+description_training="Vous ne voulez pas attendre que vos troupes soient prêtes ? Utilisez vos crédits pour accélérer la formation."
+confirm="Accélérer"
+confdesc_building="Accélérer la construction de @@building avec @@amount. "
+confdesc_training="Accélérer l'entraînement des @@unit avec @@amount."
+confdesc_scouting="Accélérer la recherche de runes de @@village avec @@amount."
+

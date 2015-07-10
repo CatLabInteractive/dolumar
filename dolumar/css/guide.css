@@ -1,0 +1,129 @@
+/*
+	Guide
+*/
+div.guide
+{
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+}
+
+div.guide div.avatar
+{
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	background:url('../images/characters/guide-grid.png');
+	width: 160px;
+	height: 200px;
+	background-position: -320px -200px;
+}
+
+div.guide div.avatar.happy
+{
+	background-position: 0px 0px;
+}
+
+div.guide div.avatar.sad
+{
+	background-position: -160px 0px;
+}
+
+div.guide div.avatar.proud
+{
+	background-position: -320px 0px;
+}
+
+div.guide div.avatar.angry
+{
+	background-position: 0px -200px;
+}
+
+div.guide div.avatar.surprised
+{
+	background-position: -160px -200px;
+}
+
+div.guide div.avatar.neutral
+{
+	background-position: -320px -200px;
+}
+
+div.guide blockquote.bubble
+{
+	position: absolute;
+	bottom: 180px;
+	right: 30px;
+	width: 250px;
+	border: 0px none black;
+}
+
+div.guide div.icon a
+{
+	position: absolute;
+	right: 0px;
+	bottom: 0px;
+	background:url('../images/characters/guide-icon.png');
+	width: 50px;
+	height: 50px;
+}
+
+div.guide div.icon a span
+{
+	display: none;
+}
+
+div.guide div.icon img
+{
+	display: block;
+}
+
+.bubble {
+	position:relative;
+	padding:10px;
+	margin:1em 0 3em;
+	/*color:#fff;*/
+	/*background:#075698; */ /* default background for browsers without gradient support */
+	
+	background:#f5e494;
+	
+	/* css3 */
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	border-radius:10px;
+	/* NOTE: webkit gradient implementation is not as per spec */
+	
+	background:-webkit-gradient(linear, left top, left bottom, from(#f5dc65), to(#f5e494));
+	background:-moz-linear-gradient(top, #f5dc65, #f5e494);
+	background:-o-linear-gradient(top, #f5dc65, #f5e494);
+	background:linear-gradient(top, #f5dc65, #f5e494);
+	
+}
+
+/* creates triangle */
+.bubble:after 
+{
+	content:"\00a0";
+	display:block; /* reduce the damage in FF3.0 */
+	position:absolute;
+	bottom:-40px; /* value = - border-top-width - border-bottom-width */
+	right:80px; /* controls horizontal position */
+	width:0;
+	height:0;
+	border-width:20px 0 20px 20px; /* vary these values to change the angle of the vertex */
+	border-style:solid;
+	border-color:#f5e494 transparent transparent; 
+}
+
+.bubble ul.navigation
+{
+	margin-bottom: 0px;
+	padding-bottom: 0px;
+	float: right;
+}
+
+.bubble ul.navigation li
+{
+	display: inline;
+	padding-left: 8px;
+}

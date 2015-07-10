@@ -1,0 +1,42 @@
+[introtext]
+1="De grond schudt onder de voeten van de aanvallende troepen. De inwoners van @@defender lopen schreeuwend weg van het vreselijke leger uit @@attacker dat hun land binnenvalt."
+
+[move]
+1="@@unit verplaatsten van @@from naar @@to."
+2="@@unit besloot strategisch naar @@to terug te trekken."
+3="@@unit ging naar locatie @@to."
+
+[stunned]
+1="@@unit is verlamd en kan zijn tegenstanders niet annvallen."
+
+[casualties_melee]
+1="@@attacker verslaat @@amount troepen van @@defender in een zwaardgevecht."
+
+[casualties_shooting]
+1="Een goed geplaatst salvo van @@attacker verslaat @@amount troepen van @@defender."
+2="@@attacker wacht niet en schiet @@amount troepen van @@defender af."
+
+[casualties_error]
+1="@@amount troepen stierven in een aanval van @@atacker tegen @@defender. ERROR!!!"
+
+[specialunitdied]
+1="een level @@level @@unit is gestorven."
+
+[status_0]
+1="De magieërs maken zich klaar voor de aanval."
+
+[status_1]
+1="Je kapitein merkt dat de vijandelijke schutters reeds formaties aan het vormen zijn. Snel beveelt hij jouw schutters hun bogen te richten en te schieten!  "
+
+[status_2]
+1="Op het teken van je kapiteit stormen je troepen naar de vijand."
+
+[status_3]
+1="Een rivier van bloed vloeid van het slagveld. De avond valt en terwijl de zon roodgloeiend ondergaat aanschouwt je kapitein het slagveld dat bezaait ligt met gewonden en doden. Het gevecht is over .. maar is de oorlog?"
+
+[flee]
+1="@@unit kan het niet aan en strompelt huilend weg. Ze zijn mentaal te zwak!"
+
+[whipe]
+1="De lichamen van @@unit liggen, in mootjes gekapt, verspreid over het slagveld."
+

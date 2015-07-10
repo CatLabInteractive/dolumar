@@ -1,0 +1,43 @@
+[chooseUnit]
+about="Wähle einen deiner Diebe aus, den du auf eine gefährliche Mission schicken kannst. "
+location="Ort: @@0."
+sendAway="Dieb versetzen"
+travelling="Dieb ist unterwegs nach@@0."
+timeLeft="Ankunft in @@0."
+doAction="Sabotage"
+
+[result]
+err_resources="Du besitzt nicht genügend Rohstoffe um diese Aktion auszuführen."
+title="Sabotage"
+
+[confirm]
+confirm_notarget="Bist du sicher, dass du @@spell aussprechen willst?"
+title="Aktion bestätigen"
+confirm="Bist du sicher, dass du @@spell verwenden willst gegen @@village?"
+cost="Aktionskosten"
+stype="Aktionstyp"
+probability="Erfolgswahrscheinlichkeit"
+difficulty="Schwierigkeitsgrad"
+toCast="@@spell"
+
+[cast]
+title="Sabotage"
+about="Schleiche über die feindlichen Linien und verursache heimlich Chaos,Mord und Totschlag."
+choose="Wähle bitte aus,welche Aktion du durchführen möchtest."
+castcost="Aktionskosten"
+return="zurück zur Übersicht"
+learn="Lerne @@effect."
+toCast="@@spell"
+dif="dif."
+
+[commandUnit]
+isMoving="Der Dieb ist unterwegs. Du kannst dem Dieb während seiner Reise von einer Siedlung zur andern keine Befehle erteilen."
+
+[moveUnit]
+title="Einheit versetzen"
+done="Dein Dieb hat seine gefährliche Mission im feindlichen Gebiet begonnen..."
+toReturn="zurück zur Übersicht"
+distance="Entfernung:"
+duration="Dauer:"
+confirm="Beginn der Versetzung"
+

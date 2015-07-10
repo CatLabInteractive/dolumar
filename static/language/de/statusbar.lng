@@ -1,0 +1,26 @@
+[battle]
+withdraw="dich zurückziehen"
+confirmWithdraw="Bist du sicher,dass du dich aus dieser Schlacht zurückziehen möchtest?"
+
+[queue]
+confirm="Bist du sicher,dass du diese Aktion, die auf der Warteliste steht, annullieren möchtest?"
+cancel="abbrechen"
+build="Wartet ab um @@building in (@@x,@@y) zu errichten. (@@cancel)"
+upgrade="Wartet ab um @@building in (@@x, @@y) auszubauen auf Stufe @@level. (@@cancel)"
+training="Wartet um @@amount @@unit auszubilden (@@cancel)"
+
+[status]
+construct="Errichtet @@0."
+upgrade="Baut @@0 aus."
+scout="Sucht neue Runen."
+moveTroops="Versetzt sein Regiment @@squad nach @@target."
+research="Untersucht @@technology."
+training="Bildet @@amount @@unit aus."
+battle_sending="Marschiert um @@target anzugreifen."
+battle_preparing="(aprox) Bereitet Truppen vor, um in @@target zu kämpfen."
+battle_fighting="Kämpft in @@target."
+battle_returning="Truppen kehren zurück aus @@target."
+crafting="Produziert @@amount @@equipment."
+effect_unknown="Aktiver Effekt: @@effect"
+effect_known="Aktiver Effekt: @@effect (from @@actor)"
+

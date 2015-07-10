@@ -1,0 +1,12 @@
+[global]
+Mages1="Tovenaar"
+Mages2="Tovenaars"
+Thieves1="Dief"
+Thieves2="Dieven"
+
+[DarkElves]
+Mages1="Tovenaar"
+Mages2="Tovenaars"
+Thieves1="Dief"
+Thieves2="Dieven"
+

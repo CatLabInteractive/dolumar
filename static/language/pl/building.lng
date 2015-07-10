@@ -1,0 +1,78 @@
+[building]
+back="aby wrócić do podglądu"
+buildDate="Data Wybudowania"
+cancel="aby anulować konstrukcję"
+constructing="Ten budynek jest budowany."
+desTC="Nie możesz zburzyć centrum miasteczka..."
+destroyed="zniszczone"
+destruct="Zniszcz Budynek"
+general="Pokaż informacje"
+inactive="Ten budynek jest porzucony. Wsztstkie wartościwe przedmioty zabrane."
+level="Poziom"
+location="Pozycja"
+lvl="lvl"
+notFound="Ten budynek został zniszczony podczas walki"
+overview="Opcje Podstawowe"
+owner="Właściciel"
+race="Rasa"
+timeLeft="Pozostały czas"
+upgrade="Ulepsz @@0"
+upgrading="Twoi ludzie ciężko pracują budując ten budynek."
+usedRune="Użyte Runy"
+village="Wioska"
+
+[destruct]
+confirm="Czy na pewno chcesz zniszczyć ten budynek?"
+done="Twój budynek został zniszczony."
+
+[queue]
+queueBuild="Dodaj do kolejki"
+queueUpgrade="Dodaj do kolejki"
+doneBuild="Budynek został dodany do kolejki. Zostanie on wybudowany tak szybko jak to możliwe."
+doneUpgrade="Budynek został dodany do kolejki. Zostanie on rozbudowany tak szybko jak to możliwe."
+
+[technology]
+costTime="To ulepszenie będzie cię kosztować @@0"
+done="Zaczęliśmy pracować nad badaniami..."
+duration="Te badanie będzie trwać @@0."
+notEnoughResources="Masz za mało surowców aby rozpocząć te badanie."
+notFound="O czym pan mówi ?"
+technology="Ulepszenia Technologii"
+toConfirm="aby rozpocząć te badanie."
+toReturn="aby wrócić do podglądu."
+youSure="Czy na pewno chcesz zbadać @@0?"
+
+[build]
+construct="Wybuduj Budynek"
+upgradeFirst="Ulepsz najpierw inne @@buildings."
+selectRune="Musisz wybraćrunę przed rozpoczęciem budowy."
+requires="Wymaga @@0."
+click="Kliknij przycisk rozbudowy, wybierz pozycję na mapie. Aby anulować budowę kliknij prawym przyciskiem myszy."
+intro="Aby wybudować nowe budynki potrzebujesz odpowiedniej runy i odpowiedniej ilości surowców. Możesz znaleźć runy przeszukując otoczenie lub zabrać je innym graczom. Niektóre budyki wymagają określonej runy, w pozostałych to ty możesz wybrać runę."
+
+[buildError]
+techlevel="Przepraszamy, nie masz wymaganego poziomu technologii."
+stillConstructing="Twoi ludzie są teraz zajęci. Musisz poczekać aż budynek zostanie wybudowany."
+done="Właśnie wybudowałeś nowy budynek"
+noResources="Masz za mało surowców."
+noRunes="Nie posiadasz odpowiedniej runy."
+buildinglevel="Zanim będziesz mógł wybudować nowy@@building, musisz najpierw wybudować wszystkie inne @@buildings na poziom @@level."
+buildingOverlap="Ta pozycja jest już zajęta przez inny budynek"
+minimalRange="Centrum miasta musi być wybudowane conajmniej 35 metrów od innego budynku."
+outOfRange="Twój budowlany zasięg wynosi @@0 płytek dookoła Centrum Miasta. Nie możesz budować poza zasięgiem."
+
+[upgrade]
+about="Rozbuduj swoje budynki aby były lepsze i silniejsze. Rozbudowa często odblokowywuje niektóre opcje."
+cost="Koszt Rozbudowy"
+duration="Rozbudowa będzie trwać @@duration."
+startUpgrade="Rozpocznij rozbudowę"
+upgrade="Rozbuduj Budynki"
+upgradeAll="Ten koszt pokrywa rozbudowę tylko tego budynku."
+
+[upgradeError]
+busy="Twoi ludzie są teraz zajęci. Nie możesz dodaćim kolejnej pracy, poczekaj aż skończą."
+done="Właśnie rozbudowałeś budynek."
+noResources="Masz za mało surowców."
+noRunes="Nie posiadasz odpowiedniej runy."
+unfinished="Rozbudowa nie jest jeszcze sjończona. Budynek będzie gotowy za @@0."
+

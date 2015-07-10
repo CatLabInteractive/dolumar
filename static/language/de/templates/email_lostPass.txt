@@ -1,0 +1,15 @@
+Hallo @@nickname!
+
+Wir haben eine Anfrage für ein neues Passwort bei Dolumar erhalten. Falls du dein Passwort vergessen haben solltest, kannst du einmalig das folgende verwenden um bei Dolumar einzuloggen:
+
+Benutzername:
+@@nickname
+
+Passwort:
+@@password
+
+Bitte denke daran, dass du dieses Passwort nur einmal verwenden kannst.
+Sobald du dich eingeloggt hast, verändere dein Passwort bitte schnellstmöglich.
+
+Viel Spass!
+Dolumar.

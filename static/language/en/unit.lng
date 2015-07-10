@@ -1,0 +1,9 @@
+[units]
+noUnits = "You don't have any units yet. You have to build a barrack first."
+about = "Here is a list of the units in your village."
+toSquads = "to arrange your troops in battalions."
+
+[equipment]
+noItems = "You don't have any items."
+available = "Available"
+total = "Total"

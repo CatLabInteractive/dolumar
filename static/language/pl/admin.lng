@@ -1,0 +1,7 @@
+[login]
+login="Zaloguj się"
+password="Hasło"
+submit="Login"
+user_not_found="Złe hasło lub login"
+username="Nazwa użytkowbnika"
+

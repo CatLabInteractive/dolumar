@@ -1,0 +1,35 @@
+[battle]
+attacking="@@actor wysłał swoje wojsko z @@village na atak do  @@defender (@@pl_defender)."
+attacking_long="@@player is trying to fight his way to the top! Hopefully, his war against @@defender will proof to be a succesful one. Will you help @@player in this fight?"
+defending="Twoja wioska (@@village) jest atakowana przez @@attacker (@@pl_attacker)."
+defending_long="wygląda na to, że twoja wioska (@@village) jest atakowana! Przygotuj się do obrony!"
+
+[bonusbuilding]
+build="@@actor kupił @@building do  @@village."
+
+[clan]
+join="@@actor dołączył do klanu - @@clan."
+join_long="@@player zdecydował się na grę w grupie, więc dołączył do @@clan. Czy jesteś gotowy dołączyć do niego ?"
+leave="@@actor opuścił swój klan - @@clan."
+leave_long=" @@player stwarzał problemy w swoim klanie . Czy zastąpisz go w @@clan?"
+
+[equipment]
+received="Otrzymałeś @@amount @@equipment od @@player."
+
+[messages]
+received="Otrzymałeś wiadomość od @@player."
+
+[portal]
+open="@@player magiczny portal między @@village a @@target_village. Portal pozostanie otwarty do @@date i jest dostępny dla wszystkich członków klanu."
+opened="@@player magiczny portal między @@village a @@target_village. Portal pozostanie otwarty do @@date i jest dostępny dla wszystkich członków klanu."
+
+[resources]
+received="Otrzymałeś @@resources od @@player."
+
+[runes]
+received="Otrzymałeś @@runes od @@player."
+
+[system]
+test="To testowe powiadomienie. Twoim celem był @@player."
+test_long="Nie panikuj. To tylko test gracz @@player testuje powiadomienia w @@village."
+

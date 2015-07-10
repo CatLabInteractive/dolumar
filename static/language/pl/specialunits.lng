@@ -1,0 +1,12 @@
+[DarkElves]
+Mages1="Magik"
+Mages2="Magicy"
+Thieves1="Złodziej"
+Thieves2="Złodzieje"
+
+[global]
+Mages1="Czarodziej"
+Mages2="Czarodzieje"
+Thieves1="Złodziej"
+Thieves2="Złodzieje"
+

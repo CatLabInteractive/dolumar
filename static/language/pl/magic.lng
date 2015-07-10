@@ -1,0 +1,32 @@
+[result]
+toRetry="aby spróbować ponownie."
+title="Rzucanie Zaklęcia"
+overview="Wróc do podglądu"
+err_resources="Masz za mało złota aby rzucić te zaklęcie"
+
+[overview]
+title="Magia"
+
+[confirm]
+toCast="Rzuć @@spell."
+title="Potwierdź magię"
+stype="Typ Zaklęcia"
+probability="Szansa Zaklęcia"
+difficulty="Zaawansowanie"
+cost="Koszt Zaklęcia"
+confirm_notarget="Czy na pewno chcesz rzucić @@spell?"
+confirm="Czy na pewno chcesz rzucić @@spell na @@village?"
+
+[errors]
+no_target_found="Brak odpowiednich celów do rzucenia zaklęcia. Nie możesz teraz rzucić tego zaklęcia. Spróbuj ponownie później."
+
+[cast]
+toCast="Rzuć @@spell."
+title="Rzuć zaklęcie"
+return="Powrót do podglądu"
+learn="Naucz @@effect."
+choose="Wybierz jedno  z zaklęć."
+dif="zaawansowanie"
+castcost="Koszt zaklęcia (z grubsza):"
+about="Zwiększ swoją moc lub pomóz sojusznikom z potężnymi zaklęciami."
+

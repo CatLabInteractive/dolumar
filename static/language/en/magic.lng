@@ -1,0 +1,31 @@
+[cast]
+title = "Cast a spell"
+about = "Enforce your powers or help your allies with powerfull spells."
+choose = "Please choose one of these spells to cast."
+castcost = "Estimated cast cost:"
+toCast = "Cast @@spell."
+dif = "dif."
+return = "Return to overview"
+learn = "Learn @@effect."
+
+[confirm]
+title = "Confirm magic"
+confirm = "Are you sure you want to cast @@spell on @@village?"
+confirm_notarget = "Are you sure you want to cast @@spell?"
+cost = "Cast Cost"
+stype = "Spell Type"
+difficulty = "Difficulty"
+probability = "Cast Probability"
+toCast = "Cast @@spell."
+
+[result]
+title = "Spell Casting"
+err_resources = "You don't have enough resources to cast this spell."
+toRetry = "to try again."
+overview = "Return to overview"
+
+[overview]
+title = "Magic"
+
+[errors]
+no_target_found = "There are no suitable targets to cast this spell on. You can't cast this spell at this time. Try again later."

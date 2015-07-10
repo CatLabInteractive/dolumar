@@ -1,0 +1,10 @@
+[ranking]
+clan="Clan"
+clanRanking="Clans"
+distance="Distance depuis @@name."
+playerRanking="Joueurs"
+value="Points"
+village="Village"
+villageRanking="Villages"
+villageRating="Classement du village"
+

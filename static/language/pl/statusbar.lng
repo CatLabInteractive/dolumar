@@ -1,0 +1,26 @@
+[queue]
+cancel="anuluj"
+build="Czekasz na wybudowanie @@building na (@@x,@@y) (@@cancel)"
+confirm="Czy na pewno chcesz anulować tą akcję ?"
+training="Czekasz na wytrenowanie @@amount @@unit (@@cancel)"
+upgrade="Czekasz na rozbudowanie @@building na poziom @@level na (@@x,@@y) (@@cancel)"
+
+[battle]
+confirmWithdraw="Czy na pewno chcesz wycofać się z walki ?"
+withdraw="wycofaj"
+
+[status]
+battle_fighting="Walczysz w @@target."
+upgrade="Ulepszanie @@0."
+training="Trenowanie @@amount @@unit."
+scout="Szukanie nowych Run."
+research="Badanie @@technology."
+moveTroops="Przenoszenie pułku (@@squad) do @@target."
+effect_unknown="Aktywne efekty: @@effect"
+effect_known="Aktywne efekty: @@effect (od @@actor)"
+crafting="Obrabianie @@amount @@equipment."
+construct="Budowanie @@0."
+battle_sending="Marsz do ataku na @@target."
+battle_returning="Wracają żołnierze z @@target."
+battle_preparing="Przygotowywanie żołnierzy do walki w @@target."
+

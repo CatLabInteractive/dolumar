@@ -1,0 +1,31 @@
+[squad]
+squads = "Regiments"
+players = "Players"
+promote = "promote"
+demote = "demote"
+actions = "Commands"
+move = "Move army"
+movepoints = "(@@0 movepoints left)"
+merge = "Are you sure you want to merge this army with @@0? You might lose leadership."
+attack = "Are you sure you want to attack this army with @@0?"
+split = "Split up army"
+withdraw = "Are you sure you want to withdraw this unit from the underworld?"
+dowithdraw = "Withdraw army"
+history="Historical information"
+nohistory="No historical information found, it looks like we haven't fought this army yet."
+lastEncounter="We have last met this army in combat on @@0."
+
+[status]
+normal = "soldier"
+leader = "leader"
+
+[errors]
+cannot_promote = "You are not authorized to promote that player."
+cannot_demote = "You are not authorized to demote that player."
+move_not_authorized = "You are not authorized to command this army."
+
+[battle]
+ourbattles="Our battles during this mission:"
+weattack = "We attacked @@defender"
+wedefend = "@@attacker attacked us"
+theyattack = "@@attacker attacked @@defender"

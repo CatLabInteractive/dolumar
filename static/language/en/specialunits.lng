@@ -1,0 +1,11 @@
+[global]
+Mages1 = "Wizard"
+Mages2 = "Wizards"
+Thieves1 = "Thief"
+Thieves2 = "Thieves"
+
+[DarkElves]
+Mages1 = "Sorcerer"
+Mages2 = "Sorcerers"
+Thieves1 = "Thief"
+Thieves2 = "Thieves"

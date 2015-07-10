@@ -1,0 +1,92 @@
+;; ***********************************************
+;; * SOME RANDOM STUFF
+;; ***********************************************
+[stats]
+racelimit = "Only for @@races"
+
+
+;; ***********************************************
+;; * QUALITY NAMES
+;; ***********************************************
+[quality]
+level1 = "Rusty @@equipment"
+level2 = "Sharpened @@equipment"
+
+[qualities]
+level1 = "Rusty @@equipment"
+level2 = "Sharpened @@equipment"
+
+[weapon-quality]
+
+[armour-quality]
+level1 = "Cracked @@equipment"
+level2 = "Hardened @@equipment"
+
+;; ***********************************************
+;; * SINGLE NAMES
+;; ***********************************************
+[equipment]
+weapon = "Generic Weapon"
+
+dagger = "Dagger"
+Spear = "Spear"
+Broadsword = "Broadsword"
+Steelsword = "Steelsword"
+Sabre = "Sabre"
+Spike = "Pike"
+Hallberd = "Hallberd"
+battleAxe = "Battle Axe"
+sling = "Sling"
+
+;; Armour
+leatherArmour = "Leather armour"
+StuddedLeather = "Studded leather"
+Chainmail = "Chainmail"
+Platemail = "Platemail"
+Scalearmour = "Scale armour"
+Platearmour = "Plate armour"
+Fullplate = "Full plate armour"
+
+;; ***********************************************
+;; * MULTIPLE NAMES
+;; ***********************************************
+[equipments]
+weapon = "Generic Weapon"
+
+;; Equipment
+dagger = "Daggers"
+Spear = "Spears"
+Broadsword = "Broadswords"
+Steelsword = "Steelswords"
+Sabre = "Sabres"
+Spike = "Pikes"
+Hallberd = "Hallberds"
+battleAxe = "Battle Axes"
+sling = "Slings"
+
+;; Armour
+leatherArmour = "Leather armour"
+StuddedLeather = "Studded leather"
+Chainmail = "Chainmail"
+Platemail = "Platemail"
+Scalearmour = "Scale armours"
+Platearmour = "Plate armours"
+Fullplate = "Full plate armours"
+
+;; ***********************************************
+;; * WEAPON TYPES
+;; ***********************************************
+[types]
+weapon = "Weapon"
+armour = "Armour"
+
+;; ***********************************************
+;; * WEAPON CATEGORIES
+;; ***********************************************
+[category]
+Sword = "Sword"
+Spear = "Spear"
+GreatWeapon = "Great weapon"
+Arrow = "Arrow"
+LightArmour = "Light armour"
+HeavyArmour = "Heavy armour"

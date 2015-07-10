@@ -1,0 +1,10 @@
+[ranking]
+villageRating="Dorpswaarde"
+villageRanking="Dorpen"
+clanRanking="Clans"
+value="Score"
+village="Dorp"
+distance="Afstand van @@name."
+clan="Clan"
+playerRanking="Spelers"
+

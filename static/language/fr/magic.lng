@@ -1,0 +1,32 @@
+[cast]
+about="Renforcez vos pouvoirs ou aidez vos alliés avec de puissants sorts."
+castcost="Coût de lancement estimé :"
+choose="Choisir un sort à lancer."
+dif="dif."
+learn="Apprendre @@effect."
+return="Retourner à la page précédente"
+title="Lancer un sort"
+toCast="Lancer @@spell."
+
+[confirm]
+confirm="Etes-vous sûr de vouloir lancer @@spell sur @@village ?"
+confirm_notarget="Etes-vous sûr de vouloir lancer @@spell ?"
+cost="Coût de lancement"
+difficulty="Difficulté"
+probability="Probabilité de réussite"
+stype="Type de sort"
+title="Confirmer la magie"
+toCast="Lancer @@spell."
+
+[errors]
+no_target_found="Il n'y a pas de cible valide pour lancer le sort. Vous ne pouvez pas lancer ce sort pour le moment. Essayez plus tard."
+
+[overview]
+title="Magie"
+
+[result]
+err_resources="Vous n'avez pas assez de ressources pour lancer ce sort."
+overview="Retourner à la page précédente"
+title="Lancement de sort"
+toRetry="pour essayer de nouveau."
+

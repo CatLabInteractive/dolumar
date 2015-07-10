@@ -1,0 +1,43 @@
+[cast]
+title = "Sabotage"
+about = "Sneak behind enemy lines and cause some hidden mayhem."
+choose = "Please choose which action to take."
+castcost = "Action Cost"
+toCast = "@@spell"
+dif = "dif."
+return = "Return to overview"
+learn = "Learn @@effect."
+
+[confirm]
+title = "Confirm action"
+confirm = "Are you sure you want to do @@spell on @@village?"
+confirm_notarget = "Are you sure you want to do @@spell?"
+cost = "Action Cost"
+stype = "Action Type"
+difficulty = "Difficulty"
+probability = "Success Probability"
+toCast = "@@spell"
+
+[result]
+title = "Sabotage"
+err_resources = "You don't have enough resources to do this action."
+overview = "Return to overview"
+
+[chooseUnit]
+about = "Choose one of your thieves to send away on a dangerous mission."
+location = "Location: @@0."
+sendAway = "Move Thief"
+travelling = "Thief is traveling to @@0."
+timeLeft = "Arriving in @@0."
+doAction = "Sabotage"
+
+[commandUnit]
+isMoving = "This thief is moving. You cannot command a thief while it's moving from one village to the other."
+
+[moveUnit]
+title = "Move unit"
+done = "Your thief started it's dangerous mission to enemy territory..."
+toReturn = "to return to the overview."
+distance = "Distance:"
+duration = "Duration:"
+confirm = "Start moving"

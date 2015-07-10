@@ -1,0 +1,42 @@
+[economics]
+resources="Rohstoffe"
+runes="Siedlungsrunen"
+norunes="Momentan besitzt du keine Runen."
+max="Maximum"
+income="Einkommen"
+honour="Dein Ansehen beeinflusst dein Einkommen. Momentan beträgt dein Ansehen in der Siedlung @@honour%."
+bruto="Produktion"
+consuming="Verbrauch"
+hourly="Stündliche Produktion"
+stock="Bestand"
+
+[profile]
+location="Ort:"
+villageProfile="Siedlungsprofil"
+owner="Besitzer"
+rank="Ranking:"
+ranking="@@0 von @@1"
+race="Volk:"
+honour="Ansehen"
+notActive="Diese Siedlung ist verlassen. Alles von Wert wurde mitgenommen."
+challenge="Sende Truppen von @@0"
+distance="@@distance von @@name."
+networth="Punktzahl"
+
+[techview]
+noResearch="Du hast noch nichts untersucht."
+
+[technology]
+Writing="Schreiben können"
+Agriculture="Verbesserter Landbau"
+BronzeWorking="Bronzebearbeitung"
+
+[techdesc]
+Writing="Wenn du schreiben kannst, bringt dir das 10% mehr Lagerraum in deinen Rohstofflagern."
+Agriculture="Verbesserter Landbau sorgt dafür, dass die Produktion deines Bauernhofs mit 5% steigt."
+BronzeWorking="Werde ein Meister der Waffenproduktion und statte deine Armee mit Waffen aus, wovon deine Feinde nur träumen können!"
+
+[queue]
+queuelimit="Du hast die Grenze deiner Warteliste erreicht. Bitte lösche einige Aufträge, bevor du neue angibst."
+not_premium="Diese Option ist nur für Premiumnutzer verfügbar."
+

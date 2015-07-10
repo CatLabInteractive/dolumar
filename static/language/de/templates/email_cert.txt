@@ -1,0 +1,10 @@
+Hey @@0!
+
+Du hast diese Emailadresse bei Dolumar angegeben. 
+Wenn das nicht der Fall sein sollte, ignoriere diese Mail bitte.
+
+Wenn du sie tatsächlich angegeben hast, klicke auf unterstehenden Link um deine Emailadresse zu bestätigen.
+@@1
+
+Viel Spass!
+Das Dolumar Team.

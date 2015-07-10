@@ -1,0 +1,65 @@
+[armour-quality]
+level1="@@equipment fissurée"
+level2="@@equipment renforcée"
+
+[category]
+Arrow="Flèche"
+GreatWeapon="Arme à deux mains"
+HeavyArmour="Armure lourde"
+LightArmour="Armure légère"
+Spear="Lance"
+Sword="Epée"
+
+[equipment]
+battleAxe="Hache de bataille"
+Broadsword="Epée batârde"
+Chainmail="Armure de mailles"
+dagger="Dague"
+Fullplate="Armure de plate compète"
+Hallberd="Hallebarde"
+leatherArmour="Armure de cuir"
+Platearmour="Armure de plate"
+Platemail="Armure de combat"
+Sabre="Sabre"
+Scalearmour="Armure d'écailles"
+sling="Fronde"
+spear="Lance"
+Spike="Pique"
+Steelsword="Epée d'acier"
+weapon="Arme générique"
+StuddedLeather="Armure de cuir clouté"
+
+[equipments]
+battleAxe="Haches de bataille"
+Broadsword="Epées batârdes"
+Chainmail="Armures de mailles"
+dagger="Dagues"
+Fullplate="Armures de plate compètes"
+Hallberd="Hallebardes"
+leatherArmour="Armures de cuir"
+Platearmour="Armures de plate"
+Platemail="Armures de combat"
+Sabre="Sabres"
+Scalearmour="Armures d'écailles"
+sling="Frondes"
+spear="Lances"
+Spike="Piques"
+Steelsword="Epées d'acier"
+StuddedLeather="Armures de cuir clouté"
+weapon="Armes génériques"
+
+[qualities]
+level1="@@equipment rouillé(e)s"
+level2="@@equipment aiguisé(e)s"
+
+[quality]
+level1="@@equipment rouillé(e)"
+level2="@@equipment aiguisé(e)"
+
+[stats]
+racelimit="Seulement pour les @@races"
+
+[types]
+armour="Armure"
+weapon="Arme"
+

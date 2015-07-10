@@ -1,0 +1,7 @@
+[login]
+password="Mot de passe"
+login="Merci de vous connecter"
+submit="Pseudo"
+user_not_found="Pseudo ou mot de passe invalide"
+username="Pseudo"
+

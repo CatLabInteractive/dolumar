@@ -1,0 +1,84 @@
+[forum]
+title="Forum Klanu @@clan"
+
+[errors]
+err_full="Klan jest pełny. Jak narazie nie możesz do niego dołączyć."
+
+[clanlogs]
+about="To dzienniki członków twojego klanu. Tylko wpisy związane z klanem są wyświetlane."
+
+[government]
+aDescription="Zmień nazwę i opis Klanu"
+changePassword="Zmień hasło klanu"
+description="Opis Klanu"
+descSubmit="Zapisz Opis"
+isProtected="Twój klan jest chroniony hasłem. Podaj znajomym hasło aby mogli dołączyć do twojego klanu."
+ldesc="Opis"
+lname="Nazwa Klanu"
+noPassword="Jak narazie każdy może dołączyć do klanu. Możesz założyć"
+kick_warning="Osoby wyrzucone z klanu nie będą mogły wrócić do klanu przez @@kicked dni."
+password="Hasło Klanu"
+storeChanges="Zapisz ustawienia"
+submit="Ustaw Hasło"
+title="Władza Klanu"
+toOverview="aby wrócić do podglądu."
+usermanager="Ustawienia Członków"
+
+[join]
+about="Każdy może dołączyć do tego klanu. Czy na pewno chcesz tam dołączyć ?"
+err_clanhop="Opuściłeś klan w ostatnich @@clanhop dniach. Nie możesz teraz dołączyć do klanu."
+err_clanhop_ownclan="Opuściłeś ten klan w ostatnich @@own_clanhop dniach. Jak narazie nie możesz dołączyć do tego klanu."
+err_inclan="Już jesteś członkiem tego klanu."
+err_joinhop="Dołączyłeś do klanu w ostatnich @@joinhop dniach. Nie możesz teraz dołączyć do klanu."
+err_kicked="Wyrzucono cię z tego klanu w ostatnich @@kicked dniach. Jak narazie nie możesz dołączyć do tego klanu."
+err_password="Niepoprawne hasło. Wstęp wzbroniony."
+inClan="Dołączyłeś już do klanu. Nie możesz być członkiem dwóch klanów."
+join="Dołącz do @@clan"
+label="Chroniony Hasłem"
+password="Hasło klanu"
+protected="Ten klan jest chroniony hasłem. Jeśli znasz hasło to możesz dołączyć do klanu."
+submit="Dołącz do klanu."
+toJoin="aby dołączyć do klanu."
+
+[leave]
+done="Opuściłeś ten klan. Powodzenia z nowymi sojusznikami."
+leave="Opuść @@clan"
+
+[noclan]
+about="Jesteś samotnym władcą, sam musisz stawić czoło wszystkim na świecie. Aby było ci łatwiej, dołącz do klanu."
+clans="Klany w Sąsiedztwie"
+details="Szczegóły klanu"
+aboutF="Nie możesz znaleźć odpowiedniego klanu. Czemu nie utworzysz własnego ?"
+title="Nie masz klanu"
+submit="Utwórz klan"
+noclans="Nie ma klanów w Sąsiedztwie"
+name_duplicate="Nazwa klanu musi być orginalna. Wybierz inną nazwę."
+name="Nazwa Klanu."
+found="Utwórz Klan"
+err_clanname="Nazwa Klanu zawiera niedozwolone znaki"
+distance="Maksymalny dystans między dwoma wioskami jest równy @@distance."
+
+[overview]
+actions="Akcje"
+clan="Klan @@clan"
+forum="Forum"
+government="Władza"
+join="Dołącz do Klanu"
+conLeave="Czy na pewno chcesz opuścić ten klan ? Nie będziesz mógł dołączyć do innego przez @@clanhop dni, a wrócić do tego przez @@own_clanhop."
+leave="Opuść Klan"
+logs="Dzienniki Klanu"
+members="Członkowie"
+notFound="Nie znaleziono klanu którego szukasz."
+overview="Podgląd"
+toForum="aby otworzyć forum klanu."
+toGovern="aby zarządzać klanem."
+toJoin="aby dołączyć do klanu."
+toLeave="aby opuścić klan."
+toLogs="aby zobaczyć dzienniki klanu."
+
+[roles]
+captain="Kapitan"
+kick="Wyrzuć z klanu"
+leader="Lider"
+member="Członkowie"
+

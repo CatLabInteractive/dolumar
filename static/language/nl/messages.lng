@@ -1,0 +1,37 @@
+[inbox]
+toNewMsg="om een nieuw bericht te versturen."
+
+[read]
+msg_from="Van"
+msg_to="Naar"
+toInbox="om terug te keren naar je inbox."
+toOutbox="om terug te keren naar je outbox."
+reply="Beantwoord"
+remove="Verwijder"
+
+[write]
+write="Schrijf een nieuw bericht"
+sent="Jouw bericht is verzonden."
+toInbox="om terug te keren naar je inbox."
+player_not_found="Je contactpersoon kan niet worden gevonden. Herbekijk de naam van je contactpersoon."
+yourMessage="Je bericht"
+to="Naar"
+subject="Onderwerp"
+message="Bericht"
+sendMessage="Zend je bericht"
+
+[messages]
+from="Van"
+to="Naar"
+date="Datum"
+toInbox="Naar inbox"
+toOutbox="Naar outbox"
+subject="Onderwerp"
+inbox="Inbox"
+outbox="Outbox"
+noSubject="Geen onderwerp"
+banned="Je bent gebanned. Je kan dit onderdeel terug gebruiken over @@duration."
+read="Lees dit bericht"
+remove="Verwijder dit bericht"
+confirmremove="Ben je zeker dat je dit bericht wilt verwijderen?"
+

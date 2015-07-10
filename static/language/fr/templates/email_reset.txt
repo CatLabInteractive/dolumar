@@ -1,0 +1,11 @@
+Oyez @@0 !
+
+Vous avez lancé la procédure de remise à zéro de votre compte.
+Ce message sera le dernier avertissement, vous pouvez encore retourner à votre village et continuer votre partie.
+
+Dans le cas contraire, si vous voulez toujours poursuivre, merci de cliquer sur le lien suivant :
+
+@@1
+
+Bon jeu !
+L'équipe de Dolumar.

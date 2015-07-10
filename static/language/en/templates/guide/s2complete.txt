@@ -1,0 +1,5 @@
+Great! You've built a lumber camp.
+
+When you build buildings, new buildings will unlock. You'll notice that every building needs a certain type of rune. In order to gather new runes, you have to scout for them in your castle.
+
+You can also steal runes from enemies.

@@ -1,0 +1,430 @@
+p.resources-cost
+{
+	line-height: 16px;
+}
+
+span.cost-resources span.and,
+span.cost-resources span.sign
+{
+	display: none;
+}
+
+span.resource span,
+span.rune span
+{
+	display: none;
+}
+
+/* Resources */
+span.resource
+{
+	padding-left: 31px;
+	padding-right: 3px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	display: inline;
+}
+
+span.resource span.amount
+{
+	display: inline;
+}
+
+span.resource.grain
+{
+	background:url('../images/icons/resources/grain.gif');
+	background-repeat: no-repeat;
+	background-position: center left;
+}
+
+span.resource.wood
+{
+	background:url('../images/icons/resources/wood.gif');
+	background-repeat: no-repeat;
+	background-position: center left;
+}
+
+span.resource.stone
+{
+	background:url('../images/icons/resources/stone.gif');
+	background-repeat: no-repeat;
+	background-position: center left;
+}
+
+span.resource.gold
+{
+	background:url('../images/icons/resources/gold.gif');
+	background-repeat: no-repeat;
+	background-position: center left;
+}
+
+span.resource.iron
+{
+	background:url('../images/icons/resources/iron.gif');
+	background-repeat: no-repeat;
+	background-position: center left;
+}
+
+span.resource.gems
+{
+	background:url('../images/icons/resources/gems.gif');
+	background-repeat: no-repeat;
+	background-position: center left;
+}
+
+/* Runes */
+span.rune
+{
+	padding-right: 16px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	padding-left: 0px;
+	display: inline;
+}
+
+span.rune.water
+{
+	background:url('../images/icons/runes/water.gif');
+	background-repeat: no-repeat;
+	background-position: center right;
+}
+
+span.rune.earth
+{
+	background:url('../images/icons/runes/earth.gif');
+	background-repeat: no-repeat;
+	background-position: center right;
+}
+
+span.rune.fire
+{
+	background:url('../images/icons/runes/fire.gif');
+	background-repeat: no-repeat;
+	background-position: center right;
+}
+
+span.rune.wind
+{
+	background:url('../images/icons/runes/wind.gif');
+	background-repeat: no-repeat;
+	background-position: center right;
+}
+
+/* Unit stats */
+span.stat-frontage
+{
+	font-size: 80%;
+}
+
+/*
+	Clan members
+*/
+span.clanmember
+{
+	padding-left: 20px;
+	padding-right: 10px;
+	padding-top: 4px;
+	padding-bottom: 2px;
+	display: block;
+}
+
+span.clanmember span
+{
+	display: none;
+}
+
+span.clanmember.captain
+{
+	background:url('../images/icons/clan/captain.png');
+	background-repeat: no-repeat;
+	background-position: center left;
+}
+
+span.clanmember.leader
+{
+	background:url('../images/icons/clan/leader.png');
+	background-repeat: no-repeat;
+	background-position: center left;
+}
+
+span.clanmember.member
+{
+	background:url('../images/icons/clan/member.png');
+	background-repeat: no-repeat;
+	background-position: center left;
+}
+
+/* Online status */
+span.online-status
+{
+	display: block;
+	width: 16px;
+	height: 16px;
+}
+
+span.online-status span
+{
+	display: none;
+}
+
+span.online-status.online
+{
+	background:url('../images/icons/clan/status_online.png');
+}
+
+span.online-status.offline
+{
+	background:url('../images/icons/clan/status_offline.png');
+}
+
+/* Navigation (Top menu) */
+span.navigation
+{
+	display: inline-block;
+	width: 25px;
+	height: 27px;
+	background-color: yellow;
+	outline: none;
+	vertical-align: middle;
+}
+
+/* For the guide... */
+.backgroundsize .text span.navigation
+{
+	width: 16px;
+	height: 16px;
+	background-size: 16px 16px;
+}
+
+span.navigation span
+{
+	display: none;
+}
+
+span.navigation.account
+{
+	background:url('../images/icons/menu/account.png');
+	background-repeat: no-repeat;
+	background-position: top left;
+}
+
+span.navigation.premiumshop
+{
+	background:url('../images/icons/menu/premium.png');
+	background-repeat: no-repeat;
+	background-position: top right;
+	width: 30px;
+}
+
+span.navigation.build
+{
+	background:url('../images/icons/menu/build.png');
+	background-repeat: no-repeat;
+	background-position: top left;
+}
+
+span.navigation.bonusbuild
+{
+	background:url('../images/icons/menu/bonusbuild.png');
+	background-repeat: no-repeat;
+	background-position: top left;
+}
+
+span.navigation.units
+{
+	background:url('../images/icons/menu/units.png');
+	background-repeat: no-repeat;
+	background-position: top left;
+}
+
+span.navigation.economy
+{
+	background:url('../images/icons/menu/economy.png');
+	background-repeat: no-repeat;
+	background-position: top left;
+}
+
+span.navigation.equipment
+{
+	background:url('../images/icons/menu/equipment.png');
+	background-repeat: no-repeat;
+	background-position: top left;
+}
+
+span.navigation.battle
+{
+	background:url('../images/icons/menu/battle.png');
+	background-repeat: no-repeat;
+	background-position: top left;
+}
+
+span.navigation.ranking
+{
+	background:url('../images/icons/menu/ranking.png');
+	background-repeat: no-repeat;
+	background-position: top left;
+}
+
+span.navigation.clan
+{
+	background:url('../images/icons/menu/clan.png');
+	background-repeat: no-repeat;
+	background-position: top left;
+}
+
+span.navigation.gifts
+{
+	background:url('../images/icons/menu/gifts.png');
+	background-repeat: no-repeat;
+	background-position: top left;
+}
+
+span.navigation.help
+{
+	background:url('../images/icons/menu/help.png');
+	background-repeat: no-repeat;
+	background-position: top left;
+}
+
+span.navigation.logbook
+{
+	background:url('../images/icons/menu/logbook.png');
+	background-repeat: no-repeat;
+	background-position: top left;
+}
+
+span.navigation.clanlog
+{
+	background:url('../images/icons/menu/clanlog.png');
+	background-repeat: no-repeat;
+	background-position: top left;
+}
+
+span.navigation.search
+{
+	background:url('../images/icons/menu/search.png');
+	background-repeat: no-repeat;
+	background-position: top left;
+}
+
+/*
+	Messages
+*/
+td.icon
+{
+	width: 20px;
+}
+
+span.icon.message
+{
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	background: yellow;
+	margin-left: 2px;
+}
+
+span.icon.message span
+{
+	display: none;
+}
+
+span.icon.message.read
+{
+	background:url('../images/email_open.png');
+	background-repeat: no-repeat;
+	background-position: top left;
+}
+
+span.icon.message.unread
+{
+	background:url('../images/email.png');
+	background-repeat: no-repeat;
+	background-position: top left;
+}
+
+span.icon.message.remove
+{
+	background:url('../images/email_delete.png');
+	background-repeat: no-repeat;
+	background-position: top left;
+}
+
+/*
+	Footer icons
+*/
+span.footer-navigation
+{
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	background: yellow;
+	vertical-align: middle;
+}
+
+.text span.footer-navigation
+{
+	margin-left: 0px;
+}
+
+span.footer-navigation span
+{
+	display: none;
+}
+
+span.footer-navigation.home
+{
+	background:url('../images/icons/footer/home.png');
+	background-repeat: no-repeat;
+	background-position: top left;
+}
+
+span.footer-navigation.minimap
+{
+	background:url('../images/icons/footer/map_icon.png');
+	background-repeat: no-repeat;
+	background-position: top left;
+}
+
+span.footer-navigation.messages
+{
+	background:url('../images/icons/footer/inbox_empty.png');
+	background-repeat: no-repeat;
+	background-position: top left;
+}
+
+span.footer-navigation.messages.full
+{
+	background:url('../images/icons/footer/inbox_full.png');
+	background-repeat: no-repeat;
+	background-position: top left;
+	text-decoration: blink;
+}
+
+p span.icon
+{
+	margin: 5px;
+}
+
+/*
+	Player status symbols
+*/
+span.nickname.premium
+{
+	padding-left: 22px;
+	background:url('../images/icons/premium/nickname.png');
+	background-repeat: no-repeat;
+	background-position: top left;
+}
+
+span.nickname.moderator a
+{
+	color: red;
+}
+
+div.giantcrown
+{
+	background:url('../images/icons/premium/premiumbig_zacht.png');
+	background-repeat: no-repeat;
+	background-position: center center;
+}

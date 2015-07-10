@@ -1,0 +1,7 @@
+[general]
+date="Date :"
+target="Cible :"
+
+[types]
+BuildingReport="Compte rendu du bâtiment"
+

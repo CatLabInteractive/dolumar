@@ -1,0 +1,40 @@
+[battle]
+attacking = "@@actor sent his forces from @@village to attack @@defender (@@pl_defender)."
+attacking_long = "@@player is trying to fight his way to the top! Hopefully, his war against @@defender will proof to be a succesful one. Will you help @@player in this fight?"
+defending = "Your village @@village is under attack by @@attacker (@@pl_attacker)."
+defending_long = "It looks like your village @@village is under attack! Take precautions now!"
+
+[messages]
+received = "You have received a message from @@player."
+
+[runes]
+received = "You have received @@runes from @@player."
+
+[resources]
+received = "You have received @@resources from @@player."
+
+[equipment]
+received = "You have received @@amount @@equipment from @@player."
+
+[system]
+test = "This is a test notification. Your test target was @@player."
+test_long = "Do not panic! This is just a test. @@player is testing the notifications. He has a village called @@village."
+testinvitereceiver = "@@sender has send you a free test! Collect it now."
+testinvitesender = "Send a test to your friends."
+
+[clan]
+join = "@@actor has joined clan @@clan."
+join_long = "@@player has decided it's more fun to play in team, so he joined @@clan. Are you ready to join him and dominate the world?"
+leave = "@@actor has left clan @@clan."
+leave_long = "It didn't work out between @@player and his clan members. Will you replace him in @@clan?"
+
+[portal]
+open = "@@player has opened a magic portal between @@village and @@target_village. It will remain open until @@date and is available to all clan members."
+opened = "@@player has opened a magic portal between @@village and @@target_village. It will remain open until @@date and is available to all clan members."
+
+[bonusbuilding]
+build = "@@actor has bought a @@building for village @@village."
+
+[gifts]
+runesender = "Send a free random rune to one of your friends."
+runereceiver = "@@sender has send you a free rune to use in Dolumar @@server."

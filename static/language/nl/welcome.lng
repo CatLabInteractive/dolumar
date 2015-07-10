@@ -1,0 +1,16 @@
+[welcome]
+welcome="Welkom terug, @@nickname!"
+premium="Jouw premium account is geldig tot @@date. @@extend"
+freepremium="Wist je dat premium accounts het spel leuker maken? Jouw premium account is gratis tot @@date. @@extend"
+nopremium="Wist je dat premium accounts het spel leuker maken? @@extend"
+become="Word premium"
+extend="Verleng premium account"
+okay="Ok"
+unreadmessages="Je hebt @@amount ongelezen berichten in @@inbox."
+inbox="jouw inbox"
+premiumtitle="Premium account"
+clanlogs="Clan logs"
+gamenews="Laatste spel nieuws"
+noclan="Jij bent nog niet bij een clan. Samenwerking is erg belangrijk in Dolumar, een leuke clan zoeken is dus essentieel. @@join"
+joinclan="Ga bij een clan"
+

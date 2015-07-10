@@ -1,0 +1,10 @@
+[chat]
+registerfirst="Bitte registriere dich erst, bevor du anfängst zu chatten."
+banned="Du wurdest vom Chat ausgeschlossen. Du kannst in @@duration wieder chatten."
+tos="Nutzungsbedingungen"
+login="Du musst dich erst einloggen, bevor du Nachrichten senden kannst."
+rules="Der Nutzen dieses Chats ist Thema unserer @@tos. Benehme dich bitte."
+channel="Du sprichst jetzt in @@channel."
+chat="Chat"
+send="senden"
+

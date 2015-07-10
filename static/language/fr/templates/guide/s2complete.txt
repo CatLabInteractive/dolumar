@@ -1,0 +1,5 @@
+Bravo ! Vous avez construit un camp de bûcheron.
+
+Lorsque vous construisez des bâtiments, de nouveaux bâtiments se débloquerons. Vous remarquerez, que tous les bâtiments nécessite un type de rune. Pour récupérer des runes vous devez explorer les environs de vôtre château.
+
+Vous pouvez aussi voler des runes à vos ennemis.

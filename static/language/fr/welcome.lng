@@ -1,0 +1,16 @@
+[welcome]
+become="Activer votre compte Premium"
+clanlogs="Compte rendu de clan"
+extend="Etendre votre compte Premium"
+freepremium="Saviez-vous qu'un compte Premium peut grandement améliorer votre expérience de jeu ? Vous avez un compte Premium gratuit jusqu'au @@date. @@extend"
+gamenews="Nouvelles"
+inbox="votre boîte de réception"
+joinclan="Rejoindre un clan"
+noclan="Vous n'avez rejoint aucun clan. Le jeu en équipe est essentiel dans Dolumar, donc rejoindre un bon clan est d'une importance vitale ! @@join"
+nopremium="Saviez-vous qu'un compte Premium peut grandement améliorer votre expérience de jeu ? @@extend"
+okay="Ok"
+premium="Votre compte Premium est valable jusqu'au @@date. @@extend"
+premiumtitle="Compte Premium"
+unreadmessages="Vous avez @@amount messages non lus dans votre @@inbox."
+welcome="Heureux de vous revoir, @@nickname !"
+

@@ -1,0 +1,12 @@
+MiniEmotes ~ Minimalist Emoticons by Peter Boughton
+
+- License Information -
+These files are licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 2.5 License.
+If you redistribute the files they must remain under this license, and you should include both this 
+file (miniemotes.readme.txt) and the license file (miniemotes.license.txt) with the redistribution.
+You may add any relevant details to this readme file, but must not alter the existing contents.
+
+- Further Information -
+If you would like any information about MiniEmotes, or how to use them, please feel free to
+send me an e-mail miniemotes:bpsite.co.uk, or check the website: bpsite.net/miniemotes
+

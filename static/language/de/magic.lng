@@ -1,0 +1,28 @@
+[overview]
+title="Magie"
+
+[cast]
+title="Zauber aussprechen"
+about="Verstärke deine Kräfte oder helfe deinen Verbündeten mit effektiven Zaubern."
+choose="Wähle bitte welchen Zauber du gebrauchen möchtest."
+castcost="Geschätzte Zauberkosten:"
+toCast="@@spell verwenden"
+dif="dif."
+return="zurück zur Übersicht"
+learn="Lerne @@effect"
+
+[confirm]
+title="Magie bestätigen"
+confirm="Bist du sicher, dass du @@spell gegen @@village verwenden möchtest?"
+cost="Zauberkosten"
+stype="Zaubersorte"
+difficulty="Schwierigkeitsgrad"
+probability="Wahrscheinlichkeit eines Zaubers"
+toCast="@@spell aussprechen"
+confirm_notarget="Bist du sicher, dass du @@spell verwenden möchtest?"
+
+[result]
+title="Zauber verwenden"
+err_resources="Du besitzt nicht genügend Rohstoffe um einen Zauber zu verwenden."
+toRetry="nochmal versuchen"
+

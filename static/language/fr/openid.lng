@@ -1,0 +1,12 @@
+[register]
+about="Dolumar est un jeu sur navigateur dans un univers persistant. Vous allez vous mener bataille contre des milliers de joueurs. Battez vous pour faire votre place dans le monde !"
+aboutRegister="Si vous avez déjà  un personnage sur ce serveur, vous pouvez vous connecter maintenant. Autrement, créez un personnage."
+btnLogin="Chargez un personnage existant"
+btnRegister="Créer un nouveau personnage"
+doLogin="Identification"
+login="Charger un personnage"
+password="Mot de passe :"
+register="Créer un personnage"
+username="Pseudo :"
+wrongLogin="Vos identifiants ne sont pas reconnus. Merci de réessayer."
+

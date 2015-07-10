@@ -1,0 +1,37 @@
+[inbox]
+toNewMsg="aby wysłać nową wiadomość"
+
+[messages]
+from="Od"
+date="Data"
+inbox="Skrzynka Odbiorcza"
+noSubject="Brak Tematu"
+outbox="Skrzynka Nadawcza"
+read="Przeczytaj tę wiadomość"
+remove="Usuń tę wiadomość"
+subject="Temat"
+to="Do"
+toInbox="Do Skrzynki Odbiorczej"
+toOutbox="Do Skrzynki Nadawczej"
+confirmremove="Czy na pewno chcesz usunąć tę wiadomość ?"
+banned="Zostałeś zbanowany w wiadomościach. Będziesz mógł znowu wysyłać wiadomości za @@duration."
+
+[read]
+msg_from="Od"
+msg_to="Do"
+remove="usuń"
+reply="odpowiedź"
+toInbox="aby wrócić do Skrzynki Odbiorczej"
+toOutbox="aby wrócić do Skrzynki Nadawczej"
+
+[write]
+message="Wiadomość"
+player_not_found="Odbiorca nie znaleziony."
+sendMessage="Wyślij swoją wiadomość"
+sent="Twoja wiadomość została wysłana"
+subject="Temat"
+to="Do"
+toInbox="aby wrócić do Skrzynki Odbiorczej"
+write="Napisz nową wiadomość"
+yourMessage="Twoja wiadomość"
+

@@ -1,0 +1,178 @@
+[battle]
+onFailed="Un @@unit attaquant a échoué a lancer le sort @@spell (@@probability% de chance de réussir)."
+
+[CityOfLight]
+description="Les actions des voleurs ont @@bonus% de chances en moins de réussir."
+title="Cité de la lumière"
+
+[Cold]
+description="La santé d'une unité au hasard est réduite de @@damage%."
+onSuccess="Un @@unit réduit la santé de @@target de @@bonus% avec le sort @@spell (@@probability% de chance de réussir) !"
+title="Froid mordant"
+
+[CrackedEarth]
+description="L'attaque de toutes les unités de cavalerie est réduide de @@penalty%."
+onSuccess="Un @@unit lance le sort @@spell ! L'attaque de toutes les unités de cavaleries est reduite de @@penalty% (@@probability% de chance de réussir)."
+title="Terre morcelée"
+
+[Demoralize]
+description="Les troupes ciblées fuieront le champs de bataille @@penalty% plus vite."
+title="Démoraliser"
+
+[Dispel]
+description="Dissipe tous les sorts actuellement actifs sur le village cible."
+onSuccess="Tous les sort sur @@target ont été dissipés."
+title="Dissipation magique"
+
+[DryLands]
+description="La production de nourriture est réduite de @@bonus%."
+title="Terres asséchées"
+
+[Earthquake]
+description="Le bonus des tours de défenses est réduit de @@bonus% pour toutes les unités dans le village ciblé."
+title="Tremblement de terre"
+
+[FavorOfTheWoods]
+description="La production de bois est augmentée de @@bonus%."
+title="Faveur sylvestre"
+
+[Fear]
+description="Toutes les unités ciblées fuient @@penalty% plus vite."
+onSuccess="Un @@unit lance le sort @@spell ! Les unités défenderesses fuieront le combat @@penalty% plus vite (@@probability% de chance de réussir)."
+title="Peur"
+
+[Fireball]
+description="Une boule de feu inflige @@damage dégâts à un régiment au hasard."
+onSuccess="Un @@unit a tué @@casualties unités de @@target avec le sort @@spell (@@probability% de chance de réussir) !"
+title="Boule de feu"
+
+[FireWeapons]
+description="Toutes les troupes dans le village ciblé  gagne un bonus de @@bonus% de santé jusqu'à la fin de la bataille."
+title="Armes enflammées"
+
+[Floods]
+description="Toutes les constructions sont retardées de @@delay."
+title="Inondations"
+
+[Frost]
+description="Inflige @@damage dégâts de glace à un régiment au hasard. Ce régiment ratera obligatoirement sa première action."
+onSuccess="Un @@unit a tué @@casualties unités de @@target avec le sort @@spell (@@probability% chance de réussir) !"
+title="Givre"
+
+[general]
+onFailed="Votre action n'a pas fonctionné."
+onSuccess="Votre action est terminée."
+report="Voir le compte rendu"
+
+[GoldenMines]
+description="La production d'or est augmentée de @@bonus%."
+title="Mines d'or"
+
+[Haste]
+description="Toutes les unités dans le village ciblé se déplace @@bonus% plus vite."
+onSuccess="Toutes les unités dans @@target se déplaceront plus vite maintenant."
+title="Hâte"
+
+[HotSmithyFires]
+description="Les équipement sont fabriqués @@bonus% plus vite."
+title="Forges ravivées"
+
+[Invisibility]
+description="Les attaques lancées ne seront visible par l'ennemi que @@hidden heures avant qu'elles n'atteignent le village."
+title="Invisibilité"
+
+[KillWizard]
+description="Tue un magicien au hasard dans le village ciblé."
+title="Assassinat de magicien"
+
+[LightningBolt]
+description="Un puissant éclair inflige @@damage dégâts à un régiment au hasard."
+onSuccess="Un @@unit tue @@casualties unités de @@target avec le sort @@spell (@@probability% de chance de réussir) !"
+title="Eclair"
+
+[LightningStorm]
+description="Toutes les troupes dans le village ciblé fuiront le combat @@bonus% plus vite."
+title="Tempête d'éclairs"
+
+[magic]
+onFailed="Votre sort à échoué. Continuez de travailler !"
+onSuccess="Votre magicien à lancer son sort avec succès."
+
+[MagicalShield]
+description="Les sorts lancés sur le village ciblé auront @@bonus% de chance de réussir en moins. "
+title="Bouclier magique"
+
+[MagicMirror]
+description="Voir tous les bâtiments (et leur niveau) du village ciblé. "
+onSuccess="Votre magicien a lancé un Mirroir magique sur @@target. @@report"
+title="Mirroir magique"
+
+[MeteorRain]
+description="Une pluie de météores inflige @@damage dégâts à tous les régiments."
+onSuccess="Un @@unit tue @@casualties unités dans @@squads régiments avec le sort @@spell (@@probability% de chance de réussir) !"
+title="Pluie de météores"
+
+[OpenPortal]
+description="Ouvre un portail magique vers un joueurs au hasard qui à un village d'une taille équivalente au votre."
+onSuccess="Votre magicien à ouvert un portail vers @@target."
+title="Portail magique"
+
+[PoisonWater]
+description="La production de nourriture est réduite de @@bonus%."
+title="Empoisonner les réserves d'eau"
+
+[Quicksand]
+description="@@damage% d'un régiment au hasard se noie dans un sables mouvant."
+onSuccess="Un @@unit tue @@casualties unités de @@target avec le sort @@spell (@@probability% de chance de réussir)."
+title="Sables mouvant"
+
+[RainSeason]
+description="La production de nourriture est augmentée de @@bonus%."
+title="Saison des pluies"
+
+[RollingRocks]
+description="La production de pierre est augmentée de @@bonus%."
+title="Pierre qui roulent"
+
+[SabotageWizards]
+description="Les sorts aurant @@penalty% de chance en moins de réussir."
+title="Sabotage magique"
+
+[SandStorm]
+description="Toutes les troupes du village ciblé se déplaceront @@bonus% plus lentement."
+title="Tempête de sable"
+
+[Shadows]
+description="Les actions des voleurs auront @@bonus% chance en plus de réussir."
+title="Ombres"
+
+[ShiningOre]
+description="La production de fer est augmenté de @@bonus%."
+title="Fer de qualité"
+
+[SoakingRains]
+description="@@effect empêche @@penalty% des archers défenseurs de tirer."
+onSuccess="Un @@unit lance le sort @@spell. @@penalty% des archers défenseurs ne pourront pas tirer (@@probability% de chance de réussir)."
+title="Pluies diluviennes"
+
+[StealMaps]
+description="Les troupes visées se déplaceront @@bonus% plus lentement."
+title="Vol de cartes"
+
+[SummonGhosts]
+description="Toutes les troupes du village ciblé combattront avec @@bonus% de santé en moins."
+title="Invocation de fantômes"
+
+[thievery]
+onFailed="Votre voleur c'est fait prendre ! Il sera pendu pour son forfait !"
+onSuccess="Votre voleur a effectué son sabotage avec succès."
+
+[Tornado]
+description="Détruit un bâtiment de niveau @@level au hasard."
+title="Tornade"
+
+[types]
+battle="Action de bataille"
+instant="Action instantanée"
+boost="Action d'amélioration (@@duration)"
+

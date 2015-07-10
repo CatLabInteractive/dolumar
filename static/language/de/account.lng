@@ -1,0 +1,240 @@
+[changepass]
+changed="Dein Passwort wurde geändert. "
+changePass="Ändere das Passwort"
+pass1="Passwort"
+pass2="Wiederhole das Passwort"
+submit="Ändere das Passwort"
+back="Zurück zur Übersicht"
+password_mismatch="Deine Passwörter passten nicht zusammen."
+
+[login]
+welcome="Willkommen!"
+login="Du musst dich erst einloggen."
+username="Benutzername"
+password="Passwort"
+submit="Einloggen"
+toRegister="einen neuen Account registrieren lassen."
+toRequest="wenn du dein Passwort vergessen hast"
+login_title="Details beim Einloggen"
+openid="Login mit OpenID"
+browserworld="Login mit Browser-World Account"
+
+[register]
+about="Bereite dich vor auf dein Eintreten in die Dolumarwelt!"
+register="Bitte fülle dieses Dokument vollständig aus."
+submit="Account registrieren lassen"
+username="Benutzername"
+email="Email"
+password="Passwort"
+password2="Wiederhole Passwort"
+done="Dein Account wurde eröffnet."
+login="Du kannst dich jetzt einloggen."
+accept="Ich akzeptiere die @@terms."
+terms="Nutzungsbedingungen"
+
+[locked]
+locked="Momentan lassen wir nur eingeladene Spieler zu. Kennst du jemanden, der sich registriert hat? Frag ihn um einen Einladungscode."
+code="Einladungscode"
+submit="Nächster Schritt"
+invNotFound="Ich finde den Einladunscode nicht:"
+legend="Einladung"
+invitation="Falls du einen Einladungscode erhalten hast, mache weiter!"
+
+[selectRace]
+submit="Nächster Schritt"
+joinClan="Werde Mitglied eines Clans"
+location="Oder wähle eine Startposition"
+selectRace="Wähle ein Volk"
+selectLocation="Startposition"
+clanFull="voll"
+select="Willkommen! Wähle jetzt ein Volk und eine Startposition aus. Jedes Volk hat seine Vorteile."
+clanLocked="geschlossen"
+
+[clanPassword]
+about="Dieser Clan is geschützt durch ein Passwort. Wenn du das Passwort kennst, fahre fort."
+back="Gehe zurück"
+joinClan="Werde Mitglied von @@clan"
+password="Passwort"
+submit="Werde Mitglied eines Clans"
+wrongPass="Du hast ein falsches Passwort angegeben. Bitte versuche es noch einmal."
+
+[language]
+language="Wähle deine Sprache"
+submit="Verändere deine Sprache"
+
+[errors]
+emailFound="Diese Emailadresse wird bereits verwendet."
+userFound="Diesen Benutzername gibt es schon. Wähle bitte einen anderen."
+passwordMismatch="Deine Passwörter stimmen nicht überein."
+clan_is_full="Der Clan, den du ausgewählt hast, ist schon voll und akzeptiert keine neuen Mitglieder mehr. Wähle bitte einen anderen Clan. "
+passwordFormat="Dein Passwort muss aus mindestens 3 Zeichen bestehen."
+emailFormat="Falsches Eingabeformat: Email."
+user_not_found="Falscher Benutzername oder falsche Passwortkombination. Bitte versuche es noch einmal."
+server_not_online="Der Server ist wegen Konfigurierungsproblemen vorübergehend offline."
+no_location_found="Es wurde kein passender Ort in der Nähe deines Clans gefunden. Bitte wähle einen anderen Clan."
+usernameFormat="Falsches Eingabeformat: Benutzername"
+
+[preferences]
+singleClick="Einfacher Mausklick"
+doubleClick="Doppelklick"
+minimap="Position der kleinen Landkarte"
+bottomLeft="Unten links"
+upperLeft="Oben rechts"
+bottomRight="Unten rechts"
+upperRight="Oben rechts"
+openBuilding="Öffne Gebäudeoptionen"
+advertisement="Anzeige"
+showAdvertisement="Zeige Anzeige"
+hideAdvertisement="Verberge Anzeige"
+preferences="Präferenzen"
+change="Präferenzen"
+dragable="Ziehbar"
+
+[nickname]
+welcome="Willkommen bei Dolumar!"
+chooseName="Um spielen zu können, musst du erst einen Spielernamen auswählen. Dieser Benutzername darf noch nicht vorkommen."
+username="Bentzername"
+submit="Wähle einen Benutzernamen"
+error_username="Die Zusammenstellung deines Benutzernamens ist falsch. Dein Benutzername muss mindestens 3 Zeichen lang sein und darf ausschliesslich aus Buchstaben bestehen."
+user_found="Diesen Benutzernamen gibt es bereits. Wähle bitte einen anderen Bnutzernamen."
+
+[profile]
+villages="Dörfer"
+village="Dorf"
+creation="Zutrittsdatum"
+lastRef="Zum letzten Mal online:  "
+onlineNow="Jetzt online"
+playerProfile="Spielerprofil"
+onlineAgo="vor @@0"
+clans="Clans"
+status="Status:"
+removed="Verlassen"
+online="Online"
+offline="Offline"
+vacation="Im Urlaub"
+removal="Datum der Entfernung"
+
+[choosemail]
+email_title="Emailüberprüfung"
+about="Dein Account ist noch nicht mit einer Emailadresse verbunden. Manche Optionen sind darum eventuell nicht verfügbar."
+welcome="Willkommen, @@0!"
+certification="Wir haben deine Emailadresse empfangen, aber sie wurde noch nicht überpüft. Wir haben dir eine Mail mit einem geheimen Link geschickt."
+toCertAgain="die Überprüfungsmail nochmal schicken."
+email_exists="Diese Emailadresse wurde auf diesem Server schon einmal verwendet. Du kannst nur einen Account pro Server eröffnen."
+toReturn="zurück zur Übersicht"
+invalid_syntax="Das ist keine gültige Emailadresse. "
+email="Email"
+submit="Emailadresse bestätigen"
+mail_subject="Dolumar Emailüberprüfung"
+
+[myAccount]
+welcome="Willkommen, @@0."
+setEmail="Bestätige die Emailadresse."
+todo="Zu erledigen:"
+logout="Logout"
+premium="Premiumaccount"
+notPremium="Dein Premiumaccount ist abgelaufen."
+toPremium="Deinen Premiumaccount ausbreiten."
+premiumLast="Dein Premiumaccount ist aktiv. Er wird am @@0 ablaufen."
+changePass="Ändere das Passwort"
+account="Accountoptionen"
+resetAccount="Account neu starten"
+vacationMode="Urlaubsmodus"
+
+[resetaccount]
+about="Manchmal ist es besser deinen Account zurückzusetzen auf Null und nochmal neu zu starten. Anstatt einen neuen Account zu eröffnen, kannst du deinen Account hier zurücksetzen."
+confirm="Deinen Account neu starten. Diese Handlung ist unwiderruflich!"
+msubject="Accountneustart"
+yousure="Bist du sicher, dass du deinen Account neustarten willst? Du wirst dann aber an einem neuen Ort anfangen."
+instadone="Dein Account wurde neu gestartet."
+done="Wir sind mit der  "Account neu starten" Prozedur begonnen. Du hast eine Email mit einem Link erhalten. Folge diesem Link um deinen Account neu zu starten."
+emailcert="Du musst erst deine Emailadresse bestätigen bevor du deinen Account neu starten kannst."
+
+[premium]
+credits="Du hast @@0 Credits."
+toUseCredit="Deinen Premiumaccount für 15 Tage erweitern."
+toBuyCredit="mehr Credits kaufen."
+not_enough_credits="Du hast nicht genügend Credits."
+about_buy="Wähle bitte die Anzahl und Währung, die du verwenden möchtest. Eine sicheres Rechnungsformular wird angezeigt werden."
+currency="Währung"
+amount="Anzahl"
+proceed="Weiter zur Bezahlung"
+isoptional="Ein Premiumaccount ist @@optional. Du kannst dieses Spiel auch vollkommen gratis spielen."
+unsufficient_credits="Du hast leider nicht mehr genügend Credits."
+optional="freiwillig"
+perPiece="P-P-"
+
+[tos]
+register="Durch deine Registrierung bestätigst du, dass du mindestens 13 Jahre alt bist und unsere @@pp und @@tos akzeptierst."
+tos="Nutzungsbedingungen"
+pp="Datenschutz"
+
+[main]
+noPremium="Diese Option ist nur für Premium-Nutzer verfügbar."
+
+[serverOffline]
+title="Server vorübergehend geschlossen"
+about="Der Server ist wegen Serverproblemen vorübergehend offline. Wir hoffen das Spiel so schnell wie möglich wieder starten zu können."
+error="Debug error:"
+daily_cron_failed="It seems like the daily server cleanup failed."
+not_installed="This server isn't installed yet. The daily cronjob has to be run first."
+
+[lostPassword]
+loggedIn="Du bist schon eingeloggt."
+about="Dieses Fenster ermöglicht es dir, dein Passwort neu einzustellen. Bitte denke daran, dass das nur möglich ist, wenn du eine gültige Emailadresse angegeben hast."
+email="Deine Emailadresse"
+submit="Passwort neu einstellen"
+mail_subject="Passwort Vergessen"
+done="Wir haben dir ein neues Passwort geschickt."
+
+[ignorelist]
+about="Hier kannst du regeln, welche Spieler du gerade ignorierst. Wenn du jemanden ignorierst, kann er dir keine privaten Nachrichten senden und du siehst seine Chatberichte nicht."
+ignoring="Spieler, die du ignorierst"
+notIgnoring="Du ignorierst niemand."
+ignore="Ignoriere einen Spieler"
+nickname="Benutzername des Spielers"
+button="Ignorieren"
+unignore="ignorieren aufgeben"
+player_not_found="Der Spieler den du ignorieren möchtest, wurde nicht gefunden. "
+ignore_yourself="Du kannst dich nicht selbst ignorieren."
+validateEmail="Du musst zuerst deine Emailadresse angeben."
+
+[premiumbenefits]
+about="Dolumar ist gratis. Um es auch für jeden gratis bleiben zu lassen, haben wir Premiumaccounts eingeführt. Diese Accounts haben die folgenden Optionen:"
+bqueue="Setze deine Bau-und Ausbauaufträge auf eine Warteliste, dann können sie ausgeführt werden, während du offline bist."
+uinfo="Automatisch die Anzahl Truppen, die du trainieren kannst, ausrechnen lassen."
+searchtool="Fortgeschrittene Spieler- und Siedlungssuche "
+tqueue="Ausbildung von Einheiten auf die Warteliste setzen"
+
+[invite]
+invite="Lade deine Freunde ein, um Dolumar zu spielen und verdiene so gratis Runen. Für jeden Freund, den du einlädst, erhältst du eine Rune."
+legend="Schicke Freunden diese URL um den Bonus zu bekommen:"
+url="Persönliche Einladungsurl"
+
+[vacationMode]
+title="Urlaubsmodus"
+about="Du fährst in den Urlaub und möchtest deine Siedlung nicht verlieren? Stelle deine Siedlung auf Urlaubsmodus und vermeide so die totale Vernichtung."
+disabled="Willkommen zurück! Wir haben dich vermisst!"
+disable="Urlaubsmodus verlassen"
+active="Dein Account ist auf Urlaubsmodus eingestellt. Das ist seit @@since so. "
+done="Dein Account wurde eingestellt auf Urlaubsmodus. Du kannst in sieben Tagen wieder spielen. Viel Spass!"
+confirm="Bist du sicher, dass du den Urlaubsmodus einstellen möchtest?"
+too_early="Es ist noch zu früh, um wieder spielen zu können. Du kannst deinen Account erst nach sieben Tagen reaktivieren."
+activate="Urlaubsmodus einstellen"
+rules="Wenn du den Urlaubsmodus einstellt, kannst du deinen Account für mindestens sieben Tage nicht verwenden."
+
+[logbook]
+title="Logbuch"
+
+[openid]
+title="OpenID Login"
+about="Hast du eine OpenID? Was denkst du dann davon, sie bei Dolumar zu verwenden?"
+legend="OpenID Account"
+url="OpenID Identitäts URL"
+submit="Login"
+loginFail="Login fehlgeschlagen. Bitte gib eine gültige OpenID Identität an."
+whatIs="Was ist eine OpenID?"
+toReturn="zurück zum Loginfenster."
+popular="Populäre Provider"
+specify="Provider angeben"
+

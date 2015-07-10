@@ -1,0 +1,47 @@
+[economics]
+resources="Grondstoffen"
+runes="Dorpsrunen"
+norunes="Je hebt momenteel geen vrije runen."
+stock="Stock"
+max="Max"
+income="Inkomen"
+honour="Je eer beinvloed je inkomen. Momenteel is je eer @@honour%."
+bruto="Productie"
+consuming="Consumptie"
+hourly="Inkomen per uur"
+rune="Rune"
+available="Beschikbaar"
+used="Gebruikt"
+usedpercentage="Gebruikt %"
+
+[profile]
+location="Locatie:"
+villageProfile="Dorpsprofiel"
+owner="Eigenaar"
+rank="Rang:"
+ranking="@@0 van @@1"
+race="Ras:"
+toChallenge="om troepen te zenden van @@0."
+honour="Eer"
+notActive="Dit dorp is verlaten. Al zijn rijkdommen zijn weggenomen."
+challenge="Zend troepen uit @@0."
+networth="Score:"
+distance="@@distance van @@name."
+
+[techview]
+noResearch="Je hebt nog geen onderzoeken gedaan."
+
+[technology]
+Writing="Schrift"
+Agriculture="Verbeterde landbouwstechnieken"
+BronzeWorking="Bronsbewerking"
+
+[techdesc]
+Writing="Het schrift geeft je +10% opslag in je silo's."
+Agriculture="Verbeterde landbouwstechnieken geeft je +5% productie op je boerderijen."
+BronzeWorking="Word meester in het maken van sterke wapens en wapenuitrusting en verras de vijand met je verbeterde leger."
+
+[queue]
+queuelimit="Je hebt je wachtlijst limiet bereikt. Verwijder sommige opdrachten voordat je nieuwe opdrachten kunt geven."
+not_premium="Deze toepassing is enkel mogelijk voor premium gebruikers."
+

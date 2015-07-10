@@ -1,0 +1,10 @@
+[equipment]
+available="Disponible"
+noItems="Vous n'avez pas d'objets."
+total="Total"
+
+[units]
+about="Voici une lite des unités présentes dans votre village."
+noUnits="Vous n'avez pas encore d'unités. Construisez d'abord un baraquement."
+toSquads="pour placer vos troupes dans des régiments."
+

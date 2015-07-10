@@ -1,0 +1,5 @@
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([^?]+) dispatch.php?module=$1&%{QUERY_STRING}  [PT]
+
+#AddOutputFilterByType DEFLATE text/html text/plain text/xml

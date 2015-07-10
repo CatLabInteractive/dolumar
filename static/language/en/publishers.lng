@@ -1,0 +1,19 @@
+[bigpoint]
+headline = "Are you ready to build a powerful kingdom? Conquer the world of Dolumar with your friends!"
+description = "Dolumar is a graphical, massive multiplayer strategy game where you play against thousands of other players. You will be entrusted with a small village in a fully explorable world."
+shortdescription = "Dolumar is a real time strategy game. Explore the colourful world of Dolumar now!"
+feature1 = "Fully explorable world"
+feature2 = "Advanced tactics in battle system"
+feature3 = "Many powerful magical spells"
+feature4 = "Specialise in battle, magic, thievery or crafting"
+feature5 = "Play one of the @@races unique races"
+tags = "dolumar strategy rts"
+
+[seo]
+metatitle = "Dolumar: Forgotten Highlands PBBG"
+metadescription = "Dolumar is a PBBG, a persistent browser based game. Play one of the @@races unique races and explore the colorful, explorable and graphical world of Dolumar."
+metakeywords = "dolumar, game, forgotten highlands, mmorpg, catlab, catlab interactive, online game, free multiplayer game"
+
+[advertising]
+description = "Dolumar is a graphical, massive multiplayer strategy game where you play against thousands of other players. You will be entrusted with a small village in a fully explorable world. Find the right balance between economy and military, specialise in thievery or train powerful wizards to conquer your enemies. Build your village, train your army, strive for world domination!"
+shortdescription = "Dolumar is a real time persistent strategy game, based in the age of elfs and goblins."

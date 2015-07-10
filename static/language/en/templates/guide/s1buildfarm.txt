@@ -1,0 +1,3 @@
+First we'll need to build a farm, click the build icon at the top and [b]build a farm[/b]. Farms produce food, which you'll need to build troops.
+
+Click the Build icon ([span class="navigation build"][span]the hammer at the top[/span][/span]) and construct a farm.

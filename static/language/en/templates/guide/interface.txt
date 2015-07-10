@@ -1,0 +1,3 @@
+Let's take a look at the interface first. At the top, you see the [b]main menu[/b]. At the bottom, you have your [b]resources bar[/b] and [b]minimap[/b].
+
+You can scroll through the map by [b]clicking and draging[/b] it around. To return to your village, click the [b]home icon[/b] ([span class="footer-navigation home"][span]at the bottom[/span][/span]).

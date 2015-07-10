@@ -1,0 +1,234 @@
+[login]
+welcome="Bienvenue !"
+login="J'ai bien peur que vous ne deviez vous identifier d'abord."
+username="Nom"
+password="Mot de passe"
+submit="Jouer"
+toRegister="pour s'inscrire."
+toRequest="Mot de passe oublié"
+login_title="Infos de connexion"
+openid="Jouer avec un compte OpenID"
+gambic="Jouer avec un compte Gambic Games "
+
+[register]
+about="Préparez vous à entrer dans l'univers de Dolumar !"
+register="Merci de compléter ce formulaire"
+submit="S'inscrire"
+username="Nom"
+email="E-mail"
+password="Mot de passe"
+password2="Répéter le mot de passe"
+done="Votre compte a été crée."
+login="Vous pouvez jouer maintenant."
+accept="J'accepte les @@terms."
+terms="CGU"
+
+[selectRace]
+submit="Prochaine étape"
+select="Bienvenue ! Choisissez maintenant votre race et votre place dans l'univers. Chaque race a ses avantages... et ses inconvénients."
+joinClan="Rejoindre un clan"
+location="Ou choisir une position de départ"
+selectRace="Choisir sa race"
+selectLocation="Position de départ"
+clanLocked="Fermé"
+clanFull="Plein"
+
+[clanPassword]
+about="Ce clan est protégé par un mot de passe. Merci de le renseigner."
+back="Annuler"
+joinClan="Rejoindre @@clan"
+password="Mot de passe"
+submit="Rejoindre un clan"
+wrongPass="Mot de passe erroné, merci de recommencer."
+
+[language]
+language="Choisissez votre langue"
+submit="Changer de langue"
+
+[errors]
+emailFound="Cet email est déjà utilisée. "
+userFound="Ce nom d'utilisateur est déjà utilisé. Merci d'en choisir un autre."
+passwordMismatch="Votre vérification du mot de passe est invalide."
+passwordFormat="Votre mot de passe doit contenir 3 caractères au minimum."
+emailFormat="Format invalide : email"
+usernameFormat="Format invalide : nom d'utilisateur"
+user_not_found="Mauvaise combinaison de nom / mot de passe. Merci de recommencer."
+server_not_online="Le serveur est actuellement inaccessible pour maintenance."
+clan_is_full="Le clan que vous avez choisi est complet n'accepte plus de candidature. Merci de choisir un autre clan."
+no_location_found="Aucune position adéquate prêt de votre clan n'a été trouvé. Merci de choisir un autre clan."
+
+[preferences]
+openBuilding="Ouvrir les options de construction"
+singleClick="Simple clic de souris"
+doubleClick="Double clic de souris"
+minimap="Position de la minicarte"
+bottomLeft="En bas à gauche"
+upperLeft="En haut à gauche"
+bottomRight="En bas à droite"
+upperRight="En haut à droite"
+change="Appliquer les changements"
+dragable="Déplaçable"
+advertisement="Publicité"
+hideAdvertisement="Cacher les publicités"
+preferences="Préférences"
+showAdvertisement="Montrer les publicités"
+
+[changepass]
+back="Page précédente"
+changed="Votre mot de passe a été modifié"
+changePass="Modifier votre mot de passe"
+pass1="Mot de passe"
+pass2="Répéter le mot de passe"
+password_mismatch="Votre répétition de mot de passe ne correspond pas."
+submit="Modifier le mot de passe"
+
+[choosemail]
+about="Votre compte n'a pas été lié à une adresse email. Certaines fonctionnalités peuvent ne pas être disponibles."
+certification="Vous nous avez fourni votre adresse email, mais elle n'a pas encore été vérifiée. Nous vous avons envoyé un message avec un lien de confirmation."
+email="Email"
+email_exists="Cette adresse email a déjà été utilisée sur ce serveur auparavant. Vous ne pouvez avoir qu'un compte par serveur."
+email_title="Vérification de l'email"
+invalid_syntax="Ce n'est pas une adresse email valide."
+mail_subject="Vérification par Dolumar de votre email "
+submit="Valider l'adresse email"
+toCertAgain="pour envoyer de nouveau un message de vérification."
+toReturn="pour retourner à la page précédente."
+welcome="Bienvenue,  @@0 !"
+
+[ignorelist]
+about="Vous pouvez gérer ici les joueurs que vous ignorez actuellement. Lorsque vous ignorez quelqu'un, il ne peut plus vous contacter avec des message privés, et vous ne voyez plus ses messages dans le chat."
+button="Ignorer"
+ignore="Ignorer le joueur"
+ignore_yourself="Vous ne pouvez pas vous ignorer !"
+ignoring="Joueurs ignorés"
+nickname="Pseudo du joueur"
+notIgnoring="Vous n'ignorez personne."
+player_not_found="Le joueur que vous tentez d'ignorer n'existe pas. Merci de vérifier l'orthographe du nom."
+unignore="Arrêter d'ignorer"
+validateEmail="Vous devez d'abord valider votre email."
+
+[invite]
+invite="Invitez vos amis à jouer à Dolumar et gagner des runes gratuites ! Pour chaque amis parrainé, vous recevrez une rune au hasard."
+legend="Envoyez cette adresse de parrainage à vos amis et recevez un bonus :"
+url="Adresse de parrainage personnelle"
+
+[logbook]
+title="Journaux de bord"
+nologs="Le journal est vide. Faites quelques actions et je vous marquerai ici ce qu'il c'est passé !"
+
+[lostPassword]
+about="Ce formulaire vous permet de réinitialiser votre mot de passe. Cette fonctionnalité nécessite un email valide."
+done="Nous vous avons envoyé un nouveau mot de passe."
+email="Votre adresse email"
+loggedIn="Vous êtes déjà connecté."
+mail_subject="Dolumar mot de passe perdu"
+submit="Réinitialiser le mot de passe"
+
+[main]
+noPremium="Cette fonctionnalité est seulement disponible pour les utilisateurs Premium."
+validateEmail="Afin d'utiliser cette fonctionnalité, vous devez d'abord confirmer votre adresse email. Merci de vérifier votre boite email et cliquer sur le lien de confirmation dans le message de confirmation. Si vous n'avez pas reçu de message, cliquer sur le menu \"mon compte\" afin de le renvoyer."
+validateEmail_short="Afin d'utiliser cette fonctionnalité, vous devez d'abord confirmer votre adresse email. Merci de vérifier votre boite email et cliquer sur le lien de confirmation dans le message de confirmation."
+
+[myAccount]
+account="Options du compte"
+changePass="Modifier le mot de passe"
+logout="Déconnexion"
+notPremium="Votre compte Premium a expiré."
+premium="Compte Premium"
+premiumLast="Votre compte Premium est actif. Il expirera le @@0."
+resetAccount="RAZ compte"
+setEmail="Confirmer votre adresse email"
+todo="Choses à faire :"
+toPremium="pour prolonger votre compte Premium."
+vacationMode="Mode vacances"
+welcome="Bienvenue, @@0."
+
+[nickname]
+chooseName="Avant de pouvoir jouer vous devez tout d'abord un pseudo. Il doit être unique."
+error_username="La syntaxe de votre pseudo n'est pas correcte. Il doit contenir au moins 3 caractères et seules les lettres sont autorisées."
+submit="Choisir un pseudo"
+user_found="Ce pseudo est déjà pris. Merci d'en choisir un autre."
+username="Pseudo"
+welcome="Bienvenue sur Dolumar !"
+
+[resetaccount]
+about="Parfois, il est préférable de remettre votre compte à zéro et de recommencer. Au lieu de créer un nouveau compte, vous pouvez réinitialiser votre compte ici."
+confirm="pour réinitialiser votre compte. Cette action ne peut être annulée ! /!\ TOUS LES CREDITS UTILISES SERONT PERDUS /!\"
+done="Nous avons intialisé la procédure de remise à zéro. Vous allez recevoir un email contenant un lien, cliquez sur celui ci afin de réinitialiser votre compte."
+emailcert="Vous devez tout d'abord valider votre email avant de pouvoir réinitialiser votre compte."
+instadone="Votre compte a été réinitialiser."
+msubject="Dolumar Réinitialisation du compte"
+yousure="Etes-vous sur de vouloir réinitialiser votre compte ? Vous allez réapparaitre à de nouvelles coordonnées."
+
+[premium]
+about_buy="Choisissez le montant et la méthode de paiement désirés. Une fenêtre de paiement apparaîtra."
+amount="Montant"
+credits="Vous avez @@0 credits."
+currency="Monnaie"
+isoptional="Un compte Premium est @@optional. Vous pouvez jouer gratuitement."
+not_enough_credits="Vous ne possédez pas assez de crédits."
+optional="optionnel"
+proceed="Procéder au règlement"
+toBuyCredit="pour acheter des crédits."
+toUseCredit="pour prolonger votre compte Premium pour 15 jours."
+unsufficient_credits="Désolé, mais vous n'avez pas assez de crédits."
+validateEmail="Vous devez valider votre adresse email d'abord."
+perPiece="p. p."
+
+[premiumbenefits]
+about="Dolumar est un jeu gratuit. Vous pouvez aussi disposer d'un compte Premium avec les avantages suivant :"
+bqueue="Ajouter les constructions et les améliorations en liste d'attente, ainsi tout se lance, même lorsque vous n'êtes pas en ligne."
+searchtool="Outils de recherche de joueurs et de villages avancés."
+tqueue="Liste d'attente sur les actions d'unités."
+uinfo="Calcul automatique du nombre de troupes que vous pouvez former."
+
+[profile]
+clans="Clans"
+creation="Inscrit le"
+offline="Hors ligne"
+online="En ligne"
+onlineAgo="depuis @@0."
+lastRef="Dernière co."
+onlineNow="Connecté"
+playerProfile="Profil du joueur"
+removal="Date d'éviction"
+removed="Abandonné"
+status="Etat :"
+vacation="En vacances"
+village="Village"
+villages="Villages"
+
+[serverOffline]
+about="Pour des raisons indépendante de notre volonté, le serveur est temporairement hors ligne. Nous faisons tout notre possible pour le relancer aussi rapidement que possible."
+daily_cron_failed="Il semble que l'entretien quotidien du serveur à échoué."
+error="Debug error :"
+not_installed="Ce serveur n'est pas encore installé. Le cron quotidien doit d'abord être lancé."
+title="Serveur temporairement verrouillé"
+
+[tos]
+tos="CGU"
+pp="politique de confidentialité"
+register="En vous inscrivant, vous confirmez que vous êtes agé d'au moins 13 ans et que vous avez accepté notre @@pp et les @@tos."
+
+[vacationMode]
+activate="Activer le mode vacances."
+about="Vous partez en vacances et vous ne voulez pas perdre votre village ? Mettez votre compte en mode vacances et évitez ainsi la destruction totale !"
+active="Vous compte est en mode vacances. Il en est ainsi de puis @@since. Merci que lorsque vous quittez le mode vacances, vous ne pouvez pas le réutiliser pendant 14 jours."
+confirm="Etes vous sûr de vouloir activer le mode vacances ?"
+disable="Quitter le mode vacance"
+disabled="Ravi de vous revoir ! Vous nous avez manqué !"
+done="Votre compte est désormais en mode vacances. Dans sept jours, vous pourrez jouer de nouveau. Amusez vous bien !"
+rules="Quoi qu'il en soit, lorsque vous mettez votre compte en mode vacances, vous ne pouvez pas le réactiver avant sept jours au minimum."
+title="Mode vacances"
+too_early="Il est trop tôt pour désactiver le mode vacances. Vous ne pouvez le faire qu'après 7 jours."
+vacation_disabled="Le mode vacances est désactiver pour le moment. J'ai bien peur que vous ne puissiez partir en vacances maintenant..."
+vacation_limit="Vous ne pouvez pas activer le mode vacances maintenant. Vous avez déjà été en vacances dans les 14 derniers jours."
+
+[locked]
+code="Code d'invitation"
+invitation="Donc si vous avez reçu un code d'invitation, procédez avec précaution !"
+invNotFound="Ce code d'invitation est introuvable :"
+legend="Invitation"
+locked="Pour le moment nous n'acceptons que les joueurs invités. Si vous connaissez déjà quelqu'un qui joue, demandez lui un code d'invitation."
+submit="Etape suivante"
+

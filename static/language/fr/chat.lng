@@ -1,0 +1,11 @@
+[chat]
+banned="Vous avez été banni. Vous pourrez parler dans @@duration."
+channel="Vous parlez dans le canal @@channel."
+chat="Chat"
+login="Vous devez d'abord vous identifier avant d'envoyer des messages."
+registerfirst="Veuillez d'abord vous inscrire avec de parler."
+rules="L'utilisation de ce chat est soumise à nos @@tos. Merci de les consulter."
+send="Envoyer"
+tos="CGU"
+oldermessages="Charger les anciens messages"
+

@@ -1,0 +1,17 @@
+Witaj @@nickname!
+
+Otrzymaliśmy prośbę o przypomnienie hasła do twojego konta w Dolumar.
+
+Oto dane do twojego konta:
+
+Nazwa użytkownika: 
+@@nickname
+
+Hasło:
+@@password
+
+Tego hasła możesz użyć tylko raz.
+Po zalogowaniu zmień swoje hasło, tak szybko jak to możliwe
+
+Powodzenia,
+Dolumar

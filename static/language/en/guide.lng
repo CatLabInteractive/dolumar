@@ -1,0 +1,10 @@
+[guide]
+noadvice = "I don't have any advice at the moment."
+
+[navigation]
+callguide = "Call your guide"
+hide = "Hide"
+next = "Next"
+shownext = "Show next story"
+previous = "Previous"
+showprevious = "Show previous story"

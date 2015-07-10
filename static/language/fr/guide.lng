@@ -1,0 +1,11 @@
+[guide]
+noadvice="Je n'ai plus de conseil à vous donner pour le moment."
+
+[navigation]
+callguide="Appeler votre guide"
+hide="Cacher"
+next="Suivant"
+previous="Précédent"
+shownext="Montrer le dialogue suivant"
+showprevious="Montrer le dialogue précédent"
+

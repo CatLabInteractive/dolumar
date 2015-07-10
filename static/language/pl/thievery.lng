@@ -1,0 +1,44 @@
+[result]
+title="Sabotaż"
+overview="wróć do podglądu"
+err_resources="Ma za mało surowców do tej akcji."
+
+[moveUnit]
+toReturn="aby wrócić do podglądu"
+title="Przenieś jednostkę"
+duration="Czas Trwania:"
+done="Twój złodziej wyruszył na niebezpieczną misję, w teren wroga."
+distance="Odległość:"
+confirm="Rozpocznij wyprawę "
+
+[confirm]
+toCast="@@spell"
+title="Potwierdź akcję"
+stype="Typ Akcji"
+probability="Szansa Sukcesu"
+difficulty="Trudność"
+cost="Koszt Akcji"
+confirm_notarget="Czy na pewno chcesz rzucić @@spell?"
+confirm="Czy na pewno chcesz rzucić @@spell do @@village?"
+
+[commandUnit]
+isMoving="Ten złodziej jest w ruchu. Nie możesz mu wydawać rozkazów gdy on nie jest we wiosce."
+
+[chooseUnit]
+travelling="Złodziej podróżuje do @@0."
+timeLeft="Dotrze na miejsce za @@0."
+sendAway="Przenieś Złodzieja"
+location="Pozycja: @@0."
+doAction="Sabotaż"
+about="Wybierz jednego ze złodziei i wyślij go na niebezpieczną misję."
+
+[cast]
+toCast="@@spell"
+title="Sabotaż"
+return="Wróć do podglądu"
+learn="Naucz @@effect."
+dif="róż."
+choose="Wybierz akcję."
+castcost="Koszt Akcji"
+about="Skradaj się za plecami wrogów i rozpętaj tam chaos."
+

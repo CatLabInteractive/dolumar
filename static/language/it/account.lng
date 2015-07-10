@@ -1,0 +1,66 @@
+[language]
+language="Scegli la tua lingua"
+submit="Cambia lingua"
+
+[preferences]
+openBuilding="Apri Opzioni Edifici"
+minimap="Posizione Minimappa"
+bottomLeft="In Basso a Sinistra"
+upperLeft="In Alto a Sinistra"
+bottomRight="In Basso a Destra"
+upperRight="In Alto a Destra"
+advertisement="Pubblicità"
+showAdvertisement="Mostra pubblicità"
+hideAdvertisement="Nascondi pubblicità"
+preferences="Impostazioni"
+
+[nickname]
+welcome="Benvenuto su Dolumar!"
+username="Nickname"
+user_found="Questo nickname è già registrato. Scegli un altro per favore."
+submit="Scegli il tuo nickname"
+
+[login]
+welcome="Benvenuto!"
+password="Password"
+submit="Accedi"
+login="Accedi prima per favore."
+username="Nome utente"
+toRequest=" "
+
+[register]
+email="La tua E-mail"
+password="Password"
+password2="Verifica password"
+login="Ora puoi accedere."
+done="Il tuo account è stato creato."
+accept="Sono d'accordo sulle @@condizioni."
+terms="Condizioni di servizio."
+username="Nome utente"
+register="Compila questo modulo per favore."
+about="Preparati per entrare il mondo di Dolumar!"
+submit="Registra il tuo account"
+
+[profile]
+villages="Paesi"
+village="Paese"
+
+[locked]
+legend="Invito"
+invNotFound="Non posso trovare questo codice per invitare:"
+code="Codice per invitare"
+
+[selectRace]
+joinClan="Unisciti a un clan"
+location="O seleziona una posizione per cominciare"
+selectRace="Seleziona una razza"
+clanLocked="bloccato"
+clanFull="pieno"
+selectLocation="Posizione per cominciare"
+
+[tos]
+tos="condizioni di servizio."
+
+[main]
+noPremium="Questa applicazione è solitamente per gli utenti premium."
+

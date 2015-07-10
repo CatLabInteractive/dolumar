@@ -1,0 +1,242 @@
+[main]
+noPremium="Deze toepassing is enkel beschikbaar voor premium gebruikers."
+
+[tos]
+register="Door te registeren bevestig je dat je ouder bent dan 13 jaar  en dat je ons @@pp en onze @@tos accepteerd."
+pp="privacybeleid"
+tos="voorwaarden"
+
+[login]
+welcome="Welkom!"
+login="Gelieve in te loggen."
+username="Gebruikersnaam"
+password="Wachtwoord"
+submit="Inloggen"
+toRegister="om een account aan te maken."
+toRequest="als je je wachtwoord kwijt bent."
+login_title="Inlog gegevens"
+openid="Inloggen met OpenID"
+browserworld="Login met Browser-World account"
+
+[register]
+about="Bereid je voor op de wondere wereld van Dolumar!"
+register="Vul alle gegevens in."
+submit="Registreer je account"
+username="Gebruikersnaam"
+email="E-mailadres"
+password="Wachtwoord"
+password2="Herhaal wachtwoord"
+done="Uw account is aangemaakt."
+login="U kan nu inloggen."
+accept="Ik ga akkoord met de @@terms."
+terms="Algemene Voorwaarden"
+
+[locked]
+locked="Momenteel kan u niet registreren zonder uitnodiging. Ken je iemand die Dolumar speelt? Vraag hem dan een uitnodiging."
+invitation="Heb je een uitnodigingscode, vul hem dan hier in."
+code="Uitnodigingscode"
+submit="Volgende"
+invNotFound="Ik kan deze uitnodiging niet vinden: "
+legend="Uitnodiging"
+
+[selectRace]
+submit="Volgende"
+select="Welkom! Je moet een ras en startlocatie kiezen om te beginnen spelen. Elk ras heeft zijn voor- en nadelen."
+joinClan="Ga bij een clan!"
+location="Of kies een startpositie"
+selectRace="Kies een ras"
+selectLocation="Startpositie"
+clanLocked="gesloten"
+clanFull="volzet"
+
+[clanPassword]
+about="Deze clan is gesloten. Je kan niet binnen zonder wachtwoord."
+back="Ga terug"
+joinClan="Ga bij @@clan"
+password="Wachtwoord"
+submit="Ga bij clan"
+wrongPass="Het wachtwoord dat je invulde, is niet correct."
+
+[language]
+language="Selecteer je taal"
+submit="Wijzig taal"
+
+[errors]
+usernameFormat="Je gebruikersnaam is ongeldig."
+emailFound="Dit e-mailadres is reeds gebruikt. Je kan geen twee accounts maken met hetzelfde e-mailadres."
+userFound="Deze gebruikersnaam is reeds gekozen. Kies een andere gebruikersnaam."
+passwordMismatch="Je wachtwoorden komen niet overeen."
+passwordFormat="Je wachtwoord moet minstens 3 karakters lang zijn."
+emailFormat="Je e-mailadres is ongeldig."
+user_not_found="Verkeerde gebruikersnaam / wachtwoord combinatie. Probeer opnieuw."
+server_not_online="De server is tijdelijk gesloten wegens technische problemen."
+clan_is_full="De clan die je koos is vol. Kies een andere clan."
+no_location_found="Ik kon geen geschikte plaats dicht bij je clan vinden. Kies een andere clan of een andere startlocatie."
+
+[preferences]
+openBuilding="Open gebouw"
+singleClick="Enkele muisklik"
+doubleClick="Dubbel muisklik"
+minimap="Minimap positie"
+bottomLeft="Beneden links"
+upperLeft="Boven rechts"
+bottomRight="Beneden rechts"
+upperRight="Boven links"
+change="Toepassen"
+dragable="Verplaatsbaar"
+advertisement="Reclame"
+showAdvertisement="Toon reclame"
+hideAdvertisement="Verberg reclame"
+preferences="Voorkeuren"
+
+[nickname]
+welcome="Welkom op Dolumar!"
+chooseName="Voor je kan spelen, moet je een gebruikersnaam kiezen. Kies een unieke gebruikersnaam."
+username="Gebruikersnaam"
+submit="Kies gebruikersnaam"
+error_username="Je gebruikersnaam is ongeldig."
+user_found="De gebruikersnaam die je koos is reeds in gebruik. Kies een andere gebruikersnaam."
+
+[profile]
+villages="Dorpen"
+village="Dorp"
+creation="Speelt sinds"
+lastRef="Laatste actie"
+removal="Gestopt op"
+onlineNow="Nu online"
+playerProfile="Spelersprofiel"
+onlineAgo="@@0 geleden."
+clans="Clans"
+status="Status:"
+removed="Verlaten"
+online="Online"
+offline="Offline"
+vacation="Op vakantie"
+
+[choosemail]
+email_title="E-mail validatie"
+email="E-mail"
+submit="Valideer E-mail adre"
+about="Uw account is nog niet gelinkt aan een e-mail adres. Sommige opties zijn mogelijk niet beschikbaar."
+welcome="Welkom, @@0!"
+certification="We hebben jouw e-mailadres ontvangen, maar het is nog niet gevalideert. Klik op de link die je ontvangen hebt per mail om je adres te valideren."
+toCertAgain="om de validatiemail opnieuw te verzenden."
+mail_subject="Dolumar E-mail validatie"
+email_exists="Dit e-mailadres is reeds gebruikt. Kies een uniek e-mail adres."
+toReturn="om terug te keren naar het overzicht."
+invalid_syntax="Dit is geen geldig e-mailadres."
+
+[myAccount]
+welcome="Welkom, @@0."
+setEmail="Valideer e-mail adres"
+todo="Te doen:"
+logout="Uitloggen"
+premium="Premium account"
+notPremium="Uw premium account is verlopen."
+toPremium="om uw premium account te verlengen."
+premiumLast="Uw premium account is actief. Het zal verlopen op @@0."
+changePass="Wachtwoord aanpassen"
+account="Account opties"
+resetAccount="Account resetten"
+vacationMode="Vakantiemodus"
+
+[changepass]
+changePass="Wachtwoord aanpassen"
+pass1="Wachtwoord"
+pass2="Herhaal wachtwoord"
+submit="Aanpassen"
+back="Terug naar overzicht"
+password_mismatch="Uw wachtwoorden zijn niet gelijk."
+changed="Uw wachtwoord is aangepast."
+
+[resetaccount]
+about="Soms is het beter om opnieuw te beginnen. Hier kan je je hele dorp van de kaart vegen en met een schone lei herbeginnen."
+emailcert="Je moet je e-mailadres valideren voor je jouw account kan verwijderen."
+confirm="om je account te herstarten. Dit kan niet ongedaan gemaakt worden!"
+done="Het herstartproces is gestart. We hebben je een e-mail gestuurd met een reset-link in. Klik op deze link om je account te herstaren."
+msubject="Dolumar account herstarten"
+yousure="Ben je zeker dat je je account wil herstarten? Je zal op een nieuwe locatie moeten beginnen."
+instadone="Jouw account is gereset."
+
+[premium]
+credits="U hebt @@0 credits."
+toUseCredit="om je premium account met 15 dagen te verlengen."
+toBuyCredit="om credits te kopen."
+not_enough_credits="Je hebt niet genoeg credits."
+about_buy="Kies hoeveel credits je wilt kopen en welke munt je wilt gebruiken."
+currency="Munt"
+amount="Hoeveelheid"
+perPiece="p.s."
+proceed="Ga verder naar de kassa"
+unsufficient_credits="Het spijt mij, je hebt niet genoeg credits."
+optional="optioneel"
+isoptional="Een premium account is @@optional. Je kan dit spel gratis spelen."
+validateEmail="Je moet eerst je emailadres bevestigen."
+
+[serverOffline]
+title="Server tijdelijk niet beschikbaar"
+about="Deze server is tijdelijk niet beschikbaar wegens technische problemen. We brengen alles zo snel mogelijk in orde."
+error="Debug fout:"
+daily_cron_failed="Het lijkt er op dat de dagelijkse serveropruiming niet geslaagd is!"
+not_installed="Deze server is nog niet geïnstalleerd . De dagelijkse synchronisatie moet nog gebeuren."
+
+[lostPassword]
+loggedIn="Je bent reeds ingelogd."
+about="Dit formulier staat je toe je wachtwoord opnieuw in te stellen. Dit is enkel mogelijk als je eerder een e-mailadres hebt opgegeven."
+email="Jouw e-mailadres"
+submit="Wachtwoord opnieuw instellen"
+mail_subject="Dolumar wachtwoord vergeten"
+done="We hebben je een nieuw wachtwoord gestuurd"
+
+[openid]
+title="OpenID Login"
+about="Heb jij een OpenID? Waarom het dan niet in Dolumar gebruiken?"
+legend="OpenID account"
+url="OpenID Identity URL"
+submit="Login"
+loginFail="Login mislukt. Vul alsjeblieft een geldig OpenID in."
+whatIs="Wat is OpenID?"
+popular="Populaire Providers"
+specify="Specifieer Provider"
+toReturn="om terug te keren naar het login scherm."
+
+[vacationMode]
+title="Vakantiemodus"
+about="Ga je op vakantie en ben je bang je dorp te verliezen? Zet je account dan in vakantiemodus."
+rules="Onthoudt echter dat je minstens 7 dagen in vakantiemodus moet blijven."
+activate="Activeer vakantiemodus"
+confirm="Ben je zeker dat je de vakantiemodus wilt activeren?"
+done="Je account staat nu in vakantiemodus. Over 7 dagen kan je weer spelen."
+active="Je account is in vakantiemodus sinds @@since. Let er op dat, als je je vakantiemodus verlaat, je niet meer in vakantiemodus kan gaan voor 14 dagen."
+disable="Verlaat vakantiemodus"
+disabled="Welkom terug! Veel plezier met Dolumlar!"
+too_early="Het is te vroeg om terug te keren. Je kan pas terug beginnen spelen na 7 dagen."
+vacation_limit="Je kan niet in vakantiemodus gaan, gezien je in de laatste 14 dagen ook al op vakantie was."
+
+[logbook]
+title="Logboek"
+
+[invite]
+invite="Nodig je vrienden uit om dolumar te spelen en verdien gratis runes. Voor iedere vriend die je inviteerd, krijg je een random rune."
+legend="Zend deze URL naar je vrienden om een bonus te ontvangen:"
+url="Persoonlijke referal URL"
+
+[premiumbenefits]
+about="Dolumar is gratis. Om het spel gratis te houden hebben we premium accounts gemaakt die volgende voordelen bieden:"
+bqueue="Plaats bouwacties in een wachtrij, zodat ze uitgevoerd worden terwijl jij offline bent."
+uinfo="Bereken automatisch hoeveel troepen je kan trainen."
+searchtool="Uitgebreide zoekmachine om spelers en dorpen te vinden."
+tqueue="Plaats troep-train acties in een wachtrij."
+
+[ignorelist]
+about="Hier kan je spelers negeren. Als je iemand negeert, kan hij je niet contacteren per privaté berichten en zie je zijn berichten niet in de chat."
+ignoring="Mensen die je negeert"
+notIgnoring="Je negeert niemand."
+ignore="Negeer speler"
+nickname="Speler naam"
+button="Negeer"
+unignore="stop met negeren"
+player_not_found="Deze speler kan niet gevonden worden. Controlleer je spelling."
+ignore_yourself="Je kan jezelf niet negeren."
+validateEmail="Je moet eerst je e-mail adres bevestigen."
+

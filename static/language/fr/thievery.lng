@@ -1,0 +1,44 @@
+[cast]
+about="Faufilez-vous derrière les lignes ennemies et fomentez le trouble."
+castcost="Coût de l'action"
+choose="Choisissez une action."
+dif="dif."
+learn="Apprendre @@effect."
+return="Retourner à la page précédente"
+title="Sabotage"
+toCast="@@spell"
+
+[chooseUnit]
+about="Choisissez un de vos voleurs et envoyez le dans une dangereuse mission."
+doAction="Sabotage"
+location="Position : @@0."
+sendAway="Déplacer un voleur"
+timeLeft="Arrivée dans @@0."
+travelling="Le voleur se déplace vers @@0."
+
+[commandUnit]
+isMoving="Ce voleur se déplace. Vous ne pouvez pas lui donner des ordres pendant qu'il se déplace d'un village à l'autre."
+
+[confirm]
+confirm="Etes-vous sûr de vouloir lancer le sort @@spell sur @@village ?"
+confirm_notarget="Etes-vous sûr de vouloir lancer le sort @@spell ?"
+cost="Coût de l'action"
+difficulty="Difficulté"
+probability="Chance de réussite"
+stype="Type d'action"
+title="Confirmer l'action"
+toCast="@@spell"
+
+[moveUnit]
+confirm="Démarrer le déplacement"
+distance="Distance :"
+done="Votre voleur a commencé sa dangereuse mission en territoire ennemie..."
+duration="Durée :"
+title="Déplacer l'unité"
+toReturn="pour retourner à la page précédente."
+
+[result]
+err_resources="Vous n'avez pas assez de ressources pour exécuter cette action."
+overview="Retourner à la page précédente"
+title="Sabotage"
+

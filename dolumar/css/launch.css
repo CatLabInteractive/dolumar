@@ -1,0 +1,66 @@
+*
+{
+	margin: 0px;
+	padding: 0px;
+}
+
+body
+{
+	background: black;
+}
+
+div#countdown
+{
+	width: 250px;
+	margin-left: -125px;
+	left: 50%;
+	position: absolute;
+	margin-top: -120px;
+	top: 50%;
+}
+
+div#countdown h1
+{
+	text-align: center;
+	color: gold;
+	background-image:url('../images/topmenu_center.png');
+	background-position: center center;
+	background-repeat: no-repeat;
+	height: 60px;
+}
+
+div#countdown a
+{
+	color: gold;
+}
+
+div#countdown h1 span
+{
+	display: none;
+}
+
+div#countdown p
+{
+	color: gold;
+	font-size: 10px;
+	font-family: Verdana;
+	text-align: center;
+	margin-top: 10px;
+	line-height: 1.5;
+}
+
+div#countdown ul
+{
+	list-style-type: none;
+	color: gold;
+	font-size: 10px;
+	font-family: Verdana;
+	text-align: center;
+	margin-top: 10px;
+}
+
+div#countdown ul li
+{
+	display: inline-block;
+	padding: 3px 8px;
+}

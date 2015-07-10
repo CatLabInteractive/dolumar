@@ -1,0 +1,35 @@
+[battle]
+attacking="@@actor envoie ses forces de @@village pour attaquer @@defender (@@pl_defender)."
+defending="Votre village @@village subit l'attaque de @@attacker (@@pl_attacker)."
+attacking_long="@@player tente d'affirmer sa suprématie sur les champs de bataille ! Sa guerre contre @@defender prouvera sa supériorité. Aiderez-vous  @@player dans son combat ?"
+defending_long="Votre village @@village subit une attaque ! Préparez-vous au combat !"
+
+[messages]
+received="Vous avez reçu un message de @@player."
+
+[runes]
+received="Vous avez reçu @@runes de @@player."
+
+[resources]
+received="Vous avez reçu @@resources de @@player."
+
+[system]
+test="Ceci est une notification de test. Votre cible test était @@player."
+test_long="Ne paniquez pas ! Ceci est just un test ! @@player teste notifications. Il a un village nommé @@village."
+
+[clan]
+join="@@actor a rejoint le clan @@clan."
+leave="@@actor a quitté le clan @@clan."
+join_long="@@player a décidé qu'il était plus sympa de jouer en équipe, il a donc rejoint le clan @@clan. Etes-vous prêt à le rejoindre et dominer le monde ?"
+leave_long="Cela n'a pas fonctionné entre @@player et ses camarades de clan. Voudriez vous prendre sa place dans le @@clan ?"
+
+[portal]
+open="@@player a ouvert un portail magique entre @@village et @@target_village. Il restera  ouvert jusqu'au @@date et sera disponible pour tous les membres du clan."
+opened="@@player a ouvert un portail magique entre @@village et @@target_village. Il restera  ouvert jusqu'au @@date et sera disponible pour tous les membres du clan."
+
+[bonusbuilding]
+build="@@actor a acheté un bâtiment bonus @@building pour le village @@village."
+
+[equipment]
+received="Vous avez reçu @@amount @@equipment de @@player."
+

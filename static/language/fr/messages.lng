@@ -1,0 +1,39 @@
+[inbox]
+toNewMsg="pour écrire un nouveau message"
+
+[messages]
+banned="Vous avez été banni du système de messagerie. Vous pourrez utiliser cette fonctionnalité de nouveau dans @@duration."
+confirmremove="Etes-vous sûr de vouloir effacer ce message ?"
+date="Date"
+from="De"
+inbox="Boîte de réception"
+noSubject="Pas de sujet"
+outbox="Boîte d'envoi"
+read="Lire ce message"
+remove="Effacer ce message"
+subject="Sujet"
+to="A"
+toInbox="Voir la boîte de réception"
+toOutbox="Voir la boîte d'envoi"
+message="Message"
+nomessages="Vous n'avez pas encore reçu de message."
+
+[read]
+msg_from="De"
+msg_to="A"
+remove="effacer"
+reply="répondre"
+toInbox="pour retourner dans la boîte de réception."
+toOutbox="pour retourner dans la boîte d'envoi."
+
+[write]
+message="Message"
+player_not_found="Votre cible ne peut être trouvée. Vérifiez le nom."
+sendMessage="Envoyer votre message"
+sent="Votre message a été envoyé."
+subject="Sujet"
+to="A"
+toInbox="pour retourner dans la boîte de réception."
+write="Ecrire un nouveau message"
+yourMessage="Votre message"
+

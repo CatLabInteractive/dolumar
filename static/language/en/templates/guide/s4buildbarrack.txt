@@ -1,0 +1,3 @@
+But let's start at the start: build a barrack.
+
+You'll notice that for some buildings you can choose what rune to use. Sometimes this choise influences the features of the building. In this case, however, it doesn't, so just pick one.

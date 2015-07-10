@@ -1,0 +1,448 @@
+
+.false
+{
+	background:url('../images/background_red.png');
+	border: 1px solid red;
+	padding: 5px;
+}
+
+.true,
+.weapon-stats p
+{
+	background:url('../images/background_green.png');
+	border: 1px solid green;
+	padding: 5px;
+}
+
+.maybe,
+.highlight
+{
+	border: 1px solid #FFCC00;
+	padding: 5px;
+	background:url('../images/background_yellow.png');
+}
+
+p.information,
+div.information
+{
+	background:url('../images/background_blue.png');
+	border: 1px solid #004eff;
+	padding: 5px;
+	min-height: 30px;
+}
+
+p.information span.info-icon,
+div.information span.info-icon
+{
+	background:url('../images/information.png');
+
+	background-repeat: no-repeat;
+	background-position: top left;
+	display: block;
+	padding-left: 35px;
+	
+	min-height: 30px;
+}
+
+div.information p
+{
+	margin: 0px;
+	padding: 0px;
+}
+
+p.premium,
+div.premium
+{
+	background:url('../images/background_gold.png');
+	border: 1px solid gold;
+	padding: 5px;
+}
+
+div.premium p
+{
+	padding: 0px;
+}
+
+p.premium > span.premium-icon, 
+div.premium > span.premium-icon
+{
+
+}
+
+p.premium span.premium-icon
+{
+	background:url(../images/icons/menu/premium.png);
+	background-repeat: no-repeat;
+	background-position: top left;
+	display: block;
+	padding-left: 30px;
+}
+
+p.premium a
+{
+	color: #ff7100;
+}
+
+.false span.title, p.true span.title, p.maybe span.title
+{
+	font-weight: bold;
+}
+
+p.sidenote
+{
+	float: right;
+	margin: 0px;
+	padding: 3px 0 0 1px;
+	margin-right: 2px;
+}
+
+p.credits
+{
+	font-variant: small-caps;
+	color: red;
+}
+
+p.credits.right
+{
+	float: right;
+	margin-right: 2px;
+	margin-top: 0px;
+	padding-top: 0px;
+}
+
+a
+{
+	color: #000097;
+}
+
+a:hover
+{
+	color: red;
+}
+
+.dolumar_content_inner2 table
+{
+	/*background-color: #FFFFCC;*/
+	width: 100%;
+	margin-bottom: 3px;
+	border-collapse: separate;
+}
+
+.dolumar_content_inner2 table th
+{
+	font-weight: bold;
+}
+
+.dolumar_content_inner2 table td, 
+.dolumar_content_inner2 table th
+{
+	padding: 1px 2px;
+	text-align: left;
+}
+
+.dolumar_content_inner2 table td.icon
+{
+	width: 15px;
+}
+
+.dolumar_content_inner2 table td.alignLeft,
+.dolumar_content_inner2 table th.alignLeft
+{
+	text-align: left;
+}
+
+.dolumar_content_inner2 table td.date,
+.dolumar_content_inner2 table th.date
+{
+	width: 110px;
+	text-align: center;
+}
+
+.dolumar_content_inner2 table td.distance-long,
+.dolumar_content_inner2 table th.distance-long
+{
+	width: 100px;
+	text-align: right;
+}
+
+.dolumar_content_inner2 table td.player,
+.dolumar_content_inner2 table th.player
+{
+	width: 110px;
+	text-align: center;
+}
+
+.dolumar_content_inner2 table td.village-name,
+.dolumar_content_inner2 table th.village-name
+{
+	width: 135px;
+	text-align: left;
+}
+
+.dolumar_content_inner2 table td.networth,
+.dolumar_content_inner2 table th.networth
+{
+	width: 75px;
+	text-align: center;
+}
+
+.dolumar_content_inner2 table td span.resource
+{
+	display: inline-block;
+	margin-left: 5px;
+}
+
+.dolumar_content_inner2 table td.number,
+.dolumar_content_inner2 table th.number
+{
+	text-align: center;
+}
+
+.dolumar_content_inner2 table td.left
+{
+	text-align: left;
+}
+
+.dolumar_content_inner2 table td.right
+{
+	text-align: right;
+}
+
+/* Statusbar */
+ul.statusbar,
+ul.statusbar a
+{
+	color: yellow;
+	padding: 0px;
+}
+
+ul.statusbar li.construct,
+ul.statusbar li.construct a
+{
+	color: yellow;
+}
+
+ul.statusbar li.upgrade,
+ul.statusbar li.upgrade a
+{
+	color: yellow;
+}
+
+ul.statusbar li.scouting,
+ul.statusbar li.scouting a
+{
+	color: yellow;
+}
+
+ul.statusbar li.troops,
+ul.statusbar li.troops a
+{
+	color: #d5e000;
+}
+
+ul.statusbar li.troops.sending,
+ul.statusbar li.troops.sending a
+{
+	color: DarkOrange;	
+}
+
+ul.statusbar li.queue,
+ul.statusbar li.queue a
+{
+	color: white;
+}
+
+ul.statusbar li.effects,
+ul.statusbar li.effects a
+{
+	color: #cbff00;
+}
+
+/*
+	Custom stuff
+*/
+
+/* Build building */
+select.selectRune
+{
+	margin: 0px;
+	padding: 0px;
+	background: #90855d;
+	border: 1px solid #70653d;
+	color: #dddddd;
+	margin-top: 2px;
+}
+
+select.selectRune option
+{
+	background: #90855d;
+	color: #dddddd;
+	border: none;
+}
+
+select.selectRune option.hasntRunes
+{
+	background: #905d5d;
+	text-decoration: line-through;
+}
+
+span.hasntRunes
+{
+	color: red;
+}
+
+ul.list
+{
+	list-style-type: square;
+	margin-left: 10px;
+	padding-left: 10px;
+	margin-bottom: 5px;
+}
+
+/*
+	Tabs
+*/
+ul.tabs
+{
+	border-bottom: 1px solid gold;
+	margin: 0px;
+	padding: 0px;
+	height: 20px;
+}
+
+ul.tabs li
+{
+	float: left;
+	padding: 2px 5px;
+	border-top: 1px solid gold;
+	border-right: 1px solid gold;
+	border-left: 1px solid gold;
+	margin-right: 0px;
+	margin-left: 5px;
+	margin-bottom: 0px;
+	height: 15px;
+	color: gray;
+	background:url('../images/background_yellow.png');
+	border-bottom: 1px solid gold;
+}
+
+ul.tabs li a
+{
+	text-decoration: none;
+	color: gray;
+}
+
+ul.tabs li.active
+{
+	height: 16px;
+	border-bottom: 0px none white;
+}
+
+ul.tabs li.active a
+{
+	color: black;
+	font-weight: bold;
+}
+
+.dolumar_content_inner2 .belowTabs
+{
+	border-top: 0px none black;
+}
+
+
+span.effect
+{
+	color: red;
+}
+
+span.building
+{
+	color: blue;
+}
+
+span.unit
+{
+	color: #CC6600;
+}
+
+span.equipment
+{
+	color: purple;
+}
+
+
+ul.actions
+{
+	list-style-type: circle;
+	margin-left: 20px;
+}
+
+ul.actions li
+{
+	padding-top: 2px;
+}
+
+
+/*
+	Table
+*/
+table tr.even,
+ul li.even
+{
+	background:url('../images/background_gold.png');
+}
+
+#map_cancel_warning
+{
+	background:url('../images/background_red.png');
+}
+
+.zoom-in
+{
+	position: absolute;
+	right: 5px;
+	top: 25px;
+	width: 13px;
+	height: 13px;
+	background:url('../images/zoomin.gif');
+	cursor: pointer;
+}
+
+.zoom-out
+{
+	position: absolute;
+	right: 5px;
+	top: 42px;
+	width: 13px;
+	height: 13px;
+	background:url('../images/zoomout.gif');
+	cursor: pointer;
+}
+
+span.premium-only
+{
+	color: red;
+	font-weight: normal;
+	font-variant: small-caps;
+	font-family: sans-serif;
+}
+
+.underworld.status
+{
+	top: 0px;
+	left: 0px;
+}
+
+p.resources
+{
+    line-height: 2.1;
+}
+
+.duration
+{
+    display: inline-block;
+    background:url('../images/icons/resources/time.png');
+    background-repeat: no-repeat;
+    background-position: top left;
+    padding-left: 18px;
+}

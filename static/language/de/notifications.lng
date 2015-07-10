@@ -1,0 +1,24 @@
+[battle]
+attacking="@@actor schickte seine Truppen von @@village um @@defender (@@pl_defender) anzugreifen."
+defending="Deine Siedlung @@village wird durch @@attacker angegriffen (@@pl_attacker). "
+
+[messages]
+received="Du hast eine Nachricht von @@player erhalten."
+
+[runes]
+received="Du hast @@runes von @@player bekommen."
+
+[resources]
+received="Du hast @@resources von @@player bekommen."
+
+[system]
+test="Das ist eine Testmeldung. Dein Testziel was @@user."
+
+[clan]
+join="@@actor ist soeben Clan @@clan beigetreten."
+leave="@@actor hat Clan @@clan verlassen."
+
+[portal]
+open="@@player hat ein magisches Portal zwischen @@village und @@target_village geöffnet. Es wird noch bis @@date offen bleiben und ist für alle Clanmitglieder zugänglich."
+opened="@@player hat ein magisches Portal zwischen @@village und @@target_village geöffnet. Es wird noch bis @@date offen bleiben und ist für alle Clanmitglieder zugänglich."
+

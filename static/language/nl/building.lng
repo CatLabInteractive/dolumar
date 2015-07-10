@@ -1,0 +1,78 @@
+[building]
+notFound="Dit gebouw is waarschijnlijk verwoest in een aanval."
+owner="Eigenaar"
+village="Dorp"
+race="Ras"
+location="Locatie"
+lvl="lvl"
+level="Level"
+buildDate="Gebouwd op"
+back="om terug te keren naar het overzicht."
+general="Toon informatie"
+upgrade="Opwaarderen @@0"
+overview="Opties"
+constructing="Dit gebouw is in aanbouw."
+upgrading="Je inwoners zijn hard aan het werk aan de opbouw van dit dorp."
+timeLeft="Geschatte duur"
+cancel="om de bouw te stoppen."
+destruct="Vernietig gebouw"
+desTC="Je kan je kasteel niet vernietigen..."
+destroyed="vernietigd"
+usedRune="Gebruikte runen"
+inactive="Dit gebouw is verlaten. Alle waardevolle dingen zijn al gestolen."
+
+[destruct]
+done="Dit gebouw is vernietigd."
+confirm="Ben je zeker dat je dit gebouw wil vernietigen?"
+
+[upgrade]
+upgrade="Gebouw opwaarderen"
+about="Waardeer  jouw gebouwen op om ze sterker en beter te maken. Opwaarderen geeft zelfs soms nieuwe opties."
+cost="Kosten voor het opwaarderen"
+duration="Het opwaarderen zal @@duration duren."
+upgradeAll="De kosten deken enkel het opwaarderen van het gebouw"
+startUpgrade="Begin het opwaarderen"
+
+[build]
+intro="Om een gebouw te bouwen heb je de juiste rune en genoeg grondstoffen nodig. Je kunt runnen vinden door de omtrek te verkennen of door andere spelers aan te vallen. Sommige gebouwen hebben specifieke runen nodig, andere mag je zelf kiezen. Kies eerst een runen en begin dan met het bouwen. "
+requires="Heeft @@0 nodig."
+construct="Bouw gebouw"
+click="Klik eerst op 'bouwen' en kies daarna een locatie op de kaart. Om te annuleren rechts klikten"
+selectRune="Je moet een rune kiezen voor je dit gebouw kan bouwen."
+upgradeFirst="Bouw je andere @@buildings eerst uit."
+
+[buildError]
+noResources="Je hebt niet genoeg grondstoffen."
+techlevel="Je hebt niet de benodigde technologieën."
+outOfRange="Je bouwradius is @@0 rond je kasteel. Je kan niet bouwen buiten je bouwradius."
+buildingOverlap="Er is al een gebouw op deze plaats. Kies een andere, grotere, plaats."
+done="Je inwoners zijn begonnen aan de bouw van dit nieuw gebouw."
+stillConstructing="Je inwoners zijn hard aan het werk aan andere gebouwen. Wacht tot deze gebouwen af zijn."
+minimalRange="Een kasteel moet 35 vakjes van een ander gebouw gezet worden."
+buildinglevel="Voor je een nieuw @@building kan bouwen, moet je eerst al je andere @@buildings uitbouwen tot level @@level."
+noRunes="Je hebt niet de juiste rune om dit gebouw te bouwen."
+
+[upgradeError]
+noResources="Je hebt niet genoeg grondstoffen."
+done="Je inwoners zijn aan het uitbouwen begonnen."
+unfinished="Dit gebouw is onder constructie en zal over @@0 afgewerkt zijn."
+busy="Je inwoners zijn nog bezig aan een andere opdracht. Probeer het later opnieuw."
+noRunes="Je hebt niet de juiste rune om dit gebouw op te waarderen."
+
+[technology]
+technology="Technologie"
+notFound="Wat probeer je te doen?"
+youSure="Ben je zeker dat je @@0 wilt onderzoeken?"
+costTime="Deze upgrade zal je @@0 kosten."
+duration="Het zal @@0 duren."
+toConfirm="om dit te onderzoeken."
+notEnoughResources="Je hebt niet genoeg grondstoffen om deze technologie te onderzoeken."
+done="Het onderzoek is begonnen."
+toReturn="om terug te keren naar het overzicht."
+
+[queue]
+queueBuild="Onthou het"
+doneBuild="Dit gebouw is toegevoegd aan de wachtrij. Het zal zo snel mogelijk worden gebouwd."
+queueUpgrade="Onthou het"
+doneUpgrade="Deze upgrade is toegevoegd aan de wachtrij. Het zal zo snel mogelijk worden upgegrade."
+
