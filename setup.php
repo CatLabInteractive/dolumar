@@ -13,6 +13,9 @@ $scripts .= file_get_contents ('dump/dump.sql');
 $db = Neuron_Core_Database::__getInstance();
 
 // Check.
+echo '<pre>';
+echo 'Checking setup.' . "\n";
+
 $db->select('n_players', array ('*'));
 
 
