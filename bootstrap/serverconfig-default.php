@@ -21,7 +21,8 @@ define ('CACHE_URL', 'cache.php?d=');
 /**
  * Memcahce
  */
-define ('MEMCACHE_IP', '127.0.0.1');
-define ('MEMCACHE_PORT', '11211');
+define ('MEMCACHE_SERVERS', getenv("MEMCACHIER_SERVERS"));
+define ('MEMCACHE_USERNAME', getenv("MEMCACHIER_USERNAME"));
+define ('MEMCACHE_PASSWORD', getenv("MEMCACHIER_PASSWORD"));
 
 define ('USE_PROFILE', true);
