@@ -16,7 +16,11 @@ $db = Neuron_Core_Database::__getInstance();
 echo '<pre>';
 echo 'Checking setup.' . "\n";
 
-$db->select('n_players', array ('*'));
-
-
-$db->multiQuery ($scripts);
+try {
+	$db->select('n_players', array ('*'));
+}
+catch (Exception $e)
+{
+	echo 'Installing database' . "\n";
+	$db->multiQuery ($scripts);
+}
