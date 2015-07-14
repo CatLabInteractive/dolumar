@@ -1,9 +1,16 @@
 <?php
 
-define ('DB_USERNAME', 'myuser');
-define ('DB_PASSWORD', 'myuser');
-define ('DB_SERVER', 'localhost');
-define ('DB_DATABASE', 'dolumar');
+$url = getenv("CLEARDB_DATABASE_URL");
+
+if (!$url)
+	return array ();
+
+$url = parse_url($url);
+
+define ('DB_USERNAME', $url["user"]);
+define ('DB_PASSWORD', $url["pass"]);
+define ('DB_SERVER', $url["host"]);
+define ('DB_DATABASE', substr($url["path"], 1));
 
 /*
  * Cache
