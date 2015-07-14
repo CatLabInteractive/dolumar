@@ -2,5 +2,4 @@
 /vendor
 /config/config.php
 /bootstrap/config.php
-/composer.lock
 /config/serverconfig.php
