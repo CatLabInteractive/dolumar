@@ -1,19 +1,18 @@
 <?php
 
-require_once (dirname (dirname (__FILE__)) . '/bootstrap.php');
-
-define ('DOLUMAR_BASE_PATH', dirname (dirname (__FILE__)) . '/dolumar/php');
-set_include_path (DOLUMAR_BASE_PATH);
-
-require_once (dirname (dirname (__FILE__)) . '/gameserver/php/connect.php');
+require_once __DIR__ . '/../bootstrap/bootstrap.php';
 
 define ('DISABLE_STATIC_FACTORY', true);
 
 set_time_limit (600);
 
 $game = new Dolumar_Game ();
-$server = Neuron_GameServer::getInstance ();
+$server = Neuron_GameServer::bootstrap();
 $server->setGame ($game);
+
+if (!defined ('SERVERLIST_VISIBLE')) {
+	define ('SERVERLIST_VISIBLE', false);
+}
 
 function postRequest($url, $referer, $_data) {
  
@@ -92,29 +91,34 @@ if (!$server->isInstalled ())
 		exit;
 	}
 
-	echo "Contacting ".SERVERLIST_URL." to initiate server.\n";
+	if (SERVERLIST_URL) {
+		echo "Contacting " . SERVERLIST_URL . " to initiate server.\n";
 
-	// Install the server
-	$request = postRequest
-	(
-		SERVERLIST_URL,
-		ABSOLUTE_URL,
-		array
+		// Install the server
+		$request = postRequest
 		(
-			'action' => 'initialize',
-			'server' => ABSOLUTE_URL,
-			'visible' => SERVERLIST_VISIBLE ? 1 : 0
-		)
-	);
-	
-	if ($request && isset ($request['id']) && isset ($request['name']))
-	{
-		$server->setServerName ($request['id'], $request['name']);
+			SERVERLIST_URL,
+			ABSOLUTE_URL,
+			array
+			(
+				'action' => 'initialize',
+				'server' => ABSOLUTE_URL,
+				'visible' => SERVERLIST_VISIBLE ? 1 : 0
+			)
+		);
+
+		if ($request && isset ($request['id']) && isset ($request['name'])) {
+			$server->setServerName ($request['id'], $request['name']);
+		}
+	}
+	else {
+		$server->setServerName (1, 'Dolumar');
 	}
 }
 
-else
+else if (SERVERLIST_URL)
 {
+
 	echo "Contacting ".SERVERLIST_URL." to update serverlist.\n";
 	
 	echo "Generating request... ";
@@ -151,7 +155,6 @@ else
 
 // Update the daily
 $server->setLastDaily ();
-
 $server->updateStatus ();
 
 if (!isset ($_SERVER['REMOTE_ADDR']))

@@ -1,13 +1,14 @@
 <?php
 
-require_once (dirname (dirname (__FILE__)) . '/bootstrap.php');
-
-define ('DOLUMAR_BASE_PATH', dirname (dirname (__FILE__)) . '/dolumar/php');
-set_include_path (DOLUMAR_BASE_PATH);
-
-require_once (dirname (dirname (__FILE__)) . '/gameserver/php/connect.php');
+require_once __DIR__ . '/../bootstrap/bootstrap.php';
 
 define ('DISABLE_STATIC_FACTORY', true);
+
+set_time_limit (600);
+
+$game = new Dolumar_Game ();
+$server = Neuron_GameServer::bootstrap();
+$server->setGame ($game);
 
 $game = new Dolumar_Game ();
 $server = Neuron_GameServer::getInstance ();

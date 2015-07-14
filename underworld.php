@@ -1,10 +1,6 @@
 <?php
 
-define ('DOLUMAR_BASE_PATH', dirname (__FILE__) . '/dolumar/php');
-set_include_path (DOLUMAR_BASE_PATH);
-
-require_once ('bootstrap.php');
-require_once ('gameserver/php/connect.php');
+require_once 'bootstrap/bootstrap.php';
 
 if (isset ($_GET['debug']))
 {

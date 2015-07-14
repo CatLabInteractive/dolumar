@@ -1,4 +1,7 @@
 <?php
+
+$loader = require_once __DIR__ . '/../vendor/autoload.php';
+
 define ('BASE_PATH', dirname(dirname(__FILE__)).'/');
 
 if (!defined ('ABSOLUTE_URL'))

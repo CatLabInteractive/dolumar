@@ -1,7 +1,6 @@
 <?php
 
 // Autoload.
-$loader = require_once 'vendor/autoload.php';
 require_once 'bootstrap/bootstrap.php';
 
 $game = new Dolumar_Game ();
