@@ -17,7 +17,8 @@ else {
 <?php if (isset ($list_buildings)) { ?>
 
 	<!-- Building list -->
-	<?/*
+	<?php
+	/*
 	<div class="list-icon-building">
 		<?php foreach ($list_buildings as $v) { ?>
 			<a href="javascript:void(0);" title="<?=$v[0]?>" onclick="toggleDivs('build_<?php echo $v[4]; ?>', 'buildLinks', 'buildBuildingList');"><img src="<?=$v[3]?>" class="icon-building" alt="<?=$v[0]?>" /></a>
