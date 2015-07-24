@@ -9,5 +9,5 @@ if ($lock->setLock('cronjobs', 60, 60)) {
 }
 
 if ($lock->setLock('cronjobs', 60 * 60 * 24, 60 * 60 * 24)) {
-	exec ('php cron/constantly.php');
+	exec ('php cron/daily.php');
 }
