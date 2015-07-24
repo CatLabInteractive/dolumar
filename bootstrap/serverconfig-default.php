@@ -26,3 +26,11 @@ define ('MEMCACHE_USERNAME', getenv("MEMCACHIER_USERNAME"));
 define ('MEMCACHE_PASSWORD', getenv("MEMCACHIER_PASSWORD"));
 
 define ('USE_PROFILE', false);
+
+define ('EMAIL_FROM', getenv("EMAIL_FROM"));
+define ('EMAIL_FROM_NAME', getenv("EMAIL_FROM_NAME"));
+
+define ('EMAIL_SMTP_SERVER', getenv("EMAIL_SMTP_SERVER"));
+define ('EMAIL_SMTP_PORT', getenv("EMAIL_SMTP_PORT"));
+define ('EMAIL_SMTP_USERNAME', getenv("EMAIL_SMTP_USERNAME"));
+define ('EMAIL_SMTP_PASSWORD', getenv("EMAIL_SMTP_PASSWORD"));
