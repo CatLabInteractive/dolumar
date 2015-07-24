@@ -21,6 +21,8 @@ if (!defined ('ABSOLUTE_URL')) {
 	define ('ABSOLUTE_URL', $protocol.'://'.$_SERVER['SERVER_NAME'] . '/');
 }
 
+var_dump ($_SERVER);
+
 if (file_exists (BASE_PATH . 'bootstrap/serverconfig.php')) {
 	include BASE_PATH . 'bootstrap/serverconfig.php';
 }
