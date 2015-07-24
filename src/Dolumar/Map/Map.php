@@ -40,6 +40,7 @@ class Dolumar_Map_Map
 	// Return the location of a tile
 	public static function getLocation ($x, $y, $hasBuilding = false, $useCache = true)
 	{
+
 		// Off the map! return water.
 		if ( ($x*$x) + ($y*$y) > ( MAXMAPSTRAAL * MAXMAPSTRAAL ) )
 		{
@@ -161,7 +162,7 @@ class Dolumar_Map_Map
 			$softcoast = $grid * 0.2;
 		
 			$diff = $hardcoast - $softcoast;
-		
+
 			$rdx = sqrt (($dx * $dx) + ($dy * $dy));
 		}
 		

@@ -49,6 +49,7 @@ class Dolumar_Map_PerlinGenerator
 			if (memory_get_usage () > MAX_MEMORY_USAGE)
 			{
 				$this->cache = array ();
+				$this->randCache = array ();
 			}
 		
 			// Generate a new square
@@ -198,4 +199,3 @@ class Dolumar_Map_PerlinGenerator
 		return round ($a * (1-$f) + $b*$f, 8);
 	}
 }
-?>

@@ -25,4 +25,4 @@ define ('MEMCACHE_SERVERS', getenv("MEMCACHIER_SERVERS"));
 define ('MEMCACHE_USERNAME', getenv("MEMCACHIER_USERNAME"));
 define ('MEMCACHE_PASSWORD', getenv("MEMCACHIER_PASSWORD"));
 
-define ('USE_PROFILE', true);
+define ('USE_PROFILE', false);
