@@ -8,14 +8,19 @@ if (!defined ('ABSOLUTE_URL')) {
 
 	$protocol = 'http';
 
-	if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == "https") {
-		$protocol = 'https';
-	}
-	elseif (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
-		$protocol = 'https';
+	if (!isset ($_SERVER['SERVER_NAME'])) {
+		define ('ABSOLUTE_URL', 'http://www.dolumar.com/');
 	}
 
-	define ('ABSOLUTE_URL', $protocol.'://'.$_SERVER['SERVER_NAME'] . '/');
+	else {
+		if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == "https") {
+			$protocol = 'https';
+		} elseif (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
+			$protocol = 'https';
+		}
+
+		define ('ABSOLUTE_URL', $protocol . '://' . $_SERVER['SERVER_NAME'] . '/');
+	}
 }
 
 if (file_exists (BASE_PATH . 'bootstrap/serverconfig.php')) {
