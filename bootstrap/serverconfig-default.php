@@ -34,3 +34,4 @@ define ('EMAIL_SMTP_SERVER', getenv("EMAIL_SMTP_SERVER"));
 define ('EMAIL_SMTP_PORT', getenv("EMAIL_SMTP_PORT"));
 define ('EMAIL_SMTP_USERNAME', getenv("EMAIL_SMTP_USERNAME"));
 define ('EMAIL_SMTP_PASSWORD', getenv("EMAIL_SMTP_PASSWORD"));
+define ('EMAIL_SMTP_SECURE', getenv("EMAIL_SMTP_SECURE"));
