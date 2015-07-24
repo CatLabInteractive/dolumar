@@ -11,14 +11,15 @@ if (!defined ('ABSOLUTE_URL')) {
 	if (!empty($_SERVER['REQUEST_SCHEME'])) {
 		$protocol = $_SERVER['REQUEST_SCHEME'];
 	}
+	elseif (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == "https") {
+		$protocol = 'https';
+	}
 	elseif (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
 		$protocol = 'https';
 	}
 
 	define ('ABSOLUTE_URL', $protocol.'://'.$_SERVER['SERVER_NAME'] . '/');
 }
-
-die (ABSOLUTE_URL);
 
 if (file_exists (BASE_PATH . 'bootstrap/serverconfig.php')) {
 	include BASE_PATH . 'bootstrap/serverconfig.php';
