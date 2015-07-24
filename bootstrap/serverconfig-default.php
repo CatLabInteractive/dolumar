@@ -15,7 +15,7 @@ define ('DB_DATABASE', substr($url["path"], 1));
 /*
  * Cache
  */
-define ('CACHE_DIR', '/tmp/');
+define ('CACHE_DIR', '/tmp/dolumar');
 define ('CACHE_URL', 'cache.php?d=');
 
 /**
