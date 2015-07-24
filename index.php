@@ -2,6 +2,7 @@
 
 // Autoload.
 require_once 'bootstrap/bootstrap.php';
+require_once 'cronjobs.php';
 
 $game = new Dolumar_Game ();
 
