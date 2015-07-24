@@ -2,4 +2,4 @@
 /vendor
 /config/config.php
 /bootstrap/config.php
-/config/serverconfig.php
+/bootstrap/serverconfig.php

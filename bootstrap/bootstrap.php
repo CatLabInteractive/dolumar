@@ -4,8 +4,15 @@ $loader = require_once __DIR__ . '/../vendor/autoload.php';
 
 define ('BASE_PATH', dirname(dirname(__FILE__)).'/');
 
-if (!defined ('ABSOLUTE_URL'))
-	define ('ABSOLUTE_URL', 'http://'.$_SERVER['SERVER_NAME'] . '/');
+if (!defined ('ABSOLUTE_URL')) {
+
+	$protocol = 'http';
+	if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
+		$protocol = 'https';
+	}
+
+	define ('ABSOLUTE_URL', $protocol.'://'.$_SERVER['SERVER_NAME'] . '/');
+}
 
 if (file_exists (BASE_PATH . 'bootstrap/serverconfig.php')) {
 	include BASE_PATH . 'bootstrap/serverconfig.php';
