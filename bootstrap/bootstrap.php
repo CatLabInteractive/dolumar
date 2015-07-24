@@ -8,10 +8,7 @@ if (!defined ('ABSOLUTE_URL')) {
 
 	$protocol = 'http';
 
-	if (!empty($_SERVER['REQUEST_SCHEME'])) {
-		$protocol = $_SERVER['REQUEST_SCHEME'];
-	}
-	elseif (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == "https") {
+	if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == "https") {
 		$protocol = 'https';
 	}
 	elseif (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
@@ -20,8 +17,6 @@ if (!defined ('ABSOLUTE_URL')) {
 
 	define ('ABSOLUTE_URL', $protocol.'://'.$_SERVER['SERVER_NAME'] . '/');
 }
-
-var_dump ($_SERVER);
 
 if (file_exists (BASE_PATH . 'bootstrap/serverconfig.php')) {
 	include BASE_PATH . 'bootstrap/serverconfig.php';
