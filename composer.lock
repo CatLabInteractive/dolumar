@@ -12,7 +12,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/CatLabInteractive/dolumar-engine.git",
-                "reference": "78ce90f90ccb95496b973577b67d5e4385ad591a"
+                "reference": "b9a758db83ec0eee6852e11fb837408544b1e76c"
             },
             "dist": {
                 "type": "zip",
