@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/CatLabInteractive/dolumar-engine.git",
-                "reference": "42ec900352e18ed8869f24dc05aad4315e072cf7"
+                "reference": "534944bb18b9c076f7e9da15cdc16d5eca98d737"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CatLabInteractive/dolumar-engine/zipball/42ec900352e18ed8869f24dc05aad4315e072cf7",
-                "reference": "42ec900352e18ed8869f24dc05aad4315e072cf7",
+                "url": "https://api.github.com/repos/CatLabInteractive/dolumar-engine/zipball/534944bb18b9c076f7e9da15cdc16d5eca98d737",
+                "reference": "534944bb18b9c076f7e9da15cdc16d5eca98d737",
                 "shasum": ""
             },
             "require": {
@@ -39,7 +39,7 @@
                 "source": "https://github.com/CatLabInteractive/dolumar-engine/tree/master",
                 "issues": "https://github.com/CatLabInteractive/dolumar-engine/issues"
             },
-            "time": "2015-07-26 18:50:40"
+            "time": "2015-07-26 18:54:45"
         },
         {
             "name": "phpmailer/phpmailer",
