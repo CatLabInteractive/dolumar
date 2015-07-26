@@ -5,6 +5,13 @@
 	"catlabinteractive/dolumar-engine" : "dev-master"
   },
 
+  "repositories": [
+    {
+      "type": "vcs",
+      "url":  "git@github.com:CatLabInteractive/dolumar-engine.git"
+    }
+  ],
+
   "autoload" : {
     "classmap" : [
       "src"
