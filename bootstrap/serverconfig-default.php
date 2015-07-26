@@ -7,6 +7,16 @@ if (!$url)
 
 $url = parse_url($url);
 
+if (!function_exists('getEnvOrDefault')) {
+	function getEnvOrDefault($name, $default) {
+		$val = getenv($name);
+		if (!$val) {
+			return $default;
+		}
+		return $val;
+	}
+}
+
 define ('DB_USERNAME', $url["user"]);
 define ('DB_PASSWORD', $url["pass"]);
 define ('DB_SERVER', $url["host"]);
@@ -36,7 +46,7 @@ define ('EMAIL_SMTP_USERNAME', getenv("EMAIL_SMTP_USERNAME"));
 define ('EMAIL_SMTP_PASSWORD', getenv("EMAIL_SMTP_PASSWORD"));
 define ('EMAIL_SMTP_SECURE', getenv("EMAIL_SMTP_SECURE"));
 
-define ('EMAIL_DEBUG_LEVEL', 1);
+define ('EMAIL_DEBUG_LEVEL', getEnvOrDefault('EMAIL_LOGGING', 0));
 
 /**
  * Credits
