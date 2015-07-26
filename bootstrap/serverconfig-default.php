@@ -10,7 +10,7 @@ $url = parse_url($url);
 if (!function_exists('defEnvOrDefault')) {
 	function defEnvOrDefault($name, $default = null) {
 		$val = getenv($name);
-		if (!$val) {
+		if ($val) {
 			define($name, $val);
 		}
 		elseif($default) {
