@@ -60,6 +60,7 @@ defEnvOrDefault('EMAIL_DEBUG_LEVEL');
  */
 defEnvOrDefault ('CREDITS_URL');
 defEnvOrDefault ('CREDITS_PRIVATE_KEY');
+defEnvOrDefault ('CREDITS_GAME_TOKEN');
 
 /**
  * Master server
