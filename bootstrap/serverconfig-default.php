@@ -37,3 +37,16 @@ define ('EMAIL_SMTP_PASSWORD', getenv("EMAIL_SMTP_PASSWORD"));
 define ('EMAIL_SMTP_SECURE', getenv("EMAIL_SMTP_SECURE"));
 
 define ('EMAIL_DEBUG_LEVEL', 4);
+
+/**
+ * Credits
+ */
+define ('CREDITS_URL', getenv('CREDITS_URL'));
+define ('CREDITS_PRIVATE_KEY', getenv('CREDITS_PRIVATE_KEY'));
+
+/**
+ * Master server
+ */
+define ('SERVERLIST_URL', getenv('MASTER_URL'));
+define ('SERVERLIST_PRIVATE_KEY', getenv('MASTER_PRIVATE_KEY'));
+define ('SERVERLIST_PUBLIC_KEY', getenv('MASTER_PUBLIC_KEY'));

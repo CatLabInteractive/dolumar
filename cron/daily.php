@@ -168,5 +168,3 @@ if (!isset ($_SERVER['REMOTE_ADDR']))
 	$map->prepare ();
 	*/
 }
-
-?>
