@@ -36,4 +36,4 @@ define ('EMAIL_SMTP_USERNAME', getenv("EMAIL_SMTP_USERNAME"));
 define ('EMAIL_SMTP_PASSWORD', getenv("EMAIL_SMTP_PASSWORD"));
 define ('EMAIL_SMTP_SECURE', getenv("EMAIL_SMTP_SECURE"));
 
-define ('EMAIL_DEBUG_LEVEL', 2);
+define ('EMAIL_DEBUG_LEVEL', 4);
