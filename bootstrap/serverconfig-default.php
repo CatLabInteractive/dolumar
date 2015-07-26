@@ -7,13 +7,18 @@ if (!$url)
 
 $url = parse_url($url);
 
-if (!function_exists('getEnvOrDefault')) {
-	function getEnvOrDefault($name, $default) {
+if (!function_exists('defEnvOrDefault')) {
+	function defEnvOrDefault($name, $default = null) {
 		$val = getenv($name);
 		if (!$val) {
-			return $default;
+			define($name, $val);
 		}
-		return $val;
+		elseif($default) {
+			define($name, $default);
+		}
+		else {
+			// Don't define.
+		}
 	}
 }
 
@@ -31,32 +36,34 @@ define ('CACHE_URL', 'cache.php?d=');
 /**
  * Memcahce
  */
-define ('MEMCACHE_SERVERS', getenv("MEMCACHIER_SERVERS"));
-define ('MEMCACHE_USERNAME', getenv("MEMCACHIER_USERNAME"));
-define ('MEMCACHE_PASSWORD', getenv("MEMCACHIER_PASSWORD"));
+defEnvOrDefault('MEMCACHE_SERVERS');
+defEnvOrDefault('MEMCACHE_USERNAME');
+defEnvOrDefault('MEMCACHE_PASSWORD');
 
 define ('USE_PROFILE', false);
 
-define ('EMAIL_FROM', getenv("EMAIL_FROM"));
-define ('EMAIL_FROM_NAME', getenv("EMAIL_FROM_NAME"));
+defEnvOrDefault('EMAIL_FROM');
+defEnvOrDefault('EMAIL_FROM_NAME');
 
-define ('EMAIL_SMTP_SERVER', getenv("EMAIL_SMTP_SERVER"));
-define ('EMAIL_SMTP_PORT', getenv("EMAIL_SMTP_PORT"));
-define ('EMAIL_SMTP_USERNAME', getenv("EMAIL_SMTP_USERNAME"));
-define ('EMAIL_SMTP_PASSWORD', getenv("EMAIL_SMTP_PASSWORD"));
-define ('EMAIL_SMTP_SECURE', getenv("EMAIL_SMTP_SECURE"));
+defEnvOrDefault('EMAIL_SMTP_SERVER');
+defEnvOrDefault('EMAIL_SMTP_PORT');
+defEnvOrDefault('EMAIL_SMTP_USERNAME');
+defEnvOrDefault('EMAIL_SMTP_PASSWORD');
+defEnvOrDefault('EMAIL_SMTP_SECURE');
 
-define ('EMAIL_DEBUG_LEVEL', getEnvOrDefault('EMAIL_LOGGING', 0));
+defEnvOrDefault('EMAIL_DEBUG_LEVEL');
+
+defEnvOrDefault('EMAIL_DEBUG_LEVEL');
 
 /**
  * Credits
  */
-define ('CREDITS_URL', getenv('CREDITS_URL'));
-define ('CREDITS_PRIVATE_KEY', getenv('CREDITS_PRIVATE_KEY'));
+defEnvOrDefault ('CREDITS_URL');
+defEnvOrDefault ('CREDITS_PRIVATE_KEY');
 
 /**
  * Master server
  */
-define ('SERVERLIST_URL', getenv('MASTER_URL'));
-define ('SERVERLIST_PRIVATE_KEY', getenv('MASTER_PRIVATE_KEY'));
-define ('SERVERLIST_PUBLIC_KEY', getenv('MASTER_PUBLIC_KEY'));
+defEnvOrDefault ('SERVERLIST_URL');
+defEnvOrDefault ('SERVERLIST_PRIVATE_KEY');
+defEnvOrDefault ('SERVERLIST_PUBLIC_KEY');
