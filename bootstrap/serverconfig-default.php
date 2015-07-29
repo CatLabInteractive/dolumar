@@ -53,8 +53,6 @@ defEnvOrDefault('EMAIL_SMTP_SECURE');
 
 defEnvOrDefault('EMAIL_DEBUG_LEVEL');
 
-defEnvOrDefault('EMAIL_DEBUG_LEVEL');
-
 /**
  * Credits
  */
