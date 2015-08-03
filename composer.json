@@ -16,6 +16,11 @@
     },
 
     {
+      "type": "vcs",
+      "url":  "git@github.com:CatLabInteractive/php-openid.git"
+    },
+
+    {
       "type": "pear",
       "url": "https://pear2.php.net"
     }

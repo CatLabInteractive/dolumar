@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "65d3fe5ac6879d4c2d8eec42da53beb9",
+    "hash": "0c9a927994bdaee6f3f2abc2e36c61fe",
     "packages": [
         {
             "name": "catlabinteractive/dolumar-engine",
@@ -97,12 +97,12 @@
             "version": "2.3.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/openid/php-openid.git",
+                "url": "https://github.com/CatLabInteractive/php-openid.git",
                 "reference": "924f9aa42453cd0f9dba72587b4e2cdf7f4de874"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openid/php-openid/zipball/924f9aa42453cd0f9dba72587b4e2cdf7f4de874",
+                "url": "https://api.github.com/repos/CatLabInteractive/php-openid/zipball/924f9aa42453cd0f9dba72587b4e2cdf7f4de874",
                 "reference": "924f9aa42453cd0f9dba72587b4e2cdf7f4de874",
                 "shasum": ""
             },
