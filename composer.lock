@@ -107,7 +107,7 @@
             "require": {
                 "ext-curl": "*",
                 "ext-dom": "*",
-                "ext-gmp": "*",
+                "ext-bcmath": "*",
                 "php": ">=4.3"
             },
             "type": "library",
