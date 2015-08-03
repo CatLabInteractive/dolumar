@@ -148,7 +148,7 @@ if (!defined ('WIKI_PREFIX'))
 	define ('WIKI_PREFIX', false);
 
 if (!defined ('FORUM_URL'))
-	define ('FORUM_URL', false);
+	define ('FORUM_URL', 'http://forum.dolumar.com/');
 
 if (!defined ('CONTACT_URL'))
 	define ('CONTACT_URL', false);
