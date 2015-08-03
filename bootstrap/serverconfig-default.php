@@ -68,3 +68,5 @@ defEnvOrDefault ('SERVERLIST_PRIVATE_KEY');
 defEnvOrDefault ('SERVERLIST_PUBLIC_KEY');
 
 defEnvOrDefault('AIRBRAKE_TOKEN');
+
+defEnvOrDefault('NOLOGIN_REDIRECT');
