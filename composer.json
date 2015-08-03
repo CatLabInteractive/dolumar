@@ -3,13 +3,21 @@
 
   "require": {
 	"catlabinteractive/dolumar-engine" : "dev-master",
-    "dbtlr/php-airbrake": "dev-master"
+    "dbtlr/php-airbrake": "dev-master",
+
+    "pear-pear.php.net/MDB2_Driver_mysqli": "1.5.0-beta4",
+    "pear-pear.php.net/MDB2":               "2.5.0-beta5 as 2.5.0"
   },
 
   "repositories": [
     {
       "type": "vcs",
       "url":  "git@github.com:CatLabInteractive/dolumar-engine.git"
+    },
+
+    {
+      "type": "pear",
+      "url": "https://pear2.php.net"
     }
   ],
 
