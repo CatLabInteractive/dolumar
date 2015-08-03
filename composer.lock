@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0c9a927994bdaee6f3f2abc2e36c61fe",
+    "hash": "d8050d9fac26f51339a343fd38055869",
     "packages": [
         {
             "name": "catlabinteractive/dolumar-engine",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/CatLabInteractive/dolumar-engine.git",
-                "reference": "a923caa186a428dda35f05743fedc73090e8183c"
+                "reference": "b4d386fb67ac7f5ef6441ed2a1c0444e6d6269e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CatLabInteractive/dolumar-engine/zipball/a923caa186a428dda35f05743fedc73090e8183c",
-                "reference": "a923caa186a428dda35f05743fedc73090e8183c",
+                "url": "https://api.github.com/repos/CatLabInteractive/dolumar-engine/zipball/b4d386fb67ac7f5ef6441ed2a1c0444e6d6269e5",
+                "reference": "b4d386fb67ac7f5ef6441ed2a1c0444e6d6269e5",
                 "shasum": ""
             },
             "require": {
@@ -25,7 +25,7 @@
                 "ext-gd": "*",
                 "ext-mbstring": "*",
                 "ext-memcached": "*",
-                "openid/php-openid": "2.3.0",
+                "openid/php-openid": "dev-master",
                 "pear-pear.php.net/mdb2": "2.5.0-beta5 as 2.5.0",
                 "pear-pear.php.net/mdb2_driver_mysqli": "1.5.0-beta4",
                 "phpmailer/phpmailer": "~5.2"
@@ -43,7 +43,7 @@
                 "source": "https://github.com/CatLabInteractive/dolumar-engine/tree/master",
                 "issues": "https://github.com/CatLabInteractive/dolumar-engine/issues"
             },
-            "time": "2015-08-03 10:57:37"
+            "time": "2015-08-03 11:01:41"
         },
         {
             "name": "dbtlr/php-airbrake",
@@ -94,22 +94,22 @@
         },
         {
             "name": "openid/php-openid",
-            "version": "2.3.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/CatLabInteractive/php-openid.git",
-                "reference": "924f9aa42453cd0f9dba72587b4e2cdf7f4de874"
+                "reference": "6f049ea2033d81484a92b59b7725b0b9808ef416"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CatLabInteractive/php-openid/zipball/924f9aa42453cd0f9dba72587b4e2cdf7f4de874",
-                "reference": "924f9aa42453cd0f9dba72587b4e2cdf7f4de874",
+                "url": "https://api.github.com/repos/CatLabInteractive/php-openid/zipball/6f049ea2033d81484a92b59b7725b0b9808ef416",
+                "reference": "6f049ea2033d81484a92b59b7725b0b9808ef416",
                 "shasum": ""
             },
             "require": {
+                "ext-bcmath": "*",
                 "ext-curl": "*",
                 "ext-dom": "*",
-                "ext-gmp": "*",
                 "php": ">=4.3"
             },
             "type": "library",
@@ -118,7 +118,6 @@
                     "Auth"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "include-path": [
                 "."
             ],
@@ -134,12 +133,15 @@
             "description": "OpenID library for PHP5",
             "homepage": "http://github.com/openid/php-openid",
             "keywords": [
-                "Authentication",
-                "OpenId",
                 "auth",
+                "authentication",
+                "openid",
                 "yadis"
             ],
-            "time": "2015-07-30 18:07:43"
+            "support": {
+                "source": "https://github.com/CatLabInteractive/php-openid/tree/master"
+            },
+            "time": "2015-08-03 10:42:27"
         },
         {
             "name": "pear-pear.php.net/Archive_Tar",
@@ -716,6 +718,7 @@
     "stability-flags": {
         "catlabinteractive/dolumar-engine": 20,
         "dbtlr/php-airbrake": 20,
+        "openid/php-openid": 20,
         "pear-pear.php.net/mdb2_driver_mysqli": 10,
         "pear-pear.php.net/mdb2": 10
     },
