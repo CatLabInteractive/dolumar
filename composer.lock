@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "befe2aad254de02122cb2d588b90834e",
+    "hash": "2405fbfe319466635ee103362a33c662",
     "packages": [
         {
             "name": "catlabinteractive/dolumar-engine",
@@ -98,6 +98,53 @@
         }
     ],
     "packages-dev": [
+        {
+            "name": "dbtlr/php-airbrake",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dbtlr/php-airbrake.git",
+                "reference": "0b6e6cae88a3c9c359a796091ae9a2ba40f82859"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dbtlr/php-airbrake/zipball/0b6e6cae88a3c9c359a796091ae9a2ba40f82859",
+                "reference": "0b6e6cae88a3c9c359a796091ae9a2ba40f82859",
+                "shasum": ""
+            },
+            "require-dev": {
+                "ext-curl": "*",
+                "php": ">=5.3.3",
+                "phpunit/phpunit": "*",
+                "squizlabs/php_codesniffer": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Airbrake\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Drew Butler",
+                    "email": "hi@dbtlr.com",
+                    "homepage": "http://dbtlr.com"
+                }
+            ],
+            "description": "A PHP 5.3 library for sending errors to the Airbrake.io service.",
+            "homepage": "https://github.com/dbtlr/php-airbrake",
+            "keywords": [
+                "airbrake",
+                "errors",
+                "exceptions",
+                "logging"
+            ],
+            "time": "2015-07-31 17:11:23"
+        },
         {
             "name": "doctrine/annotations",
             "version": "v1.2.6",
@@ -266,7 +313,7 @@
         },
         {
             "name": "symfony/finder",
-            "version": "v2.7.2",
+            "version": "v2.7.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Finder.git",
@@ -377,7 +424,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "catlabinteractive/dolumar-engine": 20
+        "catlabinteractive/dolumar-engine": 20,
+        "dbtlr/php-airbrake": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

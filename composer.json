@@ -20,6 +20,7 @@
 
   "require-dev": {
 	"heroku/heroku-buildpack-php": "*",
-	"zircote/swagger-php" : "*"
+	"zircote/swagger-php" : "*",
+    "dbtlr/php-airbrake": "dev-master"
   }
 }
