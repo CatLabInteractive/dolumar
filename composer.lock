@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "352e40feb93dcdfe8f5cd22064cab68f",
+    "hash": "4bc4ad4df0518533349cc10df30b33b9",
     "packages": [
         {
             "name": "catlabinteractive/dolumar-engine",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/CatLabInteractive/dolumar-engine.git",
-                "reference": "edc9543bf015d268a051194e909fa54e1af1cce0"
+                "reference": "5f47bd80124c6dfd072c2d08e03b4565afda1cc7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CatLabInteractive/dolumar-engine/zipball/edc9543bf015d268a051194e909fa54e1af1cce0",
-                "reference": "edc9543bf015d268a051194e909fa54e1af1cce0",
+                "url": "https://api.github.com/repos/CatLabInteractive/dolumar-engine/zipball/5f47bd80124c6dfd072c2d08e03b4565afda1cc7",
+                "reference": "5f47bd80124c6dfd072c2d08e03b4565afda1cc7",
                 "shasum": ""
             },
             "require": {
@@ -41,7 +41,7 @@
                 "source": "https://github.com/CatLabInteractive/dolumar-engine/tree/master",
                 "issues": "https://github.com/CatLabInteractive/dolumar-engine/issues"
             },
-            "time": "2015-08-03 10:36:45"
+            "time": "2015-08-03 10:43:33"
         },
         {
             "name": "dbtlr/php-airbrake",
@@ -480,8 +480,6 @@
     },
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": {
-        "ext-bcmath": "*"
-    },
+    "platform": [],
     "platform-dev": []
 }

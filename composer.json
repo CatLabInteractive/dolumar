@@ -2,8 +2,6 @@
   "name": "catlabinteractive/dolumar",
 
   "require": {
-    "ext-bcmath" : "*",
-
 	"catlabinteractive/dolumar-engine" : "dev-master",
     "dbtlr/php-airbrake": "dev-master"
   },
