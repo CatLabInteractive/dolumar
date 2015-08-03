@@ -31,7 +31,7 @@ else {
 }
 
 if (defined ('AIRBRAKE_TOKEN')) {
-	Airbrake\EventHandler::start(AIRBRAKE_TOKEN);
+	\Airbrake\EventHandler::start(AIRBRAKE_TOKEN);
 }
 
 if (!defined ('SPEED_FACTOR'))
