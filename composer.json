@@ -2,7 +2,8 @@
   "name": "catlabinteractive/dolumar",
 
   "require": {
-	"catlabinteractive/dolumar-engine" : "dev-master"
+	"catlabinteractive/dolumar-engine" : "dev-master",
+    "dbtlr/php-airbrake": "dev-master"
   },
 
   "repositories": [
@@ -20,7 +21,6 @@
 
   "require-dev": {
 	"heroku/heroku-buildpack-php": "*",
-	"zircote/swagger-php" : "*",
-    "dbtlr/php-airbrake": "dev-master"
+	"zircote/swagger-php" : "*"
   }
 }
