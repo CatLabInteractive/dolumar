@@ -11,9 +11,13 @@ First, make you sure you have the heroku toolbelt installed. Then run:
 * heroku create
 * heroku addons:create cleardb
 * heroku addons:create memcachier:dev
-* Navigate to /setup.php
+* Navigate to {your heroku domain name}/setup.php
 
 This will add a database and a memcache addon.
+
+## Local setup
+For a local (development) setup, make sure you have composer installed.
+Simply run composer.json to install all dependencies.
 
 ## Set up SMTP server
 You need to set SMTP credentials in order to get the email validation working. Following instructions will get it up and 
