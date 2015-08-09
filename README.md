@@ -1,11 +1,17 @@
 # dolumar
-Hosting on Heroku:
+## Setup
+Dolumar has a few requirements, listed in composer.json. We have optimized Dolumar so that it can easily run on
+a free heroku daemon, as long as you don't have too much players. It is, however, a php web application, so you 
+can easily run it on any other server.
 
+## Heroku
 First, make you sure you have the heroku toolbelt installed. Then run:
 * heroku create
 * heroku addons:create cleardb
 * heroku addons:create memcachier:dev
 * Navigate to /setup.php
+
+This will add a database and a memcache addon.
 
 ## Set up SMTP server
 You need to set SMTP credentials in order to get the email validation working. Following instructions will get it up and 
