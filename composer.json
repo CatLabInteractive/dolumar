@@ -1,5 +1,6 @@
 {
   "name": "catlabinteractive/dolumar",
+  "license" : "GPL-3.0",
 
   "require": {
 	"catlabinteractive/dolumar-engine" : "dev-master",

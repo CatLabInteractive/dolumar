@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d8050d9fac26f51339a343fd38055869",
+    "hash": "ad4ce4dfea76bcf5a2bd8a57661898ef",
     "packages": [
         {
             "name": "catlabinteractive/dolumar-engine",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/CatLabInteractive/dolumar-engine.git",
-                "reference": "b4d386fb67ac7f5ef6441ed2a1c0444e6d6269e5"
+                "reference": "de482fb2620100a32528acddf0f9fd4d78596839"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CatLabInteractive/dolumar-engine/zipball/b4d386fb67ac7f5ef6441ed2a1c0444e6d6269e5",
-                "reference": "b4d386fb67ac7f5ef6441ed2a1c0444e6d6269e5",
+                "url": "https://api.github.com/repos/CatLabInteractive/dolumar-engine/zipball/de482fb2620100a32528acddf0f9fd4d78596839",
+                "reference": "de482fb2620100a32528acddf0f9fd4d78596839",
                 "shasum": ""
             },
             "require": {
@@ -37,13 +37,13 @@
                 ]
             },
             "license": [
-                "GPL-2.0"
+                "GPL-3.0"
             ],
             "support": {
                 "source": "https://github.com/CatLabInteractive/dolumar-engine/tree/master",
                 "issues": "https://github.com/CatLabInteractive/dolumar-engine/issues"
             },
-            "time": "2015-08-03 11:01:41"
+            "time": "2015-08-09 19:59:10"
         },
         {
             "name": "dbtlr/php-airbrake",
@@ -647,16 +647,16 @@
         },
         {
             "name": "zircote/swagger-php",
-            "version": "2.0.0",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zircote/swagger-php.git",
-                "reference": "9f03cbb49eccf77c0bd5fd303fef3afd1c015878"
+                "reference": "449778e5cba0cd56b9c1b3ac53e26f5e3fad6dcb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/9f03cbb49eccf77c0bd5fd303fef3afd1c015878",
-                "reference": "9f03cbb49eccf77c0bd5fd303fef3afd1c015878",
+                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/449778e5cba0cd56b9c1b3ac53e26f5e3fad6dcb",
+                "reference": "449778e5cba0cd56b9c1b3ac53e26f5e3fad6dcb",
                 "shasum": ""
             },
             "require": {
@@ -703,7 +703,7 @@
                 "rest",
                 "service discovery"
             ],
-            "time": "2015-07-04 17:44:27"
+            "time": "2015-08-04 08:07:52"
         }
     ],
     "aliases": [
