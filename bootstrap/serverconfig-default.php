@@ -53,8 +53,6 @@ defEnvOrDefault('EMAIL_SMTP_SECURE');
 
 defEnvOrDefault('EMAIL_DEBUG_LEVEL');
 
-defEnvOrDefault('EMAIL_DEBUG_LEVEL');
-
 /**
  * Credits
  */
@@ -68,3 +66,7 @@ defEnvOrDefault ('CREDITS_GAME_TOKEN');
 defEnvOrDefault ('SERVERLIST_URL');
 defEnvOrDefault ('SERVERLIST_PRIVATE_KEY');
 defEnvOrDefault ('SERVERLIST_PUBLIC_KEY');
+
+defEnvOrDefault('AIRBRAKE_TOKEN');
+
+defEnvOrDefault('NOLOGIN_REDIRECT');

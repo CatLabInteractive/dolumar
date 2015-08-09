@@ -30,6 +30,10 @@ else {
 	include BASE_PATH . 'bootstrap/serverconfig-default.php';
 }
 
+if (defined ('AIRBRAKE_TOKEN')) {
+	\Airbrake\EventHandler::start(AIRBRAKE_TOKEN);
+}
+
 if (!defined ('SPEED_FACTOR'))
 	define ('SPEED_FACTOR', 1);
 
@@ -144,7 +148,7 @@ if (!defined ('WIKI_PREFIX'))
 	define ('WIKI_PREFIX', false);
 
 if (!defined ('FORUM_URL'))
-	define ('FORUM_URL', false);
+	define ('FORUM_URL', 'http://forum.dolumar.com/');
 
 if (!defined ('CONTACT_URL'))
 	define ('CONTACT_URL', false);
