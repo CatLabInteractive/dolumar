@@ -1,4 +1,6 @@
-# dolumar
+# Dolumar
+Play now at http://www.dolumar.com/
+
 ## Setup
 Dolumar has a few requirements, listed in composer.json. We have optimized Dolumar so that it can easily run on
 a free heroku daemon, as long as you don't have too much players. It is, however, a php web application, so you 
