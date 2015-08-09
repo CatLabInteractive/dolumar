@@ -8,7 +8,9 @@ First, make you sure you have the heroku toolbelt installed. Then run:
 * Navigate to /setup.php
 
 ## Set up SMTP server
-You need to set SMTP credentials in order to get the email validation working:
+You need to set SMTP credentials in order to get the email validation working. Following instructions will get it up and 
+running with mandrill, but you can use any SMTP server. 
+
 In heroku, set:
 * EMAIL_SMTP_SERVER: smtp.mandrillapp.com
 * EMAIL_SMTP_SECURE: tls
