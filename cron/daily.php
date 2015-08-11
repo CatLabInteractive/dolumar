@@ -90,7 +90,7 @@ function postRequest($url, $referer, $_data) {
 	$header = isset($result[0]) ? $result[0] : '';
 	$content = isset($result[1]) ? $result[1] : '';
 	
-	//echo $content;
+	echo $content;
 
 	// return as array:
 	//return array ($header, $content);

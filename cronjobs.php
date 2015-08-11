@@ -51,11 +51,11 @@ function runCronjobFile($file) {
 if ($lock->setLock('cronjobs', 60, 60)) {
 	runCronjobFile('cron/constantly.php');
 } elseif (CRONJOB_OUTPUT) {
-	echo 'Not running cron/constantly.php: too soon.';
+	echo 'Not running cron/constantly.php: too soon.' . "\n";
 }
 
 if ($lock->setLock('cronjobs', 60 * 60 * 24, 60 * 60 * 24)) {
 	runCronjobFile('cron/daily.php');
 } elseif (CRONJOB_OUTPUT) {
-	echo 'Not running cron/daily.php: too soon.';
+	echo 'Not running cron/daily.php: too soon.' . "\n";
 }
