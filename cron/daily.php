@@ -155,8 +155,12 @@ else if (SERVERLIST_URL)
 		'bigpoint' => defined ('BIGPOINT_URL') ? BIGPOINT_URL : null
 	);
 	echo "done!\n";
+
+	print_r($out);
+
+	echo "\n\n";
 	
-	echo "Sending request...";
+	echo "Sending request..." ;
 
 	// Contact thze master server for an update
 	$request = postRequest
@@ -178,14 +182,5 @@ else if (SERVERLIST_URL)
 $server->setLastDaily ();
 $server->updateStatus ();
 
-if (!isset ($_SERVER['REMOTE_ADDR']))
-{
-	// Clean thze server
-	$server->cleanServer ();
-
-	// Run the preperation script
-	/*
-	$map = new Dolumar_Map_Preparer ();
-	$map->prepare ();
-	*/
-}
+// Clean thze server
+$server->cleanServer ();
