@@ -25,10 +25,28 @@ require_once 'bootstrap/bootstrap.php';
 
 $lock = Neuron_Core_Lock::getInstance();
 
+if (!defined ('CRONJOB_OUTPUT')) {
+	define ('CRONJOB_OUTPUT', true);
+}
+
+function runCronjobFile($file) {
+
+	if (!CRONJOB_OUTPUT) {
+		ob_start();
+		include $file;
+		ob_end_clean();
+	}
+
+	else {
+		header ('text/text');
+		include $file;
+	}
+}
+
 if ($lock->setLock('cronjobs', 60, 60)) {
-	include 'cron/constantly.php';
+	runCronjobFile('cron/constantly.php');
 }
 
 if ($lock->setLock('cronjobs', 60 * 60 * 24, 60 * 60 * 24)) {
-	include 'cron/daily.php';
+	runCronjobFile('cron/daily.php');
 }

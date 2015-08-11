@@ -23,7 +23,7 @@
 
 require_once __DIR__ . '/../bootstrap/bootstrap.php';
 
-define ('DISABLE_STATIC_FACTORY', true);
+//define ('DISABLE_STATIC_FACTORY', true);
 
 set_time_limit (600);
 
