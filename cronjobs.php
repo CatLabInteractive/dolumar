@@ -29,6 +29,10 @@ if (!defined ('CRONJOB_OUTPUT')) {
 	define ('CRONJOB_OUTPUT', true);
 }
 
+if (CRONJOB_OUTPUT) {
+	header ('text/text');
+}
+
 function runCronjobFile($file) {
 
 	if (!CRONJOB_OUTPUT) {
@@ -38,15 +42,18 @@ function runCronjobFile($file) {
 	}
 
 	else {
-		header ('text/text');
 		include $file;
 	}
 }
 
 if ($lock->setLock('cronjobs', 60, 60)) {
 	runCronjobFile('cron/constantly.php');
+} elseif (CRONJOB_OUTPUT) {
+	echo 'Not running cron/constantly.php: too soon.';
 }
 
 if ($lock->setLock('cronjobs', 60 * 60 * 24, 60 * 60 * 24)) {
 	runCronjobFile('cron/daily.php');
+} elseif (CRONJOB_OUTPUT) {
+	echo 'Not running cron/daily.php: too soon.';
 }
