@@ -25,18 +25,10 @@ require_once 'bootstrap/bootstrap.php';
 
 $lock = Neuron_Core_Lock::getInstance();
 
-$cmd = "/app/php/bin/php";
-
 if ($lock->setLock('cronjobs', 60, 60)) {
-	ob_start();
 	include 'cron/constantly.php';
-	error_log(ob_get_clean());
-	ob_end_clean();
 }
 
 if ($lock->setLock('cronjobs', 60 * 60 * 24, 60 * 60 * 24)) {
-	ob_start();
 	include 'cron/daily.php';
-	error_log(ob_get_clean());
-	ob_end_clean();
 }
