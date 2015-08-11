@@ -45,6 +45,7 @@ function runCronjobFile($file) {
 		echo 'Running ' . $file . "\n";
 		echo '----------------------' . "\n";
 		include $file;
+		echo "\n\n";
 	}
 }
 
