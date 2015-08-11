@@ -28,9 +28,9 @@ $lock = Neuron_Core_Lock::getInstance();
 $cmd = "/app/php/bin/php";
 
 if ($lock->setLock('cronjobs', 60, 60)) {
-	exec ($cmd . ' cron/constantly.php');
+	exec ($cmd . __DIR__ . '/cron/constantly.php');
 }
 
 if ($lock->setLock('cronjobs', 60 * 60 * 24, 60 * 60 * 24)) {
-	exec ($cmd . ' cron/daily.php');
+	exec ($cmd . __DIR__ . '/cron/daily.php');
 }
