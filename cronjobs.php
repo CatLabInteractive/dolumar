@@ -30,7 +30,7 @@ if (!defined ('CRONJOB_OUTPUT')) {
 }
 
 if (CRONJOB_OUTPUT) {
-	header ('text/text');
+	header ('Content-type: text/text');
 }
 
 function runCronjobFile($file) {
@@ -42,6 +42,8 @@ function runCronjobFile($file) {
 	}
 
 	else {
+		echo 'Running ' . $file . "\n";
+		echo '----------------------' . "\n";
 		include $file;
 	}
 }
