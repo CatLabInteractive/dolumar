@@ -38,12 +38,7 @@ if (!defined ('SERVERLIST_VISIBLE')) {
 function postRequest($url, $referer, $_data) {
  
 	// convert variables array to string:
-	$data = array();    
-	while(list($n,$v) = each($_data))
-	{
-		$data[] = "$n=$v";
-	}    
-	$data = implode('&', $data);
+	$data = http_build_query($_data);
 	// format --> test1=a&test2=b etc.
 
 	// parse the given URL
@@ -89,8 +84,10 @@ function postRequest($url, $referer, $_data) {
 
 	$header = isset($result[0]) ? $result[0] : '';
 	$content = isset($result[1]) ? $result[1] : '';
-	
+
+	echo "Content:\n";
 	echo $content;
+	echo "\n\n";
 
 	// return as array:
 	//return array ($header, $content);
@@ -160,7 +157,7 @@ else if (SERVERLIST_URL)
 
 	echo "\n\n";
 	
-	echo "Sending request..." ;
+	echo "Sending request...\n" ;
 
 	// Contact thze master server for an update
 	$request = postRequest
@@ -169,8 +166,6 @@ else if (SERVERLIST_URL)
 		ABSOLUTE_URL,
 		$out
 	);
-	
-	echo "done!\n";
 	
 	if ($request && isset ($request['name']))
 	{
