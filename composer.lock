@@ -5,6 +5,7 @@
         "This file is @generated automatically"
     ],
     "hash": "ad4ce4dfea76bcf5a2bd8a57661898ef",
+    "content-hash": "bcc5c24367dd2700f47d41f51f5301d0",
     "packages": [
         {
             "name": "catlabinteractive/dolumar-engine",
@@ -12,12 +13,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/CatLabInteractive/dolumar-engine.git",
-                "reference": "de482fb2620100a32528acddf0f9fd4d78596839"
+                "reference": "d1712883cdfadb3aeac32a2dd7284a879540a283"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CatLabInteractive/dolumar-engine/zipball/de482fb2620100a32528acddf0f9fd4d78596839",
-                "reference": "de482fb2620100a32528acddf0f9fd4d78596839",
+                "url": "https://api.github.com/repos/CatLabInteractive/dolumar-engine/zipball/d1712883cdfadb3aeac32a2dd7284a879540a283",
+                "reference": "d1712883cdfadb3aeac32a2dd7284a879540a283",
                 "shasum": ""
             },
             "require": {
@@ -43,7 +44,7 @@
                 "source": "https://github.com/CatLabInteractive/dolumar-engine/tree/master",
                 "issues": "https://github.com/CatLabInteractive/dolumar-engine/issues"
             },
-            "time": "2015-08-09 19:59:10"
+            "time": "2016-02-02 10:57:16"
         },
         {
             "name": "dbtlr/php-airbrake",
@@ -51,12 +52,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dbtlr/php-airbrake.git",
-                "reference": "0b6e6cae88a3c9c359a796091ae9a2ba40f82859"
+                "reference": "999763ca1580d1fa7bffc0b6dfe1cf0152078e86"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dbtlr/php-airbrake/zipball/0b6e6cae88a3c9c359a796091ae9a2ba40f82859",
-                "reference": "0b6e6cae88a3c9c359a796091ae9a2ba40f82859",
+                "url": "https://api.github.com/repos/dbtlr/php-airbrake/zipball/999763ca1580d1fa7bffc0b6dfe1cf0152078e86",
+                "reference": "999763ca1580d1fa7bffc0b6dfe1cf0152078e86",
                 "shasum": ""
             },
             "require-dev": {
@@ -64,6 +65,9 @@
                 "php": ">=5.3.3",
                 "phpunit/phpunit": "*",
                 "squizlabs/php_codesniffer": "*"
+            },
+            "suggest": {
+                "airbrake/phpbrake": "This package is no longer supported, please consider using the official package."
             },
             "type": "library",
             "autoload": {
@@ -90,7 +94,7 @@
                 "exceptions",
                 "logging"
             ],
-            "time": "2015-07-31 17:11:23"
+            "time": "2016-01-13 20:45:03"
         },
         {
             "name": "openid/php-openid",
@@ -375,16 +379,16 @@
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v5.2.10",
+            "version": "v5.2.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "07005ecbb80d11ec8c0f067bb37e8909cc7fcbb7"
+                "reference": "e774bc9152de85547336e22b8926189e582ece95"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/07005ecbb80d11ec8c0f067bb37e8909cc7fcbb7",
-                "reference": "07005ecbb80d11ec8c0f067bb37e8909cc7fcbb7",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/e774bc9152de85547336e22b8926189e582ece95",
+                "reference": "e774bc9152de85547336e22b8926189e582ece95",
                 "shasum": ""
             },
             "require": {
@@ -392,12 +396,18 @@
             },
             "require-dev": {
                 "phpdocumentor/phpdocumentor": "*",
-                "phpunit/phpunit": "4.3.*"
+                "phpunit/phpunit": "4.7.*"
+            },
+            "suggest": {
+                "league/oauth2-client": "Needed for XOAUTH2 authentication",
+                "league/oauth2-google": "Needed for Gmail XOAUTH2"
             },
             "type": "library",
             "autoload": {
                 "classmap": [
                     "class.phpmailer.php",
+                    "class.phpmaileroauth.php",
+                    "class.phpmaileroauthgoogle.php",
                     "class.smtp.php",
                     "class.pop3.php",
                     "extras/EasyPeasyICS.php",
@@ -426,22 +436,22 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-            "time": "2015-05-04 12:37:21"
+            "time": "2015-11-01 10:15:28"
         }
     ],
     "packages-dev": [
         {
             "name": "doctrine/annotations",
-            "version": "v1.2.6",
+            "version": "v1.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/annotations.git",
-                "reference": "f4a91702ca3cd2e568c3736aa031ed00c3752af4"
+                "reference": "f25c8aab83e0c3e976fd7d19875f198ccf2f7535"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/annotations/zipball/f4a91702ca3cd2e568c3736aa031ed00c3752af4",
-                "reference": "f4a91702ca3cd2e568c3736aa031ed00c3752af4",
+                "url": "https://api.github.com/repos/doctrine/annotations/zipball/f25c8aab83e0c3e976fd7d19875f198ccf2f7535",
+                "reference": "f25c8aab83e0c3e976fd7d19875f198ccf2f7535",
                 "shasum": ""
             },
             "require": {
@@ -496,7 +506,7 @@
                 "docblock",
                 "parser"
             ],
-            "time": "2015-06-17 12:21:22"
+            "time": "2015-08-31 12:32:49"
         },
         {
             "name": "doctrine/lexer",
@@ -554,16 +564,16 @@
         },
         {
             "name": "heroku/heroku-buildpack-php",
-            "version": "v71",
+            "version": "v91",
             "source": {
                 "type": "git",
                 "url": "https://github.com/heroku/heroku-buildpack-php.git",
-                "reference": "115ddf16d45cff621961d8dd57e14ba1ff1e41dd"
+                "reference": "381d12e06534b7d059d42407c96588826d5e4ab4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/heroku/heroku-buildpack-php/zipball/115ddf16d45cff621961d8dd57e14ba1ff1e41dd",
-                "reference": "115ddf16d45cff621961d8dd57e14ba1ff1e41dd",
+                "url": "https://api.github.com/repos/heroku/heroku-buildpack-php/zipball/381d12e06534b7d059d42407c96588826d5e4ab4",
+                "reference": "381d12e06534b7d059d42407c96588826d5e4ab4",
                 "shasum": ""
             },
             "bin": [
@@ -594,38 +604,38 @@
                 "nginx",
                 "php"
             ],
-            "time": "2015-07-14 00:38:23"
+            "time": "2016-01-08 00:59:08"
         },
         {
             "name": "symfony/finder",
-            "version": "v2.7.3",
+            "version": "v3.0.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/Finder.git",
-                "reference": "ae0f363277485094edc04c9f3cbe595b183b78e4"
+                "url": "https://github.com/symfony/finder.git",
+                "reference": "8617895eb798b6bdb338321ce19453dc113e5675"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Finder/zipball/ae0f363277485094edc04c9f3cbe595b183b78e4",
-                "reference": "ae0f363277485094edc04c9f3cbe595b183b78e4",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/8617895eb798b6bdb338321ce19453dc113e5675",
+                "reference": "8617895eb798b6bdb338321ce19453dc113e5675",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.9"
-            },
-            "require-dev": {
-                "symfony/phpunit-bridge": "~2.7"
+                "php": ">=5.5.9"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.7-dev"
+                    "dev-master": "3.0-dev"
                 }
             },
             "autoload": {
                 "psr-4": {
                     "Symfony\\Component\\Finder\\": ""
-                }
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -643,20 +653,20 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "https://symfony.com",
-            "time": "2015-07-09 16:07:40"
+            "time": "2015-12-05 11:13:14"
         },
         {
             "name": "zircote/swagger-php",
-            "version": "2.0.1",
+            "version": "2.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zircote/swagger-php.git",
-                "reference": "449778e5cba0cd56b9c1b3ac53e26f5e3fad6dcb"
+                "reference": "c19af4edcc13c00e82fabeee926335b1fe1d92e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/449778e5cba0cd56b9c1b3ac53e26f5e3fad6dcb",
-                "reference": "449778e5cba0cd56b9c1b3ac53e26f5e3fad6dcb",
+                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/c19af4edcc13c00e82fabeee926335b1fe1d92e9",
+                "reference": "c19af4edcc13c00e82fabeee926335b1fe1d92e9",
                 "shasum": ""
             },
             "require": {
@@ -703,7 +713,7 @@
                 "rest",
                 "service discovery"
             ],
-            "time": "2015-08-04 08:07:52"
+            "time": "2016-01-15 09:39:28"
         }
     ],
     "aliases": [
