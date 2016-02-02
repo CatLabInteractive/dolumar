@@ -13,12 +13,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/CatLabInteractive/dolumar-engine.git",
-                "reference": "d1712883cdfadb3aeac32a2dd7284a879540a283"
+                "reference": "5bd3947e9d8ee5bf81efd548c5f688994fcf8379"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CatLabInteractive/dolumar-engine/zipball/d1712883cdfadb3aeac32a2dd7284a879540a283",
-                "reference": "d1712883cdfadb3aeac32a2dd7284a879540a283",
+                "url": "https://api.github.com/repos/CatLabInteractive/dolumar-engine/zipball/5bd3947e9d8ee5bf81efd548c5f688994fcf8379",
+                "reference": "5bd3947e9d8ee5bf81efd548c5f688994fcf8379",
                 "shasum": ""
             },
             "require": {
@@ -44,7 +44,7 @@
                 "source": "https://github.com/CatLabInteractive/dolumar-engine/tree/master",
                 "issues": "https://github.com/CatLabInteractive/dolumar-engine/issues"
             },
-            "time": "2016-02-02 10:57:16"
+            "time": "2016-02-02 11:05:30"
         },
         {
             "name": "dbtlr/php-airbrake",
