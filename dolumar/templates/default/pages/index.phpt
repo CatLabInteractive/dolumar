@@ -6,7 +6,7 @@
 	<head>
 		<title>Admin panel</title>
 		
-		<link href="<?=STATIC_ABSOLUTE_URL?>gameserver/css/<?=$stylesheet?>.css" rel="stylesheet" type="text/css" >
+		<link href="<?=GAMESERVER_ASSET_URL?>gameserver/css/<?=$stylesheet?>.css" rel="stylesheet" type="text/css" >
 		
 		<script type="text/javascript">
 			var Game = new Object ();
@@ -27,13 +27,13 @@
 			<?php } ?>
 		</script> 
 		
-		<script type="text/javascript" src="<?=$static_client_url?>javascript/prototype/prototype.js"></script>
-		<script type="text/javascript" src="<?=$static_client_url?>javascript/scriptaculous/scriptaculous.js"></script>
-		<script type="text/javascript" src="<?=$static_client_url?>javascript/overlib/overlib.js"></script>
+		<script type="text/javascript" src="<?=GAMESERVER_ASSET_URL?>javascript/prototype/prototype.js"></script>
+		<script type="text/javascript" src="<?=GAMESERVER_ASSET_URL?>javascript/scriptaculous/scriptaculous.js"></script>
+		<script type="text/javascript" src="<?=GAMESERVER_ASSET_URL?>javascript/overlib/overlib.js"></script>
 		
 		<?php if (isset ($list_javascripts)) { ?>
 			<?php foreach ($list_javascripts as $v) { ?>
-				<script type="text/javascript" src="<?=$static_client_url?>javascript/<?=$v?>.js"></script>
+				<script type="text/javascript" src="<?=GAMESERVER_ASSET_URL?>javascript/<?=$v?>.js"></script>
 			<?php } ?>
 		<?php } ?>
 	</head>
