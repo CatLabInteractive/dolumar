@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ad4ce4dfea76bcf5a2bd8a57661898ef",
-    "content-hash": "bcc5c24367dd2700f47d41f51f5301d0",
+    "hash": "fdd7c4e5f0687c5bf546e77c3623e259",
+    "content-hash": "1532761df86bc495ad11fc97bc61f1a6",
     "packages": [
         {
             "name": "catlabinteractive/dolumar-engine",
@@ -13,12 +13,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/CatLabInteractive/dolumar-engine.git",
-                "reference": "f0a527578b5723257b705a78f56fbe008b8fe6e0"
+                "reference": "bddafcef6b8d9e31768ce8cb64ec3158442cdb21"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CatLabInteractive/dolumar-engine/zipball/f0a527578b5723257b705a78f56fbe008b8fe6e0",
-                "reference": "f0a527578b5723257b705a78f56fbe008b8fe6e0",
+                "url": "https://api.github.com/repos/CatLabInteractive/dolumar-engine/zipball/bddafcef6b8d9e31768ce8cb64ec3158442cdb21",
+                "reference": "bddafcef6b8d9e31768ce8cb64ec3158442cdb21",
                 "shasum": ""
             },
             "require": {
@@ -44,7 +44,7 @@
                 "source": "https://github.com/CatLabInteractive/dolumar-engine/tree/master",
                 "issues": "https://github.com/CatLabInteractive/dolumar-engine/issues"
             },
-            "time": "2016-02-02 12:29:32"
+            "time": "2016-12-17 16:45:20"
         },
         {
             "name": "dbtlr/php-airbrake",
@@ -149,10 +149,10 @@
         },
         {
             "name": "pear-pear.php.net/Archive_Tar",
-            "version": "1.4.0",
+            "version": "1.4.2",
             "dist": {
                 "type": "file",
-                "url": "https://pear.php.net/get/Archive_Tar-1.4.0.tgz",
+                "url": "https://pear.php.net/get/Archive_Tar-1.4.2.tgz",
                 "reference": null,
                 "shasum": null
             },
@@ -160,7 +160,7 @@
                 "php": ">=5.2.0.0"
             },
             "replace": {
-                "pear-pear/archive_tar": "== 1.4.0.0"
+                "pear-pear/archive_tar": "== 1.4.2.0"
             },
             "type": "pear-library",
             "autoload": {
@@ -281,28 +281,28 @@
         },
         {
             "name": "pear-pear.php.net/PEAR",
-            "version": "1.9.5",
+            "version": "1.10.1",
             "dist": {
                 "type": "file",
-                "url": "https://pear.php.net/get/PEAR-1.9.5.tgz",
+                "url": "https://pear.php.net/get/PEAR-1.10.1.tgz",
                 "reference": null,
                 "shasum": null
             },
             "require": {
                 "ext-pcre": "*",
                 "ext-xml": "*",
-                "pear-pear.php.net/archive_tar": ">=1.3.11.0",
-                "pear-pear.php.net/console_getopt": ">=1.2.0.0",
-                "pear-pear.php.net/structures_graph": ">=1.0.2.0",
-                "pear-pear.php.net/xml_util": ">=1.2.0.0",
-                "php": ">=4.4.0.0,!=5.0.0.0,!=5.1.0.0,!=5.1.1.0,!=5.1.2.0,!=5.1.3.0,!=5.1.4.0,!=5.1.5.0"
+                "pear-pear.php.net/archive_tar": ">=1.4.0.0",
+                "pear-pear.php.net/console_getopt": ">=1.4.1.0",
+                "pear-pear.php.net/structures_graph": ">=1.1.0.0",
+                "pear-pear.php.net/xml_util": ">=1.3.0.0",
+                "php": ">=5.4.0.0"
             },
             "conflict": {
                 "pear-pear.php.net/pear_frontend_gtk": "<0.4.0.0",
                 "pear-pear.php.net/pear_frontend_web": "<=0.4.0.0"
             },
             "replace": {
-                "pear-pear/pear": "== 1.9.5.0"
+                "pear-pear/pear": "== 1.10.1.0"
             },
             "type": "pear-library",
             "autoload": {
@@ -379,16 +379,16 @@
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v5.2.14",
+            "version": "v5.2.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "e774bc9152de85547336e22b8926189e582ece95"
+                "reference": "208913c6042967ba404f4bfa0819bf5bef79dbec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/e774bc9152de85547336e22b8926189e582ece95",
-                "reference": "e774bc9152de85547336e22b8926189e582ece95",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/208913c6042967ba404f4bfa0819bf5bef79dbec",
+                "reference": "208913c6042967ba404f4bfa0819bf5bef79dbec",
                 "shasum": ""
             },
             "require": {
@@ -399,8 +399,7 @@
                 "phpunit/phpunit": "4.7.*"
             },
             "suggest": {
-                "league/oauth2-client": "Needed for XOAUTH2 authentication",
-                "league/oauth2-google": "Needed for Gmail XOAUTH2"
+                "league/oauth2-google": "Needed for Google XOAUTH2 authentication"
             },
             "type": "library",
             "autoload": {
@@ -436,41 +435,41 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-            "time": "2015-11-01 10:15:28"
+            "time": "2016-12-09 10:03:48"
         }
     ],
     "packages-dev": [
         {
             "name": "doctrine/annotations",
-            "version": "v1.2.7",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/annotations.git",
-                "reference": "f25c8aab83e0c3e976fd7d19875f198ccf2f7535"
+                "reference": "a0adee8297c90980c3d3ffe25e5a6c6f52fa73fa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/annotations/zipball/f25c8aab83e0c3e976fd7d19875f198ccf2f7535",
-                "reference": "f25c8aab83e0c3e976fd7d19875f198ccf2f7535",
+                "url": "https://api.github.com/repos/doctrine/annotations/zipball/a0adee8297c90980c3d3ffe25e5a6c6f52fa73fa",
+                "reference": "a0adee8297c90980c3d3ffe25e5a6c6f52fa73fa",
                 "shasum": ""
             },
             "require": {
                 "doctrine/lexer": "1.*",
-                "php": ">=5.3.2"
+                "php": "^5.6 || ^7.0"
             },
             "require-dev": {
                 "doctrine/cache": "1.*",
-                "phpunit/phpunit": "4.*"
+                "phpunit/phpunit": "^5.6.1"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.3.x-dev"
+                    "dev-master": "1.4.x-dev"
                 }
             },
             "autoload": {
-                "psr-0": {
-                    "Doctrine\\Common\\Annotations\\": "lib/"
+                "psr-4": {
+                    "Doctrine\\Common\\Annotations\\": "lib/Doctrine/Common/Annotations"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -506,11 +505,11 @@
                 "docblock",
                 "parser"
             ],
-            "time": "2015-08-31 12:32:49"
+            "time": "2016-11-05 13:23:40"
         },
         {
             "name": "doctrine/lexer",
-            "version": "v1.0.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/lexer.git",
@@ -564,16 +563,16 @@
         },
         {
             "name": "heroku/heroku-buildpack-php",
-            "version": "v91",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/heroku/heroku-buildpack-php.git",
-                "reference": "381d12e06534b7d059d42407c96588826d5e4ab4"
+                "reference": "960199a978308c75926fd9bb4775f7113bf1d777"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/heroku/heroku-buildpack-php/zipball/381d12e06534b7d059d42407c96588826d5e4ab4",
-                "reference": "381d12e06534b7d059d42407c96588826d5e4ab4",
+                "url": "https://api.github.com/repos/heroku/heroku-buildpack-php/zipball/960199a978308c75926fd9bb4775f7113bf1d777",
+                "reference": "960199a978308c75926fd9bb4775f7113bf1d777",
                 "shasum": ""
             },
             "bin": [
@@ -594,7 +593,7 @@
                 }
             ],
             "description": "Toolkit for starting a PHP application locally, with or without foreman, using the same config for PHP/HHVM and Apache2/Nginx as on Heroku",
-            "homepage": "http://github.com/heroku/heroku-buildpack-php",
+            "homepage": "https://github.com/heroku/heroku-buildpack-php",
             "keywords": [
                 "apache",
                 "apache2",
@@ -604,20 +603,20 @@
                 "nginx",
                 "php"
             ],
-            "time": "2016-01-08 00:59:08"
+            "time": "2016-12-09 19:37:38"
         },
         {
             "name": "symfony/finder",
-            "version": "v3.0.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
-                "reference": "8617895eb798b6bdb338321ce19453dc113e5675"
+                "reference": "941debb585000c27e9ca92e70a65620d7a4d4502"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/8617895eb798b6bdb338321ce19453dc113e5675",
-                "reference": "8617895eb798b6bdb338321ce19453dc113e5675",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/941debb585000c27e9ca92e70a65620d7a4d4502",
+                "reference": "941debb585000c27e9ca92e70a65620d7a4d4502",
                 "shasum": ""
             },
             "require": {
@@ -626,7 +625,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.0-dev"
+                    "dev-master": "3.3-dev"
                 }
             },
             "autoload": {
@@ -653,20 +652,20 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "https://symfony.com",
-            "time": "2015-12-05 11:13:14"
+            "time": "2016-12-13 09:39:51"
         },
         {
             "name": "zircote/swagger-php",
-            "version": "2.0.5",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zircote/swagger-php.git",
-                "reference": "c19af4edcc13c00e82fabeee926335b1fe1d92e9"
+                "reference": "39f4c30692a4925597e7d4280fc58794fb4f3730"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/c19af4edcc13c00e82fabeee926335b1fe1d92e9",
-                "reference": "c19af4edcc13c00e82fabeee926335b1fe1d92e9",
+                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/39f4c30692a4925597e7d4280fc58794fb4f3730",
+                "reference": "39f4c30692a4925597e7d4280fc58794fb4f3730",
                 "shasum": ""
             },
             "require": {
@@ -675,7 +674,9 @@
                 "symfony/finder": "*"
             },
             "require-dev": {
-                "zendframework/zend-form": "*"
+                "phpunit/phpunit": ">=4.8",
+                "squizlabs/php_codesniffer": ">=2.7",
+                "zendframework/zend-form": "<2.8"
             },
             "bin": [
                 "bin/swagger"
@@ -713,7 +714,7 @@
                 "rest",
                 "service discovery"
             ],
-            "time": "2016-01-15 09:39:28"
+            "time": "2016-12-16 12:39:03"
         }
     ],
     "aliases": [
@@ -721,16 +722,14 @@
             "alias": "2.5.0",
             "alias_normalized": "2.5.0.0",
             "version": "2.5.0.0-beta5",
-            "package": "pear-pear.php.net/mdb2"
+            "package": "pear-pear/mdb2"
         }
     ],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "stability-flags": {
         "catlabinteractive/dolumar-engine": 20,
         "dbtlr/php-airbrake": 20,
-        "openid/php-openid": 20,
-        "pear-pear.php.net/mdb2_driver_mysqli": 10,
-        "pear-pear.php.net/mdb2": 10
+        "openid/php-openid": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

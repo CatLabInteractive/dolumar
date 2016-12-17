@@ -7,8 +7,8 @@
     "dbtlr/php-airbrake": "dev-master",
     "openid/php-openid" : "dev-master",
 
-    "pear-pear.php.net/MDB2_Driver_mysqli": "1.5.0-beta4",
-    "pear-pear.php.net/MDB2":               "2.5.0-beta5 as 2.5.0"
+    "pear-pear/MDB2_Driver_mysqli": "1.5.0-beta4",
+    "pear-pear/MDB2":               "2.5.0-beta5 as 2.5.0"
   },
 
   "repositories": [
@@ -24,7 +24,7 @@
 
     {
       "type": "pear",
-      "url": "https://pear2.php.net"
+      "url": "https://pear.php.net"
     }
   ],
 
@@ -37,5 +37,11 @@
   "require-dev": {
 	"heroku/heroku-buildpack-php": "*",
 	"zircote/swagger-php" : "*"
+  },
+
+  "minimum-stability" : "dev",
+
+  "config": {
+    "secure-http": false
   }
 }
