@@ -6,8 +6,8 @@
 	<head>
 		<title>Admin panel</title>
 		
-		<link href="<?=GAMESERVER_ASSET_URL?>gameserver/css/<?=$stylesheet?>.css" rel="stylesheet" type="text/css" >
-		
+		<link href="<?=GAMESERVER_ASSET_URL?>css/<?=$stylesheet?>.css" rel="stylesheet" type="text/css" >
+
 		<script type="text/javascript">
 			var Game = new Object ();
 			var CONFIG_GAME_URL = '<?=ABSOLUTE_URL?>';
