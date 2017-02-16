@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2b69d9d2f215d4e583d9b2b46b15af13",
-    "content-hash": "092054e461b076b5ed8a06413c67e4d9",
+    "hash": "b28b95f3014f3966a69c8dc559490923",
+    "content-hash": "624867d0c7427d46f89ca73a31b6e037",
     "packages": [
         {
             "name": "catlabinteractive/dolumar-engine",
@@ -725,11 +725,13 @@
             "package": "pear-pear/mdb2"
         }
     ],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "stability-flags": {
         "catlabinteractive/dolumar-engine": 20,
         "dbtlr/php-airbrake": 20,
-        "openid/php-openid": 20
+        "openid/php-openid": 20,
+        "pear-pear/mdb2_driver_mysqli": 10,
+        "pear-pear/mdb2": 10
     },
     "prefer-stable": true,
     "prefer-lowest": false,
