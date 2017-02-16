@@ -30,7 +30,7 @@ class Dolumar_Windows_Ranking extends Neuron_GameServer_Windows_Window
 		$text = Neuron_Core_Text::__getInstance ();
 	
 		// Window settings
-		$this->setSize ('300px', '350px');
+		$this->setSize ('350px', '400px');
 		$this->setTitle ('Ranking');
 		
 		$this->setAllowOnlyOnce ();

@@ -31,7 +31,7 @@ class Dolumar_Windows_Economy extends Neuron_GameServer_Windows_Window
 		$login = Neuron_Core_Login::__getInstance ();
 		
 		// Window settings
-		$this->setSize ('400px', '380px');
+		$this->setSize ('500px', '420px');
 		
 		$this->setAllowOnlyOnce ();
 		

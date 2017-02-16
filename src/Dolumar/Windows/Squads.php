@@ -34,7 +34,7 @@ class Dolumar_Windows_Squads extends Neuron_GameServer_Windows_Window
 		$this->village = Dolumar_Players_Village::getVillage ($data['vid']);
 	
 		// Window settings
-		$this->setSize ('325px', '275px');
+		$this->setSize ('450px', '350px');
 		
 		$this->setAllowOnlyOnce ();
 

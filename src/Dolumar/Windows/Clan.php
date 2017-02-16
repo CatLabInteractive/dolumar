@@ -30,7 +30,7 @@ class Dolumar_Windows_Clan extends Neuron_GameServer_Windows_Window
 		$text = Neuron_Core_Text::__getInstance ();
 	
 		// Window settings
-		$this->setSize ('250px', '300px');
+		$this->setSize ('350px', '300px');
 		$this->setTitle ($text->get ('clan', 'menu', 'main'));
 		
 		$this->setClassname ('clan');

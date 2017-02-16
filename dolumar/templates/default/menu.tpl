@@ -112,11 +112,13 @@
 			<a href="javascript:void(0);" onClick="openWindow('language');" title="<?=$language;?>"><img src="<?=IMAGE_URL?>flags/<?=$flag?>.gif" style="margin-top: 7px;" /></a>
 		</li>
 
+		<!--
 		<li onmouseover="this.className+=' over';" onmouseout="this.className='';">
 			<a href="javascript:void(0);" onClick="openWindow('gifts');" title="<?=$this->getText ('gifts');?>" >
 				<span class="navigation gifts"><span><?=$this->getText ('gifts');?></span></span>
 			</a>
 		</li>
+		-->
 
 		<?php if (isset ($premium) && $premium >= 0) { ?>
 			<li class="credits">
@@ -133,7 +135,8 @@
 				<span class="navigation premiumshop"><span><?=$this->getText ('premiumshop');?></span></span>
 			</a>
 		</li>
-		
+
+		<!--
 		<li onmouseover="this.className+=' over';" onmouseout="this.className='';">
 			<a href="javascript:void(0);" onclick="openWindow('Bonusbuildings', {'vid':'<?=$vid?>'});" title="<?=$bonusbuild;?>" id="bonusbuild">
 				<span class="navigation bonusbuild"><span><?=$build;?></span></span>
@@ -150,6 +153,7 @@
 			<?php } ?>
 			
 		</li>
+		-->
 		
 		<li>
 			<a href="javascript:void(0);" onClick="openWindow('search');" title="<?=$this->getText ('search');?>">

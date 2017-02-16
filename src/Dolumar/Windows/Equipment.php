@@ -50,7 +50,7 @@ class Dolumar_Windows_Equipment extends Neuron_GameServer_Windows_Window
 		}
 	
 		// Window settings
-		$this->setSize ('250px', '300px');
+		$this->setSize ('350px', '400px');
 		
 		$this->setAllowOnlyOnce ();
 	}

@@ -31,5 +31,12 @@ class Dolumar_Windows_Premium extends Neuron_GameServer_Windows_Premium
 		
 		return $page->parse ('account/benefits.phpt');
 	}
+
+    public function setSettings ()
+    {
+        parent::setSettings();
+
+        // Window settings
+        $this->setSize ('350px', '300px');
+    }
 }
-?>
