@@ -28,7 +28,7 @@ class Dolumar_Windows_Serversettings extends Neuron_GameServer_Windows_Window
 		$text = Neuron_Core_Text::__getInstance ();
 	
 		// Window settings
-		$this->setSize ('150px', '100px');
+		$this->setSize ('25em', '10em');
 		$this->setTitle ('Server settings');
 		
 		$this->setAllowOnlyOnce ();
