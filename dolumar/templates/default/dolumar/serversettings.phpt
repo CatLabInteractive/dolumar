@@ -15,5 +15,9 @@
 	<li>
 		Effects: X<?=GAME_SPEED_EFFECTS?>
 	</li>
+
+    <li>
+        <a href="<?php echo WIKI_GUIDE_URL; ?>">Wiki</a>
+    </li>
 </ul>
 <p>End game starts in: <?=$endgame_start?>.</p>
