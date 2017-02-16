@@ -21,6 +21,9 @@
  *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+
 $loader = require_once __DIR__ . '/../vendor/autoload.php';
 
 define ('BASE_PATH', dirname(dirname(__FILE__)).'/');
