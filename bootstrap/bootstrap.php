@@ -55,7 +55,9 @@ else {
 }
 
 if (defined ('AIRBRAKE_TOKEN')) {
-	\Airbrake\EventHandler::start(AIRBRAKE_TOKEN);
+	\Airbrake\EventHandler::start(AIRBRAKE_TOKEN, false, array(
+	    'host' => AIRBRAKE_HOST
+    ));
 }
 
 if (!defined ('SPEED_FACTOR'))
@@ -246,3 +248,4 @@ if (!defined ('OPENID_SKIP_LOGIN'))
 
 if (!defined ('OPENID_SKIP_NICKNAME'))
 	define ('OPENID_SKIP_NICKNAME', true);
+
