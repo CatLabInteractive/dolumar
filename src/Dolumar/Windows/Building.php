@@ -31,7 +31,7 @@ class Dolumar_Windows_Building extends Neuron_GameServer_Windows_Window
 		$db = Neuron_Core_Database::__getInstance ();
 		
 		// Window settings
-		$this->setSize ('315px', '300px');
+		$this->setSize ('360px', '400px');
 		
 		$o = $this->getRequestData ();
 		
