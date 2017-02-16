@@ -55,9 +55,13 @@ else {
 }
 
 if (defined ('AIRBRAKE_TOKEN')) {
-	\Airbrake\EventHandler::start(AIRBRAKE_TOKEN, false, array(
-	    'host' => AIRBRAKE_HOST
-    ));
+
+    $options = array();
+    if (defined('AIRBRAKE_HOST')) {
+        $options['host'] = AIRBRAKE_HOST;
+    }
+
+	\Airbrake\EventHandler::start(AIRBRAKE_TOKEN, false, $options);
 }
 
 if (!defined ('SPEED_FACTOR'))
