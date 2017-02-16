@@ -606,7 +606,7 @@ abstract class Dolumar_Units_Unit implements Neuron_GameServer_Interfaces_Logabl
 	
 	public function getTrainingDuration ()
 	{
-		return ceil ((60 * $this->getStat ('training_time', 20)) / GAME_SPEED_RESOURCES);
+		return ceil ((60 * $this->getStat ('training_time', 20)) / GAME_SPEED_TRAINING);
 	}
 
 	public function getConsumption ()

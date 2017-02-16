@@ -130,6 +130,9 @@ if (!defined ('STATS_DIR'))
 if (!defined ('GAME_SPEED_RESOURCES'))
 	define ('GAME_SPEED_RESOURCES', SPEED_FACTOR);
 
+if (!defined ('GAME_SPEED_TRAINING'))
+    define ('GAME_SPEED_TRAINING', SPEED_FACTOR * 3);
+
 if (!defined ('GAME_SPEED_BUILDINGS'))
 	define ('GAME_SPEED_BUILDINGS', SPEED_FACTOR);
 
