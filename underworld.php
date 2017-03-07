@@ -24,6 +24,9 @@
 
 require_once 'bootstrap/bootstrap.php';
 
+echo 'underworld down';
+exit;
+
 if (isset ($_GET['debug']))
 {
 	$_SESSION['debug'] = $_GET['debug'];

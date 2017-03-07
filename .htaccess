@@ -1,7 +1,6 @@
 Options +FollowSymLinks
 RewriteEngine On
 RewriteCond %{REQUEST_URI} !=/index.php
-RewriteCond %{REQUEST_URI} !=/underworld.php
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^([^?]+) dispatch.php?module=$1&%{QUERY_STRING}  [PT]
