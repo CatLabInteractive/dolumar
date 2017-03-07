@@ -80,7 +80,7 @@ class Dolumar_Underworld_Models_Mission
 
 	public function getUrl ()
 	{
-		return BASE_URL.'underworld.php?sessionId=' . session_id () . '&amp;id=' . $this->getId ();
+		return BASE_URL.'underworld.php?' . htmlspecialchars(SID) . '&amp;id=' . $this->getId ();
 	}
 
 	public function hasJoined (Dolumar_Players_Clan $clan)
