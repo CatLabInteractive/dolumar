@@ -89,7 +89,7 @@ class Dolumar_Underworld_Map_BackgroundManager
 			$id = $this->getSideFromInput ($oid);
 
 			$this->spawngroups[$oid] = new Dolumar_Underworld_Map_Spawngroup ($id);
-			$this->spawngroups[$oid]->setName ('Spawn area ' + $oid);
+			$this->spawngroups[$oid]->setName ('Spawn area ' . $oid);
 		}
 
 		return $this->spawngroups[$oid];
