@@ -36,9 +36,9 @@ define ('CACHE_URL', 'cache.php?d=');
 /**
  * Memcahce
  */
-defEnvOrDefault('MEMCACHE_SERVERS');
-defEnvOrDefault('MEMCACHE_USERNAME');
-defEnvOrDefault('MEMCACHE_PASSWORD');
+defEnvOrDefault('MEMCACHE_SERVERS', getenv('MEMCACHIER_BRONZE_SERVERS'));
+defEnvOrDefault('MEMCACHE_USERNAME', getenv('MEMCACHIER_BRONZE_USERNAME'));
+defEnvOrDefault('MEMCACHE_PASSWORD', getenv('MEMCACHIER_BRONZE_PASSWORD'));
 
 define ('USE_PROFILE', false);
 
