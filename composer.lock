@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b28b95f3014f3966a69c8dc559490923",
-    "content-hash": "624867d0c7427d46f89ca73a31b6e037",
+    "hash": "bed9253c77ebcb9475f8efeb2f5692f3",
+    "content-hash": "fb273b5ded85e9e280eeb12bab1ab698",
     "packages": [
         {
             "name": "catlabinteractive/dolumar-engine",
@@ -751,6 +751,8 @@
     },
     "prefer-stable": true,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "php": "^5.6.0"
+    },
     "platform-dev": []
 }
