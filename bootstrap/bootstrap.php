@@ -54,7 +54,6 @@ else {
 	include BASE_PATH . 'bootstrap/serverconfig-default.php';
 }
 
-/*
 if (defined ('AIRBRAKE_TOKEN')) {
 
     $options = array();
@@ -64,7 +63,6 @@ if (defined ('AIRBRAKE_TOKEN')) {
 
 	\Airbrake\EventHandler::start(AIRBRAKE_TOKEN, false, $options);
 }
-*/
 
 if (!defined ('SPEED_FACTOR'))
 	define ('SPEED_FACTOR', 1);
