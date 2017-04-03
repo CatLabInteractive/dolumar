@@ -28,6 +28,8 @@ $loader = require_once __DIR__ . '/../vendor/autoload.php';
 
 define ('BASE_PATH', dirname(dirname(__FILE__)).'/');
 
+ini_set('memory_limit', '512M');
+
 if (!defined ('ABSOLUTE_URL')) {
 
 	$protocol = 'http';

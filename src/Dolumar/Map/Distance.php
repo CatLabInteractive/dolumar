@@ -83,7 +83,7 @@ class Dolumar_Map_Distance
 		When max_distance is reached, skip any other calculations.
 		We are only interested in the shortest route.
 	*/
-	private function getShortestDistance ($start, $destination, $portals, $ignoreIslands)
+	private static function getShortestDistance ($start, $destination, $portals, $ignoreIslands)
 	{		
 		$came_from = array ();
 		
