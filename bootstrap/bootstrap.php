@@ -76,8 +76,6 @@ if (defined ('AIRBRAKE_TOKEN')) {
     $handler->register();
 }
 
-sdf();
-
 if (!defined ('SPEED_FACTOR'))
 	define ('SPEED_FACTOR', 1);
 
