@@ -56,13 +56,27 @@ else {
 
 if (defined ('AIRBRAKE_TOKEN')) {
 
-    $options = array();
+    $options = array(
+        'projectId' => AIRBRAKE_TOKEN,
+        'projectKey' => AIRBRAKE_TOKEN
+    );
+
     if (defined('AIRBRAKE_HOST')) {
         $options['host'] = AIRBRAKE_HOST;
     }
 
-	\Airbrake\EventHandler::start(AIRBRAKE_TOKEN, false, $options);
+    // Create new Notifier instance.
+    $notifier = new Airbrake\Notifier($options);
+
+    // Set global notifier instance.
+    Airbrake\Instance::set($notifier);
+
+    // Register error and exception handlers.
+    $handler = new Airbrake\ErrorHandler($notifier);
+    $handler->register();
 }
+
+
 
 if (!defined ('SPEED_FACTOR'))
 	define ('SPEED_FACTOR', 1);
