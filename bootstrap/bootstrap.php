@@ -64,6 +64,8 @@ if (defined ('AIRBRAKE_TOKEN')) {
 	\Airbrake\EventHandler::start(AIRBRAKE_TOKEN, false, $options);
 }
 
+error();
+
 if (!defined ('SPEED_FACTOR'))
 	define ('SPEED_FACTOR', 1);
 
