@@ -28,7 +28,7 @@ class Dolumar_Battle_Fight
 	const STATUS_MELEE = 2;
 	const STATUS_FINISHED = 3;
 	
-	const MAX_FIGHT_ITERATIONS = 50;
+	const MAX_FIGHT_ITERATIONS = 30;
 
 	private $attackers;
 	private $defenders;
