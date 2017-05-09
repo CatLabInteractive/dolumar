@@ -32,7 +32,10 @@ ini_set('memory_limit', '512M');
 
 if (!defined ('ABSOLUTE_URL')) {
 
-	$protocol = 'http';
+    $protocol = getenv("PROTOCOL");
+    if (!$protocol) {
+        $protocol = 'http';
+    }
 
 	if (!isset ($_SERVER['SERVER_NAME'])) {
 		define ('ABSOLUTE_URL', 'http://www.dolumar.com/');
