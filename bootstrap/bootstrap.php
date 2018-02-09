@@ -28,9 +28,14 @@ $loader = require_once __DIR__ . '/../vendor/autoload.php';
 
 define ('BASE_PATH', dirname(dirname(__FILE__)).'/');
 
+ini_set('memory_limit', '512M');
+
 if (!defined ('ABSOLUTE_URL')) {
 
-	$protocol = 'http';
+    $protocol = getenv("PROTOCOL");
+    if (!$protocol) {
+        $protocol = 'http';
+    }
 
 	if (!isset ($_SERVER['SERVER_NAME'])) {
 		define ('ABSOLUTE_URL', 'http://www.dolumar.com/');
@@ -54,17 +59,27 @@ else {
 	include BASE_PATH . 'bootstrap/serverconfig-default.php';
 }
 
-/*
 if (defined ('AIRBRAKE_TOKEN')) {
 
-    $options = array();
+    $options = array(
+        'projectId' => AIRBRAKE_TOKEN,
+        'projectKey' => AIRBRAKE_TOKEN
+    );
+
     if (defined('AIRBRAKE_HOST')) {
         $options['host'] = AIRBRAKE_HOST;
     }
 
-	\Airbrake\EventHandler::start(AIRBRAKE_TOKEN, false, $options);
+    // Create new Notifier instance.
+    $notifier = new Airbrake\Notifier($options);
+
+    // Set global notifier instance.
+    Airbrake\Instance::set($notifier);
+
+    // Register error and exception handlers.
+    $handler = new Airbrake\ErrorHandler($notifier);
+    $handler->register();
 }
-*/
 
 if (!defined ('SPEED_FACTOR'))
 	define ('SPEED_FACTOR', 1);

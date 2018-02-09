@@ -41,6 +41,8 @@ class Dolumar_Battle_Logger
 	
 	private $slots;
 	private $victory;
+
+	const DEBUG_LOG = false;
 	
 	public function setVictory ($victory)
 	{
@@ -238,40 +240,57 @@ class Dolumar_Battle_Logger
 				2 => $iAmount
 			)
 		);
-	
+
+		if (!self::DEBUG_LOG) {
+			return;
+		}
+
 		$this->sDebugLog .= $this->debug_getUnitName ($oAttacker) . ' caused ' . $iAmount . ' casualties to ' . 
 			$this->debug_getUnitName ($oDefender) . ' with a '.$sAction.' attack.' . "\n";
 	}
 	
 	public function addLog_status ($iStatus)
 	{
-		$this->sDebugLog .= 'Moving to next status: '.$iStatus.".\n";
+		//$this->sDebugLog .= 'Moving to next status: '.$iStatus.".\n";
 		$this->addLog (0, 0, array ($iStatus));
 	}
 	
 	public function addLog_action ($oActor, $sAction)
 	{
+        if (!self::DEBUG_LOG) {
+            return;
+        }
+
 		$this->sDebugLog .= $this->debug_getUnitName ($oActor) . ' did action '.$sAction.".\n";
 	}
 	
 	public function addLog_move ($oActor, $iStart, $iEnd, $team = 1)
 	{
 		$this->addLog (1, $team, array ($this->log_getUnitData ($oActor), $iStart, $iEnd));
-	
+
+        if (!self::DEBUG_LOG) {
+            return;
+        }
 		$this->sDebugLog .= $this->debug_getUnitName ($oActor) . ' moved from '.$iStart." to ".$iEnd.".\n";
 	}
 	
 	public function addLog_flee ($oActor, $team = 1)
 	{
 		$this->addLog (9, $team, array ($this->log_getUnitData ($oActor)));
-		
+
+        if (!self::DEBUG_LOG) {
+            return;
+        }
 		$this->sDebugLog .= $this->debug_getUnitName ($oActor) . " fled the battlefield.\n";
 	}
 	
 	public function addLog_whipe ($oActor, $team = 1)
 	{
 		$this->addLog (8, $team, array ($this->log_getUnitData ($oActor)));
-		
+
+        if (!self::DEBUG_LOG) {
+            return;
+        }
 		$this->sDebugLog .= $this->debug_getUnitName ($oActor) . " fled the battlefield.\n";
 	}
 	
@@ -295,8 +314,12 @@ class Dolumar_Battle_Logger
 		}
 		
 		$this->addLog (5, 1, $out);
-		
-		//$this->sDebugLog .= 'Battle effect: '.print_r ($out, true);
+
+		if (!self::DEBUG_LOG) {
+			return;
+		}
+
+		$this->sDebugLog .= 'Battle effect: '.print_r ($out, true);
 	}
 	
 	public function addLog_failedEffect ($unit, $effect, $probability)
@@ -407,6 +430,10 @@ class Dolumar_Battle_Logger
 	
 	public function debug_showTroops ($attackers, $defenders)
 	{
+		if (!self::DEBUG_LOG) {
+			return;
+		}
+
 		$this->sDebugLog .= "\nAttacking troops: \n";
 		foreach ($attackers as $k => $v)
 		{
