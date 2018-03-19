@@ -841,7 +841,7 @@ CREATE TABLE IF NOT EXISTS `specialUnits` (
 -- Tabelstructuur voor tabel `specialUnits_effects`
 --
 
-CREATE TABLE IF NOT EXISTS `specialUnits_effects` (
+CREATE TABLE IF NOT EXISTS `specialunits_effects` (
   `s_id` int(11) NOT NULL AUTO_INCREMENT,
   `b_id` int(11) NOT NULL,
   `e_id` varchar(10) NOT NULL,
