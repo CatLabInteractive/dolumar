@@ -85,7 +85,7 @@ abstract class Dolumar_Buildings_SpecialUnits extends Dolumar_Buildings_Building
 						
 						$db->insert
 						(
-							'specialUnits_effects',
+							'specialunits_effects',
 							array
 							(
 								'b_id' => $this->getId (),
@@ -342,11 +342,11 @@ abstract class Dolumar_Buildings_SpecialUnits extends Dolumar_Buildings_Building
 				$db->customQuery
 				("
 					SELECT
-						specialUnits_effects.e_id
+						specialunits_effects.e_id
 					FROM
-						specialUnits_effects
+						specialunits_effects
 					WHERE
-						specialUnits_effects.b_id = ".$this->getId ()."
+						specialunits_effects.b_id = ".$this->getId ()."
 				")
 			);
 		
