@@ -92,6 +92,10 @@ class Dolumar_Players_Logs
 		$db = Neuron_Core_Database::__getInstance ();
 		
 		$out = $this->getLogFromObjects ($data);
+
+		if (!is_numeric($sId)) {
+            $sId = 0;
+		}
 		
 		if (! $objVillage instanceof Dolumar_Players_Village)
 		{
