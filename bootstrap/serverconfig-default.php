@@ -81,8 +81,30 @@ defEnvOrDefault ('CREDITS_GAME_TOKEN');
  * Master server
  */
 defEnvOrDefault ('SERVERLIST_URL');
-defEnvOrDefault ('SERVERLIST_PRIVATE_KEY');
-defEnvOrDefault ('SERVERLIST_PUBLIC_KEY');
+
+if (getenv('SERVERLIST_PRIVATE_KEY')) {
+    // is it a file?
+    $privateKey = getenv('SERVERLIST_PRIVATE_KEY');
+    if (file_exists($privateKey)) {
+        define('SERVERLIST_PRIVATE_KEY', file_get_contents($privateKey));
+    } else {
+        define('SERVERLIST_PRIVATE_KEY', $privateKey);
+    }
+} else {
+    define('SERVERLIST_PRIVATE_KEY', null);
+}
+
+if (getenv('SERVERLIST_PUBLIC_KEY')) {
+    // is it a file?
+    $privateKey = getenv('SERVERLIST_PUBLIC_KEY');
+    if (file_exists($privateKey)) {
+        define('SERVERLIST_PUBLIC_KEY', file_get_contents($privateKey));
+    } else {
+        define('SERVERLIST_PUBLIC_KEY', $privateKey);
+    }
+} else {
+    define('SERVERLIST_PUBLIC_KEY', null);
+}
 defEnvOrDefault ('SERVERLIST_VISIBLE', true);
 
 defEnvOrDefault('AIRBRAKE_TOKEN');
