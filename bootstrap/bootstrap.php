@@ -30,6 +30,10 @@ define ('BASE_PATH', dirname(dirname(__FILE__)).'/');
 
 ini_set('memory_limit', '512M');
 
+if (getenv("ABSOLUTE_URL")) {
+    define("ABSOLUTE_URL", getenv("ABSOLUTE_URL"));
+}
+
 if (!defined ('ABSOLUTE_URL')) {
 
     $protocol = getenv("PROTOCOL");

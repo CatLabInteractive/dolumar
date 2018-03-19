@@ -78,5 +78,3 @@ defEnvOrDefault('AIRBRAKE_HOST');
 
 defEnvOrDefault('NOLOGIN_REDIRECT');
 defEnvOrDefault('WIKI_GUIDE_URL', 'http://wiki.dolumar.com/');
-
-defEnvOrDefault('ABSOLUTE_URL');
