@@ -1,4 +1,5 @@
 <?php
+
 /**
  *  Dolumar, browser based strategy game
  *  Copyright (C) 2009 Thijs Van der Schaeghe
@@ -21,42 +22,26 @@
  *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-require_once 'bootstrap/bootstrap.php';
+require_once '../bootstrap/bootstrap.php';
 
-$lock = Neuron_Core_Lock::getInstance();
-
-if (!defined ('CRONJOB_OUTPUT')) {
-	define ('CRONJOB_OUTPUT', true);
+if (isset ($_GET['debug']))
+{
+	$_SESSION['debug'] = $_GET['debug'];
 }
 
-if (CRONJOB_OUTPUT) {
-	header ('Content-type: text/text');
+if (isset ($_SESSION['debug']))
+{
+	define ('DEBUG', $_SESSION['debug']);
 }
 
-function runCronjobFile($file) {
+$mission_id = Neuron_Core_Tools::getInput ('_GET', 'id', 'int');
 
-	if (!CRONJOB_OUTPUT) {
-		ob_start();
-		include $file;
-		ob_end_clean();
-	}
+$mission = Dolumar_Underworld_Mappers_MissionMapper::getFromId ($mission_id);
+$game = new Dolumar_Underworld_Game ($mission);
 
-	else {
-		echo 'Running ' . $file . "\n";
-		echo '----------------------' . "\n";
-		include $file;
-		echo "\n\n";
-	}
-}
+$server = Neuron_GameServer::bootstrap();
+$server->setGame ($game);
 
-if ($lock->setLock('cronjobs', 60, 60)) {
-	runCronjobFile('cron/constantly.php');
-} elseif (CRONJOB_OUTPUT) {
-	echo 'Not running cron/constantly.php: too soon.' . "\n";
-}
+$server->setDispatchURL (ABSOLUTE_URL . 'underworld.php?id='.$mission_id.'&module=');
 
-if ($lock->setLock('cronjobs', 60 * 60 * 24, 60 * 60 * 24)) {
-	runCronjobFile('cron/daily.php');
-} elseif (CRONJOB_OUTPUT) {
-	echo 'Not running cron/daily.php: too soon.' . "\n";
-}
+$server->dispatch ();

@@ -21,4 +21,15 @@
  *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-phpinfo();
+// Autoload.
+require_once '../bootstrap/bootstrap.php';
+
+define ('CRONJOB_OUTPUT', false);
+require_once 'cronjobs.php';
+
+$game = new Dolumar_Game ();
+
+$server = Neuron_GameServer::bootstrap();
+$server->setGame ($game);
+
+$server->dispatch ();

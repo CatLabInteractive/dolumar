@@ -141,4 +141,3 @@ if ($lock->setLock ('cron_const', 0, $locktime))
 	//customMail ('daedelson@gmail.com', 'debug cronjob', $profiler);
 	$lock->releaseLock ('cron_const', 0);
 }
-?>

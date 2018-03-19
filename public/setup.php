@@ -1,4 +1,5 @@
 <?php
+
 /**
  *  Dolumar, browser based strategy game
  *  Copyright (C) 2009 Thijs Van der Schaeghe
@@ -22,14 +23,26 @@
  */
 
 // Autoload.
-require_once 'bootstrap/bootstrap.php';
-
-define ('CRONJOB_OUTPUT', false);
-require_once 'cronjobs.php';
+require_once '../bootstrap/bootstrap.php';
 
 $game = new Dolumar_Game ();
 
 $server = Neuron_GameServer::bootstrap();
-$server->setGame ($game);
 
-$server->dispatch ();
+$scripts = file_get_contents ('vendor/catlabinteractive/dolumar-engine/dumps/gameserver.sql');
+$scripts .= file_get_contents ('dump/dump.sql');
+
+$db = Neuron_Core_Database::__getInstance();
+
+// Check.
+echo '<pre>';
+echo 'Checking setup.' . "\n";
+
+try {
+	$db->select('n_players', array ('*'));
+}
+catch (Exception $e)
+{
+	echo 'Installing database' . "\n";
+	$db->multiQuery ($scripts);
+}

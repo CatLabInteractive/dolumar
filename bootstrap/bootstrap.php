@@ -59,7 +59,7 @@ else {
 	include BASE_PATH . 'bootstrap/serverconfig-default.php';
 }
 
-if (defined ('AIRBRAKE_TOKEN')) {
+if (defined ('AIRBRAKE_TOKEN') && AIRBRAKE_TOKEN) {
 
     $options = array(
         'projectId' => AIRBRAKE_TOKEN,
@@ -119,6 +119,9 @@ if (!defined ('STATIC_URL'))
 if (!defined ('STATIC_PATH'))
 	define ('STATIC_PATH', BASE_PATH.'static/');
 
+if (!defined ('MAPS_PATH'))
+    define ('MAPS_PATH', BASE_PATH.'resources/maps/');
+
 if (!defined ('IMAGE_URL'))
 	define ('IMAGE_URL', STATIC_URL.'images/');
 
@@ -145,13 +148,13 @@ if (!defined ('PUBLIC_URL'))
 
 // Paths
 if (!defined ('TEMPLATE_DIR'))
-	define ('TEMPLATE_DIR', BASE_PATH.'dolumar/templates/default/');
+	define ('TEMPLATE_DIR', BASE_PATH.'resources/templates/default/');
 
 if (!defined ('LANGUAGE_DIR'))
-	define ('LANGUAGE_DIR', BASE_PATH.'static/language/');
+	define ('LANGUAGE_DIR', BASE_PATH.'resources/language/');
 
 if (!defined ('STATS_DIR'))
-	define ('STATS_DIR', BASE_PATH.'static/stats/');
+	define ('STATS_DIR', BASE_PATH.'resources/stats/');
 
 if (!defined ('GAME_SPEED_RESOURCES'))
 	define ('GAME_SPEED_RESOURCES', SPEED_FACTOR);

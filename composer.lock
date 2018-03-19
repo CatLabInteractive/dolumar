@@ -4,21 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "396ef7220388e986f31578fc3b88b615",
-    "content-hash": "3032dc71071b01a9da526d7aeb779302",
+    "content-hash": "17f9f402084d4b2f63c4040c4d9ecb68",
     "packages": [
         {
             "name": "airbrake/phpbrake",
-            "version": "v0.2.3",
+            "version": "v0.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/airbrake/phpbrake.git",
-                "reference": "a83ba7a9d370fef9af61df714478be741445c54a"
+                "reference": "956d48377859eeedae5fa486844907c0b68ee236"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/airbrake/phpbrake/zipball/a83ba7a9d370fef9af61df714478be741445c54a",
-                "reference": "a83ba7a9d370fef9af61df714478be741445c54a",
+                "url": "https://api.github.com/repos/airbrake/phpbrake/zipball/956d48377859eeedae5fa486844907c0b68ee236",
+                "reference": "956d48377859eeedae5fa486844907c0b68ee236",
                 "shasum": ""
             },
             "require": {
@@ -57,7 +56,7 @@
                 "logging",
                 "notifier"
             ],
-            "time": "2017-03-14 14:42:30"
+            "time": "2017-05-11T13:59:57+00:00"
         },
         {
             "name": "catlabinteractive/dolumar-engine",
@@ -96,7 +95,7 @@
                 "source": "https://github.com/CatLabInteractive/dolumar-engine/tree/master",
                 "issues": "https://github.com/CatLabInteractive/dolumar-engine/issues"
             },
-            "time": "2017-04-05 08:46:39"
+            "time": "2017-04-05T08:46:39+00:00"
         },
         {
             "name": "openid/php-openid",
@@ -147,14 +146,14 @@
             "support": {
                 "source": "https://github.com/CatLabInteractive/php-openid/tree/master"
             },
-            "time": "2015-08-03 10:42:27"
+            "time": "2015-08-03T10:42:27+00:00"
         },
         {
             "name": "pear-pear.php.net/Archive_Tar",
-            "version": "1.4.2",
+            "version": "1.4.3",
             "dist": {
                 "type": "file",
-                "url": "https://pear.php.net/get/Archive_Tar-1.4.2.tgz",
+                "url": "https://pear.php.net/get/Archive_Tar-1.4.3.tgz",
                 "reference": null,
                 "shasum": null
             },
@@ -162,7 +161,7 @@
                 "php": ">=5.2.0.0"
             },
             "replace": {
-                "pear-pear/archive_tar": "== 1.4.2.0"
+                "pear-pear/archive_tar": "== 1.4.3.0"
             },
             "type": "pear-library",
             "autoload": {
@@ -205,7 +204,7 @@
             "license": [
                 "BSD-2-Clause"
             ],
-            "description": "This is a PHP implementation of \"getopt\" supporting both\nshort and long options."
+            "description": "This is a PHP implementation of &quot;getopt&quot; supporting both\nshort and long options."
         },
         {
             "name": "pear-pear.php.net/MDB2",
@@ -283,10 +282,10 @@
         },
         {
             "name": "pear-pear.php.net/PEAR",
-            "version": "1.10.1",
+            "version": "1.10.5",
             "dist": {
                 "type": "file",
-                "url": "https://pear.php.net/get/PEAR-1.10.1.tgz",
+                "url": "https://pear.php.net/get/PEAR-1.10.5.tgz",
                 "reference": null,
                 "shasum": null
             },
@@ -304,7 +303,7 @@
                 "pear-pear.php.net/pear_frontend_web": "<=0.4.0.0"
             },
             "replace": {
-                "pear-pear/pear": "== 1.10.1.0"
+                "pear-pear/pear": "== 1.10.5.0"
             },
             "type": "pear-library",
             "autoload": {
@@ -351,10 +350,10 @@
         },
         {
             "name": "pear-pear.php.net/XML_Util",
-            "version": "1.4.1",
+            "version": "1.4.3",
             "dist": {
                 "type": "file",
-                "url": "https://pear.php.net/get/XML_Util-1.4.1.tgz",
+                "url": "https://pear.php.net/get/XML_Util-1.4.3.tgz",
                 "reference": null,
                 "shasum": null
             },
@@ -363,7 +362,7 @@
                 "php": ">=5.4.0.0"
             },
             "replace": {
-                "pear-pear/xml_util": "== 1.4.1.0"
+                "pear-pear/xml_util": "== 1.4.3.0"
             },
             "type": "pear-library",
             "autoload": {
@@ -381,19 +380,20 @@
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v5.2.23",
+            "version": "v5.2.26",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "7115df4a6f76281109ebe352900c42403b728bb4"
+                "reference": "70362997bda4376378be7d92d81e2200550923f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/7115df4a6f76281109ebe352900c42403b728bb4",
-                "reference": "7115df4a6f76281109ebe352900c42403b728bb4",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/70362997bda4376378be7d92d81e2200550923f7",
+                "reference": "70362997bda4376378be7d92d81e2200550923f7",
                 "shasum": ""
             },
             "require": {
+                "ext-ctype": "*",
                 "php": ">=5.0.0"
             },
             "require-dev": {
@@ -453,36 +453,86 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-            "time": "2017-03-15 19:32:56"
+            "time": "2017-11-04T09:26:05+00:00"
+        },
+        {
+            "name": "vlucas/phpdotenv",
+            "version": "v2.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vlucas/phpdotenv.git",
+                "reference": "3cc116adbe4b11be5ec557bf1d24dc5e3a21d18c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/3cc116adbe4b11be5ec557bf1d24dc5e3a21d18c",
+                "reference": "3cc116adbe4b11be5ec557bf1d24dc5e3a21d18c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.9"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8 || ^5.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.4-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Dotenv\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause-Attribution"
+            ],
+            "authors": [
+                {
+                    "name": "Vance Lucas",
+                    "email": "vance@vancelucas.com",
+                    "homepage": "http://www.vancelucas.com"
+                }
+            ],
+            "description": "Loads environment variables from `.env` to `getenv()`, `$_ENV` and `$_SERVER` automagically.",
+            "keywords": [
+                "dotenv",
+                "env",
+                "environment"
+            ],
+            "time": "2016-09-01T10:05:43+00:00"
         }
     ],
     "packages-dev": [
         {
             "name": "doctrine/annotations",
-            "version": "v1.4.0",
+            "version": "v1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/annotations.git",
-                "reference": "54cacc9b81758b14e3ce750f205a393d52339e97"
+                "reference": "c7f2050c68a9ab0bdb0f98567ec08d80ea7d24d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/annotations/zipball/54cacc9b81758b14e3ce750f205a393d52339e97",
-                "reference": "54cacc9b81758b14e3ce750f205a393d52339e97",
+                "url": "https://api.github.com/repos/doctrine/annotations/zipball/c7f2050c68a9ab0bdb0f98567ec08d80ea7d24d5",
+                "reference": "c7f2050c68a9ab0bdb0f98567ec08d80ea7d24d5",
                 "shasum": ""
             },
             "require": {
                 "doctrine/lexer": "1.*",
-                "php": "^5.6 || ^7.0"
+                "php": "^7.1"
             },
             "require-dev": {
                 "doctrine/cache": "1.*",
-                "phpunit/phpunit": "^5.7"
+                "phpunit/phpunit": "^6.4"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.4.x-dev"
+                    "dev-master": "1.6.x-dev"
                 }
             },
             "autoload": {
@@ -523,7 +573,7 @@
                 "docblock",
                 "parser"
             ],
-            "time": "2017-02-24 16:22:25"
+            "time": "2017-12-06T07:11:42+00:00"
         },
         {
             "name": "doctrine/lexer",
@@ -577,20 +627,20 @@
                 "lexer",
                 "parser"
             ],
-            "time": "2014-09-09 13:34:57"
+            "time": "2014-09-09T13:34:57+00:00"
         },
         {
             "name": "heroku/heroku-buildpack-php",
-            "version": "v121",
+            "version": "v132",
             "source": {
                 "type": "git",
                 "url": "https://github.com/heroku/heroku-buildpack-php.git",
-                "reference": "727aa850a02a7af94c9225237464be8e8c8ff6db"
+                "reference": "dd950a605fb0c5e50ab71774e299fa26c9093f80"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/heroku/heroku-buildpack-php/zipball/727aa850a02a7af94c9225237464be8e8c8ff6db",
-                "reference": "727aa850a02a7af94c9225237464be8e8c8ff6db",
+                "url": "https://api.github.com/repos/heroku/heroku-buildpack-php/zipball/dd950a605fb0c5e50ab71774e299fa26c9093f80",
+                "reference": "dd950a605fb0c5e50ab71774e299fa26c9093f80",
                 "shasum": ""
             },
             "bin": [
@@ -621,29 +671,29 @@
                 "nginx",
                 "php"
             ],
-            "time": "2017-03-27 23:33:27"
+            "time": "2018-03-02T17:10:10+00:00"
         },
         {
             "name": "symfony/finder",
-            "version": "v3.2.6",
+            "version": "v4.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
-                "reference": "92d7476d2df60cd851a3e13e078664b1deb8ce10"
+                "reference": "44a796d2ecc2a16a5fc8f2956a34ee617934d55f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/92d7476d2df60cd851a3e13e078664b1deb8ce10",
-                "reference": "92d7476d2df60cd851a3e13e078664b1deb8ce10",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/44a796d2ecc2a16a5fc8f2956a34ee617934d55f",
+                "reference": "44a796d2ecc2a16a5fc8f2956a34ee617934d55f",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.5.9"
+                "php": "^7.1.3"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.2-dev"
+                    "dev-master": "4.0-dev"
                 }
             },
             "autoload": {
@@ -670,29 +720,29 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "https://symfony.com",
-            "time": "2017-02-21 09:12:04"
+            "time": "2018-03-05T18:28:26+00:00"
         },
         {
             "name": "zircote/swagger-php",
-            "version": "2.0.9",
+            "version": "2.0.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zircote/swagger-php.git",
-                "reference": "b0b136e3c51c8b05d78a0ea3f1b60cd331cc3544"
+                "reference": "8b42fdc3d8c5a5e0d1f8d344aa359822c9f085e0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/b0b136e3c51c8b05d78a0ea3f1b60cd331cc3544",
-                "reference": "b0b136e3c51c8b05d78a0ea3f1b60cd331cc3544",
+                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/8b42fdc3d8c5a5e0d1f8d344aa359822c9f085e0",
+                "reference": "8b42fdc3d8c5a5e0d1f8d344aa359822c9f085e0",
                 "shasum": ""
             },
             "require": {
                 "doctrine/annotations": "*",
                 "php": ">=5.6",
-                "symfony/finder": "*"
+                "symfony/finder": ">=2.2"
             },
             "require-dev": {
-                "phpunit/phpunit": ">=4.8 <=5.6",
+                "phpunit/phpunit": ">=4.8.35 <=5.6",
                 "squizlabs/php_codesniffer": ">=2.7",
                 "zendframework/zend-form": "<2.8"
             },
@@ -732,7 +782,7 @@
                 "rest",
                 "service discovery"
             ],
-            "time": "2017-02-22 23:16:25"
+            "time": "2017-12-01T09:22:05+00:00"
         }
     ],
     "aliases": [
@@ -752,8 +802,6 @@
     },
     "prefer-stable": true,
     "prefer-lowest": false,
-    "platform": {
-        "php": "^5.6.0"
-    },
+    "platform": [],
     "platform-dev": []
 }

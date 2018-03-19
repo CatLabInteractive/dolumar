@@ -22,27 +22,9 @@
  *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-// Autoload.
-require_once 'bootstrap/bootstrap.php';
-
-$game = new Dolumar_Game ();
-
-$server = Neuron_GameServer::bootstrap();
-
-$scripts = file_get_contents ('vendor/catlabinteractive/dolumar-engine/dumps/gameserver.sql');
-$scripts .= file_get_contents ('dump/dump.sql');
-
-$db = Neuron_Core_Database::__getInstance();
-
-// Check.
-echo '<pre>';
-echo 'Checking setup.' . "\n";
-
-try {
-	$db->select('n_players', array ('*'));
-}
-catch (Exception $e)
+include ('../bootstrap/bootstrap.php');
+$dir = isset ($_GET['d']) ? $_GET['d'] : null;
+if (file_exists (CACHE_DIR.$dir))
 {
-	echo 'Installing database' . "\n";
-	$db->multiQuery ($scripts);
+	echo file_get_contents (CACHE_DIR.$dir);
 }
