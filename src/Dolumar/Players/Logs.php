@@ -118,7 +118,7 @@ class Dolumar_Players_Logs
 					$objVillage, 
 					$sAction, 
 					$data
-				)
+				) ? 1 : 0
 			)
 		);
 	}
