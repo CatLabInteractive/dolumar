@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "17f9f402084d4b2f63c4040c4d9ecb68",
+    "content-hash": "9b11fdb7d9a47897f487d69e5d90b7f4",
     "packages": [
         {
             "name": "airbrake/phpbrake",
@@ -64,12 +64,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/CatLabInteractive/dolumar-engine.git",
-                "reference": "9af476a358f7ba7bfdaeb363965214b617855854"
+                "reference": "1cf55a0f64f51b9ed8c47b66274af111dbe028c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CatLabInteractive/dolumar-engine/zipball/9af476a358f7ba7bfdaeb363965214b617855854",
-                "reference": "9af476a358f7ba7bfdaeb363965214b617855854",
+                "url": "https://api.github.com/repos/CatLabInteractive/dolumar-engine/zipball/1cf55a0f64f51b9ed8c47b66274af111dbe028c1",
+                "reference": "1cf55a0f64f51b9ed8c47b66274af111dbe028c1",
                 "shasum": ""
             },
             "require": {
@@ -95,7 +95,7 @@
                 "source": "https://github.com/CatLabInteractive/dolumar-engine/tree/master",
                 "issues": "https://github.com/CatLabInteractive/dolumar-engine/issues"
             },
-            "time": "2018-03-19T09:36:48+00:00"
+            "time": "2018-03-19T11:50:59+00:00"
         },
         {
             "name": "openid/php-openid",
@@ -628,50 +628,6 @@
                 "parser"
             ],
             "time": "2014-09-09T13:34:57+00:00"
-        },
-        {
-            "name": "heroku/heroku-buildpack-php",
-            "version": "v132",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/heroku/heroku-buildpack-php.git",
-                "reference": "dd950a605fb0c5e50ab71774e299fa26c9093f80"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/heroku/heroku-buildpack-php/zipball/dd950a605fb0c5e50ab71774e299fa26c9093f80",
-                "reference": "dd950a605fb0c5e50ab71774e299fa26c9093f80",
-                "shasum": ""
-            },
-            "bin": [
-                "bin/heroku-hhvm-apache2",
-                "bin/heroku-hhvm-nginx",
-                "bin/heroku-php-apache2",
-                "bin/heroku-php-nginx"
-            ],
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "David Zuelke",
-                    "email": "dz@heroku.com"
-                }
-            ],
-            "description": "Toolkit for starting a PHP application locally, with or without foreman, using the same config for PHP/HHVM and Apache2/Nginx as on Heroku",
-            "homepage": "https://github.com/heroku/heroku-buildpack-php",
-            "keywords": [
-                "apache",
-                "apache2",
-                "foreman",
-                "heroku",
-                "hhvm",
-                "nginx",
-                "php"
-            ],
-            "time": "2018-03-02T17:10:10+00:00"
         },
         {
             "name": "symfony/finder",
