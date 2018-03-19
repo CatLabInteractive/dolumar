@@ -130,7 +130,7 @@ if (!defined ('IMAGE_URL'))
 	define ('IMAGE_URL', STATIC_URL.'images/');
 
 if (!defined ('IMAGE_PATH'))
-	define ('IMAGE_PATH', BASE_PATH.'static/images/');
+	define ('IMAGE_PATH', BASE_PATH.'public/static/images/');
 
 if (!defined ('SMILEY_DIR'))
 	define ('SMILEY_DIR', IMAGE_URL.'smileys/blue/');
