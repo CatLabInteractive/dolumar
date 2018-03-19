@@ -110,7 +110,7 @@ class Dolumar_Underworld_Map_BackgroundManager
 			else
 			{
 				// We load thze map
-				$map_path = MAPS_PATH . 'maps/' . $this->name;
+				$map_path = MAPS_PATH . $this->name;
 
 				$profiler->start ('Loading ' . $map_path);
 
