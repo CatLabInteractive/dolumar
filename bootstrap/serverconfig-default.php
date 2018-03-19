@@ -61,7 +61,7 @@ defEnvOrDefault('EMAIL_DEBUG_LEVEL');
 /**
  * Credits
  */
-defEnvOrDefault ('CREDITS_URL');
+defEnvOrDefault ('CREDITS_URL', 'https://credits.catlab.eu/');
 
 if (getenv('CREDITS_PRIVATE_KEY')) {
     // is it a file?
