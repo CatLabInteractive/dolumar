@@ -62,7 +62,19 @@ defEnvOrDefault('EMAIL_DEBUG_LEVEL');
  * Credits
  */
 defEnvOrDefault ('CREDITS_URL');
-defEnvOrDefault ('CREDITS_PRIVATE_KEY');
+
+if (getenv('CREDITS_PRIVATE_KEY')) {
+    // is it a file?
+    $privateKey = getenv('CREDITS_PRIVATE_KEY');
+    if (file_exists($privateKey)) {
+        define('CREDITS_PRIVATE_KEY', file_get_contents($privateKey));
+    } else {
+        define('CREDITS_PRIVATE_KEY', $privateKey);
+    }
+} else {
+    define('CREDITS_PRIVATE_KEY', null);
+}
+
 defEnvOrDefault ('CREDITS_GAME_TOKEN');
 
 /**
