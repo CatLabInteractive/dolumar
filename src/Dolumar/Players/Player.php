@@ -538,19 +538,20 @@ class Dolumar_Players_Player extends Neuron_GameServer_Player
 		$locations = array ();
 		foreach ($this->getVillages (false) as $vil)
 		{
-			$loc = $vil->buildings->getTownCenterLocation ();
-			
-			$lkey = '#'.$loc[0].','.$loc[1];
-		
-			$locations[] = array
-			(
-				'location_id' => $vil->getId (),
-				'location_url' => ABSOLUTE_URL . '#' . $loc[0] . ',' . $loc[1],
-				'name' => $vil->getName (),
-				'loc-x' => $loc[0],
-				'loc-y' => $loc[1],
-				'score' => $vil->getNetworth ()
-			);
+			$buildings = $vil->buildings;
+			if ($buildings) {
+                $loc = $buildings->getTownCenterLocation();
+
+                $locations[] = array
+                (
+                    'location_id' => $vil->getId(),
+                    'location_url' => ABSOLUTE_URL . '#' . $loc[0] . ',' . $loc[1],
+                    'name' => $vil->getName(),
+                    'loc-x' => $loc[0],
+                    'loc-y' => $loc[1],
+                    'score' => $vil->getNetworth()
+                );
+            }
 		}
 		
 		$out['locations'] = $locations;

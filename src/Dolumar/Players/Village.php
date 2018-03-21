@@ -169,10 +169,8 @@ class Dolumar_Players_Village
 		$buildings = $this->buildings->getBuildings ();
 		
 		$score = 0;
-		if (is_array ($buildings))
-		{
-			foreach ($buildings as $v)
-			{
+		if (is_array ($buildings)) {
+			foreach ($buildings as $v) {
 				$score += (int)$v->getScore ();
 			}
 		}
