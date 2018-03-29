@@ -211,7 +211,7 @@ if (!defined ('WIKI_EDIT_URL')) {
 
 
 if (!defined ('WIKI_PREFIX'))
-	define ('WIKI_PREFIX', false);
+	define ('WIKI_PREFIX', 'D');
 
 if (!defined ('FORUM_URL'))
 	define ('FORUM_URL', 'http://forum.dolumar.com/');

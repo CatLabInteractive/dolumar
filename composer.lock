@@ -64,12 +64,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/CatLabInteractive/dolumar-engine.git",
-                "reference": "4d999b3f55ffb7d7aef43f5fc8847f80af85d339"
+                "reference": "0ffaabd4cb3ca293d65cb83f228ce437fd2609a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CatLabInteractive/dolumar-engine/zipball/4d999b3f55ffb7d7aef43f5fc8847f80af85d339",
-                "reference": "4d999b3f55ffb7d7aef43f5fc8847f80af85d339",
+                "url": "https://api.github.com/repos/CatLabInteractive/dolumar-engine/zipball/0ffaabd4cb3ca293d65cb83f228ce437fd2609a6",
+                "reference": "0ffaabd4cb3ca293d65cb83f228ce437fd2609a6",
                 "shasum": ""
             },
             "require": {
@@ -95,7 +95,7 @@
                 "source": "https://github.com/CatLabInteractive/dolumar-engine/tree/master",
                 "issues": "https://github.com/CatLabInteractive/dolumar-engine/issues"
             },
-            "time": "2018-03-29T13:20:20+00:00"
+            "time": "2018-03-29T13:35:14+00:00"
         },
         {
             "name": "openid/php-openid",
