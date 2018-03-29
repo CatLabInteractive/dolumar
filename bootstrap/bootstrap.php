@@ -202,7 +202,7 @@ if (!defined ('WIKI_GUIDE_URL'))
 	define ('WIKI_GUIDE_URL', false);
 
 if (!defined ('WIKI_EDIT_URL')) {
-    if (defined('WIKI_EDIT_URL')) {
+    if (defined('WIKI_GUIDE_URL')) {
         define('WIKI_EDIT_URL', WIKI_GUIDE_URL . 'index.php?action=edit&title=');
     } else {
         define('WIKI_EDIT_URL', false);
