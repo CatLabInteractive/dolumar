@@ -26,6 +26,9 @@ ini_set("display_errors", 1);
 
 $loader = require_once __DIR__ . '/../vendor/autoload.php';
 
+$dotenv = new Dotenv\Dotenv(__DIR__ . '/../');
+$dotenv->load();
+
 define ('BASE_PATH', dirname(dirname(__FILE__)).'/');
 
 ini_set('memory_limit', '512M');

@@ -1,8 +1,5 @@
 <?php
 
-$dotenv = new Dotenv\Dotenv(__DIR__ . '/../');
-$dotenv->load();
-
 $url = getenv("CLEARDB_DATABASE_URL");
 
 if (!$url) {
