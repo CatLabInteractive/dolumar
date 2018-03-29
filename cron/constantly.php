@@ -61,6 +61,7 @@ if ($lock->setLock ('cron_const', 0, $locktime))
 		FROM
 			premium_queue
 		WHERE
+		    pq_lastcheck IS NULL OR
 			pq_lastcheck < FROM_UNIXTIME(".(time()-$iIdleTime).")
 		ORDER BY
 			pq_lastcheck ASC
