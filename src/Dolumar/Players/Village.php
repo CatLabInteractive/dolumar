@@ -1915,7 +1915,7 @@ class Dolumar_Players_Village
 		elseif ($onlyAvailable)
 		{
 			// All units that are currently located in your village. (so not those who are away
-			$where = "((v_id = ".$this->getId ()." AND s_village = 0) OR s_village IS NULL OR s_village = ".$this->getId ().")";
+			$where = "((v_id = ".$this->getId ()." AND (s_village = 0 OR s_village IS NULL)) OR s_village = ".$this->getId ().")";
 		}
 		else
 		{
