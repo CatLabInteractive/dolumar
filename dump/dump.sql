@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Gegenereerd op: 24 mei 2018 om 14:33
+-- Gegenereerd op: 24 mei 2018 om 14:55
 -- Serverversie: 5.7.22-0ubuntu18.04.1
 -- PHP-versie: 7.2.5-0ubuntu0.18.04.1
 
@@ -520,8 +520,8 @@ CREATE TABLE `n_players` (
   `startX` int(11) DEFAULT NULL,
   `startY` int(11) DEFAULT NULL,
   `isPremium` tinyint(1) NOT NULL DEFAULT '0',
-  `premiumEndDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `sponsorEndDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `premiumEndDate` datetime DEFAULT NULL,
+  `sponsorEndDate` datetime DEFAULT NULL,
   `showSponsor` tinyint(1) NOT NULL DEFAULT '0',
   `showAdvertisement` tinyint(4) NOT NULL DEFAULT '0',
   `killCounter` tinyint(4) NOT NULL DEFAULT '0',
