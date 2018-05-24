@@ -1,6 +1,9 @@
 <?php
 
-$url = getenv("CLEARDB_DATABASE_URL");
+$url = getenv("DATABASE_URL");
+if (!$url) {
+    $url = getenv("CLEARDB_DATABASE_URL");
+}
 
 if (!$url) {
     echo 'No DB url provided.';
@@ -38,19 +41,19 @@ define ('CACHE_URL', 'cache.php?d=');
 /**
  * Memcahce
  */
-defEnvOrDefault('MEMCACHE_SERVERS', getenv('MEMCACHIER_BRONZE_SERVERS'));
-defEnvOrDefault('MEMCACHE_USERNAME', getenv('MEMCACHIER_BRONZE_USERNAME'));
-defEnvOrDefault('MEMCACHE_PASSWORD', getenv('MEMCACHIER_BRONZE_PASSWORD'));
+defEnvOrDefault('MEMCACHE_SERVERS', getenv('MEMCACHIER_SERVERS'));
+defEnvOrDefault('MEMCACHE_USERNAME', getenv('MEMCACHIER_USERNAME'));
+defEnvOrDefault('MEMCACHE_PASSWORD', getenv('MEMCACHIER_PASSWORD'));
 
 define ('USE_PROFILE', false);
 
 defEnvOrDefault('EMAIL_FROM');
 defEnvOrDefault('EMAIL_FROM_NAME');
 
-defEnvOrDefault('EMAIL_SMTP_SERVER');
-defEnvOrDefault('EMAIL_SMTP_PORT');
-defEnvOrDefault('EMAIL_SMTP_USERNAME');
-defEnvOrDefault('EMAIL_SMTP_PASSWORD');
+defEnvOrDefault('EMAIL_SMTP_SERVER', getenv('MAILGUN_SMTP_SERVER'));
+defEnvOrDefault('EMAIL_SMTP_PORT', getenv('MAILGUN_SMTP_PORT'));
+defEnvOrDefault('EMAIL_SMTP_USERNAME', getenv('MAILGUN_SMTP_LOGIN'));
+defEnvOrDefault('EMAIL_SMTP_PASSWORD', getenv('MAILGUN_SMTP_PASSWORD'));
 defEnvOrDefault('EMAIL_SMTP_SECURE');
 
 defEnvOrDefault('EMAIL_DEBUG_LEVEL');

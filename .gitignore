@@ -3,4 +3,4 @@
 /config/config.php
 /bootstrap/config.php
 /bootstrap/serverconfig.php
-.env
+/.env

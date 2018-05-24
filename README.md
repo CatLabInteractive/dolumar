@@ -7,13 +7,7 @@ a free heroku daemon, as long as you don't have too much players. It is, however
 can easily run it on any other server.
 
 ## Heroku
-First, make you sure you have the heroku toolbelt installed. Then run:
-* heroku create
-* heroku addons:create cleardb
-* heroku addons:create memcachier:dev
-* Navigate to {your heroku domain name}/setup.php
-
-This will add a database and a memcache addon.
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 ## Local setup
 For a local (development) setup, make sure you have composer installed.
