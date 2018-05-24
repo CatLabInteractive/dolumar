@@ -47,7 +47,7 @@ defEnvOrDefault('MEMCACHE_PASSWORD', getenv('MEMCACHIER_PASSWORD'));
 
 define ('USE_PROFILE', false);
 
-defEnvOrDefault('EMAIL_FROM');
+defEnvOrDefault('EMAIL_FROM', 'dolumar@' . getenv('MAILGUN_DOMAIN'));
 defEnvOrDefault('EMAIL_FROM_NAME');
 
 defEnvOrDefault('EMAIL_SMTP_SERVER', getenv('MAILGUN_SMTP_SERVER'));
