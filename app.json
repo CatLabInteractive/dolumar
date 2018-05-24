@@ -7,7 +7,7 @@
   "website": "https://www.dolumar.com/",
   "success_url": "/",
   "scripts": {
-    "postdeploy": "php public/setup.php"
+    "postdeploy": "cd public && php setup.php"
   },
   "formation": {
     "web": {

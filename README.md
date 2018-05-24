@@ -1,13 +1,15 @@
 # Dolumar
 Play now at http://www.dolumar.com/
 
+## Heroku
+Get started in a few minutes:
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
 ## Setup
 Dolumar has a few requirements, listed in composer.json. We have optimized Dolumar so that it can easily run on
 a free heroku daemon, as long as you don't have too much players. It is, however, a php web application, so you 
 can easily run it on any other server.
-
-## Heroku
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 ## Local setup
 For a local (development) setup, make sure you have composer installed.
