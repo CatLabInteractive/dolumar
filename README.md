@@ -1,10 +1,12 @@
 # Dolumar
 Play now at http://www.dolumar.com/
 
-## Heroku
-Get started in a few minutes:
+## Quick start
+First [fork this project](https://github.com/CatLabInteractive/dolumar#fork-destination-box), then click the button below:
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
+This will setup a Heroku project with all required extensions installed.
 
 ## Setup
 Dolumar has a few requirements, listed in composer.json. We have optimized Dolumar so that it can easily run on
