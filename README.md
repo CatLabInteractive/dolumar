@@ -2,7 +2,7 @@
 Play now at http://www.dolumar.com/
 
 ## Quick start
-First [fork this project](https://github.com/CatLabInteractive/dolumar#fork-destination-box), then click the button below:
+First fork the project (so that you can make changes), then click the button below:
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
