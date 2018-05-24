@@ -20,6 +20,7 @@
       "plan":"cleardb:punch"
     },
     "memcachier",
-    "mailgun"
+    "mailgun",
+    "airbrake"
   ]
 }

@@ -107,7 +107,7 @@ if (getenv('SERVERLIST_PUBLIC_KEY')) {
 }
 defEnvOrDefault ('SERVERLIST_VISIBLE', true);
 
-defEnvOrDefault('AIRBRAKE_TOKEN');
+defEnvOrDefault('AIRBRAKE_TOKEN', getenv('AIRBRAKE_API_KEY'));
 defEnvOrDefault('AIRBRAKE_HOST');
 
 defEnvOrDefault('NOLOGIN_REDIRECT');

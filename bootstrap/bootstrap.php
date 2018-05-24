@@ -68,13 +68,6 @@ else {
 	include BASE_PATH . 'bootstrap/serverconfig-default.php';
 }
 
-if (
-    defined('AIRBRAKE_API_KEY') ||
-    !defined('AIRBRAKE_TOKEN')
-) {
-    define('AIRBRAKE_TOKEN', AIRBRAKE_API_KEY);
-}
-
 if (defined ('AIRBRAKE_TOKEN') && AIRBRAKE_TOKEN) {
 
     $options = array(
