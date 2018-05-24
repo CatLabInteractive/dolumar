@@ -16,7 +16,9 @@
     }
   },
   "addons": [
-    "cleardb",
+    {
+      "plan":"cleardb:punch"
+    },
     "memcachier",
     "mailgun"
   ]

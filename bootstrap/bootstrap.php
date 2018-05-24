@@ -68,11 +68,18 @@ else {
 	include BASE_PATH . 'bootstrap/serverconfig-default.php';
 }
 
+if (
+    defined('AIRBRAKE_API_KEY') ||
+    !defined('AIRBRAKE_TOKEN')
+) {
+    define('AIRBRAKE_TOKEN', AIRBRAKE_API_KEY);
+}
+
 if (defined ('AIRBRAKE_TOKEN') && AIRBRAKE_TOKEN) {
 
     $options = array(
         'projectId' => AIRBRAKE_TOKEN,
-        'projectKey' => AIRBRAKE_TOKEN
+        'projectKey' => defined('AIRBRAKE_PROJECT_ID') ? AIRBRAKE_PROJECT_ID : AIRBRAKE_TOKEN
     );
 
     if (defined('AIRBRAKE_HOST')) {
