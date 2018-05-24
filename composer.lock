@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "e5402a7049dc605eb57eda0233e8feaf",
+    "content-hash": "64d74c2bf96ff070ebea93e0b7d1fa39",
     "packages": [
         {
             "name": "airbrake/phpbrake",
@@ -60,16 +60,16 @@
         },
         {
             "name": "catlabinteractive/dolumar-engine",
-            "version": "dev-master",
+            "version": "v1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/CatLabInteractive/dolumar-engine.git",
-                "reference": "7a19a5957f3f113e7091de03284ee59859d2b86b"
+                "reference": "2278ea743aeb9e1c8485317ce32638c6c926c4ec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CatLabInteractive/dolumar-engine/zipball/7a19a5957f3f113e7091de03284ee59859d2b86b",
-                "reference": "7a19a5957f3f113e7091de03284ee59859d2b86b",
+                "url": "https://api.github.com/repos/CatLabInteractive/dolumar-engine/zipball/2278ea743aeb9e1c8485317ce32638c6c926c4ec",
+                "reference": "2278ea743aeb9e1c8485317ce32638c6c926c4ec",
                 "shasum": ""
             },
             "require": {
@@ -95,7 +95,7 @@
                 "source": "https://github.com/CatLabInteractive/dolumar-engine/tree/master",
                 "issues": "https://github.com/CatLabInteractive/dolumar-engine/issues"
             },
-            "time": "2018-05-24T14:03:59+00:00"
+            "time": "2018-05-24T15:16:57+00:00"
         },
         {
             "name": "openid/php-openid",
@@ -751,7 +751,6 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "catlabinteractive/dolumar-engine": 20,
         "openid/php-openid": 20,
         "pear-pear/mdb2_driver_mysqli": 10,
         "pear-pear/mdb2": 10
