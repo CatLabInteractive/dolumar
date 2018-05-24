@@ -3,6 +3,7 @@
   "license" : "GPL-3.0",
 
   "require": {
+    "php" : "~7.1",
 	"catlabinteractive/dolumar-engine" : "dev-master",
     "airbrake/phpbrake": "^0.2.0",
     "openid/php-openid" : "dev-master",
