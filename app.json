@@ -5,9 +5,9 @@
   "logo": "http://master.dolumar.be/images/logos/logo-64x64.jpg",
   "keywords": ["php", "pbbg", "game", "browsergame"],
   "website": "https://www.dolumar.com/",
-  "success_url": "/",
+  "success_url": "/setup.php",
   "scripts": {
-    "postdeploy": "sh tools/setup.sh"
+
   },
   "formation": {
     "web": {
