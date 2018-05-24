@@ -27,7 +27,9 @@ ini_set("display_errors", 1);
 $loader = require_once __DIR__ . '/../vendor/autoload.php';
 
 $dotenv = new Dotenv\Dotenv(__DIR__ . '/../');
-$dotenv->load();
+if (file_exists(__DIR__ . '/../.env')) {
+    $dotenv->load();
+}
 
 define ('BASE_PATH', dirname(dirname(__FILE__)).'/');
 
