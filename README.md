@@ -1,19 +1,17 @@
 # Dolumar
 Play now at http://www.dolumar.com/
 
+## Quick start
+First fork the project (so that you can make changes), then click the button below:
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
+This will setup a Heroku project with all required extensions installed.
+
 ## Setup
 Dolumar has a few requirements, listed in composer.json. We have optimized Dolumar so that it can easily run on
 a free heroku daemon, as long as you don't have too much players. It is, however, a php web application, so you 
 can easily run it on any other server.
-
-## Heroku
-First, make you sure you have the heroku toolbelt installed. Then run:
-* heroku create
-* heroku addons:create cleardb
-* heroku addons:create memcachier:dev
-* Navigate to {your heroku domain name}/setup.php
-
-This will add a database and a memcache addon.
 
 ## Local setup
 For a local (development) setup, make sure you have composer installed.
@@ -38,4 +36,4 @@ Optionally, you can also set:
 
 ## CatLab Credits
 If you want to offer paid features on your server, you will need to setup an account on the CatLab credits framework. 
-Contact us at support@catlab.be in order to get you up and running.
+Contact us at support@catlab.be in order to get you up and running. Or you can write your own payment gateway :-)

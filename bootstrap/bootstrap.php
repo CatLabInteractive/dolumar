@@ -27,7 +27,9 @@ ini_set("display_errors", 1);
 $loader = require_once __DIR__ . '/../vendor/autoload.php';
 
 $dotenv = new Dotenv\Dotenv(__DIR__ . '/../');
-$dotenv->load();
+if (file_exists(__DIR__ . '/../.env')) {
+    $dotenv->load();
+}
 
 define ('BASE_PATH', dirname(dirname(__FILE__)).'/');
 
@@ -70,7 +72,7 @@ if (defined ('AIRBRAKE_TOKEN') && AIRBRAKE_TOKEN) {
 
     $options = array(
         'projectId' => AIRBRAKE_TOKEN,
-        'projectKey' => AIRBRAKE_TOKEN
+        'projectKey' => defined('AIRBRAKE_PROJECT_ID') ? AIRBRAKE_PROJECT_ID : AIRBRAKE_TOKEN
     );
 
     if (defined('AIRBRAKE_HOST')) {
@@ -287,5 +289,9 @@ if (!defined ('OPENID_SKIP_NICKNAME'))
 	define ('OPENID_SKIP_NICKNAME', true);
 
 $db = Neuron_Core_Database::__getInstance ();
-$db->customQuery("set global sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';");
-$db->customQuery("set global sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';");
+//$db->customQuery("set global sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';");
+try {
+    $db->customQuery("set global sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';");
+} catch (Exception $e) {
+    // no. we don't care.
+}

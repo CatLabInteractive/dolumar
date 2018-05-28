@@ -3,13 +3,18 @@
   "license" : "GPL-3.0",
 
   "require": {
-	"catlabinteractive/dolumar-engine" : "dev-master",
+    "php" : "~7.1.0",
+	"catlabinteractive/dolumar-engine" : "~1.0.4",
     "airbrake/phpbrake": "^0.2.0",
     "openid/php-openid" : "dev-master",
 
     "pear-pear/MDB2_Driver_mysqli": "1.5.0-beta4",
     "pear-pear/MDB2":               "2.5.0-beta5 as 2.5.0",
     "vlucas/phpdotenv": "^2.4"
+  },
+
+  "platform": {
+    "php": "^7.1.0"
   },
 
   "repositories": [
