@@ -10,3 +10,5 @@
 
 <!-- dolumar theme -->
 <link href="<?=STATIC_ABSOLUTE_URL?>dolumar/theme/dolumar.css?version=<?=$application_version?>" rel="stylesheet" type="text/css" />
+
+<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
