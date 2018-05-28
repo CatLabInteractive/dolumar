@@ -62,7 +62,7 @@ abstract class Dolumar_SpecialUnits_SpecialUnits
 			
 			$data = array ();
 			
-			$l = $db->select ('specialUnits', array ('*'));
+			$l = $db->select ('specialunits', array ('*'));
 			foreach ($l as $v)
 			{
 				$data[$v['s_id']] = 'Dolumar_SpecialUnits_' . $v['s_name'];
@@ -85,7 +85,7 @@ abstract class Dolumar_SpecialUnits_SpecialUnits
 		
 		$l = $db->select
 		(
-			'specialUnits',
+			'specialunits',
 			array ('s_id'),
 			"s_name = '".$this->getClassName ()."' "
 		);
@@ -94,7 +94,7 @@ abstract class Dolumar_SpecialUnits_SpecialUnits
 		{
 			return $db->insert
 			(
-				'specialUnits',
+				'specialunits',
 				array ('s_name' => $this->getClassName ())
 			);
 		}
