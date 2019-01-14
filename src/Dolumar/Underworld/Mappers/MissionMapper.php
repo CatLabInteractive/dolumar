@@ -205,7 +205,7 @@ class Dolumar_Underworld_Mappers_MissionMapper
 			$tmp[$v['umc_side']]->addClan ($clan);
 		}
 
-		return array_values ($tmp);;
+		return array_values ($tmp);
 	}
 
 	public static function remove (Dolumar_Underworld_Models_Mission $mission)

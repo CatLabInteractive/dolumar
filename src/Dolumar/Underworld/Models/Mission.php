@@ -199,14 +199,22 @@ class Dolumar_Underworld_Models_Mission
 		return $this->getMap ()->getFreeSpawnPoints ($side);
 	}
 
+    /**
+     * @param Dolumar_Underworld_Models_Side $side
+     * @param $id
+     * @return array
+     */
 	public function getSpawnpointsFromGroupId (Dolumar_Underworld_Models_Side $side, $id)
 	{
 		$out = array ();
 		foreach ($this->getSpawnpoints ($side) as $v)
 		{
-			if ($v->getGroup ()->getId () == $id)
-			{
-				$out[] = $v;
+			if ($v->getGroup ()->getId () == $id) {
+
+			    // Spawn points should also not be occupied.
+                if (!$this->getMap()->isSpawnPointOccupied($v)) {
+                    $out[] = $v;
+                }
 			}
 		}
 		return $out;

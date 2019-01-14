@@ -59,4 +59,3 @@ class Dolumar_Windows_Underworld extends Neuron_GameServer_Windows_Window
 	
 	}
 }
-?>

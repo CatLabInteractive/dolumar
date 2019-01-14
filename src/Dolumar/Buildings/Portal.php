@@ -103,4 +103,3 @@ class Dolumar_Buildings_Portal
 		return 0;
 	}
 }
-?>

@@ -62,7 +62,7 @@ class Dolumar_Underworld_Map_Map
 		$out = array ();
 		foreach ($this->getSpawnpoints ($side) as $v)
 		{
-			if (count ($this->getMapObjectManager ()->getFromLocation ($v)) === 0)
+			if (!$this->isSpawnPointOccupied($v))
 			{
 				$out[] = $v;
 			}
@@ -70,6 +70,15 @@ class Dolumar_Underworld_Map_Map
 
 		return $out;
 	}
+
+    /**
+     * @param Neuron_GameServer_Map_Location $location
+     * @return bool
+     */
+	public function isSpawnPointOccupied(Neuron_GameServer_Map_Location $location)
+    {
+        return count ($this->getMapObjectManager ()->getFromLocation ($location)) === 0;
+    }
 
 	/**
 	* Check all adjacent spots and return those that are free
