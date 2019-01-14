@@ -77,7 +77,7 @@ class Dolumar_Underworld_Map_Map
      */
 	public function isSpawnPointOccupied(Neuron_GameServer_Map_Location $location)
     {
-        return count ($this->getMapObjectManager ()->getFromLocation ($location)) === 0;
+        return count ($this->getMapObjectManager ()->getFromLocation ($location)) > 0;
     }
 
 	/**
