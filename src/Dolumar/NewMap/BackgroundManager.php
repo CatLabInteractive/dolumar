@@ -52,4 +52,3 @@ class Dolumar_NewMap_BackgroundManager
 		return array (200, 100);
 	}
 }
-?>
