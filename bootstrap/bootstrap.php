@@ -153,7 +153,7 @@ if (!defined ('PUBLIC_PATH'))
 	define ('PUBLIC_PATH', BASE_PATH.'public/');
 
 if (!defined ('PUBLIC_URL'))
-	define ('PUBLIC_URL', BASE_URL.'public/');
+	define ('PUBLIC_URL', BASE_URL);
 
 // Paths
 if (!defined ('TEMPLATE_DIR'))
