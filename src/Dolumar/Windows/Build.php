@@ -443,5 +443,3 @@ class Dolumar_Windows_Build extends Neuron_GameServer_Windows_Window
 		}
 	}
 }
-
-?>
