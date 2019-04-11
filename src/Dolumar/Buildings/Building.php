@@ -136,9 +136,28 @@ class Dolumar_Buildings_Building
 		}
 		return false;
 	}
+
+	/**
+	 * @param string $className
+	 * @return false|int|string
+	 */
+	public static function getIdFromName($className)
+	{
+        if (strpos($className, '_') >= 0) {
+            $parts = explode('_', $className);
+            $className = $parts[count($parts) - 1];
+        }
+
+		return array_search($className, self::getAllBuildings());
+	}
 	
 	public static function getBuildingFromName ($id, $race, $locationX = 0, $locationY = 0)
 	{
+	    if (strpos($id, '_') >= 0) {
+	        $parts = explode('_', $id);
+	        $id = $parts[count($parts) - 1];
+        }
+
 		$rn = $race->getName ();
 		
 		if (class_exists ('Dolumar_Races_'.$rn.'_Dolumar_Buildings_'.$id))
@@ -264,6 +283,14 @@ class Dolumar_Buildings_Building
 	{
 		return $this->data['lastUpgradeDate'];
 	}
+
+    /**
+     * @return int|mixed
+     */
+	public function getReadyTimeLeft()
+    {
+        return max($this->data['lastUpgradeDate'], $this->data['readyDate']) - time();
+    }
 
 	/*
 		Initialise this buildings requiremnets
@@ -439,6 +466,16 @@ class Dolumar_Buildings_Building
 	{
 		return $this->getConstructionTime ($village);
 	}
+
+    /**
+     * @param $village
+     * @return bool
+     */
+	public function canSelectRune($village)
+    {
+        $b = $this->getBuildingCost ($village);
+        return isset ($b['runeId']) && $b['runeId'] == 'random';
+    }
 	
 	public function setChosenRune ($village, $runeId)
 	{
@@ -2026,6 +2063,19 @@ class Dolumar_Buildings_Building
 	{
 
 	}
+
+	/**
+	 *
+	 * @return true|string
+	 */
+	public function upgrade()
+	{
+        if ($this->doUpgradeBuilding() === true) {
+            return true;
+        }
+
+        return $this->sError;
+	}
 	
 	public function __toString ()
 	{
@@ -2054,4 +2104,3 @@ class Dolumar_Buildings_Building
 		unset ( $this->oVillage );
 	}
 }
-?>

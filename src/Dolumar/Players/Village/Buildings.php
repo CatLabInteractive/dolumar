@@ -34,6 +34,11 @@ class Dolumar_Players_Village_Buildings
 	private $townCenter = null;
 	
 	private $objMember;
+
+    /**
+     * @var string
+     */
+	private $sError;
 	
 	public function __construct ($objMember)
 	{
@@ -362,9 +367,12 @@ class Dolumar_Players_Village_Buildings
 	
 	public function getBuildingAmount ($id, $includeConstructing = true)
 	{
-		if (is_object ($id))
-		{
+		if (is_object ($id)) {
 			$id = $id->getBuildingId ();
+		}
+
+		if (!is_numeric($id)) {
+			$id = Dolumar_Buildings_Building::getIdFromName($id);
 		}
 
 		$this->loadBuildings ();
@@ -483,6 +491,117 @@ class Dolumar_Players_Village_Buildings
 			$v->doDestructBuilding (true);
 		}
 	}
+
+    /**
+     * @param $tcloc
+     * @return array
+     */
+    public function getEmptyLocationNearPosition ($tcloc)
+    {
+        // Fetch location
+        list ($tx, $ty) = $tcloc;
+
+        $startRad = 0;
+        $endRad = 2;
+
+        $c = mt_rand ($startRad * 10000, $endRad * 10000) / 10000;
+        $r = mt_rand(1, 5);
+        $x = $tx;
+        $y = $ty;
+
+        while (!$this->isValidLocation ($x, $y))
+        {
+            $x = $tx + floor (sin ($c) * $r);
+            $y = $ty + floor (cos ($c) * $r);
+
+            $c += 0.05;
+
+            if ($c > $endRad)
+            {
+                $c = $startRad;
+                $r ++;
+            }
+        }
+
+        return array ($x, $y);
+    }
+
+    /**
+     * Try to actually build something (including stealing resources)
+     * @param Dolumar_Buildings_Building $building
+     * @param $x
+     * @param $y
+     * @return bool|Dolumar_Buildings_Building|string
+     */
+    public function build(Dolumar_Buildings_Building $building, $x, $y)
+    {
+        if (!$building->canBuildBuilding ($this->objMember)) {
+            $this->sError = 'techlevel';
+            return false;
+        }
+
+        if (!$building->checkBuildingLevels ($this->objMember)) {
+            $this->sError = 'buildinglevel';
+            return false;
+        }
+
+        if (!$this->objMember->readyToBuild ()) {
+            $this->sError = 'notreadytobuild';
+            return false;
+        }
+
+        // Check range, overlap etc.
+        $chk = $building->checkBuildLocation ($this->objMember, $x, $y);
+        if (!$chk[0]) {
+            // Game error: town center not found
+            $this->error = 'notowncenter';
+            return false;
+        }
+
+
+        $x = $chk[1][0];
+        $y = $chk[1][1];
+
+        $res = $building->getBuildingCost ($this->objMember);
+
+        // Take resources & runes
+        if ($this->objMember->resources->takeResourcesAndRunes ($res)) {
+
+            $building = $building->build ($this->objMember, $x, $y);
+            return $building;
+
+        } else {
+
+            $this->sError = 'resources';
+            return false;
+
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getError()
+    {
+        return $this->sError;
+    }
+
+    /**
+     * @param $x
+     * @param $y
+     * @return bool
+     */
+    protected function isValidLocation($x, $y)
+    {
+        // Fetch location
+        $location = Dolumar_Map_Map::getLocation ($x, $y);
+
+        if (!$location->canBuildBuilding ()) {
+            return false;
+        }
+
+        return !$this->objMember->buildings->isBuildingOnLocation ($x, $y);
+    }
 	
 	public function __destruct ()
 	{
@@ -506,4 +625,3 @@ class Dolumar_Players_Village_Buildings
 		unset ($this->objMember);
 	}
 }
-?>

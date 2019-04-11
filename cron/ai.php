@@ -21,8 +21,44 @@
  *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-class Dolumar_Players_NPCVillage extends Dolumar_Players_Village
-{
-	
+require_once __DIR__ . '/../bootstrap/bootstrap.php';
+
+//define ('DISABLE_STATIC_FACTORY', true);
+
+set_time_limit (600);
+
+$game = new Dolumar_Game ();
+$server = Neuron_GameServer::bootstrap();
+$server->setGame ($game);
+
+if (!defined ('SERVERLIST_VISIBLE')) {
+	define ('SERVERLIST_VISIBLE', false);
 }
-?>
+
+function writeln($message)
+{
+    echo $message . "\n";
+}
+
+// Generate ai villages for each village in the game
+$players = $game->getServer()->getActivePlayers();
+
+writeln('Generating AI villages');
+foreach ($players as $player) {
+
+    writeln('Processing player "' . $player->getName() . '"');
+    $villages = $player->getVillages(false);
+
+    foreach ($villages as $village) {
+        writeln('- Checking village "' . $village->getName() . '"');
+    }
+
+    $aiVillages = $village->lookForNPCs();
+    foreach ($aiVillages as $aiVillage) {
+
+        $aiModule = $aiVillage->ai;
+        $aiModule->run('writeln');
+
+    }
+
+}

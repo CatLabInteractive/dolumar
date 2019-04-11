@@ -218,8 +218,13 @@ abstract class Dolumar_Buildings_Training extends Dolumar_Buildings_Building
 		return max (0, min ($maxCapacity, $maxRes));
 		
 	}
-	
-	private function calculateOptimalTrainable ($unit)
+
+    /**
+     * @param $unit
+     * @return float|int
+     * @throws Neuron_Core_Error
+     */
+	public function calculateOptimalTrainable ($unit)
 	{
 		$amount = $this->calculateMaxTrainable ($unit);
 		$buildings = 0;
@@ -342,7 +347,11 @@ abstract class Dolumar_Buildings_Training extends Dolumar_Buildings_Building
 		return $out;
 	}
 
-	private function getCheckedAvailableUnits ()
+    /**
+     * @return Dolumar_Units_Unit[]
+     * @throws Neuron_Core_Error
+     */
+	public function getCheckedAvailableUnits ()
 	{
 		// Loop trough units
 		$units = array ();

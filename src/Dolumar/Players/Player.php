@@ -26,6 +26,14 @@ class Dolumar_Players_Player extends Neuron_GameServer_Player
 	private $data;
 	private $villages;
 
+	/**
+	 * @return Dolumar_Players_NPCPlayer
+	 */
+	public static function getNpcPlayer()
+	{
+		return new Dolumar_Players_NPCPlayer(null);
+	}
+
 	public function init ()
 	{
 		new Dolumar_Guide ($this);
@@ -1031,6 +1039,32 @@ class Dolumar_Players_Player extends Neuron_GameServer_Player
 		
 		parent::doEndVacationMode ();
 	}
+
+	/**
+	 * @return mixed|string|string[]|null
+	 * @throws Exception
+	 */
+	public function getNewVillageName()
+	{
+		$text = Neuron_Core_Text::__getInstance ();
+
+		$name = Neuron_Core_Tools::putIntoText
+		(
+			$text->get ('playervillage', 'main', 'main'),
+			array
+			(
+				'player' => $this->getNickname ()
+			)
+		);
+
+		// Count the existing villages
+		$villages = count ($this->getVillages ());
+		if ($villages >= 1) {
+			$name .= ' ' . ($villages + 1);
+		}
+
+		return $name;
+	}
 	
 	public function __destruct ()
 	{
@@ -1051,4 +1085,3 @@ class Dolumar_Players_Player extends Neuron_GameServer_Player
 		parent::__destruct ();
 	}
 }
-?>

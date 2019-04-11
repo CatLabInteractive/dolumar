@@ -42,6 +42,38 @@ class Dolumar_Mappers_BuildingMapper
 	 */
 	public function getBuildingsFromTypeWithinRadius ($x, $y, $building, $radius)
 	{
-		return array ();
+        $buildingSQL = Dolumar_Map_Map::getBuildingsFromLocations ([ $x, $y ], $radius);
+
+        $objects = array ();
+        foreach ($buildingSQL as $buildingV)
+        {
+            $race = Dolumar_Races_Race::getRace ($buildingV['race']);
+
+            $b = Dolumar_Buildings_Building::getBuilding
+            (
+                $buildingV['buildingType'],
+                $race,
+                $buildingV['xas'], $buildingV['yas']
+            );
+
+            if ($b->getBuildingId() != $building) {
+                continue;
+            }
+
+            $village = Dolumar_Players_Village::getVillage ($buildingV['village']);
+
+            $b->setVillage ($village);
+
+            $b->setData ($buildingV['bid'], $buildingV);
+
+            if ($buildingV['destroyDate'] > 0 && $buildingV['destroyDate'] < NOW)
+            {
+                $b->setDestroyed (true);
+            }
+
+            $objects[] = $b;
+        }
+
+        return $objects;
 	}
 }

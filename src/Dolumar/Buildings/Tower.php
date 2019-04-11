@@ -48,5 +48,3 @@ class Dolumar_Buildings_Tower extends Dolumar_Buildings_Building
 		$this->addRequiresBuilding (11);
 	}	
 }
-
-?>

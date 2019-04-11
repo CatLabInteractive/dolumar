@@ -397,49 +397,38 @@ class Dolumar_Windows_Build extends Neuron_GameServer_Windows_Window
 		$db = Neuron_Core_Database::__getInstance ();
 		
 		$text = Neuron_Core_Text::__getInstance ();
-		
-		// Check range, overlap etc.
-		$chk = $building->checkBuildLocation ($this->village, $x, $y);
-		
-		if ($chk[0])
-		{
-			$x = $chk[1][0];
-			$y = $chk[1][1];
-			
-			$res = $building->getBuildingCost ($this->village);
-			
-			// Take resources & runes
-			if 
-			(
-				$this->village->resources->takeResourcesAndRunes ($res)
-			)
-			{	
-				$building = $building->build ($this->village, $x, $y);
-				
-				//$this->reloadLocation ($x, $y);
-				
-				// Reload buildings & runes
-				$this->village->buildings->reloadBuildings ();
-				$this->village->buildings->reloadBuildingLevels ();
-				$this->village->onBuild ($building);
-				
-				// Reload windows
-				reloadEverything ();
-				
-				$this->updateContent ($this->getContent ('done'));
-			
-			}
-			
-			else 
-			{
-				$this->updateContent ($this->getContent ($this->village->resources->getError ()));
-			}
-		}
-		
-		else 
-		{
-			// Game error: town center not found
-			$this->updateContent ($this->getContent ($chk[1], isset ($chk[2]) ? $chk[2] : array ()));
-		}
+
+        $status = $this->village->buildings->build($building, $x, $y);
+        if ($status) {
+
+            $building = $building->build ($this->village, $x, $y);
+
+            //$this->reloadLocation ($x, $y);
+
+            // Reload buildings & runes
+            $this->village->buildings->reloadBuildings ();
+            $this->village->buildings->reloadBuildingLevels ();
+            $this->village->onBuild ($building);
+
+            // Reload windows
+            reloadEverything ();
+
+            $this->updateContent ($this->getContent ('done'));
+
+        } else {
+
+            $error = $this->village->buildings->getError();
+            switch ($error) {
+                case 'resources':
+                    $this->updateContent ($this->getContent ($this->village->resources->getError ()));
+                    break;
+
+                case 'notowncenter':
+                    $chk = $building->checkBuildLocation ($this->village, $x, $y);
+                    $this->updateContent ($this->getContent ($chk[1], isset ($chk[2]) ? $chk[2] : array ()));
+                    break;
+            }
+
+        }
 	}
 }

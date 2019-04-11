@@ -37,5 +37,3 @@ class Dolumar_Buildings_Barrack extends Dolumar_Buildings_Training
 		$this->addRequiresBuilding (13);
 	}	
 }
-
-?>

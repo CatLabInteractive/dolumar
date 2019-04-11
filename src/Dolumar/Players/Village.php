@@ -35,7 +35,7 @@ class Dolumar_Players_Village
 	private $error = null;
 	private $doCronStuff = true;
 	
-	private $isLoaded = array ();
+	protected $isLoaded = array ();
 	
 	private $specialUnits = null;
 	
@@ -50,18 +50,21 @@ class Dolumar_Players_Village
 
 	private static $instances = array ();
 	
-	/*
+	/**
 		To enable the factory to do it's work,
 		overload the loadModule function
 		
 		Return an object of the required module
 		The factory will make sure that it is only loaded once
-	*/
+
+	 * @param $sModule
+	 * @return mixed
+	 * @throws Exception
+	 */
 	protected function loadModule ($sModule)
 	{
 		$classname = 'Dolumar_Players_Village_'.ucfirst ($sModule);
-		if (!class_exists ($classname))
-		{
+		if (!class_exists ($classname)) {
 			throw new Exception ('Module '.$sModule.' ('.$classname.') does not exist.');
 		}
 		return new $classname ($this);
@@ -69,7 +72,7 @@ class Dolumar_Players_Village
 	
 	public static function getVillage ($id, $syncBattle = NOW, $cronStuff = false, $noStatic = false)
 	{
-		$in = self::$instances;	
+		$in = self::$instances;
 		
 		$id = intval ($id);
 		
@@ -85,19 +88,29 @@ class Dolumar_Players_Village
 			// Initialize the village
 			if (!isset ($in[$id]) || !$in[$id]->isInitialized)
 			{
-				$in[$id] = new Dolumar_Players_Village ($id, $cronStuff);
+				$in[$id] = self::createVillageFromId($id, $cronStuff);
 			}
 			
 			$village = $in[$id];
 		}
 		else
 		{
-			$village = new Dolumar_Players_Village ($id, $cronStuff);
+			$village = self::createVillageFromId($id, $cronStuff);
 		}
 		
 		$village->setBattleProcessData ($syncBattle);
 		
 		return $village;
+	}
+
+	/**
+	 * @param $id
+	 * @param $cronStuff
+	 * @return Dolumar_Players_Village
+	 */
+	private static function createVillageFromId($id, $cronStuff)
+	{
+		return new Dolumar_Players_Village ($id, $cronStuff);
 	}
 	
 	public function processBattles ()
@@ -231,7 +244,7 @@ class Dolumar_Players_Village
 		return $this->data;
 	}
 	
-	private function loadData ()
+	protected function loadData ()
 	{
 		$db = Neuron_Core_Database::__getInstance ();
 		if (!isset ($this->isLoaded['data']))
@@ -587,11 +600,33 @@ class Dolumar_Players_Village
 	}
 
 	/**
+	 * Are we scouting already?
+	 * @return bool
+	 */
+	public function isScouting()
+	{
+		$db = Neuron_Core_Database::__getInstance ();
+
+		$runeCheck = $db->select
+		(
+			'villages_scouting',
+			array ('count(scoutId)'),
+			"vid = '".$this->getId()."'"
+		);
+
+		return $runeCheck[0]['count(scoutId)'] > 0;
+	}
+
+	/**
 	 * @param int $runes
 	 * @return bool
 	 */
 	public function scout ($runes)
 	{
+		if ($this->isScouting()) {
+			return false;
+		}
+
 		$cost = $this->getScoutLandsCost ($runes);
 
 		if ($this->resources->takeResourcesAndRunes ($cost))
@@ -684,35 +719,68 @@ class Dolumar_Players_Village
 	}
 
 	/**
+	 * @return bool
+	 * @throws Neuron_Core_Error
+	 */
+	public function isNpc()
+	{
+		return $this->getOwner() instanceof Dolumar_Players_NPCPlayer;
+	}
+
+	/**
 	 * Look for npc villages, generate npc villages, ...
+	 * @return Dolumar_Players_Village[]
+	 * @throws Neuron_Core_Error
 	 */
 	public function lookForNPCs ()
 	{
+		if ($this->isNpc()) {
+			return [];
+		}
+
 		$mapper = Dolumar_Mappers_BuildingMapper::getInstance ();
-		$center = $this->getTownCenterLocation ();
+		$center = $this->buildings->getTownCenterLocation ();
 
 		$buildings = $mapper->getBuildingsFromTypeWithinRadius ($center[0], $center[1], 1, 100);
 
 		$npcs = array ();
 		foreach ($buildings as $v)
 		{
-			if ($v->getVillage () instanceof Dolumar_Players_NPCVillage)
+			if ($v->getVillage ()->isNpc())
 			{
-				$npcs[] = $v;
+				$npcs[] = $v->getVillage();
 			}
 		}
 
 		// No villages? Spawn new one
-		if (count ($npcs) == 0)
-		{
-			// TODO
-			$this->spawnNPC ();
+		if (count ($npcs) == 0) {
+			$npcs[] = $this->spawnNPC ();
 		}
+
+		return $npcs;
 	}
 
+	/**
+	 * @return Dolumar_Players_Village
+	 * @throws Neuron_Core_Error
+	 */
 	public function spawnNPC ()
 	{
-		// TODO
+		$townCenterLocation = $this->buildings->getTownCenterLocation();
+
+		$owner = Dolumar_Players_Player::getNpcPlayer();
+
+		$race = Dolumar_Races_Race::getFromId(3);
+
+		// Find a spawn spot
+		$map = $this->getOwner()->calculateNewStartLocation($townCenterLocation, $race);
+
+		$building = Dolumar_Buildings_Building::getBuilding (1, $race);
+		$building = $building->build (null, $map[0], $map[1], $owner, $race);
+
+		$village = $building->getVillage ();
+
+		return $village;
 	}
 	
 	public function trainUnits ($unit, $amount, $building)
@@ -890,6 +958,10 @@ class Dolumar_Players_Village
 		return $out;
 	}
 
+	/**
+	 * @param int $now
+	 * @return Dolumar_Units_Unit[]
+	 */
 	public function getAllUnits ($now = NOW)
 	{
 		$profiler = Neuron_Profiler_Profiler::__getInstance ();

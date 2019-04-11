@@ -1508,7 +1508,7 @@ class Dolumar_Players_Village_Resources
 		return $this->getTotalRunes ($incTownCenter = true);
 	}
 
-	private function getAvailableRunes_amount ()
+	public function getAvailableRunes_amount ()
 	{
 		$this->loadRunes ();
 

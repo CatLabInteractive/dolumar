@@ -127,7 +127,16 @@ class Dolumar_Buildings_TownCenter extends Dolumar_Buildings_Building
 			return array (false, 'minimalRange');
 		}
 	}
-	
+
+	/**
+	 * @param $village
+	 * @param $x
+	 * @param $y
+	 * @param Dolumar_Players_Player $owner
+	 * @param null $race
+	 * @return Dolumar_Buildings_Building|string
+	 * @throws Exception
+	 */
 	public function build ($village, $x, $y, $owner = null, $race = null)
 	{
 		$db = Neuron_Core_Database::__getInstance ();
@@ -139,56 +148,32 @@ class Dolumar_Buildings_TownCenter extends Dolumar_Buildings_Building
 			$owner = $village->getOwner ();
 			$race = $village->getRace ();
 		}
-		
-		if (!empty ($owner))
-		{
-			// Add new Village
-			
-			// Load start resources
-			$data = $this->getCapacity ();
-			
-			//$name = $owner->getNickname () . $text->get ('village', 'main', 'main');
-			$name = Neuron_Core_Tools::putIntoText
-			(
-				$text->get ('playervillage', 'main', 'main'),
-				array
-				(
-					'player' => $owner->getNickname ()
-				)
-			);
-			
-			// Count the existing villages
-			$villages = count ($owner->getVillages ());
-			if ($villages >= 1)
-			{
-				$name .= ' ' . ($villages + 1);
-			}
-			
-			// Insert other datas.
-			$data['vname'] = $name;
-			$data['plid'] = $owner->getId ();
-			$data['race'] = $race->getId ();
-			
-			$vid = $db->insert
-			(
-				'villages',
-				$data
-			);
-			
-			$village = Dolumar_Players_Village::getVillage ($vid);
-			$building = parent::build ($village, $x, $y, false);
-			
-			$owner->reloadVillages ();
-			
-			return $building;
-			//return array (true, $vid);
-		}
-		
-		else
-		{
-			return false;
-			return array (false, null);
-		}
+
+		// Add new Village
+
+		// Load start resources
+		$data = $this->getCapacity ();
+
+		$name = $owner->getNewVillageName();
+
+		// Insert other datas.
+		$data['vname'] = $name;
+		$data['plid'] = $owner->getId ();
+		$data['race'] = $race->getId ();
+
+		$vid = $db->insert
+		(
+			'villages',
+			$data
+		);
+
+		$village = Dolumar_Players_Village::getVillage ($vid);
+		$building = parent::build ($village, $x, $y, false);
+
+		$owner->reloadVillages ();
+
+		return $building;
+		//return array (true, $vid);
 	}
 	
 	protected function getCustomContent ($input)

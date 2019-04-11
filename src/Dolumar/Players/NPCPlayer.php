@@ -57,4 +57,51 @@ class Dolumar_Players_NPCPlayer extends Dolumar_Players_Player
 	{
 		return false;
 	}
+
+    /**
+     * Get a name for a new village
+     * @return string
+     */
+	public function getNewVillageName()
+    {
+        $firstNames = [
+            'Qen',
+            'Kird',
+            'Gomirt',
+            'Roxeqi',
+            'Sanni',
+            'Kibo',
+            'Grals',
+            'Glus'
+        ];
+
+        $lastNames = [
+            'Slickbottoms',
+            'Grimheads',
+            'Pickscrews',
+            'Mantales',
+            'Grimflares',
+            'Shortsnipes',
+            'Fiercebuckets',
+            'Shadowsnipes'
+        ];
+
+        $towns = [
+            'Keep',
+            'Dump',
+            'Suburp',
+            'Borough',
+            'Nook',
+            'Spot'
+        ];
+
+        $name = '';
+
+        $name .= $firstNames[array_rand($firstNames)] . ' ';
+        $name .= $lastNames[array_rand($lastNames)] . ' ';
+        $name .= $towns[array_rand($towns)];
+
+        return $name;
+
+    }
 }

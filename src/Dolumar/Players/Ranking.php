@@ -249,4 +249,3 @@ class Dolumar_Players_Ranking
 		}
 	}
 }
-?>

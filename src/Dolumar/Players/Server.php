@@ -229,6 +229,36 @@ class Dolumar_Players_Server
 		$this->clearCache ();
 	}
 
+	/**
+	 * Return all active players.
+	 * @return Dolumar_Players_Player[]
+	 * @throws Neuron_Core_Error
+	 */
+	public function getActivePlayers()
+	{
+		$db = Neuron_DB_Database::getInstance ();
+
+		$data = $db->query
+		("
+			SELECT
+				n_players.*
+			FROM
+				n_players
+			WHERE
+				isPlaying = 1
+		");
+
+		$o = array ();
+		foreach ($data as $v)
+		{
+			$player = Neuron_GameServer::getPlayer ($v['plid']);
+			$player->setData ($v);
+			$o[] = $player;
+		}
+
+		return $o;
+	}
+
 	public function sendNewsletter ($newsletter, $data)
 	{
 		$text = Neuron_Core_Text::getInstance ();
@@ -375,4 +405,3 @@ class Dolumar_Players_Server
 		return $l[0]['aantal'];
 	}
 }
-?>
