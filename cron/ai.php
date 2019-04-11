@@ -56,6 +56,7 @@ foreach ($players as $player) {
     $aiVillages = $village->lookForNPCs();
     foreach ($aiVillages as $aiVillage) {
 
+        writeln('Found AI village: ' . $aiVillage->getName());
         $aiModule = $aiVillage->ai;
         $aiModule->run('writeln');
 
