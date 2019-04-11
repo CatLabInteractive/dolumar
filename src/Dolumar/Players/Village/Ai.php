@@ -26,6 +26,8 @@
 */
 class Dolumar_Players_Village_Ai
 {
+    const NPC_PLAYER_DISTANCE = 50;
+
     const MAX_AVAILABLE_RUNES = 20; // how long do we wait before scouting for new runes?
     const SCOUT_RUNES_AMOUNT = 4; // how many runes do we scout for?
     const MAX_STRENGTH_FACTOR = 1.2; // how much bigger/smaller than the closeby players can this village become?

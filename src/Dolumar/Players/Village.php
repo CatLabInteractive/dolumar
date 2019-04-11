@@ -772,7 +772,11 @@ class Dolumar_Players_Village
 		$mapper = Dolumar_Mappers_BuildingMapper::getInstance ();
 		$center = $this->buildings->getTownCenterLocation ();
 
-		$buildings = $mapper->getBuildingsFromTypeWithinRadius ($center[0], $center[1], 1, 50);
+		$buildings = $mapper->getBuildingsFromTypeWithinRadius (
+			$center[0], $center[1],
+			1,
+			Dolumar_Players_Village_Ai::NPC_PLAYER_DISTANCE
+		);
 
 		$npcs = array ();
 		foreach ($buildings as $v)
@@ -803,7 +807,7 @@ class Dolumar_Players_Village
 		$race = Dolumar_Races_Race::getFromId(3);
 
 		// Find a spawn spot
-		$map = $this->getOwner()->calculateNewStartLocation($townCenterLocation, $race);
+		$map = $this->getOwner()->calculateNewStartLocation($townCenterLocation, $race, Dolumar_Players_Village_Ai::NPC_PLAYER_DISTANCE);
 
 		$building = Dolumar_Buildings_Building::getBuilding (1, $race);
 		$building = $building->build (null, $map[0], $map[1], $owner, $race);
