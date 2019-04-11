@@ -741,13 +741,12 @@ class Dolumar_Players_Village
 		$mapper = Dolumar_Mappers_BuildingMapper::getInstance ();
 		$center = $this->buildings->getTownCenterLocation ();
 
-		$buildings = $mapper->getBuildingsFromTypeWithinRadius ($center[0], $center[1], 1, 100);
+		$buildings = $mapper->getBuildingsFromTypeWithinRadius ($center[0], $center[1], 1, 50);
 
 		$npcs = array ();
 		foreach ($buildings as $v)
 		{
-			if ($v->getVillage ()->isNpc())
-			{
+			if ($v->getVillage ()->isNpc()) {
 				$npcs[] = $v->getVillage();
 			}
 		}
