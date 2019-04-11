@@ -49,6 +49,37 @@ class Dolumar_Players_Village
 	private $isInitialized = true;
 
 	private static $instances = array ();
+
+	/**
+	 * @param bool $syncBattles
+	 * @return self[]
+	 */
+	public static function getAllNpc($syncBattles = false)
+	{
+		$db = Neuron_DB_Database::getInstance ();
+
+		$vs = $db->query
+		("
+				SELECT
+					*
+				FROM
+					villages
+				WHERE
+					plid = 0 AND isActive = 1
+			");
+
+		$o = array ();
+		$i = 0;
+
+		foreach ($vs as $v)
+		{
+			$o[$i] = Dolumar_Players_Village::getVillage ($v['vid'], $syncBattles ? NOW : false);
+			$o[$i]->setData ($v);
+			$i ++;
+		}
+
+		return $o;
+	}
 	
 	/**
 		To enable the factory to do it's work,

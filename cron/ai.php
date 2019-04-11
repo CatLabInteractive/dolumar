@@ -55,18 +55,22 @@ foreach ($players as $player) {
         writeln('- Checking village "' . $village->getName() . '"');
     }
 
-    $aiVillages = $village->lookForNPCs();
-    foreach ($aiVillages as $aiVillage) {
+    $village->lookForNPCs();
 
-        if (isset($hasRun[$aiVillage->getId()])) {
-            writeln('Found AI village: ' . $aiVillage->getName() . ', but has already been processed.');
-            continue;
-        }
+}
 
-        writeln('Found AI village: ' . $aiVillage->getName());
-        $aiModule = $aiVillage->ai;
-        $aiModule->run('writeln');
+// Secondly, get all existing AI villages and run through those
+$aiVillages = Dolumar_Players_Village::getAllNpc(false);
 
+foreach ($aiVillages as $aiVillage) {
+
+    if (isset($hasRun[$aiVillage->getId()])) {
+        writeln('Found AI village: ' . $aiVillage->getName() . ', but has already been processed.');
+        continue;
     }
+
+    writeln('Found AI village: ' . $aiVillage->getName());
+    $aiModule = $aiVillage->ai;
+    $aiModule->run('writeln');
 
 }
