@@ -150,10 +150,10 @@
         },
         {
             "name": "pear-pear.php.net/Archive_Tar",
-            "version": "1.4.3",
+            "version": "1.4.7",
             "dist": {
                 "type": "file",
-                "url": "https://pear.php.net/get/Archive_Tar-1.4.3.tgz",
+                "url": "https://pear.php.net/get/Archive_Tar-1.4.7.tgz",
                 "reference": null,
                 "shasum": null
             },
@@ -161,7 +161,7 @@
                 "php": ">=5.2.0.0"
             },
             "replace": {
-                "pear-pear/archive_tar": "== 1.4.3.0"
+                "pear-pear/archive_tar": "== 1.4.7.0"
             },
             "type": "pear-library",
             "autoload": {
@@ -175,14 +175,14 @@
             "license": [
                 "New BSD License"
             ],
-            "description": "This class provides handling of tar files in PHP.\nIt supports creating, listing, extracting and adding to tar files.\nGzip support is available if PHP has the zlib extension built-in or\nloaded. Bz2 compression is also supported with the bz2 extension loaded."
+            "description": "This class provides handling of tar files in PHP.\nIt supports creating, listing, extracting and adding to tar files.\nGzip support is available if PHP has the zlib extension built-in or\nloaded. Bz2 compression is also supported with the bz2 extension loaded.\nAlso Lzma2 compressed archives are supported with xz extension."
         },
         {
             "name": "pear-pear.php.net/Console_Getopt",
-            "version": "1.4.1",
+            "version": "1.4.2",
             "dist": {
                 "type": "file",
-                "url": "https://pear.php.net/get/Console_Getopt-1.4.1.tgz",
+                "url": "https://pear.php.net/get/Console_Getopt-1.4.2.tgz",
                 "reference": null,
                 "shasum": null
             },
@@ -190,7 +190,7 @@
                 "php": ">=5.4.0.0"
             },
             "replace": {
-                "pear-pear/console_getopt": "== 1.4.1.0"
+                "pear-pear/console_getopt": "== 1.4.2.0"
             },
             "type": "pear-library",
             "autoload": {
@@ -282,10 +282,10 @@
         },
         {
             "name": "pear-pear.php.net/PEAR",
-            "version": "1.10.5",
+            "version": "1.10.9",
             "dist": {
                 "type": "file",
-                "url": "https://pear.php.net/get/PEAR-1.10.5.tgz",
+                "url": "https://pear.php.net/get/PEAR-1.10.9.tgz",
                 "reference": null,
                 "shasum": null
             },
@@ -303,7 +303,7 @@
                 "pear-pear.php.net/pear_frontend_web": "<=0.4.0.0"
             },
             "replace": {
-                "pear-pear/pear": "== 1.10.5.0"
+                "pear-pear/pear": "== 1.10.9.0"
             },
             "type": "pear-library",
             "autoload": {
@@ -457,16 +457,16 @@
         },
         {
             "name": "symfony/polyfill-ctype",
-            "version": "v1.10.0",
+            "version": "v1.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
-                "reference": "e3d826245268269cd66f8326bd8bc066687b4a19"
+                "reference": "82ebae02209c21113908c229e9883c419720738a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/e3d826245268269cd66f8326bd8bc066687b4a19",
-                "reference": "e3d826245268269cd66f8326bd8bc066687b4a19",
+                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/82ebae02209c21113908c229e9883c419720738a",
+                "reference": "82ebae02209c21113908c229e9883c419720738a",
                 "shasum": ""
             },
             "require": {
@@ -478,7 +478,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.9-dev"
+                    "dev-master": "1.11-dev"
                 }
             },
             "autoload": {
@@ -511,7 +511,7 @@
                 "polyfill",
                 "portable"
             ],
-            "time": "2018-08-06T14:22:27+00:00"
+            "time": "2019-02-06T07:57:58+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -568,16 +568,16 @@
     "packages-dev": [
         {
             "name": "doctrine/annotations",
-            "version": "v1.6.0",
+            "version": "v1.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/annotations.git",
-                "reference": "c7f2050c68a9ab0bdb0f98567ec08d80ea7d24d5"
+                "reference": "53120e0eb10355388d6ccbe462f1fea34ddadb24"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/annotations/zipball/c7f2050c68a9ab0bdb0f98567ec08d80ea7d24d5",
-                "reference": "c7f2050c68a9ab0bdb0f98567ec08d80ea7d24d5",
+                "url": "https://api.github.com/repos/doctrine/annotations/zipball/53120e0eb10355388d6ccbe462f1fea34ddadb24",
+                "reference": "53120e0eb10355388d6ccbe462f1fea34ddadb24",
                 "shasum": ""
             },
             "require": {
@@ -632,7 +632,7 @@
                 "docblock",
                 "parser"
             ],
-            "time": "2017-12-06T07:11:42+00:00"
+            "time": "2019-03-25T19:12:02+00:00"
         },
         {
             "name": "doctrine/lexer",
@@ -690,16 +690,16 @@
         },
         {
             "name": "symfony/finder",
-            "version": "v4.2.2",
+            "version": "v4.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
-                "reference": "9094d69e8c6ee3fe186a0ec5a4f1401e506071ce"
+                "reference": "267b7002c1b70ea80db0833c3afe05f0fbde580a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/9094d69e8c6ee3fe186a0ec5a4f1401e506071ce",
-                "reference": "9094d69e8c6ee3fe186a0ec5a4f1401e506071ce",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/267b7002c1b70ea80db0833c3afe05f0fbde580a",
+                "reference": "267b7002c1b70ea80db0833c3afe05f0fbde580a",
                 "shasum": ""
             },
             "require": {
@@ -735,20 +735,20 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "https://symfony.com",
-            "time": "2019-01-03T09:07:35+00:00"
+            "time": "2019-02-23T15:42:05+00:00"
         },
         {
             "name": "symfony/yaml",
-            "version": "v4.2.2",
+            "version": "v4.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "d0aa6c0ea484087927b49fd513383a7d36190ca6"
+                "reference": "6712daf03ee25b53abb14e7e8e0ede1a770efdb1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/d0aa6c0ea484087927b49fd513383a7d36190ca6",
-                "reference": "d0aa6c0ea484087927b49fd513383a7d36190ca6",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/6712daf03ee25b53abb14e7e8e0ede1a770efdb1",
+                "reference": "6712daf03ee25b53abb14e7e8e0ede1a770efdb1",
                 "shasum": ""
             },
             "require": {
@@ -794,7 +794,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2019-01-03T09:07:35+00:00"
+            "time": "2019-03-30T15:58:42+00:00"
         },
         {
             "name": "zircote/swagger-php",
