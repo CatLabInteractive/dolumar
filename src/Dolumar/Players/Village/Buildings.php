@@ -471,7 +471,7 @@ class Dolumar_Players_Village_Buildings
 	{
 		// Load unfinished buildings
 		$db = Neuron_Core_Database::__getInstance ();
-		
+
 		$buildings = $db->select
 		(
 			'map_buildings',
@@ -568,6 +568,13 @@ class Dolumar_Players_Village_Buildings
         if ($this->objMember->resources->takeResourcesAndRunes ($res)) {
 
             $building = $building->build ($this->objMember, $x, $y);
+
+            // Reload buildings & runes
+            $this->reloadBuildings ();
+            $this->reloadBuildingLevels ();
+
+            $this->objMember->onBuild($building);
+
             return $building;
 
         } else {

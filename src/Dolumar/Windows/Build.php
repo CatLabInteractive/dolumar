@@ -401,15 +401,6 @@ class Dolumar_Windows_Build extends Neuron_GameServer_Windows_Window
         $status = $this->village->buildings->build($building, $x, $y);
         if ($status) {
 
-            $building = $building->build ($this->village, $x, $y);
-
-            //$this->reloadLocation ($x, $y);
-
-            // Reload buildings & runes
-            $this->village->buildings->reloadBuildings ();
-            $this->village->buildings->reloadBuildingLevels ();
-            $this->village->onBuild ($building);
-
             // Reload windows
             reloadEverything ();
 
