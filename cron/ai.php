@@ -69,6 +69,8 @@ foreach ($aiVillages as $aiVillage) {
         continue;
     }
 
+    $hasRun[$aiVillage->getId()] = true;
+
     writeln('Found AI village: ' . $aiVillage->getName());
     $aiModule = $aiVillage->ai;
     $aiModule->run('writeln');

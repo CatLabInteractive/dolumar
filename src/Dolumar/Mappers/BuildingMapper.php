@@ -42,7 +42,7 @@ class Dolumar_Mappers_BuildingMapper
 	 */
 	public function getBuildingsFromTypeWithinRadius ($x, $y, $building, $radius)
 	{
-        $buildingSQL = Dolumar_Map_Map::getBuildingsFromLocations ([ $x, $y ], $radius);
+        $buildingSQL = Dolumar_Map_Map::getBuildingsFromLocations ([ [ $x, $y ] ], $radius);
 
         $objects = array ();
         foreach ($buildingSQL as $buildingV)
