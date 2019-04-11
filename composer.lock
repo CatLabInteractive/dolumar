@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b2df60dbb511da29e4fffc15d490bf3f",
+    "content-hash": "9b11fdb7d9a47897f487d69e5d90b7f4",
     "packages": [
         {
             "name": "airbrake/phpbrake",
@@ -60,16 +60,16 @@
         },
         {
             "name": "catlabinteractive/dolumar-engine",
-            "version": "v1.0.5",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/CatLabInteractive/dolumar-engine.git",
-                "reference": "7b43ceb1df321c19434d2033fb259d00b9fecf4f"
+                "reference": "08b1075fb45cd033fe59309a87b5db3a28addbc6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CatLabInteractive/dolumar-engine/zipball/7b43ceb1df321c19434d2033fb259d00b9fecf4f",
-                "reference": "7b43ceb1df321c19434d2033fb259d00b9fecf4f",
+                "url": "https://api.github.com/repos/CatLabInteractive/dolumar-engine/zipball/08b1075fb45cd033fe59309a87b5db3a28addbc6",
+                "reference": "08b1075fb45cd033fe59309a87b5db3a28addbc6",
                 "shasum": ""
             },
             "require": {
@@ -92,10 +92,10 @@
                 "GPL-3.0"
             ],
             "support": {
-                "source": "https://github.com/CatLabInteractive/dolumar-engine/tree/v1.0.5",
+                "source": "https://github.com/CatLabInteractive/dolumar-engine/tree/master",
                 "issues": "https://github.com/CatLabInteractive/dolumar-engine/issues"
             },
-            "time": "2019-01-31T22:11:19+00:00"
+            "time": "2019-04-11T18:42:13+00:00"
         },
         {
             "name": "openid/php-openid",
@@ -870,6 +870,7 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
+        "catlabinteractive/dolumar-engine": 20,
         "openid/php-openid": 20,
         "pear-pear/mdb2_driver_mysqli": 10,
         "pear-pear/mdb2": 10
