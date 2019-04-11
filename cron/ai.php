@@ -43,6 +43,8 @@ function writeln($message)
 // Generate ai villages for each village in the game
 $players = $game->getServer()->getActivePlayers();
 
+$hasRun = [];
+
 writeln('Generating AI villages');
 foreach ($players as $player) {
 
@@ -55,6 +57,11 @@ foreach ($players as $player) {
 
     $aiVillages = $village->lookForNPCs();
     foreach ($aiVillages as $aiVillage) {
+
+        if (isset($hasRun[$aiVillage->getId()])) {
+            writeln('Found AI village: ' . $aiVillage->getName() . ', but has already been processed.');
+            continue;
+        }
 
         writeln('Found AI village: ' . $aiVillage->getName());
         $aiModule = $aiVillage->ai;
