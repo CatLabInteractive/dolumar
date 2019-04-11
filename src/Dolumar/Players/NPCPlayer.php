@@ -58,6 +58,14 @@ class Dolumar_Players_NPCPlayer extends Dolumar_Players_Player
 		return false;
 	}
 
+    /*
+        This function is called whenever the score gets updated.
+    */
+    public function updateScore ()
+    {
+        // do nothing.
+    }
+
     /**
      * Get a name for a new village
      * @return string
