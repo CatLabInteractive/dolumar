@@ -501,10 +501,10 @@ class Dolumar_Players_Village_Buildings
         // Fetch location
         list ($tx, $ty) = $tcloc;
 
-        $startRad = 0;
-        $endRad = 2;
+        $startRad = 0 * pi();
+        $endRad = 2 * pi();
 
-        $c = mt_rand ($startRad * 10000, $endRad * 10000) / 10000;
+        $c = mt_rand ($startRad * 100000, $endRad * 100000) / 100000;
         $r = mt_rand(1, 5);
         $x = $tx;
         $y = $ty;
