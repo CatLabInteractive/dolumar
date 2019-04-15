@@ -33,5 +33,3 @@ class Dolumar_Buildings_Lumber extends Dolumar_Buildings_Producing
 		$this->addRequiresBuilding (10);
 	}	
 }
-
-?>

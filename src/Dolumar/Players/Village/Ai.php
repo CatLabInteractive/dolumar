@@ -37,13 +37,24 @@ class Dolumar_Players_Village_Ai
      * @var array
      */
     protected $buildingRatios = [
-        Dolumar_Buildings_Silo::class =>        0.8,
-        Dolumar_Buildings_Farm::class =>        1.5,
-        Dolumar_Buildings_Lumber::class =>      0.8,
-        Dolumar_Buildings_StoneMine::class =>   0.5,
-        Dolumar_Buildings_IronMine::class =>    0.8,
-        Dolumar_Buildings_Barrack::class =>     1.0
+        Dolumar_Buildings_Silo::class =>        0.8, // any
+        Dolumar_Buildings_Farm::class =>        1.5, // water
+        Dolumar_Buildings_Lumber::class =>      0.8, // wind
+        Dolumar_Buildings_StoneMine::class =>   0.5, // earth
+        Dolumar_Buildings_IronMine::class =>    0.8, // fire
+        Dolumar_Buildings_Barrack::class =>     1.0, // fire
+        Dolumar_Buildings_Archery::class =>     0.6, // wind
+        Dolumar_Buildings_Stable::class =>      0.5, // wind
+        Dolumar_Buildings_Tower::class =>       0.4, // earth
     ];
+
+    /*
+     * Counters
+     * water    xx
+     * wind     xx
+     * earth    xx
+     * fire     xx
+     */
 
 	/**
 	 * @var Dolumar_Players_Village
