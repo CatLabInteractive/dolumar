@@ -788,7 +788,8 @@ class Dolumar_Players_Village
 
 		// No villages? Spawn new one
 		if (count ($npcs) == 0) {
-			$npcs[] = $this->spawnNPC ();
+			$v = $this->spawnNPC ();
+			$npcs[] = $v;
 		}
 
 		return $npcs;
@@ -808,6 +809,10 @@ class Dolumar_Players_Village
 
 		// Find a spawn spot
 		$map = $this->getOwner()->calculateNewStartLocation($townCenterLocation, $race, Dolumar_Players_Village_Ai::NPC_PLAYER_DISTANCE);
+
+		if ($map === null || $map[0] === null || $map[1] === null) {
+			return null;
+		}
 
 		$building = Dolumar_Buildings_Building::getBuilding (1, $race);
 		$building = $building->build (null, $map[0], $map[1], $owner, $race);
