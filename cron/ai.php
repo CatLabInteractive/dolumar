@@ -83,3 +83,5 @@ foreach ($aiVillages as $aiVillage) {
     $aiModule->run('writeln');
 
 }
+
+writeln('All done!');
