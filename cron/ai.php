@@ -69,6 +69,13 @@ foreach ($aiVillages as $aiVillage) {
         continue;
     }
 
+    // do we have a town center?
+    $tc = $aiVillage->buildings->getTownCenter();
+    if (!$tc) {
+        $aiVillage->destroyVillage();
+        continue;
+    }
+
     $hasRun[$aiVillage->getId()] = true;
 
     writeln('Found AI village: ' . $aiVillage->getName());
