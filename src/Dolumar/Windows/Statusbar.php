@@ -435,7 +435,7 @@ class Dolumar_Windows_Statusbar
 							$this->addCounter(
 								NOW + $timeleft,
 								'',
-								$v->getName() . ': The center castle is held by ' . $side->getName(),
+								$v->getName() . ': The center castle is held by ' . $side->getName() . '. When the countdown reaches 0 the game will end.',
 								'underworld',
 								false,
 								null
