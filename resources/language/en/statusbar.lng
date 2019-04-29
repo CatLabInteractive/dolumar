@@ -13,6 +13,7 @@ crafting = "Crafting @@amount @@equipment."
 effect_unknown = "Active effect: @@effect"
 effect_known = "Active effect: @@effect (from @@actor)"
 speedup = "Speed up"
+underworld="@@mission: The castle is held by @@side. The end is nigh."
 
 [queue]
 cancel = "cancel"

@@ -42,6 +42,9 @@ class Dolumar_Underworld_Mappers_ScoreMapper
 		{
 			$side = new Dolumar_Underworld_Models_Side ($v['us_side']);
 
+			// load the actual side
+            $side = $mission->getSideFromSide($side);
+
 			$out[] = array 
 			(
 				'side' => $side,
