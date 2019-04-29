@@ -125,12 +125,14 @@ class Dolumar_Buildings_Clanportal
 		//  See if we have global missions that we should join
 		$globalMissions = Dolumar_Underworld_Mappers_MissionMapper::getGlobalMissions ();
 
+		/*
 		if (count ($globalMissions) === 0)
 		{
 			// At least create the "explore" mission
 			$globalMissions = array ();
 			$globalMissions[] = $this->createExploreMission ();
 		}
+		*/
 
 		// Check if we already joined this game
 		foreach ($this->getVillage ()->getOwner ()->getClans () as $clan)

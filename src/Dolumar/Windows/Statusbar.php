@@ -75,12 +75,27 @@ class Dolumar_Windows_Statusbar
 	*/
 	private function addCounter ($futureTime, $village, $txt, $type, $showVillage = false, $speedUpData = null)
 	{
-		$this->counters[] = array 
+		$villageName = $this->getVillageName($village);
+
+		$this->addCounterRaw($futureTime, $villageName, $txt, $type, $showVillage, $speedUpData);
+	}
+
+	/**
+	 * @param $futureTime
+	 * @param $villageName
+	 * @param $txt
+	 * @param $type
+	 * @param bool $showVillage
+	 * @param null $speedUpData
+	 */
+	private function addCounterRaw($futureTime, $villageName, $txt, $type, $showVillage = false, $speedUpData = null)
+	{
+		$this->counters[] = array
 		(
-			$futureTime, 
-			$this->getVillageName ($village), 
-			$txt, 
-			$type, 
+			$futureTime,
+			$villageName,
+			$txt,
+			$type,
 			$showVillage,
 			$speedUpData
 		);
@@ -190,6 +205,7 @@ class Dolumar_Windows_Statusbar
 			$vilsId = substr ($vilsId, 0, -4) . ')';
 			$vilsIdOrTarget = substr ($vilsIdOrTarget, 0, -4) . ')';
 
+			$this->loadEndgameCounters();
 			$this->loadBuildingCounters ($vils);
 			$this->loadScoutCounters ($vilsId);
 			$this->loadTroopCounters ($vilsId);
@@ -385,6 +401,50 @@ class Dolumar_Windows_Statusbar
 			);
 			
 			$this->addCounter ($v['endDate'], $village, $txt, 'technology');
+		}
+	}
+
+	/**
+	 *
+	 */
+	private function loadEndgameCounters()
+	{
+		$globalMissions = Dolumar_Underworld_Mappers_MissionMapper::getGlobalMissions ();
+		if (count($globalMissions) === 0) {
+			return;
+		}
+
+		foreach ($globalMissions as $mission) {
+
+			/** @var Dolumar_Underworld_Models_Mission $mission */
+			$objective = $mission->getObjective ();
+
+			if ($objective instanceof Dolumar_Underworld_Models_Objectives_TakeAndHold) {
+				$scores = $objective->getScores ();
+
+				$message = '';
+				foreach ($scores as $v)
+				{
+					$timeleft = $objective->getHoldDuration () - $v['score'];
+
+					if ($timeleft > 0)
+					{
+						if ($v['increasing']) {
+							$side = $v['side'];
+
+							$this->addCounter(
+								NOW + $timeleft,
+								'',
+								$v->getName() . ': The center castle is held by ' . $side->getName(),
+								'underworld',
+								false,
+								null
+							);
+						}
+					}
+				}
+			}
+
 		}
 	}
 
