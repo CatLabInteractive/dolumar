@@ -421,8 +421,6 @@ class Dolumar_Windows_Statusbar
 
 			if ($objective instanceof Dolumar_Underworld_Models_Objectives_TakeAndHold) {
 				$scores = $objective->getScores ();
-
-				$message = '';
 				foreach ($scores as $v)
 				{
 					$timeleft = $objective->getHoldDuration () - $v['score'];
@@ -430,12 +428,24 @@ class Dolumar_Windows_Statusbar
 					if ($timeleft > 0)
 					{
 						if ($v['increasing']) {
+
+							/** @var Dolumar_Underworld_Models_Side $side */
 							$side = $v['side'];
 
-							$this->addCounter(
+							$clans = $side->getClans();
+
+							$text = Neuron_Core_Text::__getInstance ();
+
+							$this->addCounterRaw(
 								NOW + $timeleft,
 								'',
-								$v->getName() . ': The center castle is held by ' . $side->getName() . '. When the countdown reaches 0 the game will end.',
+								Neuron_Core_Tools::putIntoText (
+									$text->get ('underworld'),
+									array (
+										'mission' => $mission->getName(),
+										'side' => $side->getDisplayName()
+									)
+								),
 								'underworld',
 								false,
 								null
