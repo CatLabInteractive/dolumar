@@ -74,6 +74,10 @@ class Dolumar_Players_Village_Battle
 	*/
 	public function processBattles ($now)
 	{
+		// set higher execution time limit
+		ini_set('max_execution_time', 300);
+		set_time_limit(300);
+
 		// Check if it has been checked for this
 		if ($now <= $this->iLastBattleCheck)
 		{
