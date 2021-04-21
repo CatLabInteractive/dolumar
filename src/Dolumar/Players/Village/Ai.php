@@ -274,7 +274,13 @@ class Dolumar_Players_Village_Ai
         $this->log('Trying to build ' . $building->getClassName() . ' at [' . $location[0] . ',' . $location[1] . ']');
 
         if ($building->canSelectRune($this->getVillage())) {
-            $building->setChosenRune($this->getVillage(), $this->getRandomAvailableRune());
+            $randomRune = $this->getRandomAvailableRune();
+            if (!$randomRune) {
+                $this->log('No available runes; could not select a random rune.');
+                return false;
+            }
+
+            $building->setChosenRune($this->getVillage(), $randomRune);
         }
 
         $b = $this->getVillage()->buildings->build($building, $location[0], $location[1]);
@@ -313,6 +319,10 @@ class Dolumar_Players_Village_Ai
             if ($v > 0) {
                 $available[] = $k;
             }
+        }
+
+        if (count($available) === 0) {
+            return null;
         }
 
         $rune = $available[array_rand($available)];
