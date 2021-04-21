@@ -51,7 +51,7 @@
 
 						<tr>
 							<td colspan="2">
-								<img src="http://master.dolumar.be/images/mailheader.jpg" alt="Dolumar banner" style="display:block;" />
+								<img src="https://master.dolumar.com/images/mailheader.jpg" alt="Dolumar banner" style="display:block;" />
 							</td>
 						</tr>
 

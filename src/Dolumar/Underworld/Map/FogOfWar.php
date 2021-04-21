@@ -107,4 +107,3 @@ class Dolumar_Underworld_Map_FogOfWar
 		Dolumar_Underworld_Mappers_ExploredMapper::insert ($this->mission, $this->side, $location);
 	}
 }
-?>

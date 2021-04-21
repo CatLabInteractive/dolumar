@@ -147,4 +147,3 @@ class Dolumar_Players_Village_Portals
 		unset ($this->village);
 	}
 }
-?>
