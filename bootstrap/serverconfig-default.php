@@ -112,3 +112,10 @@ defEnvOrDefault('AIRBRAKE_HOST');
 
 defEnvOrDefault('NOLOGIN_REDIRECT');
 defEnvOrDefault('WIKI_GUIDE_URL', 'http://wiki.dolumar.com/');
+
+defEnvOrDefault('OPENID_CONNECT_AUTHORIZE_URL');
+defEnvOrDefault('OPENID_CONNECT_TOKEN_URL');
+defEnvOrDefault('OPENID_CONNECT_PROFILE_URL');
+defEnvOrDefault('OPENID_CONNECT_CLIENT_ID');
+defEnvOrDefault('OPENID_CONNECT_SECRET');
+defEnvOrDefault('OPENID_CONNECT_PROFILE_URL_PREFIX');

@@ -7,9 +7,6 @@
 	"catlabinteractive/dolumar-engine" : "dev-master",
     "airbrake/phpbrake": "^0.2.0",
     "openid/php-openid" : "dev-master",
-
-    "pear-pear/MDB2_Driver_mysqli": "1.5.0-beta4",
-    "pear-pear/MDB2":               "2.5.0-beta5 as 2.5.0",
     "vlucas/phpdotenv": "^2.4"
   },
 
@@ -26,11 +23,6 @@
     {
       "type": "vcs",
       "url":  "git@github.com:CatLabInteractive/php-openid.git"
-    },
-
-    {
-      "type": "pear",
-      "url": "https://pear.php.net"
     }
   ],
 
@@ -44,7 +36,7 @@
 	"zircote/swagger-php" : "*"
   },
 
-  "minimum-stability" : "stable",
+  "minimum-stability" : "dev",
   "prefer-stable" : true,
 
   "config": {

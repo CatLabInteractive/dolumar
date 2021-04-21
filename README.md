@@ -37,3 +37,6 @@ Optionally, you can also set:
 ## CatLab Credits
 If you want to offer paid features on your server, you will need to setup an account on the CatLab credits framework. 
 Contact us at support@catlab.be in order to get you up and running. Or you can write your own payment gateway :-)
+
+## OpenID Connect
+* Redirect URL: YOUR_DOMAIN/oauth2/login/next
