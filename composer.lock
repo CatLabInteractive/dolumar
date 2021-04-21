@@ -119,12 +119,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/CatLabInteractive/dolumar-engine.git",
-                "reference": "6b35e095ae3389ff407b58bc87364861b1ede041"
+                "reference": "6637d3404372c8879199afc1fd513c3ed1affe46"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CatLabInteractive/dolumar-engine/zipball/6b35e095ae3389ff407b58bc87364861b1ede041",
-                "reference": "6b35e095ae3389ff407b58bc87364861b1ede041",
+                "url": "https://api.github.com/repos/CatLabInteractive/dolumar-engine/zipball/6637d3404372c8879199afc1fd513c3ed1affe46",
+                "reference": "6637d3404372c8879199afc1fd513c3ed1affe46",
                 "shasum": ""
             },
             "require": {
@@ -152,7 +152,7 @@
                 "source": "https://github.com/CatLabInteractive/dolumar-engine/tree/master",
                 "issues": "https://github.com/CatLabInteractive/dolumar-engine/issues"
             },
-            "time": "2021-04-21T09:41:02+00:00"
+            "time": "2021-04-21T10:51:24+00:00"
         },
         {
             "name": "container-interop/container-interop",
