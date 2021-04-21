@@ -41,4 +41,3 @@ class Dolumar_Guide
 		$player->quests->addQuest ($quest);
 	}
 }
-?>

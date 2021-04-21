@@ -84,10 +84,11 @@ class Dolumar_Windows_Menu extends Neuron_GameServer_Windows_Window
 		}
 
 		$page->set ('simulator', Neuron_Core_Tools::output_varchar ($text->get ('simulator')));
-		
-		$localized_forum = str_replace ('{lang}', $text->getCurrentLanguage (), FORUM_URL);
-		
-		$page->set ('forum_url', $localized_forum);
+
+		if (FORUM_URL) {
+			$localized_forum = str_replace('{lang}', $text->getCurrentLanguage(), FORUM_URL);
+			$page->set('forum_url', $localized_forum);
+		}
 		
 		$page->set ('ignorelist', $text->get ('ignorelist'));
 		

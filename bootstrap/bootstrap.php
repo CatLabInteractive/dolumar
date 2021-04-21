@@ -204,7 +204,7 @@ if (!defined ('WIKI_GUIDE_URL'))
 	define ('WIKI_GUIDE_URL', false);
 
 if (!defined ('WIKI_EDIT_URL')) {
-    if (defined('WIKI_GUIDE_URL')) {
+    if (defined('WIKI_GUIDE_URL') && WIKI_GUIDE_URL) {
         define('WIKI_EDIT_URL', WIKI_GUIDE_URL . 'index.php?action=edit&title=');
     } else {
         define('WIKI_EDIT_URL', false);
@@ -216,7 +216,7 @@ if (!defined ('WIKI_PREFIX'))
 	define ('WIKI_PREFIX', 'D');
 
 if (!defined ('FORUM_URL'))
-	define ('FORUM_URL', 'http://forum.dolumar.com/');
+	define ('FORUM_URL', false);
 
 if (!defined ('CONTACT_URL'))
 	define ('CONTACT_URL', false);

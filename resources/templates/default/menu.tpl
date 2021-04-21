@@ -209,18 +209,20 @@
 		</li>
 
 		<li onmouseover="this.className+=' over';" onmouseout="this.className='';">
-	
+
 			<a href="javascript:void(0);" onClick="openWindow('help');" title="<?=$help;?>" >
 				<span class="navigation help"><span><?=$help;?></span></span>
 			</a>
 
 			<div>
 			<ul>
-				<li>
-					<a href="javascript:void(0);" onclick="openWindow('help');" title="<?=$help?>">
-						<?=$help?>
-					</a>
-				</li>
+				<?php if (defined('WIKI_GUIDE_URL') && WIKI_GUIDE_URL) { ?>
+					<li>
+						<a href="javascript:void(0);" onclick="openWindow('help');" title="<?=$help?>">
+							<?=$help?>
+						</a>
+					</li>
+				<?php } ?>
 				
 				<?php if (isset ($messages)) { ?>
 					<li>
@@ -274,11 +276,13 @@
 				</li>
 				-->
 
-				<li>
-					<a href="<?php echo CONTACT_URL; ?>" target="_BLANK" title="<?=$contact?>" >
-						<?=$contact?>
-					</a>
-				</li>
+				<?php if (CONTACT_URL) { ?>
+					<li>
+						<a href="<?php echo CONTACT_URL; ?>" target="_BLANK" title="<?=$contact?>" >
+							<?=$contact?>
+						</a>
+					</li>
+				<?php } ?>
 				
 				<?php if (isset ($imprint)) { ?>
 					<li>

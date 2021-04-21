@@ -111,7 +111,7 @@ defEnvOrDefault('AIRBRAKE_TOKEN', getenv('AIRBRAKE_API_KEY'));
 defEnvOrDefault('AIRBRAKE_HOST');
 
 defEnvOrDefault('NOLOGIN_REDIRECT');
-defEnvOrDefault('WIKI_GUIDE_URL', 'http://wiki.dolumar.com/');
+defEnvOrDefault('WIKI_GUIDE_URL');
 
 defEnvOrDefault('OPENID_CONNECT_AUTHORIZE_URL');
 defEnvOrDefault('OPENID_CONNECT_TOKEN_URL');

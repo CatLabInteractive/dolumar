@@ -38,4 +38,3 @@ class Dolumar_Windows_Guide extends Neuron_GameServer_Windows_Guide
 		return $race . ' ' . $character . ' ' . $mood;
 	}
 }
-?>
