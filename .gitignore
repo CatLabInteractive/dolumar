@@ -4,3 +4,4 @@
 /bootstrap/config.php
 /bootstrap/serverconfig.php
 /.env
+composer.phar
