@@ -30,24 +30,49 @@ if (PHP_SAPI !== 'cli') {
 
 require_once __DIR__ . '/../bootstrap/bootstrap.php';
 
-$game = new Dolumar_Game ();
-
-$server = Neuron_GameServer::bootstrap();
-
-//$scripts = file_get_contents ('vendor/catlabinteractive/dolumar-engine/dumps/gameserver.sql');
 $scripts = file_get_contents (__DIR__ . '/../dump/dump.sql');
+if ($scripts === false) {
+	fwrite (STDERR, "Could not read dump/dump.sql\n");
+	exit (1);
+}
 
-$db = Neuron_Core_Database::__getInstance();
-
-// Check.
 echo 'Checking setup.' . "\n";
 
+// Only install when the database is reachable AND n_players demonstrably does not exist.
+// Any error while checking aborts without touching the database.
 try {
-	$db->select('n_players', array ('*'));
+	$db = Neuron_Core_Database::__getInstance();
+	$exists = $db->query ("SHOW TABLES LIKE 'n_players'")->count () > 0;
 }
-catch (Exception $e)
-{
-	echo 'Installing database' . "\n";
-	$db->multiQuery ($scripts);
-	echo 'Done!' . "\n";
+catch (Throwable $e) {
+	fwrite (STDERR, 'Could not check database state, not installing: ' . $e->getMessage () . "\n");
+	exit (1);
 }
+
+if ($exists) {
+	echo 'Database already installed, nothing to do.' . "\n";
+	exit (0);
+}
+
+echo 'Installing database' . "\n";
+
+// Neuron_Core_Database::multiQuery() does not drain the result sets, so only the first
+// statement of the dump would run. Use mysqli directly and execute all of them.
+// Note: the dump contains DROP TABLE IF EXISTS statements; this is only safe because
+// we only get here when n_players does not exist.
+try {
+	mysqli_report (MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+	$mysqli = new mysqli (DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE, defined ('DB_PORT') ? (int)DB_PORT : 3306);
+	$mysqli->set_charset ('utf8mb4');
+	$mysqli->multi_query ($scripts);
+	do {
+		if ($result = $mysqli->store_result ()) {
+			$result->free ();
+		}
+	} while ($mysqli->more_results () && $mysqli->next_result ());
+}
+catch (Throwable $e) {
+	fwrite (STDERR, 'Install failed: ' . $e->getMessage () . "\n");
+	exit (1);
+}
+echo 'Done!' . "\n";

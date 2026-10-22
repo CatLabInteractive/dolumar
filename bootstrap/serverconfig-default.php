@@ -40,7 +40,6 @@ defEnvOrDefault('DB_CHARSET', 'utf8mb4');
  * Cache
  */
 defEnvOrDefault('CACHE_DIR', '/tmp/dolumar');
-define ('CACHE_URL', 'cache.php?d=');
 
 /**
  * Memcahce
