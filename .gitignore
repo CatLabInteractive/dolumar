@@ -6,3 +6,4 @@
 /.env
 composer.phar
 /.env.docker
+/public/signs/

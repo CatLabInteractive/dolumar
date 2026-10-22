@@ -23,6 +23,9 @@
 
 class Dolumar_Pages_Admin_Bonusbuilding extends Neuron_GameServer_Pages_Admin_Page
 {
+	const MAX_UPLOAD_BYTES = 2097152;
+	const MAX_DIMENSION = 4096;
+
 	public function getBody ()
 	{		
 		$myself = Neuron_GameServer::getPlayer ();
@@ -65,28 +68,28 @@ class Dolumar_Pages_Admin_Bonusbuilding extends Neuron_GameServer_Pages_Admin_Pa
 			{
 				$new = $this->getGeneratedImage ($im);
 				
-				if (!is_dir (PUBLIC_PATH.'signs/'))
+				if (!is_dir (SIGNS_PATH))
+					@mkdir (SIGNS_PATH, 0755, true);
+				
+				$filename = intval ($userid).'_'.date ('dmYHis').'_'.bin2hex (random_bytes (4)).'.png';
+				$saved = is_dir (SIGNS_PATH) && @imagepng ($new, SIGNS_PATH.$filename);
+				if ($saved)
 				{
-					mkdir (PUBLIC_PATH.'signs/');
-					chmod (PUBLIC_PATH.'signs/', 0755);
+					chmod (SIGNS_PATH.$filename, 0644);
+					
+					$db = Neuron_DB_Database::getInstance ();
+					
+					$db->query
+					("
+						INSERT INTO
+							players_tiles
+						SET
+							t_userid = ".intval ($userid).",
+							t_imagename = 'signs/".$db->escape ($filename)."',
+							t_isPublic = 1,
+							t_description = '{$db->escape (json_encode ($content))}'
+					");
 				}
-				
-				$filename = $userid.'_'.date ('dmYHis').'.png';
-				imagepng ($new, PUBLIC_PATH.'signs/'.$filename);
-				chmod (PUBLIC_PATH.'signs/'.$filename, 0755);
-				
-				$db = Neuron_DB_Database::getInstance ();
-				
-				$db->query
-				("
-					INSERT INTO
-						players_tiles
-					SET
-						t_userid = ".intval ($userid).",
-						t_imagename = 'signs/".$db->escape ($filename)."',
-						t_isPublic = 1,
-						t_description = '{$db->escape (json_encode ($content))}'
-				");
 			}
 		}
 		
@@ -95,25 +98,34 @@ class Dolumar_Pages_Admin_Bonusbuilding extends Neuron_GameServer_Pages_Admin_Pa
 	
 	private function getImageFromInput ($file)
 	{
-		$ext = explode ('.', $file['name']);
-		$ext = strtolower ($ext[count ($ext) - 1]);
-		
-		switch ($ext)
+		// The client-supplied name and MIME type are ignored: the type is detected from the content.
+		if (!is_array ($file) || !isset ($file['tmp_name'], $file['error']) || $file['error'] !== UPLOAD_ERR_OK)
+			return false;
+
+		if (!is_uploaded_file ($file['tmp_name']) || filesize ($file['tmp_name']) > self::MAX_UPLOAD_BYTES)
+			return false;
+
+		$size = @getimagesize ($file['tmp_name']);
+		if (!$size || $size[0] < 1 || $size[1] < 1 || $size[0] > self::MAX_DIMENSION || $size[1] > self::MAX_DIMENSION)
+			return false;
+
+		switch ($size[2])
 		{
-			case 'jpg':
-			case 'jpeg':
-				return imagecreatefromjpeg ($file['tmp_name']);
-			break;
-			
-			case 'png':
-				return imagecreatefrompng ($file['tmp_name']);
-			break;
-			
-			case 'gif':
-				return imagecreatefromgif ($file['tmp_name']);
-			break;
+			case IMAGETYPE_JPEG:
+				return @imagecreatefromjpeg ($file['tmp_name']);
+
+			case IMAGETYPE_PNG:
+				return @imagecreatefrompng ($file['tmp_name']);
+
+			case IMAGETYPE_GIF:
+				$im = @imagecreatefromgif ($file['tmp_name']);
+				if (!$im)
+					return false;
+				$nx = imagecreatetruecolor ($size[0], $size[1]);
+				imagecopy ($nx, $im, 0, 0, 0, 0, $size[0], $size[1]);
+				return $nx;
 		}
-		
+
 		return false;
 	}
 	

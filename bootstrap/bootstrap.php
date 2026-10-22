@@ -159,6 +159,10 @@ if (!defined ('UNITIMAGE_PATH'))
 if (!defined ('PUBLIC_PATH'))
 	define ('PUBLIC_PATH', BASE_PATH.'public/');
 
+// Custom sign images (user uploads). Dokku mounts persistent storage at /app/public/signs.
+if (!defined ('SIGNS_PATH'))
+	define ('SIGNS_PATH', rtrim (getenv ('SIGNS_PATH') ?: PUBLIC_PATH.'signs', '/').'/');
+
 if (!defined ('PUBLIC_URL'))
 	define ('PUBLIC_URL', BASE_URL);
 
