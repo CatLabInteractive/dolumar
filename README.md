@@ -1,42 +1,74 @@
 # Dolumar
 Play now at http://www.dolumar.com/
 
-## Quick start
-First fork the project (so that you can make changes), then click the button below:
+Dolumar is a browser-based strategy game (PBBG): create your own powerful kingdom in a vast, colorful, virtual world.
+It is a PHP 8.4 web application that needs MySQL and Memcached, and it runs on Docker and Dokku.
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+## Local development
+Requires Docker. The game depends on the `dolumar-engine` repository, which must be checked out next to this one
+(`../dolumar-engine`, or set `ENGINE_PATH`).
 
-This will setup a Heroku project with all required extensions installed.
+```
+cp .env.docker.example .env.docker
+docker compose up -d --build
+docker compose exec web composer install
+docker compose exec web php tools/setup.php   # only needed for an empty database
+```
 
-## Setup
-Dolumar has a few requirements, listed in composer.json. We have optimized Dolumar so that it can easily run on
-a free heroku daemon, as long as you don't have too much players. It is, however, a php web application, so you 
-can easily run it on any other server.
+* The game is served at http://localhost:8080, caught outgoing mail shows up in Mailpit at http://localhost:8025.
+* `public/signs` must exist and be writable by the web container (`mkdir -p public/signs && chmod 777 public/signs`).
+* Smoke test: `tools/smoke.sh http://localhost:8080`. If OpenID Connect is not configured, run it as
+  `SMOKE_NO_OAUTH=1 tools/smoke.sh http://localhost:8080`.
+* Engine tests: `docker compose exec -w /engine web vendor/bin/phpunit`.
 
-## Local setup
-For a local (development) setup, make sure you have composer installed.
-Simply run composer.json to install all dependencies.
+## Configuration
+All configuration is done through environment variables. [`.env.example`](.env.example) is the authoritative list;
+the most important ones are:
 
-## Set up SMTP server
-You need to set SMTP credentials in order to get the email validation working. Following instructions will get it up and 
-running with mandrill, but you can use any SMTP server. 
+* `DATABASE_URL`: MySQL connection, `mysql://user:password@host:3306/dolumar` (set by `dokku mysql:link`).
+* `MEMCACHED_URL`: required, the map depends on it (set by `dokku memcached:link`).
+* `ABSOLUTE_URL` and `PROTOCOL`: public URL of the game (with trailing slash) and `http` or `https`.
+* `EMAIL_SMTP_SERVER`, `EMAIL_SMTP_PORT`, `EMAIL_SMTP_SECURE`, `EMAIL_SMTP_USERNAME`, `EMAIL_SMTP_PASSWORD`
+  (plus `EMAIL_FROM`, `EMAIL_FROM_NAME`): SMTP credentials, needed for email validation. Any SMTP server works.
+* `OPENID_CONNECT_*`: OpenID Connect login provider (authorize/token/profile URLs, client id and secret).
+* `APP_DEBUG`: enables debug output; leave unset in production.
+* `SIGNS_PATH`: where custom sign images are stored (defaults to `public/signs`). Must be persistent in production.
+* `AIRBRAKE_TOKEN`: optional error reporting.
 
-In heroku, set:
-* EMAIL_SMTP_SERVER: smtp.mandrillapp.com
-* EMAIL_SMTP_SECURE: tls
-* EMAIL_SMTP_PORT: 587
-* EMAIL_SMTP_USERNAME: abc
-* EMAIL_SMTP_PASSWORD: abc
+`CREDITS_*` and `SERVERLIST_*` are optional and off by default; the game works without them.
 
-Optionally, you can also set:
-* AIRBRAKE_TOKEN (airbrake api token, to gather errors)
-* SERVERLIST_URL (api that keeps track of all your servers)
-* CREDITS_GAME_TOKEN (your game token on the catlab credits framework)
-* CREDITS_PRIVATE_KEY (your private key to access catlab credits framework)
+## Deploying on Dokku
+On the server (Dokku with the `dokku-mysql`, `dokku-memcached` and `dokku-letsencrypt` plugins installed):
 
-## CatLab Credits
-If you want to offer paid features on your server, you will need to setup an account on the CatLab credits framework. 
-Contact us at support@catlab.be in order to get you up and running. Or you can write your own payment gateway :-)
+```
+dokku apps:create dolumar
+dokku mysql:create dolumar-db
+dokku mysql:link dolumar-db dolumar
+dokku memcached:create dolumar-cache
+dokku memcached:link dolumar-cache dolumar
+
+# every key from .env.example you need, plus the public URL
+dokku config:set --no-restart dolumar PROTOCOL=https ABSOLUTE_URL=https://YOUR_DOMAIN/ EMAIL_SMTP_SERVER=... OPENID_CONNECT_CLIENT_ID=...
+
+# persistent storage for custom signs
+dokku storage:ensure-directory dolumar-signs
+dokku storage:mount dolumar /var/lib/dokku/data/storage/dolumar-signs:/app/public/signs
+
+dokku domains:set dolumar YOUR_DOMAIN
+```
+
+Then push the repository (`git remote add dokku dokku@YOUR_SERVER:dolumar && git push dokku <branch>:master`) and
+enable HTTPS with `dokku letsencrypt:enable dolumar`.
+
+* The `postdeploy` script in [`app.json`](app.json) runs `php tools/setup.php` on every deploy. It is idempotent and
+  only installs the schema into an empty database.
+* The cron jobs (`cron/run.php` every minute, `cron/ai.php` every 5 minutes) are also defined in `app.json`
+  and are installed by Dokku automatically.
+* Check a deployment with `tools/smoke.sh https://YOUR_DOMAIN`.
 
 ## OpenID Connect
 * Redirect URL: YOUR_DOMAIN/oauth2/login/next
+
+## CatLab Credits
+Paid features used to run on the CatLab Credits framework. That service is not currently available, so leave
+`CREDITS_*` unset.
