@@ -68,7 +68,7 @@ check() {
 EXPECT_BODY='CONFIG_GAME_NAME'
 check "GET /" 200 /
 
-EXPECT_BODY='<root><runtime><session_id>[0-9a-f]{32}</session_id>'
+EXPECT_BODY='<runtime><session_id>[A-Za-z0-9,-]{22,256}</session_id>'
 check "dialog route (login)" 200 /dialog/login/
 
 # --- Map: what the client loads on startup (gamemap.js, minimap.js) ----------
