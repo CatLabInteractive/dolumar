@@ -26,7 +26,7 @@ class Dolumar_Pages_Customsign extends Neuron_GameServer_Pages_Page
 	const ZOOM = 3;
 	const KORREL = 0;
 	const MAX_UPLOAD_BYTES = 2097152;
-	const MAX_DIMENSION = 4096;
+	const MAX_DIMENSION = 2048;
 
 	public function getBody ()
 	{
@@ -43,12 +43,10 @@ class Dolumar_Pages_Customsign extends Neuron_GameServer_Pages_Page
 		
 		if (!$login->isLogin ())
 		{
-			$userid = 0;
+			return '<p class="false">You must be logged in to upload a sign image.</p>';
 		}
-		else
-		{
-			$userid = $login->getUserId ();
-		}
+		
+		$userid = $login->getUserId ();
 	
 		if (isset ($_FILES['uploadfile']))
 		{			

@@ -24,7 +24,7 @@
 class Dolumar_Pages_Admin_Bonusbuilding extends Neuron_GameServer_Pages_Admin_Page
 {
 	const MAX_UPLOAD_BYTES = 2097152;
-	const MAX_DIMENSION = 4096;
+	const MAX_DIMENSION = 2048;
 
 	public function getBody ()
 	{		
