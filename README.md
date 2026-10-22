@@ -57,8 +57,17 @@ dokku storage:mount dolumar /var/lib/dokku/data/storage/dolumar-signs:/app/publi
 dokku domains:set dolumar YOUR_DOMAIN
 ```
 
+To migrate an existing database instead of starting empty, import a dump before the first deploy:
+`dokku mysql:import dolumar-db < dump.sql`.
+
 Then push the repository (`git remote add dokku dokku@YOUR_SERVER:dolumar && git push dokku <branch>:master`) and
-enable HTTPS with `dokku letsencrypt:enable dolumar`.
+enable HTTPS. DNS for `YOUR_DOMAIN` must already point at the server:
+
+```
+dokku letsencrypt:set dolumar email you@example.com
+dokku letsencrypt:enable dolumar
+dokku letsencrypt:cron-job --add
+```
 
 * The `postdeploy` script in [`app.json`](app.json) runs `php tools/setup.php` on every deploy. It is idempotent and
   only installs the schema into an empty database.
@@ -67,7 +76,7 @@ enable HTTPS with `dokku letsencrypt:enable dolumar`.
 * Check a deployment with `tools/smoke.sh https://YOUR_DOMAIN`.
 
 ## OpenID Connect
-* Redirect URL: YOUR_DOMAIN/oauth2/login/next
+* Redirect URL: https://YOUR_DOMAIN/oauth2/login/next
 
 ## CatLab Credits
 Paid features used to run on the CatLab Credits framework. That service is not currently available, so leave
