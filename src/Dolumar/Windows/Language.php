@@ -79,6 +79,11 @@ class Dolumar_Windows_Language extends Neuron_GameServer_Windows_Window
 		$text = Neuron_Core_Text::__getInstance ();
 	
 		$data = $this->getInputData ();
+		if (Neuron_Core_Tools::sanitizeLanguageTag ($data['language'] ?? null) === null)
+		{
+			return;
+		}
+
 		$_SESSION['language'] = $data['language'];
 		setcookie ('user_language', $data['language'], time () + COOKIE_LIFE, '/');
 		
