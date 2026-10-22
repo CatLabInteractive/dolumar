@@ -5,20 +5,13 @@
   "logo": "https://master.dolumar.com/images/logos/logo-64x64.jpg",
   "keywords": ["php", "pbbg", "game", "browsergame"],
   "website": "https://www.dolumar.com/",
-  "success_url": "/",
+  "cron": [
+    {"command": "php cron/run.php", "schedule": "* * * * *"},
+    {"command": "php cron/ai.php", "schedule": "*/5 * * * *"}
+  ],
   "scripts": {
-    "postdeploy": "sh tools/setup.sh"
-  },
-  "formation": {
-    "web": {
-      "quantity": 1,
-      "size": "free"
+    "dokku": {
+      "postdeploy": "php tools/setup.php"
     }
-  },
-  "addons": [
-    "cleardb",
-    "memcachier",
-    "mailgun",
-    "airbrake"
-  ]
+  }
 }

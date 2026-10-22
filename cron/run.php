@@ -21,7 +21,12 @@
  *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-require_once '../bootstrap/bootstrap.php';
+if (PHP_SAPI !== 'cli') {
+	http_response_code(404);
+	exit;
+}
+
+require_once __DIR__ . '/../bootstrap/bootstrap.php';
 
 $lock = Neuron_Core_Lock::getInstance();
 
@@ -50,13 +55,13 @@ function runCronjobFile($file) {
 }
 
 if ($lock->setLock('cronjobs', 60, 60)) {
-	runCronjobFile('../cron/constantly.php');
+	runCronjobFile(__DIR__ . '/constantly.php');
 } elseif (CRONJOB_OUTPUT) {
 	echo 'Not running cron/constantly.php: too soon.' . "\n";
 }
 
 if ($lock->setLock('cronjobs', 60 * 60 * 24, 60 * 60 * 24)) {
-	runCronjobFile('../cron/daily.php');
+	runCronjobFile(__DIR__ . '/daily.php');
 } elseif (CRONJOB_OUTPUT) {
 	echo 'Not running cron/daily.php: too soon.' . "\n";
 }
