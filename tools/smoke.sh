@@ -20,6 +20,7 @@ HEADERS="$(mktemp)"
 trap 'rm -f "$BODY" "$HEADERS"' EXIT
 
 FAILED=0
+SKIPPED=0
 BAD_BODY='Deprecated:|Warning:|Notice:|Fatal error|Stack trace'
 
 # check NAME EXPECTED_STATUS PATH [curl args...]
@@ -64,10 +65,10 @@ check() {
 }
 
 # --- Pages -----------------------------------------------------------------
-EXPECT_BODY='<html'
+EXPECT_BODY='CONFIG_GAME_NAME'
 check "GET /" 200 /
 
-EXPECT_BODY='<root>'
+EXPECT_BODY='<root><runtime><session_id>[0-9a-f]{32}</session_id>'
 check "dialog route (login)" 200 /dialog/login/
 
 # --- Map: what the client loads on startup (gamemap.js, minimap.js) ----------
@@ -83,6 +84,7 @@ check "GET image/minimap" 200 '/image/minimap/?x=0&y=0'
 # --- Login -------------------------------------------------------------------
 if [ "${SMOKE_NO_OAUTH:-0}" = "1" ]; then
 	printf 'skip %-45s SMOKE_NO_OAUTH=1\n' "GET /oauth2/login"
+	SKIPPED=$((SKIPPED + 1))
 else
 	EXPECT_HEADER='^location: https?://'
 	check "GET /oauth2/login redirects to accounts" 302 /oauth2/login
@@ -116,4 +118,8 @@ if [ "$FAILED" -gt 0 ]; then
 	echo "$FAILED check(s) failed"
 	exit 1
 fi
-echo "all checks passed"
+if [ "$SKIPPED" -gt 0 ]; then
+	echo "all checks passed ($SKIPPED skipped)"
+else
+	echo "all checks passed"
+fi
