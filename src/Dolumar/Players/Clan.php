@@ -681,7 +681,7 @@ class Dolumar_Players_Clan implements Neuron_GameServer_Interfaces_Logable
 			}
 		}
 		
-		$list = "(" . implode ($villages, ",") . ")";
+		$list = "(" . implode (",", $villages) . ")";
 		
 		$data = $db->query
 		("

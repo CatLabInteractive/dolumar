@@ -170,8 +170,8 @@ abstract class Dolumar_Underworld_Models_Objectives_Objectives
 	protected function onChangeCheckpointSide 
 	(
 		Neuron_GameServer_Map_Location $location, 
-		Dolumar_Underworld_Models_Side $originalside = null, 
-		Dolumar_Underworld_Models_Side $newside = null,
+		?Dolumar_Underworld_Models_Side $originalside = null, 
+		?Dolumar_Underworld_Models_Side $newside = null,
 		$time = 0
 	)
 	{

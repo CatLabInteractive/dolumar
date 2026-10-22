@@ -171,7 +171,7 @@ class Dolumar_Battle_Logger
 			}
 		}
 	
-		$this->sFightLog .= $this->iTimeSec.'|'.$iType.'|'.mt_rand (0, 100).'|'.$iTeam.'|'.implode ($oValues, '|').';';
+		$this->sFightLog .= $this->iTimeSec.'|'.$iType.'|'.mt_rand (0, 100).'|'.$iTeam.'|'.implode ('|', $oValues).';';
 		
 		// Increase time
 		$this->iTimeSec += ceil (mt_rand (15, 25) / GAME_SPEED_MOVEMENT);

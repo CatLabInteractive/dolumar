@@ -962,7 +962,7 @@ class Dolumar_Players_Logs
 		);
 	}
 	
-	public function addCompleteTransferLog (Dolumar_Players_Village $village, Neuron_GameServer_Interfaces_Logable $object, Dolumar_Players_Village $from = null)
+	public function addCompleteTransferLog (Dolumar_Players_Village $village, Neuron_GameServer_Interfaces_Logable $object, ?Dolumar_Players_Village $from = null)
 	{
 		if (isset ($from))
 		{

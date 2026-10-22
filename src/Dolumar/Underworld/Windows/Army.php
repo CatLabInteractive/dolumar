@@ -319,7 +319,7 @@ class Dolumar_Underworld_Windows_Army
 		}
 	}
 	
-	private function prcMerge (Dolumar_Underworld_Models_Army $target = null)
+	private function prcMerge (?Dolumar_Underworld_Models_Army $target = null)
 	{
 		$text = Neuron_Core_Text::getInstance ();
 	
@@ -434,7 +434,7 @@ class Dolumar_Underworld_Windows_Army
 		return $page->parse ('dolumar/underworld/windows/split.phpt');
 	}
 	
-	private function prcAttack (Dolumar_Underworld_Models_Army $target = null)
+	private function prcAttack (?Dolumar_Underworld_Models_Army $target = null)
 	{
 		$text = Neuron_Core_Text::getInstance ();
 	

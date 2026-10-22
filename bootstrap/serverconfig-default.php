@@ -30,6 +30,9 @@ if (!function_exists('defEnvOrDefault')) {
 define ('DB_USERNAME', $url["user"]);
 define ('DB_PASSWORD', $url["pass"]);
 define ('DB_SERVER', $url["host"]);
+if (!empty($url["port"])) {
+	define ('DB_PORT', $url["port"]);
+}
 define ('DB_DATABASE', substr($url["path"], 1));
 
 /*

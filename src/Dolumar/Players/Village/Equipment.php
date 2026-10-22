@@ -174,7 +174,7 @@ class Dolumar_Players_Village_Equipment
 		Dolumar_Players_Equipment $objEquipment, 
 		$amount, 
 		$delay = 0, 
-		Dolumar_Players_Village $from = null
+		?Dolumar_Players_Village $from = null
 	)
 	{
 		$e_id = $objEquipment->getId ();
