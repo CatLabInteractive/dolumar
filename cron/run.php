@@ -1,5 +1,4 @@
 <?php
-
 /**
  *  Dolumar, browser based strategy game
  *  Copyright (C) 2009 Thijs Van der Schaeghe
@@ -22,28 +21,47 @@
  *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-// Autoload.
-require_once '../bootstrap/bootstrap.php';
-
-$game = new Dolumar_Game ();
-
-$server = Neuron_GameServer::bootstrap();
-
-//$scripts = file_get_contents ('vendor/catlabinteractive/dolumar-engine/dumps/gameserver.sql');
-$scripts = file_get_contents ('../dump/dump.sql');
-
-$db = Neuron_Core_Database::__getInstance();
-
-// Check.
-echo '<pre>';
-echo 'Checking setup.' . "\n";
-
-try {
-	$db->select('n_players', array ('*'));
+if (PHP_SAPI !== 'cli') {
+	http_response_code(404);
+	exit;
 }
-catch (Exception $e)
-{
-	echo 'Installing database' . "\n";
-	$db->multiQuery ($scripts);
-	echo 'Done!' . "\n";
+
+require_once __DIR__ . '/../bootstrap/bootstrap.php';
+
+$lock = Neuron_Core_Lock::getInstance();
+
+if (!defined ('CRONJOB_OUTPUT')) {
+	define ('CRONJOB_OUTPUT', true);
+}
+
+if (CRONJOB_OUTPUT) {
+	header ('Content-type: text/text');
+}
+
+function runCronjobFile($file) {
+
+	if (!CRONJOB_OUTPUT) {
+		ob_start();
+		include $file;
+		ob_end_clean();
+	}
+
+	else {
+		echo 'Running ' . $file . "\n";
+		echo '----------------------' . "\n";
+		include $file;
+		echo "\n\n";
+	}
+}
+
+if ($lock->setLock('cronjobs', 60, 60)) {
+	runCronjobFile(__DIR__ . '/constantly.php');
+} elseif (CRONJOB_OUTPUT) {
+	echo 'Not running cron/constantly.php: too soon.' . "\n";
+}
+
+if ($lock->setLock('cronjobs', 60 * 60 * 24, 60 * 60 * 24)) {
+	runCronjobFile(__DIR__ . '/daily.php');
+} elseif (CRONJOB_OUTPUT) {
+	echo 'Not running cron/daily.php: too soon.' . "\n";
 }

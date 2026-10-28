@@ -96,7 +96,7 @@ class Dolumar_Windows_Premiumshop extends Neuron_GameServer_Windows_Window
 		{
 			$credits = $player->getCredits ();
 			$page->set ('premium', $credits);
-			$page->set ('buy_url', htmlentities ($player->getCreditBuyUrl ()));
+			$page->set ('buy_url', htmlentities ((string) $player->getCreditBuyUrl ()));
 		}
 
 		$page->set ('cost_runes', $this->convertCredits (self::COST_RUNES));
@@ -199,7 +199,7 @@ class Dolumar_Windows_Premiumshop extends Neuron_GameServer_Windows_Window
 						'resource' => $k,
 						'bruto' => isset ($bruto[$k]) ? $bruto[$k] : 0,
 						'consuming' => isset ($consumption[$k]) ? $consumption[$k] : 0,
-						'fillup' => htmlentities ($player->getCreditUseUrl (self::COST_RESOURCES_ONE, $data, 'Fill resources')),
+						'fillup' => htmlentities ((string) $player->getCreditUseUrl (self::COST_RESOURCES_ONE, $data, 'Fill resources')),
 						'cost' => $this->convertCredits (self::COST_RESOURCES_ONE),
 						'full' => $v >= $capacity[$k]
 					)
@@ -214,7 +214,7 @@ class Dolumar_Windows_Premiumshop extends Neuron_GameServer_Windows_Window
 			);
 
 			$page->set ('costAll', $this->convertCredits (self::COST_RESOURCES_ALL));
-			$page->set ('fillup_all', htmlentities ($player->getCreditUseUrl (self::COST_RESOURCES_ALL, $data, 'Fill all resources')));
+			$page->set ('fillup_all', htmlentities ((string) $player->getCreditUseUrl (self::COST_RESOURCES_ALL, $data, 'Fill all resources')));
 			$page->set ('fillup_all_cost', $this->convertCredits (self::COST_RESOURCES_ALL));
 
 			return $page->parse ('dolumar/premium/buyresources.phpt');
@@ -299,7 +299,7 @@ class Dolumar_Windows_Premiumshop extends Neuron_GameServer_Windows_Window
 			
 			$page->set ('credits', $credits);
 			
-			$page->set ('confirm_url', htmlentities ($player->getCreditUseUrl ($sum * self::COST_RUNES, $data, $sum . ' runes')));
+			$page->set ('confirm_url', htmlentities ((string) $player->getCreditUseUrl ($sum * self::COST_RUNES, $data, $sum . ' runes')));
 			
 			return $page->parse ('dolumar/premium/buyrunes_confirm.phpt');
 		}
@@ -418,7 +418,7 @@ class Dolumar_Windows_Premiumshop extends Neuron_GameServer_Windows_Window
 								'confirm_url', 
 								htmlentities
 								(
-									$player->getCreditUseUrl 
+									(string) $player->getCreditUseUrl 
 									(
 										self::COST_MOVEBUILDING, 
 										$data, 
@@ -562,7 +562,7 @@ class Dolumar_Windows_Premiumshop extends Neuron_GameServer_Windows_Window
 							'confirm_url', 
 							htmlentities 
 							(
-								$player->getCreditUseUrl 
+								(string) $player->getCreditUseUrl 
 								(
 									self::COST_MOVEVILLAGE, 
 									$data, 

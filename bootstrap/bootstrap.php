@@ -21,15 +21,22 @@
  *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+// Keep PHP 7 mysqli semantics (warnings + false returns instead of exceptions).
+mysqli_report(MYSQLI_REPORT_OFF);
+
 error_reporting(E_ALL);
-ini_set("display_errors", 1);
 
 $loader = require_once __DIR__ . '/../vendor/autoload.php';
 
-$dotenv = new Dotenv\Dotenv(__DIR__ . '/../');
-if (file_exists(__DIR__ . '/../.env')) {
-    $dotenv->load();
-}
+// phpdotenv 5 no longer calls putenv() by default, but the rest of the code reads settings with getenv().
+$dotenvRepository = Dotenv\Repository\RepositoryBuilder::createWithDefaultAdapters()
+    ->addAdapter(Dotenv\Repository\Adapter\PutenvAdapter::class)
+    ->immutable()
+    ->make();
+Dotenv\Dotenv::create($dotenvRepository, __DIR__ . '/..')->safeLoad();
+
+ini_set('display_errors', getenv('APP_DEBUG') === '1' ? '1' : '0');
+ini_set('log_errors', '1');
 
 define ('BASE_PATH', dirname(dirname(__FILE__)).'/');
 
@@ -151,6 +158,10 @@ if (!defined ('UNITIMAGE_PATH'))
 
 if (!defined ('PUBLIC_PATH'))
 	define ('PUBLIC_PATH', BASE_PATH.'public/');
+
+// Custom sign images (user uploads). Dokku mounts persistent storage at /app/public/signs.
+if (!defined ('SIGNS_PATH'))
+	define ('SIGNS_PATH', rtrim (getenv ('SIGNS_PATH') ?: PUBLIC_PATH.'signs', '/').'/');
 
 if (!defined ('PUBLIC_URL'))
 	define ('PUBLIC_URL', BASE_URL);

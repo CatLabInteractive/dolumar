@@ -24,9 +24,6 @@
 // Autoload.
 require_once '../bootstrap/bootstrap.php';
 
-define ('CRONJOB_OUTPUT', false);
-require_once 'cronjobs.php';
-
 $game = new Dolumar_Game ();
 
 $server = Neuron_GameServer::bootstrap();

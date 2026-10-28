@@ -30,24 +30,28 @@ if (!function_exists('defEnvOrDefault')) {
 define ('DB_USERNAME', $url["user"]);
 define ('DB_PASSWORD', $url["pass"]);
 define ('DB_SERVER', $url["host"]);
+if (!empty($url["port"])) {
+	define ('DB_PORT', $url["port"]);
+}
 define ('DB_DATABASE', substr($url["path"], 1));
+defEnvOrDefault('DB_CHARSET', 'utf8mb4');
 
 /*
  * Cache
  */
-define ('CACHE_DIR', '/tmp/dolumar');
-define ('CACHE_URL', 'cache.php?d=');
+defEnvOrDefault('CACHE_DIR', '/tmp/dolumar');
 
 /**
  * Memcahce
  */
-defEnvOrDefault('MEMCACHE_SERVERS', getenv('MEMCACHIER_SERVERS'));
+// dokku-memcached sets MEMCACHED_URL (memcached://host:port), MemCachier sets MEMCACHIER_*.
+defEnvOrDefault('MEMCACHE_SERVERS', getenv('MEMCACHED_URL') ?: getenv('MEMCACHIER_SERVERS'));
 defEnvOrDefault('MEMCACHE_USERNAME', getenv('MEMCACHIER_USERNAME'));
 defEnvOrDefault('MEMCACHE_PASSWORD', getenv('MEMCACHIER_PASSWORD'));
 
 define ('USE_PROFILE', false);
 
-defEnvOrDefault('EMAIL_FROM', 'dolumar@' . getenv('MAILGUN_DOMAIN'));
+defEnvOrDefault('EMAIL_FROM');
 defEnvOrDefault('EMAIL_FROM_NAME');
 
 defEnvOrDefault('EMAIL_SMTP_SERVER', getenv('MAILGUN_SMTP_SERVER'));
@@ -61,8 +65,8 @@ defEnvOrDefault('EMAIL_DEBUG_LEVEL');
 /**
  * Credits
  */
-defEnvOrDefault ('CREDITS_URL', 'https://credits.catlab.eu/');
-
+// The credits service is dead: CREDITS_* are only defined when configured,
+// and all call sites skip when they are not.
 if (getenv('CREDITS_PRIVATE_KEY')) {
     // is it a file?
     $privateKey = getenv('CREDITS_PRIVATE_KEY');
@@ -71,8 +75,6 @@ if (getenv('CREDITS_PRIVATE_KEY')) {
     } else {
         define('CREDITS_PRIVATE_KEY', $privateKey);
     }
-} else {
-    define('CREDITS_PRIVATE_KEY', null);
 }
 
 defEnvOrDefault ('CREDITS_GAME_TOKEN');

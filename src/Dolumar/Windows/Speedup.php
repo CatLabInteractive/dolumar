@@ -87,7 +87,7 @@ class Dolumar_Windows_Speedup
 		$this->popupWindow ($url, 450, 190);
 		
 		$page = new Neuron_Core_Template ();
-		$page->set ('confirm_url', htmlentities ($url));
+		$page->set ('confirm_url', htmlentities ((string) $url));
 		return $page->parse ('dolumar/premium/speedupconfirm.phpt');
 	}
 

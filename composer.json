@@ -3,26 +3,22 @@
   "license" : "GPL-3.0",
 
   "require": {
+    "php": "^8.4.27",
+    "catlabinteractive/dolumar-engine" : "dev-php8",
+    "airbrake/phpbrake": "^0.8",
+    "vlucas/phpdotenv": "^5.6",
 
-	"catlabinteractive/dolumar-engine" : "dev-master",
-    "airbrake/phpbrake": "^0.2.0",
-    "openid/php-openid" : "dev-master",
-    "vlucas/phpdotenv": "^2.4"
-  },
-
-  "platform": {
-    "php": "^7.1.0"
+    "ext-memcached" : "*",
+    "ext-mysqli": "*",
+    "ext-gd": "*",
+    "ext-bcmath" : "*",
+    "ext-mbstring": "*"
   },
 
   "repositories": [
     {
       "type": "vcs",
-      "url":  "git@github.com:CatLabInteractive/dolumar-engine.git"
-    },
-
-    {
-      "type": "vcs",
-      "url":  "git@github.com:CatLabInteractive/php-openid.git"
+      "url":  "https://github.com/CatLabInteractive/dolumar-engine.git"
     }
   ],
 
@@ -33,13 +29,17 @@
   },
 
   "require-dev": {
-	"zircote/swagger-php" : "*"
+    "phpunit/phpunit": "^11",
+    "squizlabs/php_codesniffer": "^3.10",
+    "phpcompatibility/php-compatibility": "^10@dev"
   },
 
   "minimum-stability" : "dev",
   "prefer-stable" : true,
 
   "config": {
-    "secure-http": false
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
   }
 }
