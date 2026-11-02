@@ -13,10 +13,7 @@
 			var CONFIG_GAME_URL = '<?=ABSOLUTE_URL?>';
 			var CONFIG_STATIC_GAME_URL = '<?=STATIC_ABSOLUTE_URL?>';<?php
 			echo "\n";
-			foreach ($_GET as $k => $v)
-			{
-				echo "\t\t\tvar PARAM_".strtoupper ($k)." = '".$v."';\n";
-			}
+			echo Neuron_Core_Tools::getJavascriptParamDeclarations ($_GET);
 			?>
 			var CONFIG_IS_TESTSERVER = <?= IS_TESTSERVER ? 'true' : 'false'?>;
 			var CONFIG_DATETIME_FORMAT = '<?=DATETIME?>';

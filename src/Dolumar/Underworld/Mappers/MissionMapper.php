@@ -147,7 +147,7 @@ class Dolumar_Underworld_Mappers_MissionMapper
 			$clansint[] = $v->getId ();
 		}
 		
-		$clanslist = implode ($clansint, ',');
+		$clanslist = implode (',', $clansint);
 		
 		// Data
 		$data = $db->query

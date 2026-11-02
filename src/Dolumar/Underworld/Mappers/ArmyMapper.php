@@ -23,7 +23,7 @@
 
 class Dolumar_Underworld_Mappers_ArmyMapper
 {
-	public static function getFromId ($id, Neuron_GameServer_Map_Map2D $map = null)
+	public static function getFromId ($id, ?Neuron_GameServer_Map_Map2D $map = null)
 	{
 		$db = Neuron_DB_Database::getInstance ();
 		

@@ -1,0 +1,40 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    ports:
+      - "8080:80"
+    env_file:
+      - .env.docker
+    volumes:
+      - .:/app
+      - ${ENGINE_PATH:-../dolumar-engine}:/engine
+      - ${ENGINE_PATH:-../dolumar-engine}:/app/vendor/catlabinteractive/dolumar-engine
+    depends_on:
+      - mysql
+      - memcached
+      - mailpit
+
+  mysql:
+    image: mysql:8.0
+    # Set MYSQL_CHARSET to the production snapshot charset once known.
+    command: --character-set-server=${MYSQL_CHARSET:-utf8mb4}
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: dolumar
+      MYSQL_USER: dolumar
+      MYSQL_PASSWORD: dolumar
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  memcached:
+    image: memcached:1.6
+
+  mailpit:
+    image: axllent/mailpit
+    ports:
+      - "8025:8025"
+
+volumes:
+  mysql-data:

@@ -1,5 +1,9 @@
 Options +FollowSymLinks
 RewriteEngine On
+
+# User uploads live in signs/: never execute anything from there, only serve images.
+RewriteRule ^signs/.*\.(php[0-9]?|phtml|phar|pht|shtml|cgi|pl|py)$ - [F,L,NC]
+
 RewriteCond %{REQUEST_URI} !=/index.php
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d

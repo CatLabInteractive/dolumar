@@ -536,7 +536,7 @@ class Dolumar_Players_Equipment implements Neuron_GameServer_Interfaces_Logable
 		return $this->resourceToText ($this->getCraftCost ($village), true, false, $village);
 	}
 
-	public function resourceToText ($res, $showRunes = true, $dot = true, $village)
+	public function resourceToText ($res, $showRunes, $dot, $village)
 	{
 		return Dolumar_Buildings_Building::resourceToText ($res, $showRunes, $dot, $village);
 	}

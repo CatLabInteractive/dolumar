@@ -5,3 +5,5 @@
 /bootstrap/serverconfig.php
 /.env
 composer.phar
+/.env.docker
+/public/signs/

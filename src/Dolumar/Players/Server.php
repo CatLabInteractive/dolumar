@@ -264,6 +264,10 @@ class Dolumar_Players_Server
 		$text = Neuron_Core_Text::getInstance ();
 
 		$credits = Neuron_GameServer_Credits::getPureCreditsObject ();
+		if (!$credits) {
+			// Credits service not configured.
+			return;
+		}
 
 		$plaintext = $text->getTemplate ('newsletters/' . $newsletter, $data);
 		$subject = Neuron_Core_Tools::putIntoText ($text->get ($newsletter, 'subjects', 'newsletters'), $data);

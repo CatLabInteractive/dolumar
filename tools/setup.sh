@@ -1,2 +1,1 @@
-cd public
-php setup.php
+php "$(dirname "$0")/setup.php"

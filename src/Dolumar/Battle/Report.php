@@ -989,7 +989,7 @@ class Dolumar_Battle_Report
 		return $data[2];
 	}
 
-	private function printUnits ($page, $name = 'attacking', $ats)
+	private function printUnits ($page, $name, $ats)
 	{
 		if ($ats)
 		{

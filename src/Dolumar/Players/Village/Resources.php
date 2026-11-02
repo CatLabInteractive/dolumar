@@ -710,7 +710,7 @@ class Dolumar_Players_Village_Resources
 		return true;
 	}
 	
-	public function giveResources ($resources = array (), $delay = 0, Dolumar_Players_Village $from = null)
+	public function giveResources ($resources = array (), $delay = 0, ?Dolumar_Players_Village $from = null)
 	{
 		if ($delay > 0 && $from != null)
 		{
@@ -730,7 +730,7 @@ class Dolumar_Players_Village_Resources
 		}
 	}
 	
-	public function giveRunes ($runes, $delay = 0, Dolumar_Players_Village $from = null)
+	public function giveRunes ($runes, $delay = 0, ?Dolumar_Players_Village $from = null)
 	{
 		if ($delay > 0 && $from != null)
 		{

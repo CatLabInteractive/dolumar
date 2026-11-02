@@ -72,7 +72,7 @@ class Dolumar_Map_Portal
 			}
 		}
 		
-		$list = "(" . implode ($villages, ",") . ")";
+		$list = "(" . implode (",", $villages) . ")";
 		
 		$data = $db->query
 		("

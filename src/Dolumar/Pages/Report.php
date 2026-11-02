@@ -42,12 +42,7 @@ class Dolumar_Pages_Report extends Neuron_GameServer_Pages_Page
 			break;
 		}
 
-		$module = Neuron_Core_Tools::getInput ('_REQUEST', 'module', 'varchar');
-		$data = explode ('/', $module);
-
-		var_dump ($data);
-
-		return '<p>Report not found: ' . $unit . '</p>';
+		return '<p>Report not found: ' . htmlspecialchars ((string)$unit) . '</p>';
 	}
 	
 	private function getEquipmentStats ()

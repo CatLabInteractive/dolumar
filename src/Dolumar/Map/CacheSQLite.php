@@ -48,6 +48,7 @@ class Dolumar_Map_CacheSQLite extends Neuron_Core_Cache
 		$profiler->stop ();
 		
 		$profiler->start ('Opening database '.$sDir.'cache.db');
+		// phpcs:ignore PHPCompatibility.Classes.RemovedClasses -- unused legacy cache backend, never instantiated
 		$this->dbObj = new SQLiteDatabase (CACHE_DIR . $sDir . 'cache.db');
 		$profiler->stop ();
 		

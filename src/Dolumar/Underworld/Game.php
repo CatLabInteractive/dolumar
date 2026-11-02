@@ -25,7 +25,7 @@ class Dolumar_Underworld_Game extends Dolumar_Game
 {
 	private $mission;
 
-	public function __construct (Dolumar_Underworld_Models_Mission $mission = null)
+	public function __construct (?Dolumar_Underworld_Models_Mission $mission = null)
 	{
 		$this->mission = $mission;
 	}
