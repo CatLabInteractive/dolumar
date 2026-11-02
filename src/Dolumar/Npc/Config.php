@@ -74,7 +74,7 @@ class Dolumar_Npc_Config
 	const WAR_PARTY_ESCALATION = 1.5;
 	const SCOUT_RAID_UNITS = 2;
 	const ENVOY_DELAY = 3600;
-	const ENVOY_PRICE_SHARE = 0.5;
+	const ENVOY_PRICE_PER_POINT = 50;
 	const ENVOY_PRICE_MIN = 500;
 	const WAR_PARTY_DELAY = 3 * 3600;
 	const DEFENCE_VICTORY_BELOW = 0.5;
