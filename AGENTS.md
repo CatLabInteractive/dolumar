@@ -43,6 +43,7 @@ All AI-facing documentation is in `.ai/`. Start with [`.ai/README.md`](.ai/READM
 docker compose up -d --build
 docker compose exec web composer install
 docker compose exec web vendor/bin/phpcs                 # PHP 8.4 compatibility check
-docker compose exec -w /engine web vendor/bin/phpunit    # engine tests (this repo has none of its own)
+docker compose exec web vendor/bin/phpunit               # game tests (pure logic, no DB)
+docker compose exec -w /engine web vendor/bin/phpunit    # engine tests
 tools/smoke.sh http://localhost:8080                     # HTTP smoke test
 ```

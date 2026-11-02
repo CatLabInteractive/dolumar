@@ -27,11 +27,13 @@ cannot log in.
 |-------|---------|-------|
 | PHP 8.4 compatibility | `docker compose exec web vendor/bin/phpcs` | Uses `phpcs.xml.dist` (PHPCompatibility, `testVersion 8.4-`). |
 | Syntax | `docker compose exec web find src bootstrap cron tools public -name '*.php' -print0 \| xargs -0 -n1 php -l` | Quick and catches most breakage. |
+| Game tests | `docker compose exec web vendor/bin/phpunit` | Pure-logic tests in `tests/` (routes, army movements); no database needed. |
 | Engine tests | `docker compose exec -w /engine web vendor/bin/phpunit` | Only if the engine was touched. Needs the engine's own `composer install` in `/engine`. |
 | Smoke test | `tools/smoke.sh http://localhost:8080` | Add `SMOKE_NO_OAUTH=1` when OIDC is not configured. Fails on any PHP warning, notice or deprecation in the output. |
 
-This repository has no unit tests of its own. For game logic changes, verify by playing the affected flow locally
-and say in the PR what you checked.
+The game's own PHPUnit suite in `tests/` only covers pure logic that needs no database (`tests/bootstrap.php` loads
+Composer and a few constants). For everything else, verify by playing the affected flow locally and say in the PR what
+you checked.
 
 ## Debugging
 

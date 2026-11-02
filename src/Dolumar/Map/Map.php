@@ -753,6 +753,26 @@ class Dolumar_Map_Map
 		return $distance;
 	}
 	
+	/*
+		Like getDistanceBetweenVillages, but returns
+		array ('distance' => float, 'route' => array of array (x, y)) or false.
+	*/
+	public static function getRouteBetweenVillages ($village1, $village2, $ignoreImpassable = true)
+	{
+		$tc1 = $village1->buildings->getTownCenter ();
+		$tc2 = $village2->buildings->getTownCenter ();
+		if (!$tc1 || !$tc2)
+		{
+			return false;
+		}
+		
+		$loc1 = $tc1->getLocation ();
+		$loc2 = $tc2->getLocation ();
+		
+		$portals = Dolumar_Map_Portal::getFromVillages (array ($village1, $village2));
+		return Dolumar_Map_Distance::getDistanceAndRoute ($loc1, $loc2, $portals, $ignoreImpassable);
+	}
+	
 	private static function getDistanceBetweenVillages_pathbased ($village1, $village2, $ignoreImpassable = true)
 	{		
 		$tc1 = $village1->buildings->getTownCenter ();

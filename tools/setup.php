@@ -49,8 +49,46 @@ catch (Throwable $e) {
 	exit (1);
 }
 
+/**
+ * Add a column when it is missing. Idempotent: safe to run on every deploy.
+ */
+function addColumnIfMissing ($db, $table, $column, $definition)
+{
+	$chk = $db->query
+	("
+		SELECT COUNT(*) AS aantal
+		FROM information_schema.COLUMNS
+		WHERE TABLE_SCHEMA = DATABASE()
+			AND TABLE_NAME = '" . $db->escape ($table) . "'
+			AND COLUMN_NAME = '" . $db->escape ($column) . "'
+	");
+
+	if (intval ($chk[0]['aantal']) > 0) {
+		return;
+	}
+
+	echo 'Adding column ' . $table . '.' . $column . "\n";
+	$db->query ("ALTER TABLE `" . $table . "` ADD COLUMN `" . $column . "` " . $definition);
+}
+
+// Schema steps for databases installed before these columns existed.
+// dump/dump.sql already contains them for fresh installs.
+$schemaSteps = [
+	['battle', 'route', 'text DEFAULT NULL'],
+	['squad_commands', 'sc_route', 'text DEFAULT NULL'],
+];
+
 if ($exists) {
-	echo 'Database already installed, nothing to do.' . "\n";
+	try {
+		foreach ($schemaSteps as $step) {
+			addColumnIfMissing ($db, $step[0], $step[1], $step[2]);
+		}
+	}
+	catch (Throwable $e) {
+		fwrite (STDERR, 'Schema step failed: ' . $e->getMessage () . "\n");
+		exit (1);
+	}
+	echo 'Database already installed, schema up to date.' . "\n";
 	exit (0);
 }
 
