@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b36e255dca2f8a8e7359f2cc471a4d9c",
+    "content-hash": "c72af01336a4bd9e1f5c03f54285e39e",
     "packages": [
         {
             "name": "airbrake/phpbrake",
@@ -111,16 +111,16 @@
         },
         {
             "name": "catlabinteractive/dolumar-engine",
-            "version": "dev-claude/project-thread-d3x5ln",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/CatLabInteractive/dolumar-engine.git",
-                "reference": "258bf99652f75120c4dc9f09dfe28bd26b1d913e"
+                "reference": "17c55898ae1f6b3f6f30a2f6c3f63624ff6d4c7e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CatLabInteractive/dolumar-engine/zipball/258bf99652f75120c4dc9f09dfe28bd26b1d913e",
-                "reference": "258bf99652f75120c4dc9f09dfe28bd26b1d913e",
+                "url": "https://api.github.com/repos/CatLabInteractive/dolumar-engine/zipball/17c55898ae1f6b3f6f30a2f6c3f63624ff6d4c7e",
+                "reference": "17c55898ae1f6b3f6f30a2f6c3f63624ff6d4c7e",
                 "shasum": ""
             },
             "require": {
@@ -138,6 +138,7 @@
                 "phpunit/phpunit": "^11",
                 "squizlabs/php_codesniffer": "^3.10"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "classmap": [
@@ -148,10 +149,10 @@
                 "GPL-3.0"
             ],
             "support": {
-                "source": "https://github.com/CatLabInteractive/dolumar-engine/tree/claude/project-thread-d3x5ln",
+                "source": "https://github.com/CatLabInteractive/dolumar-engine/tree/master",
                 "issues": "https://github.com/CatLabInteractive/dolumar-engine/issues"
             },
-            "time": "2026-11-02T21:59:43+00:00"
+            "time": "2026-11-02T23:22:46+00:00"
         },
         {
             "name": "graham-campbell/result-type",
