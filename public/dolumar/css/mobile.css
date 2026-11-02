@@ -42,6 +42,13 @@ body.layout-mobile .panel.status
 	-webkit-overflow-scrolling: touch;
 	background: transparent;
 	z-index: 1001 !important;
+	/* Android draws the horizontal scrollbar as a grey line under the header. */
+	scrollbar-width: none;
+}
+
+body.layout-mobile .panel.status::-webkit-scrollbar
+{
+	display: none;
 }
 
 body.layout-mobile .panel.status ul,
