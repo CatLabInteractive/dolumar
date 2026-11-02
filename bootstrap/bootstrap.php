@@ -75,11 +75,24 @@ else {
 	include BASE_PATH . 'bootstrap/serverconfig-default.php';
 }
 
+// Store sessions in memcached so they survive restarts and deploys.
+if (defined ('MEMCACHE_SERVERS') && MEMCACHE_SERVERS && extension_loaded ('memcached') && PHP_SAPI !== 'cli') {
+    $sessionServers = array();
+    foreach (Neuron_Core_Memcache::parseServers (MEMCACHE_SERVERS) as $server) {
+        $sessionServers[] = $server[0] . ':' . $server[1];
+    }
+
+    ini_set('session.save_handler', 'memcached');
+    ini_set('session.save_path', implode (',', $sessionServers));
+    ini_set('session.gc_maxlifetime', '86400');
+}
+
 if (defined ('AIRBRAKE_TOKEN') && AIRBRAKE_TOKEN) {
 
+    // AIRBRAKE_TOKEN is the project key; old errbit setups only had a key.
     $options = array(
-        'projectId' => AIRBRAKE_TOKEN,
-        'projectKey' => defined('AIRBRAKE_PROJECT_ID') ? AIRBRAKE_PROJECT_ID : AIRBRAKE_TOKEN
+        'projectId' => defined('AIRBRAKE_PROJECT_ID') ? AIRBRAKE_PROJECT_ID : AIRBRAKE_TOKEN,
+        'projectKey' => AIRBRAKE_TOKEN
     );
 
     if (defined('AIRBRAKE_HOST')) {
@@ -92,9 +105,18 @@ if (defined ('AIRBRAKE_TOKEN') && AIRBRAKE_TOKEN) {
     // Set global notifier instance.
     Airbrake\Instance::set($notifier);
 
-    // Register error and exception handlers.
+    // Register the handlers ourselves: phpbrake's exception handler does not log,
+    // and notices/deprecations are too noisy (and slow) to send.
     $handler = new Airbrake\ErrorHandler($notifier);
-    $handler->register();
+    set_error_handler([$handler, 'onError'], E_ALL & ~(E_NOTICE | E_USER_NOTICE | E_DEPRECATED | E_USER_DEPRECATED));
+    set_exception_handler(function (Throwable $e) use ($handler) {
+        error_log('PHP Fatal error:  Uncaught ' . $e);
+        if (!headers_sent()) {
+            http_response_code(500);
+        }
+        $handler->onException($e);
+    });
+    register_shutdown_function([$handler, 'onShutdown']);
 }
 
 if (!defined ('SPEED_FACTOR'))
