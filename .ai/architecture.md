@@ -61,7 +61,15 @@ Under `src/Dolumar/`:
 - `Buildings/`, `Units/`, `SpecialUnits/`, `Technology/`, `Effects/` (spells and boosts), `Races/`, `Battle/`,
   `Quests/`, `Report/`, `Logable/` (game log entries).
 - `Map/` (old map logic, still the source of truth for locations) and `NewMap/` (adapter to the engine's map
-  renderer). `Dolumar_Game::getMap()` wraps the old map in the new one.
+  renderer). `Dolumar_Game::getMap()` wraps the old map in the new one. `NewMap/` also holds the moving armies shown
+  on the map: `MovingRows` (SQL for in-flight `battle` and `squad_commands` rows, the viewer's related villages, a
+  20 s memcache of the rows), `ArmyFactory` (turns a row into a `Dolumar_NewMap_Army` with one engine `Movement` per
+  phase: march out, wait at the target, march home; portal routes jump), and
+  `MapObjectManager::getMovingObjects()`, which the engine's `map/objects` endpoint calls. Routes are stored at
+  dispatch time in `battle.route` and `squad_commands.sc_route` (JSON waypoints from `Dolumar_Map_Distance`).
+  Related viewers (own or clan villages involved) get the full path and a tap action; everyone else sees a neutral
+  sprite with only the next 30 s of movement. The kind texts come from `resources/language/*/map.lng` through
+  `CONFIG_ARMY_TEXT` in `gameserver/index/header.phpt`.
 - `Underworld/`: a separate, turn-based mini-game with its own models, mappers and windows.
 - `Mappers/` and `Underworld/Mappers/`: the few classes that follow a mapper pattern. Most models query the database
   directly.
