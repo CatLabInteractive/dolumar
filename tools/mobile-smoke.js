@@ -253,6 +253,50 @@ check('relayout', { viewport: { width: 1280, height: 800 }, layout: 'auto' }, as
 	assert(openNow === openBefore, 'open windows changed from [' + openBefore + '] to [' + openNow + ']');
 });
 
+// Map scale: +/- through Game.map.setScale (clamped, stored per browser and restored on reload) and two-finger pinch.
+check('map-scale', { viewport: { width: 390, height: 844 }, layout: 'mobile' }, async (page) => {
+	await closeStartupSheets(page);
+	const n1 = await page.evaluate(() => Game.map.oScrollMap.countLoadedImages);
+	await page.evaluate(() => Game.map.setScale(0.5));
+	const after = await page.evaluate(() => ({
+		transform: Game.map.oScrollMap.div.style.transform,
+		count: Game.map.oScrollMap.countLoadedImages,
+		stored: localStorage.getItem('dolumar.mapScale'),
+	}));
+	assert(after.transform.indexOf('scale(0.5)') >= 0, 'inner map div transform is "' + after.transform + '", expected scale(0.5)');
+	assert(after.count > n1, 'countLoadedImages did not grow at scale 0.5: ' + n1 + ' -> ' + after.count);
+	assert(after.stored === '0.5', 'stored scale is ' + JSON.stringify(after.stored) + ', expected "0.5"');
+
+	await page.evaluate(() => Game.map.setScale(3));
+	const clamped = await page.evaluate(() => Game.map.oScrollMap.getScale());
+	assert(clamped === 1.5, 'setScale(3) gave scale ' + clamped + ', expected 1.5');
+
+	// The stored scale comes back after a reload (mobile mode only).
+	await page.reload({ waitUntil: 'load' });
+	await page.waitForFunction(() => typeof Game !== 'undefined' && Game.core && Game.core.isMapLoaded && Game.map.oScrollMap, null, { timeout: 15000 });
+	const restored = await page.evaluate(() => Game.map.oScrollMap.getScale());
+	assert(restored === 1.5, 'scale after reload is ' + restored + ', expected 1.5');
+
+	// Two-finger pinch on #map: fingers 100px apart, then 200px apart, then lifted.
+	await page.evaluate(() => Game.map.setScale(1));
+	const pinched = await page.evaluate(() => {
+		const map = document.getElementById('map');
+		const touch = (id, x, y) => new Touch({ identifier: id, target: map, clientX: x, clientY: y });
+		const fire = (type, touches, changed) => map.dispatchEvent(new TouchEvent(type, {
+			bubbles: true, cancelable: true, touches, targetTouches: touches, changedTouches: changed,
+		}));
+		const start = [touch(1, 145, 400), touch(2, 245, 400)];
+		fire('touchstart', start, start);
+		const moved = [touch(1, 95, 400), touch(2, 295, 400)];
+		fire('touchmove', moved, moved);
+		fire('touchend', [], moved);
+		return { scale: Game.map.oScrollMap.getScale(), stored: localStorage.getItem('dolumar.mapScale') };
+	});
+	await page.evaluate(() => Game.map.setScale(1));
+	assert(pinched.scale > 1, 'pinch did not grow the scale: ' + pinched.scale);
+	assert(pinched.stored === String(pinched.scale), 'pinch did not store the scale: ' + JSON.stringify(pinched.stored));
+});
+
 async function main() {
 	const args = process.argv.slice(2);
 	const baseUrl = args.find((a) => !a.startsWith('--'));
