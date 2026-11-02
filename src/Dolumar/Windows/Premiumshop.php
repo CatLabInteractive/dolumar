@@ -23,16 +23,9 @@
 
 class Dolumar_Windows_Premiumshop extends Neuron_GameServer_Windows_Window
 {
-	const COST_RUNES = 75;
-	const COST_MOVEVILLAGE = 750;
-	const COST_MOVEBUILDING = 100;
 
-	const COST_RESOURCES_ONE = 150;
-	const COST_RESOURCES_ALL = 900;
 	
-	const FREE_MOVEBUILDING_DURATION = 3600;
 	
-	const MAX_BUY_RUNES = 10;
 	
 	const MIN_MOVEVILLAGE_INTERVAL_DAYS = 7;
 
@@ -99,10 +92,10 @@ class Dolumar_Windows_Premiumshop extends Neuron_GameServer_Windows_Window
 			$page->set ('buy_url', htmlentities ((string) $player->getCreditBuyUrl ()));
 		}
 
-		$page->set ('cost_runes', $this->convertCredits (self::COST_RUNES));
-		$page->set ('cost_resources', $this->convertCredits (self::COST_RESOURCES_ONE));
-		$page->set ('cost_movebuilding', $this->convertCredits (self::COST_MOVEBUILDING));
-		$page->set ('cost_movevillage', $this->convertCredits (self::COST_MOVEVILLAGE));
+		$page->set ('cost_runes', $this->convertCredits (Dolumar_Premium_Prices::RUNE));
+		$page->set ('cost_resources', $this->convertCredits (Dolumar_Premium_Prices::RESOURCES_ONE));
+		$page->set ('cost_movebuilding', $this->convertCredits (Dolumar_Premium_Prices::MOVE_BUILDING));
+		$page->set ('cost_movevillage', $this->convertCredits (Dolumar_Premium_Prices::MOVE_VILLAGE));
 		
 		$page->set ('buyable', $this->getBuyableRunesLeft ());
 		$page->set ('maximum', $this->getBuyableRunes ());
@@ -115,44 +108,12 @@ class Dolumar_Windows_Premiumshop extends Neuron_GameServer_Windows_Window
 	private function getBuyableRunes ()
 	{
 		//return 5;
-		return self::MAX_BUY_RUNES * GAME_SPEED_RESOURCES;
+		return Dolumar_Premium_Prices::MAX_BUY_RUNES * GAME_SPEED_RESOURCES;
 	}
 	
 	private function getBuyableRunesLeft ()
 	{
-		$runes = $this->getBuyableRunes ();
-		
-		$player = Neuron_GameServer::getPlayer ();
-		$logs = Dolumar_Players_Logs::getInstance ();
-		
-		$logs->clearFilters ();
-		$logs->addShowOnly ('premium_runes_bought');
-		
-		//$maxdate = NOW - 60*60*24*30;
-		$maxdate = mktime (0, 0, 0, date ('n', NOW), 1, date ('Y', NOW));
-		
-		$maximum = $this->getBuyableRunes ();
-		
-		$amount = 0;
-		foreach ($logs->getLogs ($player->getVillages (), 0, $maximum, 'DESC') as $v)
-		{
-			if ($v['unixtime'] < $maxdate)
-			{
-				break;
-			}
-		
-			if ($v['action'] == 'premium_runes_bought')
-			{
-				$runes = $v['data'][0];
-			
-				foreach ($runes->getLogArray () as $v)
-				{
-					$amount += $v;
-				}
-			}
-		}
-		
-		return max (0, $maximum - $amount);
+		return Neuron_GameServer::getPlayer ()->getBuyableRunesLeft ();
 	}
 
 	private function getBuyResources ()
@@ -199,8 +160,8 @@ class Dolumar_Windows_Premiumshop extends Neuron_GameServer_Windows_Window
 						'resource' => $k,
 						'bruto' => isset ($bruto[$k]) ? $bruto[$k] : 0,
 						'consuming' => isset ($consumption[$k]) ? $consumption[$k] : 0,
-						'fillup' => htmlentities ((string) $player->getCreditUseUrl (self::COST_RESOURCES_ONE, $data, 'Fill resources')),
-						'cost' => $this->convertCredits (self::COST_RESOURCES_ONE),
+						'fillup' => htmlentities ((string) $player->getCreditUseUrl (Dolumar_Premium_Prices::RESOURCES_ONE, $data, 'Fill resources')),
+						'cost' => $this->convertCredits (Dolumar_Premium_Prices::RESOURCES_ONE),
 						'full' => $v >= $capacity[$k]
 					)
 				);
@@ -213,9 +174,9 @@ class Dolumar_Windows_Premiumshop extends Neuron_GameServer_Windows_Window
 				'resource' => 'all'
 			);
 
-			$page->set ('costAll', $this->convertCredits (self::COST_RESOURCES_ALL));
-			$page->set ('fillup_all', htmlentities ((string) $player->getCreditUseUrl (self::COST_RESOURCES_ALL, $data, 'Fill all resources')));
-			$page->set ('fillup_all_cost', $this->convertCredits (self::COST_RESOURCES_ALL));
+			$page->set ('costAll', $this->convertCredits (Dolumar_Premium_Prices::RESOURCES_ALL));
+			$page->set ('fillup_all', htmlentities ((string) $player->getCreditUseUrl (Dolumar_Premium_Prices::RESOURCES_ALL, $data, 'Fill all resources')));
+			$page->set ('fillup_all_cost', $this->convertCredits (Dolumar_Premium_Prices::RESOURCES_ALL));
 
 			return $page->parse ('dolumar/premium/buyresources.phpt');
 		}
@@ -295,11 +256,11 @@ class Dolumar_Windows_Premiumshop extends Neuron_GameServer_Windows_Window
 			$data['village'] = isset ($input['village']) ? $input['village'] : null;
 			$data['action'] = 'buyrunes';
 			
-			$credits = $this->convertCredits ($sum * self::COST_RUNES);
+			$credits = $this->convertCredits ($sum * Dolumar_Premium_Prices::RUNE);
 			
 			$page->set ('credits', $credits);
 			
-			$page->set ('confirm_url', htmlentities ((string) $player->getCreditUseUrl ($sum * self::COST_RUNES, $data, $sum . ' runes')));
+			$page->set ('confirm_url', htmlentities ((string) $player->getCreditUseUrl ($sum * Dolumar_Premium_Prices::RUNE, $data, $sum . ' runes')));
 			
 			return $page->parse ('dolumar/premium/buyrunes_confirm.phpt');
 		}
@@ -316,29 +277,12 @@ class Dolumar_Windows_Premiumshop extends Neuron_GameServer_Windows_Window
 	
 	private function isMoveFree ($village)
 	{
-		$date = $this->getFreeMoveEndDate ($village);		
-		$bool = $date > NOW;
-		
-		return $bool;
+		return Neuron_GameServer::getPlayer ()->isBuildingMoveFree ($village);
 	}
 	
 	private function getFreeMoveEndDate ($village)
 	{
-		// Fetch logs
-		$objLogs = Dolumar_Players_Logs::getInstance ();
-		
-		$objLogs->clearFilters ();
-		$objLogs->addShowOnly ('premium_movevillage');
-		
-		$logs = $objLogs->getLogs ($village, 0, 1, 'DESC');
-		
-		foreach ($logs as $v)
-		{
-			// One hour free!
-			return $v['timestamp'] + self::FREE_MOVEBUILDING_DURATION;
-		}
-		
-		return false;
+		return Neuron_GameServer::getPlayer ()->getFreeBuildingMoveEndDate ($village);
 	}
 	
 	private function getMoveBuilding ()
@@ -348,7 +292,7 @@ class Dolumar_Windows_Premiumshop extends Neuron_GameServer_Windows_Window
 		
 		$player = Neuron_GameServer::getPlayer ();
 		
-		$creditcost = $this->convertCredits (self::COST_MOVEBUILDING);
+		$creditcost = $this->convertCredits (Dolumar_Premium_Prices::MOVE_BUILDING);
 		
 		$village = $player->getMyVillage (isset ($input['village']) ? $input['village'] : false);
 		if ($village)
@@ -420,7 +364,7 @@ class Dolumar_Windows_Premiumshop extends Neuron_GameServer_Windows_Window
 								(
 									(string) $player->getCreditUseUrl 
 									(
-										self::COST_MOVEBUILDING, 
+										Dolumar_Premium_Prices::MOVE_BUILDING, 
 										$data, 
 										'Move building'
 									)
@@ -564,7 +508,7 @@ class Dolumar_Windows_Premiumshop extends Neuron_GameServer_Windows_Window
 							(
 								(string) $player->getCreditUseUrl 
 								(
-									self::COST_MOVEVILLAGE, 
+									Dolumar_Premium_Prices::MOVE_VILLAGE, 
 									$data, 
 									'Move village ' .$village->getName () .' to '.$nx.','.$ny 
 								)

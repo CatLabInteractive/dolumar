@@ -26,7 +26,6 @@ class Dolumar_Windows_Bonusbuildings
 {
 	private $village;
 	
-	const CREDIT_COST = 250;
 
 	public function setSettings ()
 	{
@@ -119,7 +118,7 @@ class Dolumar_Windows_Bonusbuildings
 					(
 						'id' => $v['t_id'],
 						'image_url' => PUBLIC_URL.$v['t_imagename'],
-						'credits' => self::CREDIT_COST,
+						'credits' => Dolumar_Premium_Prices::BONUS_BUILDING,
 						'action' => $action->getAction ()
 					)
 				);
@@ -168,7 +167,7 @@ class Dolumar_Windows_Bonusbuildings
 					'end_date' => $v['einddatum'],
 					'name' => $building->getName (),
 					'description' => $building->getCustomContent (),
-					'credits' => self::CREDIT_COST
+					'credits' => Dolumar_Premium_Prices::BONUS_BUILDING
 				);
 			}
 		}
@@ -225,7 +224,7 @@ class Dolumar_Windows_Bonusbuildings
 			
 			$player = Neuron_GameServer::getPlayer ();
 			
-			$url = $player->getCreditUseUrl (self::CREDIT_COST, $data, $building->getName ());
+			$url = $player->getCreditUseUrl (Dolumar_Premium_Prices::BONUS_BUILDING, $data, $building->getName ());
 			
 			//$url = '<a href="'.$url.'" target="_BLANK" onclick="windowAction(this,{\'action\':\'overview\'}); return !Game.gui.openWindow(this, 450, 190);">here</a>';
 			
