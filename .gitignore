@@ -7,3 +7,5 @@
 composer.phar
 /.env.docker
 /public/signs/
+/node_modules/
+/package-lock.json

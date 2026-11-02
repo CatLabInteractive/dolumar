@@ -36,6 +36,11 @@ cannot log in.
 | Syntax | `docker compose exec web find src bootstrap cron tools public -name '*.php' -print0 \| xargs -0 -n1 php -l` | Quick and catches most breakage. |
 | Engine tests | `docker compose exec -w /engine web vendor/bin/phpunit` | Only if the engine was touched. Needs the engine's own `composer install` in `/engine`. |
 | Smoke test | `tools/smoke.sh http://localhost:8080` | Add `SMOKE_NO_OAUTH=1` when OIDC is not configured. Fails on any PHP warning, notice or deprecation in the output. |
+| Mobile smoke setup | `npm install --no-save playwright && npx playwright install chromium` | Once per machine. |
+| Mobile smoke | `node tools/mobile-smoke.js http://localhost:8080 [--only=mobile-shell]` | Browser checks of the desktop and mobile UI. Needs the dev OIDC mock. |
+
+The mobile smoke test needs Node 18+ and Chromium on the host. Nothing is committed under `node_modules/`;
+`--no-save` keeps `package.json` out of the repository.
 
 This repository has no unit tests of its own. For game logic changes, verify by playing the affected flow locally
 and say in the PR what you checked.
