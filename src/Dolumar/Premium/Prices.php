@@ -15,6 +15,9 @@ class Dolumar_Premium_Prices
 	const FREE_MOVEBUILDING_DURATION = 3600;
 	const MAX_BUY_RUNES = 10;
 
+	// Kept from the shop window: despite the name this is applied as hours (60*60*N).
+	const MIN_MOVEVILLAGE_INTERVAL_DAYS = 7;
+
 	/**
 	 * Price and unit (seconds per unit) of a speed-up type, or null.
 	 * @return array|null ['price' => int, 'unit' => int]

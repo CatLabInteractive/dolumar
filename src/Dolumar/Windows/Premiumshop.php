@@ -27,7 +27,7 @@ class Dolumar_Windows_Premiumshop extends Neuron_GameServer_Windows_Window
 	
 	
 	
-	const MIN_MOVEVILLAGE_INTERVAL_DAYS = 7;
+	const MIN_MOVEVILLAGE_INTERVAL_DAYS = Dolumar_Premium_Prices::MIN_MOVEVILLAGE_INTERVAL_DAYS;
 
 	public function setSettings ()
 	{
@@ -438,21 +438,7 @@ class Dolumar_Windows_Premiumshop extends Neuron_GameServer_Windows_Window
 	
 	private function canMoveVillage (Dolumar_Players_Village $village)
 	{
-		// Fetch logs
-		$objLogs = Dolumar_Players_Logs::getInstance ();
-		
-		$objLogs->clearFilters ();
-		$objLogs->addShowOnly ('premium_movevillage');
-		$objLogs->setTimeInterval (time () - 60 * 60 * self::MIN_MOVEVILLAGE_INTERVAL_DAYS);
-		
-		$logs = $objLogs->getLogs ($village, 0, 5, 'DESC');
-		
-		if (count ($logs) > 0)
-		{
-			return false;
-		}
-		
-		return true;
+		return Neuron_GameServer::getPlayer ()->canMoveVillage ($village);
 	}
 	
 	private function getMoveVillage ()

@@ -707,6 +707,61 @@ class Dolumar_Players_Player extends Neuron_GameServer_Player
 		return $out;
 	}
 
+	private function getVillageFromData ($data)
+	{
+		$id = isset ($data['village']) ? $this->strictInt ($data['village']) : null;
+		return $id === null ? false : $this->getMyVillage ($id);
+	}
+
+	/**
+	 * May this village be moved again? (Behaviour kept as in the shop window.)
+	 */
+	public function canMoveVillage ($village)
+	{
+		$objLogs = Dolumar_Players_Logs::getInstance ();
+
+		$objLogs->clearFilters ();
+		$objLogs->addShowOnly ('premium_movevillage');
+		$objLogs->setTimeInterval (time () - 60 * 60 * Dolumar_Premium_Prices::MIN_MOVEVILLAGE_INTERVAL_DAYS);
+
+		return count ($objLogs->getLogs ($village, 0, 5, 'DESC')) == 0;
+	}
+
+	/**
+	 * Is this a bonus tile that may be used with a bonus building? Public tiles
+	 * inside their date range (as listed by the bonus building window) or this
+	 * player's own uploaded tiles.
+	 */
+	public function isValidBonusTile ($tile)
+	{
+		$tile = $this->strictInt ($tile);
+		if ($tile === null || $tile < 1)
+		{
+			return false;
+		}
+
+		$db = Neuron_DB_Database::getInstance ();
+		$rows = $db->query
+		("
+			SELECT
+				t_id, t_imagename
+			FROM
+				players_tiles
+			WHERE
+				t_id = {$tile} AND
+				(
+					(
+						t_isPublic = 1 AND
+						(t_startDate IS NULL OR t_startDate < FROM_UNIXTIME(".NOW.")) AND
+						(t_endDate IS NULL OR t_endDate > FROM_UNIXTIME(".NOW."))
+					)
+					OR t_userid = " . intval ($this->getId ()) . "
+				)
+		");
+
+		return count ($rows) == 1 && file_exists (PUBLIC_PATH . $rows[0]['t_imagename']);
+	}
+
 	private function strictInt ($value)
 	{
 		if (is_int ($value))
@@ -746,9 +801,8 @@ class Dolumar_Players_Player extends Neuron_GameServer_Player
 				return array ('left' => $building->getTimeLeft (), 'object' => $building);
 
 			case 'training':
-				$vid = isset ($data['village']) ? $data['village'] : null;
 				$id = isset ($data['order']) ? $this->strictInt ($data['order']) : null;
-				$village = $this->getMyVillage ($vid);
+				$village = $this->getVillageFromData ($data);
 				if (!$village || !$id)
 				{
 					return null;
@@ -761,9 +815,8 @@ class Dolumar_Players_Player extends Neuron_GameServer_Player
 				return array ('left' => $order['timeLeft'], 'village' => $village);
 
 			case 'scouting':
-				$vid = isset ($data['village']) ? $data['village'] : null;
 				$id = isset ($data['scoutid']) ? $this->strictInt ($data['scoutid']) : null;
-				$village = $this->getMyVillage ($vid);
+				$village = $this->getVillageFromData ($data);
 				if (!$village || $id === null)
 				{
 					return null;
@@ -818,7 +871,7 @@ class Dolumar_Players_Player extends Neuron_GameServer_Player
 		switch ($action)
 		{
 			case 'buyrunes':
-				$village = $this->getMyVillage (isset ($data['village']) ? $data['village'] : null);
+				$village = $this->getVillageFromData ($data);
 				$runes = $this->parseRuneAmounts ($data);
 				if (!$village || !$runes)
 				{
@@ -832,7 +885,7 @@ class Dolumar_Players_Player extends Neuron_GameServer_Player
 				return array ('credits' => $sum * Dolumar_Premium_Prices::RUNE, 'description' => $sum . ' runes');
 
 			case 'buyresources':
-				$village = $this->getMyVillage (isset ($data['village']) ? $data['village'] : null);
+				$village = $this->getVillageFromData ($data);
 				$resource = isset ($data['resource']) ? $data['resource'] : null;
 				if (!$village || !is_string ($resource))
 				{
@@ -849,9 +902,10 @@ class Dolumar_Players_Player extends Neuron_GameServer_Player
 				return array ('credits' => Dolumar_Premium_Prices::RESOURCES_ONE, 'description' => 'Fill resources');
 
 			case 'movevillage':
-				$village = $this->getMyVillage (isset ($data['village']) ? $data['village'] : null);
+				$village = $this->getVillageFromData ($data);
 				if (!$village || !isset ($data['x']) || !isset ($data['y'])
-					|| $this->strictInt ($data['x']) === null || $this->strictInt ($data['y']) === null)
+					|| $this->strictInt ($data['x']) === null || $this->strictInt ($data['y']) === null
+					|| !$this->canMoveVillage ($village))
 				{
 					return null;
 				}
@@ -862,13 +916,15 @@ class Dolumar_Players_Player extends Neuron_GameServer_Player
 				);
 
 			case 'movebuilding':
-				$village = $this->getMyVillage (isset ($data['village']) ? $data['village'] : null);
+				$village = $this->getVillageFromData ($data);
 				if (!$village || !isset ($data['building']) || !isset ($data['x']) || !isset ($data['y'])
 					|| $this->strictInt ($data['x']) === null || $this->strictInt ($data['y']) === null)
 				{
 					return null;
 				}
-				if (!$village->buildings->getBuilding ($data['building']))
+				$bid = $this->strictInt ($data['building']);
+				$building = $bid === null ? null : $village->buildings->getBuilding ($bid);
+				if (!$building || !$building->isMoveable ())
 				{
 					return null;
 				}
@@ -879,9 +935,11 @@ class Dolumar_Players_Player extends Neuron_GameServer_Player
 				return array ('credits' => Dolumar_Premium_Prices::MOVE_BUILDING, 'description' => 'Move building');
 
 			case 'bonusbuilding':
-				$village = $this->getMyVillage (isset ($data['village']) ? $data['village'] : null);
+				$village = $this->getVillageFromData ($data);
 				if (!$village || !isset ($data['building']) || !isset ($data['x']) || !isset ($data['y'])
-					|| $this->strictInt ($data['x']) === null || $this->strictInt ($data['y']) === null)
+					|| $this->strictInt ($data['building']) !== 100
+					|| $this->strictInt ($data['x']) === null || $this->strictInt ($data['y']) === null
+					|| !isset ($data['tile']) || !$this->isValidBonusTile ($data['tile']))
 				{
 					return null;
 				}
@@ -921,7 +979,7 @@ class Dolumar_Players_Player extends Neuron_GameServer_Player
 		{
 			case 'buyrunes':
 
-				$village = $this->getMyVillage (isset ($data['village']) ? $data['village'] : null);
+				$village = $this->getVillageFromData ($data);
 				$out = $this->parseRuneAmounts ($data);
 
 				if (!$village || !$out)
@@ -941,11 +999,11 @@ class Dolumar_Players_Player extends Neuron_GameServer_Player
 
 			case 'movevillage':
 
-				$village = $this->getMyVillage (isset ($data['village']) ? $data['village'] : null);
-				$x = isset ($data['x']) ? $data['x'] : null;
-				$y = isset ($data['y']) ? $data['y'] : null;
+				$village = $this->getVillageFromData ($data);
+				$x = isset ($data['x']) ? $this->strictInt ($data['x']) : null;
+				$y = isset ($data['y']) ? $this->strictInt ($data['y']) : null;
 
-				if (!$village || !isset ($x) || !isset ($y))
+				if (!$village || !isset ($x) || !isset ($y) || !$this->canMoveVillage ($village))
 				{
 					return false;
 				}
@@ -962,10 +1020,10 @@ class Dolumar_Players_Player extends Neuron_GameServer_Player
 
 			case 'movebuilding':
 
-				$village = $this->getMyVillage (isset ($data['village']) ? $data['village'] : null);
-				$building = isset ($data['building']) ? $data['building'] : null;
-				$x = isset ($data['x']) ? intval ($data['x']) : null;
-				$y = isset ($data['y']) ? intval ($data['y']) : null;
+				$village = $this->getVillageFromData ($data);
+				$building = isset ($data['building']) ? $this->strictInt ($data['building']) : null;
+				$x = isset ($data['x']) ? $this->strictInt ($data['x']) : null;
+				$y = isset ($data['y']) ? $this->strictInt ($data['y']) : null;
 
 				if (!$village || !isset ($x) || !isset ($y) || !isset ($building))
 				{
@@ -974,7 +1032,7 @@ class Dolumar_Players_Player extends Neuron_GameServer_Player
 
 				$building = $village->buildings->getBuilding ($building);
 
-				if (!$building)
+				if (!$building || !$building->isMoveable ())
 				{
 					return false;
 				}
@@ -994,24 +1052,29 @@ class Dolumar_Players_Player extends Neuron_GameServer_Player
 
 			case 'bonusbuilding':
 
-				$village = $this->getMyVillage (isset ($data['village']) ? $data['village'] : null);
+				$village = $this->getVillageFromData ($data);
 				if (!$village)
 				{
 					return false;
 				}
 
-				$x = isset ($data['x']) ? intval ($data['x']) : null;
-				$y = isset ($data['y']) ? intval ($data['y']) : null;
+				$x = isset ($data['x']) ? $this->strictInt ($data['x']) : null;
+				$y = isset ($data['y']) ? $this->strictInt ($data['y']) : null;
 
-				$building = isset ($data['building']) ? intval ($data['building']) : null;
-				$building = Dolumar_Buildings_Building::getBuilding ($building, $village->getRace ());
+				if ($x === null || $y === null || !isset ($data['building']) || $this->strictInt ($data['building']) !== 100
+					|| !isset ($data['tile']) || !$this->isValidBonusTile ($data['tile']))
+				{
+					return false;
+				}
+
+				$building = Dolumar_Buildings_Building::getBuilding (100, $village->getRace ());
 
 				if (!$building)
 				{
 					return false;
 				}
 
-				$extra = isset ($data['tile']) ? intval ($data['tile']) : null;
+				$extra = $this->strictInt ($data['tile']);
 
 				$chk = $building->checkBuildLocation ($village, $x, $y);
 
@@ -1073,7 +1136,7 @@ class Dolumar_Players_Player extends Neuron_GameServer_Player
 
 			case 'buyresources':
 
-				$village = $this->getMyVillage (isset ($data['village']) ? $data['village'] : null);
+				$village = $this->getVillageFromData ($data);
 				$resource = isset ($data['resource']) ? $data['resource'] : null;
 
 				if (!$village || !is_string ($resource))
