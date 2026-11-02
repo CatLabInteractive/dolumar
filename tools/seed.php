@@ -36,8 +36,7 @@ if ((int)$existing[0]['c'] > 0) {
 }
 
 $amount = max(1, (int)(getenv('SEED_PLAYERS') ?: 12));
-// 'ne' is left out: on PHP 8 it crashes calculateNewStartLocation() (its arc wraps past 2, so mt_rand gets min > max).
-$directions = ['n', 'e', 'es', 's', 'sw', 'w', 'wn'];
+$directions = ['n', 'ne', 'e', 'es', 's', 'sw', 'w', 'wn'];
 $races = array_keys(Dolumar_Races_Race::getRaces());
 $login = Neuron_Core_Login::__getInstance();
 

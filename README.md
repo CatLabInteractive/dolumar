@@ -81,10 +81,16 @@ with test players already in it. It is created by [`.github/workflows/preview.ym
 when the pull request opens, updated on every push, and removed (app, memcached and database) when the pull request
 closes. A daily run also removes previews whose pull request is no longer open.
 
+Pushes to `develop` deploy a standing preview at `https://develop.preview.dolumar.com/`. Unlike pull request previews it
+keeps its database between deploys (it is only seeded once, when empty) and is never removed automatically. To reset it,
+run `dolumar-preview destroy develop` on the server; the next push recreates it. Other branches can get one too: add
+them to `PREVIEW_BRANCHES` on the server and to `on.push.branches` in the workflow.
+
 The GitHub key cannot run Dokku commands. It logs in as a separate `dolumar-preview` user whose only allowed command is
-[`tools/preview/dolumar-preview`](tools/preview/dolumar-preview), which accepts `deploy <pr> <sha>`, `destroy <pr>` and
-`list`, and only touches `dolumar-pr-<n>` apps, their `-cache` memcached services and the `pr_<n>` databases in a
-separate `dolumar-previews` MySQL service. Production apps and services are never named.
+[`tools/preview/dolumar-preview`](tools/preview/dolumar-preview), which accepts `deploy <pr|branch> <sha>`, `destroy <pr|branch>` and
+`list`, and only touches `dolumar-pr-<n>` and `dolumar-<branch>` apps (branches from `PREVIEW_BRANCHES` only), their
+`-cache` memcached services and their `pr_<n>` / `branch_<name>` databases in a separate `dolumar-previews` MySQL
+service. Production apps and services are never named.
 
 A preview runs with `PREVIEW_MODE=1`, which makes `postdeploy.sh` run [`tools/seed.php`](tools/seed.php) (12 players
 `Tester1`..`Tester12` with villages, a clan and NPC tribes) and enables `/preview-login.php`, where you log in as any
@@ -108,6 +114,7 @@ PREVIEW_DOMAIN=preview.dolumar.com
 PREVIEW_LETSENCRYPT_EMAIL=you@example.com
 # PREVIEW_HTTPS=0       # plain http, skips Let's Encrypt
 # PREVIEW_MEMORY=512m   # memory limit per preview
+# PREVIEW_BRANCHES=develop  # branches with a standing preview
 CONF
 
 # 4. A user that can only run that script, through sudo.

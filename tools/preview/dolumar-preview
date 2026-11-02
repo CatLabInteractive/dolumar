@@ -3,12 +3,16 @@
 # Server side of the pull request previews. Installed on the Dokku server as /usr/local/bin/dolumar-preview and run
 # through a forced SSH command, so the GitHub Actions key can only do what this script allows:
 #
-#   deploy <pr-number> <commit-sha>   create or update the preview app dolumar-pr-<n> for that commit
-#   destroy <pr-number>               remove the app, its memcached service and its database
-#   list                              print the PR numbers that have a preview app
+#   deploy <target> <commit-sha>   create or update the preview for that commit
+#   destroy <target>               remove the preview's app, memcached service and database
+#   list                           print the PR numbers that have a preview app (branch previews are not listed)
 #
-# It only ever touches apps named dolumar-pr-<n>, their dolumar-pr-<n>-cache memcached services and the pr_<n>
-# database and user in the shared preview MySQL service. Production apps and services are never named.
+# <target> is a pull request number (app dolumar-pr-<n> at pr-<n>.<domain>, database pr_<n>) or a branch named in
+# PREVIEW_BRANCHES (app dolumar-<branch> at <branch>.<domain>, database branch_<branch>). Branch previews are long-lived:
+# their database is kept between deploys, and only an admin destroys them.
+#
+# It only ever touches those apps, their <app>-cache memcached services and those databases and users in the shared
+# preview MySQL service. Production apps and services are never named.
 # Setup steps: README.md, section "Pull request previews".
 
 set -euo pipefail
@@ -26,6 +30,8 @@ PREVIEW_MYSQL_SERVICE="${PREVIEW_MYSQL_SERVICE:-dolumar-previews}"
 PREVIEW_MEMORY="${PREVIEW_MEMORY:-512m}"
 PREVIEW_HTTPS="${PREVIEW_HTTPS:-1}"
 PREVIEW_LETSENCRYPT_EMAIL="${PREVIEW_LETSENCRYPT_EMAIL:-}"
+# Space-separated branches that may have a standing preview.
+PREVIEW_BRANCHES="${PREVIEW_BRANCHES:-develop}"
 
 # The command arrives from the forced SSH command (sudoers keeps SSH_ORIGINAL_COMMAND), or as arguments when an
 # admin runs the script by hand.
@@ -36,7 +42,7 @@ else
 fi
 
 ACTION="${ARGS[0]:-}"
-PR="${ARGS[1]:-}"
+TARGET="${ARGS[1]:-}"
 SHA="${ARGS[2]:-}"
 
 fail() {
@@ -50,16 +56,24 @@ mysql_root() {
 	docker exec -i -e MYSQL_PWD="$rootpw" "dokku.mysql.$PREVIEW_MYSQL_SERVICE" mysql -uroot
 }
 
-check_pr() {
-	[[ "$PR" =~ ^[0-9]{1,6}$ ]] || fail "invalid pull request number"
-	APP="dolumar-pr-$PR"
+check_target() {
+	local name
+	if [[ "$TARGET" =~ ^[0-9]{1,6}$ ]]; then
+		name="pr-$TARGET"
+		DB="pr_$TARGET"
+	elif [[ "$TARGET" =~ ^[a-z][a-z0-9-]{0,19}$ ]] && [[ " $PREVIEW_BRANCHES " == *" $TARGET "* ]] && [[ "$TARGET" != pr-* ]]; then
+		name="$TARGET"
+		DB="branch_${TARGET//-/_}"
+	else
+		fail "invalid target: not a pull request number or a branch in PREVIEW_BRANCHES"
+	fi
+	APP="dolumar-$name"
 	CACHE="$APP-cache"
-	DB="pr_$PR"
-	HOST="pr-$PR.$PREVIEW_DOMAIN"
+	HOST="$name.$PREVIEW_DOMAIN"
 }
 
 deploy() {
-	check_pr
+	check_target
 	[[ "$SHA" =~ ^[0-9a-f]{40}$ ]] || fail "invalid commit sha"
 
 	local proto=http
@@ -116,7 +130,7 @@ deploy() {
 }
 
 destroy() {
-	check_pr
+	check_target
 	echo "Destroying $APP"
 
 	if dokku apps:exists "$APP" > /dev/null 2>&1; then
@@ -145,5 +159,5 @@ case "$ACTION" in
 	deploy) deploy ;;
 	destroy) destroy ;;
 	list) list ;;
-	*) fail "usage: deploy <pr> <sha> | destroy <pr> | list" ;;
+	*) fail "usage: deploy <pr|branch> <sha> | destroy <pr|branch> | list" ;;
 esac
