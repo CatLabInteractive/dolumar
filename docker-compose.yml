@@ -15,6 +15,7 @@ services:
       - mysql
       - memcached
       - mailpit
+      - oidc-mock
 
   mysql:
     image: mysql:8.0
@@ -35,6 +36,17 @@ services:
     image: axllent/mailpit
     ports:
       - "8025:8025"
+
+  # Dev-only OpenID Connect provider so you can log in locally. See .ai/development.md.
+  oidc-mock:
+    image: php:8.4-cli
+    command: php -S 0.0.0.0:8090 /srv/index.php
+    environment:
+      OIDC_MOCK: "1"
+    volumes:
+      - ./docker/oidc-mock:/srv
+    ports:
+      - "8090:8090"
 
 volumes:
   mysql-data:
