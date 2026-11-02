@@ -27,6 +27,11 @@ permissions:
   contents: read
   pull-requests: write
 
+defaults:
+  run:
+    # Explicit bash enables pipefail, so a failing ssh in `ssh ... | tee` fails the step.
+    shell: bash
+
 jobs:
   deploy:
     if: >-
