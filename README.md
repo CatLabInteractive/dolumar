@@ -106,9 +106,11 @@ Needs Dokku 0.24 or newer (for `git:from-archive`) with the mysql, memcached and
 dokku mysql:create dolumar-previews
 
 # 3. The script and its settings.
+# Download to a temporary file and move it into place: overwriting the file in place breaks a deploy that is running
+# it at that moment (bash reads scripts while executing them).
 curl -fsSL https://raw.githubusercontent.com/CatLabInteractive/dolumar/master/tools/preview/dolumar-preview \
-  -o /usr/local/bin/dolumar-preview
-chmod 755 /usr/local/bin/dolumar-preview
+  -o /usr/local/bin/dolumar-preview.new
+chmod 755 /usr/local/bin/dolumar-preview.new && mv /usr/local/bin/dolumar-preview.new /usr/local/bin/dolumar-preview
 cat > /etc/default/dolumar-preview <<'CONF'
 PREVIEW_DOMAIN=preview.dolumar.com
 PREVIEW_LETSENCRYPT_EMAIL=you@example.com
