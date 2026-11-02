@@ -80,10 +80,9 @@ New `assets/javascript/layout.js`, loaded before `gui.js`, defining `Game.layout
   landscape get desktop); otherwise `'desktop'`.
 - On load, resize and `orientationchange` it sets `body.layout-mobile` / `body.layout-desktop`. Switching mode while
   windows are open re-renders their containers (see 2) without re-requesting content.
-- The game header template emits a normal viewport (`width=device-width, initial-scale=1`) when the mode will be
-  mobile and the existing 0.5 viewport otherwise. Because the mode is decided client-side, the header emits the
-  normal viewport and `layout.js` applies the legacy `initial-scale=0.5` meta only in desktop mode on a touch device,
-  which keeps today's behaviour for desktop-mode phones.
+- The mode is decided client-side, so the game header template always emits a normal viewport
+  (`width=device-width, initial-scale=1`) and `layout.js` rewrites the meta to today's `initial-scale=0.5,
+  user-scalable=no` only in desktop mode on a touch device. Desktop-mode phones therefore keep today's behaviour.
 
 ### 2. Windows as sheets (engine)
 
@@ -154,10 +153,9 @@ In `Game.gui.openNewWindow` response handling, when `Game.layout.mode() === 'mob
    Playwright smoke, docs. Depends on PR 1 via `composer.lock`.
 3. PR 3+, `dolumar`: per-window content polish as issues come in.
 
-Until the owner flips it, nothing changes for players whose preference is `auto`? No: `auto` is the default and
-activates mobile mode below 800px, which is the intended end state. To stage it, PR 2 ships with the default
-preference `desktop` and a follow-up one-line change switches the default to `auto` once a few players have tried
-`mobile`.
+`auto` is the intended default and activates mobile mode below 800px. To stage the release, PR 2 ships with the
+default preference set to `desktop`, so nothing changes until a player picks `mobile` or `auto` in MyAccount. A
+follow-up one-line change switches the default to `auto` once a few players have tried it.
 
 ## Open questions
 
