@@ -300,8 +300,58 @@ class Dolumar_Windows_PlayerProfile extends Neuron_GameServer_Windows_Window
 		
 		// Set honour
 		$page->set ('honour_value', $objVillage->honour->getHonour ());
+
+		// Tribes show who they are, how rich they are and what they want.
+		if ($objVillage->isNpc ())
+		{
+			$this->setTribeProfile ($page, $objVillage, $text);
+		}
 		
 		return $page->parse ('villageProfile.tpl');
+	}
+
+	/**
+	 * @param Neuron_Core_Template $page
+	 * @param Dolumar_Players_Village $objVillage
+	 * @param Neuron_Core_Text $text
+	 */
+	private function setTribeProfile ($page, $objVillage, $text)
+	{
+		$repository = Dolumar_Npc_StandingRepository::getInstance ();
+		$tribe = $repository->tribe ($objVillage->getId ());
+		if ($tribe === null)
+		{
+			return;
+		}
+
+		$page->set ('tribe', $text->get ('tribe'));
+		$page->set ('tribe_value', Neuron_Core_Tools::output_varchar ($tribe['tribe_name']));
+
+		$hoard = Dolumar_Npc_Tribe::hoardWord
+		(
+			array_sum ($objVillage->resources->getResources ()),
+			array_sum ($objVillage->resources->getCapacity ())
+		);
+		$page->set ('hoard', $text->get ('hoard'));
+		$page->set ('hoard_value', $text->get ('hoard_' . $hoard));
+
+		$page->set ('request', $text->get ('request'));
+		if (!empty ($tribe['request_res']) && $tribe['request_amount'] > 0)
+		{
+			$page->set ('request_value', Neuron_Core_Tools::putIntoText
+			(
+				$text->get ('request_value'),
+				array
+				(
+					'amount' => (int) $tribe['request_amount'],
+					'res' => $text->get ($tribe['request_res'], 'resources', 'main', $tribe['request_res'])
+				)
+			));
+		}
+		else
+		{
+			$page->set ('request_value', $text->get ('request_none'));
+		}
 	}
 }
 

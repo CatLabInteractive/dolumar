@@ -41,6 +41,19 @@ thievery_rec_f_h="Een dief is opgepakt terwijl hij probeerde @@0 uit te voeren i
 premium_runes_bought="Je hebt @@0 gekocht in de premium winkel. Dank je voor je steun."
 
 [mylogs]
+
+;; Stammen (NPC-dorpen)
+npc_scouts="Goblinverkenners van de @@0 zijn rond je dorp gezien. De stam houdt je in de gaten."
+npc_envoy="Een gezant van de @@0 is aangekomen: de stam wil @@1 grondstoffen om je overvallen te vergeten. Stuur ze via de markt naar de stam voor hun krijgsbende vertrekt."
+npc_warparty="De @@0 hebben er genoeg van: een krijgsbende marcheert naar je dorp."
+npc_strike="De @@0 marcheren naar @@1 om je te wreken."
+npc_peace="De @@0 hebben vrede met je gesloten. Een wapenstilstand van drie dagen gaat in."
+npc_request="De @@0 vragen hun buren om @@1 @@2."
+npc_thanks="De @@0 bedanken je voor de goederen. Enkele goblins zijn onderweg om je dorp een dag te bewaken."
+npc_thanks_squad="Goblins van de @@0 zijn gekomen om je dorp te bewaken."
+npc_support="De @@0 hebben goblins gestuurd om je dorp te helpen verdedigen."
+npc_pact="De @@0 noemen je een vriend van de stam. Wie jou overvalt, zal van hen horen."
+npc_pact_broken="De @@0 noemen je geen vriend van de stam meer."
 build="Je hebt een @@0 gebouwd."
 upgrade="Je hebt je @@0 verbeterd."
 destruct="Je hebt je @@0 vernietigd."
@@ -91,6 +104,19 @@ portal_opened="@@player heeft een magische poort geöpend van @@0 naar @@village
 premium_bonusbuild="Je hebt een @@0 gekocht."
 
 [hislogs]
+
+;; Stammen (NPC-dorpen)
+npc_scouts="Goblinverkenners van de @@0 zijn rond het dorp van @@player gezien."
+npc_envoy="Een gezant van de @@0 bezocht @@player en vroeg @@1 grondstoffen."
+npc_warparty="Een krijgsbende van de @@0 marcheert naar het dorp van @@player."
+npc_strike="De @@0 marcheren naar @@1 om @@player te wreken."
+npc_peace="De @@0 hebben vrede gesloten met @@player."
+npc_request="De @@0 vragen hun buren om @@1 @@2."
+npc_thanks="De @@0 bedanken @@player voor de goederen."
+npc_thanks_squad="Goblins van de @@0 zijn gekomen om het dorp van @@player te bewaken."
+npc_support="De @@0 hebben goblins gestuurd om het dorp van @@player te helpen verdedigen."
+npc_pact="De @@0 noemen @@player een vriend van de stam."
+npc_pact_broken="De @@0 noemen @@player geen vriend van de stam meer."
 attack="@@player heeft @@defender_name aangevallen en heeft @@stolen_runes runen gestolen."
 defend="@@player is aangevallen door @@attacker_name en verloor @@stolen_runes runen."
 premium_movevillage="@@player heeft zijn dorp verhuisd van @@0 naar @@1."
