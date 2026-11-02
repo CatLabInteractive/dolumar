@@ -190,6 +190,69 @@ check('sheets-modal', { viewport: { width: 390, height: 844 }, layout: 'mobile' 
 	assert(await sheet.count() === 1 && await sheet.first().isVisible(), 'the sheet is gone after closing the modal');
 });
 
+// Where the economy window's content element is: inside a .sheet-content, inside a .dialog, or missing.
+async function economyPlace(page) {
+	return page.evaluate(() => {
+		const entry = Game.gui.aOpenWindows.filter((w) => w.sWindowId.toLowerCase() === 'economy')[0];
+		if (!entry) {
+			return 'no economy entry';
+		}
+		const found = [];
+		const all = document.querySelectorAll('.guiwindow');
+		for (let i = 0; i < all.length; i++) {
+			if (all[i].dialogId === entry.sDialogId) {
+				found.push(all[i]);
+			}
+		}
+		if (found.length !== 1 || found[0] !== entry.div || entry.div.childNodes.length === 0) {
+			return 'economy content element not found';
+		}
+		if (entry.div.closest('.sheet .sheet-content')) {
+			return 'sheet';
+		}
+		if (entry.div.closest('.dialog')) {
+			return 'dialog';
+		}
+		return 'elsewhere';
+	});
+}
+
+check('relayout', { viewport: { width: 1280, height: 800 }, layout: 'auto' }, async (page) => {
+	const vid = await firstVillageId(page);
+	assert(await page.locator('body.layout-desktop').count() === 1, 'body has no layout-desktop class to start with');
+
+	// Close the Prototype windows the shell opens at start (such as "Welcome back").
+	await page.waitForTimeout(1000);
+	await page.evaluate(() => {
+		const windows = Game.gui.aOpenWindows.filter((w) => w.oWindow);
+		for (let i = 0; i < windows.length; i++) {
+			Game.gui.destroyWindow(windows[i]);
+		}
+	});
+	assert(await page.locator('.dialog').count() === 0, 'could not close the start-up windows');
+
+	await page.evaluate((v) => openWindow('economy', { vid: v }), vid);
+	await page.waitForFunction(() => document.querySelectorAll('.dialog').length === 1, null, { timeout: 15000 });
+	assert(await economyPlace(page) === 'dialog', 'economy is not in a .dialog: ' + await economyPlace(page));
+	const openBefore = await page.evaluate(() => Game.gui.aOpenWindows.map((w) => w.sDialogId).join(','));
+
+	await page.setViewportSize({ width: 390, height: 844 });
+	await page.waitForSelector('body.layout-mobile', { timeout: 5000 });
+	assert(await page.locator('.sheet').count() === 1, 'expected one .sheet, got ' + await page.locator('.sheet').count());
+	assert(await page.locator('.dialog').count() === 0, 'expected no .dialog, got ' + await page.locator('.dialog').count());
+	assert(await economyPlace(page) === 'sheet', 'economy is not in the sheet: ' + await economyPlace(page));
+	let openNow = await page.evaluate(() => Game.gui.aOpenWindows.map((w) => w.sDialogId).join(','));
+	assert(openNow === openBefore, 'open windows changed from [' + openBefore + '] to [' + openNow + ']');
+
+	await page.setViewportSize({ width: 1280, height: 800 });
+	await page.waitForSelector('body.layout-desktop', { timeout: 5000 });
+	assert(await page.locator('.dialog').count() === 1, 'expected one .dialog, got ' + await page.locator('.dialog').count());
+	assert(await page.locator('.sheet').count() === 0, 'expected no .sheet, got ' + await page.locator('.sheet').count());
+	assert(await economyPlace(page) === 'dialog', 'economy is not in a .dialog: ' + await economyPlace(page));
+	openNow = await page.evaluate(() => Game.gui.aOpenWindows.map((w) => w.sDialogId).join(','));
+	assert(openNow === openBefore, 'open windows changed from [' + openBefore + '] to [' + openNow + ']');
+});
+
 async function main() {
 	const args = process.argv.slice(2);
 	const baseUrl = args.find((a) => !a.startsWith('--'));
