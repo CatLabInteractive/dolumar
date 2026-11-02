@@ -28,6 +28,11 @@ refuses to start without `OIDC_MOCK=1` and must never be deployed. `OPENID_CONNE
 `docker compose exec web php cron/daily.php` run, otherwise login fails with `server_not_online`. Without any provider the home page works but you
 cannot log in.
 
+To play locally without a provider, add `PREVIEW_MODE=1` to `.env.docker`, run
+`docker compose exec web php tools/seed.php` on an empty database (12 test players with villages, a clan and NPC
+tribes) and log in at http://localhost:8080/preview-login.php. Per-PR preview instances use the same mechanism (README,
+"Pull request previews").
+
 ## Checks to run before opening a PR
 
 | Check | Command | Notes |
