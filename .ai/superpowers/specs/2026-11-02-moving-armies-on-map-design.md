@@ -80,8 +80,8 @@ the jump.
 
 Rows without a route (existing battles at deploy time) fall back to a straight line between the two town centres.
 
-Schema change: an idempotent step in `tools/setup.php` (`ALTER TABLE ... ADD COLUMN` guarded by
-`information_schema.COLUMNS`) plus the column in `dump/dump.sql`.
+Schema change: the migration `dump/migrations/upgrade-20261102-army-routes.sql` (two `ALTER TABLE ... ADD COLUMN`
+statements, run once by `tools/migrate.php` from the migration flow of PR #8) plus the columns in `dump/dump.sql`.
 
 ### 2. Server model: armies as engine map objects (game repo)
 
@@ -251,8 +251,9 @@ Game (no PHPUnit suite exists; `.ai/development.md` says tests live in the engin
 2. Game PR (same branch name): route columns and setup step, `getRouteBetweenVillages()`, army factory and map object,
    `getMovingObjects()`, sprites, language keys, `.ai/architecture.md` update (map section mentions the army layer and
    `map/objects`), composer.lock bump to the engine commit.
-3. Deploy engine first (no behaviour change until the game calls it), then the game. `tools/setup.php` adds the
-   columns on post-deploy. Existing battles show straight lines until they finish.
+3. Deploy engine first (no behaviour change until the game calls it), then the game, after the migration flow
+   (game PR #8) is in; its predeploy `tools/migrate.php` adds the columns. Existing battles show straight lines until
+   they finish.
 
 ## Open questions
 
