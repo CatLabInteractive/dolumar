@@ -142,6 +142,10 @@ todo="Choses à faire :"
 toPremium="pour prolonger votre compte Premium."
 vacationMode="Mode vacances"
 welcome="Bienvenue, @@0."
+layout="Interface layout"
+layoutAuto="Automatic"
+layoutDesktop="Desktop"
+layoutMobile="Mobile"
 
 [nickname]
 chooseName="Avant de pouvoir jouer vous devez tout d'abord un pseudo. Il doit être unique."

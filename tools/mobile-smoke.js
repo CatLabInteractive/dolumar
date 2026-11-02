@@ -25,7 +25,8 @@ function check(name, options, fn) {
 /**
  * Log in through the dev OIDC mock: loading "/" redirects to the provider and straight back. A brand-new
  * player lands on the "choose nickname" form, which is completed here so later checks can open game windows.
- * Race and location selection is not done.
+ * A player who has not started playing yet is then taken through the MyAccount race selection step (first race,
+ * random position) so the account becomes a playing one.
  */
 async function login(page, baseUrl, user = 1) {
 	const start = new URL('/', baseUrl);
@@ -46,6 +47,16 @@ async function login(page, baseUrl, user = 1) {
 		await nickname.first().locator('xpath=ancestor::form').locator('button[type=submit]').click();
 		await page.waitForTimeout(1500);
 	}
+
+	// Complete race selection (MyAccount window) for a player who is not playing yet.
+	const race = page.locator('form#selectrace');
+	if (await race.first().waitFor({ state: 'visible', timeout: 5000 }).then(() => true).catch(() => false)) {
+		await race.first().locator('button[type=submit], input[type=submit]').first().click();
+		await page.waitForTimeout(3000);
+		// Reload so every window reflects the now-playing account.
+		await page.reload({ waitUntil: 'load' });
+		await page.waitForFunction(() => typeof CONFIG_GAME_NAME !== 'undefined', null, { timeout: 15000 });
+	}
 }
 
 function assert(condition, message) {
@@ -63,6 +74,36 @@ check('desktop-shell', { viewport: { width: 1280, height: 800 } }, async (page) 
 check('mobile-shell', { viewport: { width: 390, height: 844 }, layout: 'mobile' }, async (page) => {
 	assert(await page.locator('body.layout-mobile').count() === 1, 'body has no layout-mobile class');
 	assert(await page.locator('.dialog').count() === 0, 'unexpected .dialog element on the mobile layout');
+});
+
+check('layout-toggle', { viewport: { width: 1280, height: 800 } }, async (page) => {
+	const baseUrl = page.url().split('?')[0];
+	const select = () => page.locator('select[name=layout]').first();
+	const openAccount = async () => {
+		await page.evaluate(() => openWindow('MyAccount'));
+		await select().waitFor({ state: 'visible', timeout: 15000 });
+	};
+
+	assert(await page.locator('body.layout-desktop').count() === 1, 'body has no layout-desktop class to start with');
+
+	await openAccount();
+	await select().selectOption('mobile');
+	await page.waitForSelector('body.layout-mobile', { timeout: 2000 });
+
+	// The preference is saved on the server: a plain reload (no ?layout=) stays mobile.
+	await page.waitForTimeout(1000);
+	await page.goto(baseUrl, { waitUntil: 'load' });
+	await page.waitForSelector('body.layout-mobile', { timeout: 15000 });
+
+	// Back to desktop (always leave the mock player on desktop).
+	await page.setViewportSize({ width: 1280, height: 800 });
+	await page.evaluate(() => openWindow('MyAccount'));
+	await select().waitFor({ state: 'visible', timeout: 15000 });
+	await select().selectOption('desktop');
+	await page.waitForSelector('body.layout-desktop', { timeout: 2000 });
+	await page.waitForTimeout(1000);
+	await page.goto(baseUrl, { waitUntil: 'load' });
+	await page.waitForSelector('body.layout-desktop', { timeout: 15000 });
 });
 
 async function main() {
