@@ -442,6 +442,58 @@ check('place-confirm', { viewport: { width: 390, height: 844 }, layout: 'mobile'
 	assert(calls === 0, 'place re-enabled the map controls ' + calls + ' time(s) (duplicate listeners)');
 });
 
+// A clean tap on the map must reach the clickable objects (image-map areas) as a click even
+// though the map's touchstart handler cancels the default action; a drag must not.
+check('map-tap', { viewport: { width: 390, height: 844 }, layout: 'mobile' }, async (page) => {
+	await closeStartupSheets(page);
+	const x = 200, y = 450;
+	await page.evaluate(([x, y]) => {
+		window.__mapClicks = [];
+		const region = Array.from(Game.map.oScrollMap.div.querySelectorAll('div[id^="map"]')).filter((d) => {
+			const b = d.getBoundingClientRect();
+			return b.left <= x && b.right >= x && b.top <= y && b.bottom >= y;
+		})[0];
+		const map = document.createElement('map');
+		map.id = map.name = 'smoke_probe_map';
+		const area = document.createElement('area');
+		area.shape = 'rect';
+		area.coords = '0,0,' + parseInt(region.style.width) + ',' + parseInt(region.style.height);
+		area.href = 'javascript:void(0);';
+		area.observe('click', () => window.__mapClicks.push('area'));
+		map.appendChild(area);
+		region.appendChild(map);
+		const img = document.createElement('img');
+		img.src = CONFIG_GAMESERVER_URL + 'images/spacer.gif';
+		img.style.cssText = 'position:absolute;left:0;top:0;width:' + region.style.width + ';height:' + region.style.height + ';z-index:10';
+		img.useMap = '#smoke_probe_map';
+		region.appendChild(img);
+	}, [x, y]);
+
+	await page.touchscreen.tap(x, y);
+	await page.waitForTimeout(300);
+	let clicks = await page.evaluate(() => window.__mapClicks);
+	assert(clicks.length === 1, 'a tap on the map produced ' + clicks.length + ' click(s) on the area, expected 1');
+
+	await page.evaluate(() => { window.__mapClicks = []; });
+	await page.evaluate(async ([x, y]) => {
+		const map = document.getElementById('map');
+		const touch = (tx, ty) => new Touch({ identifier: 1, target: map, clientX: tx, clientY: ty });
+		const fire = (type, touches, changed) => map.dispatchEvent(new TouchEvent(type, {
+			bubbles: true, cancelable: true, touches, targetTouches: touches, changedTouches: changed,
+		}));
+		const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+		fire('touchstart', [touch(x, y)], [touch(x, y)]);
+		await wait(80);
+		fire('touchmove', [touch(x + 60, y)], [touch(x + 60, y)]);
+		await wait(150);
+		fire('touchend', [], [touch(x + 60, y)]);
+		await wait(100);
+	}, [x, y]);
+	clicks = await page.evaluate(() => window.__mapClicks);
+	assert(clicks.length === 0, 'a drag on the map produced ' + clicks.length + ' click(s), expected none');
+});
+
+
 // Mobile header and tab bar: Statusbar fixed at the top, Menu as a bottom tab bar with a generated "More" tab.
 check('tabbar', { viewport: { width: 390, height: 844 }, layout: 'mobile' }, async (page) => {
 	// The General chat the server opens at start is closed on mobile (Welcome stays).
