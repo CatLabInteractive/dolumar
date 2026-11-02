@@ -1,0 +1,149 @@
+#!/usr/bin/env bash
+#
+# Server side of the pull request previews. Installed on the Dokku server as /usr/local/bin/dolumar-preview and run
+# through a forced SSH command, so the GitHub Actions key can only do what this script allows:
+#
+#   deploy <pr-number> <commit-sha>   create or update the preview app dolumar-pr-<n> for that commit
+#   destroy <pr-number>               remove the app, its memcached service and its database
+#   list                              print the PR numbers that have a preview app
+#
+# It only ever touches apps named dolumar-pr-<n>, their dolumar-pr-<n>-cache memcached services and the pr_<n>
+# database and user in the shared preview MySQL service. Production apps and services are never named.
+# Setup steps: README.md, section "Pull request previews".
+
+set -euo pipefail
+set -f
+
+CONFIG=/etc/default/dolumar-preview
+if [ -f "$CONFIG" ]; then
+	# shellcheck disable=SC1090
+	. "$CONFIG"
+fi
+
+PREVIEW_DOMAIN="${PREVIEW_DOMAIN:?set PREVIEW_DOMAIN in $CONFIG, e.g. preview.dolumar.com}"
+PREVIEW_REPO="${PREVIEW_REPO:-CatLabInteractive/dolumar}"
+PREVIEW_MYSQL_SERVICE="${PREVIEW_MYSQL_SERVICE:-dolumar-previews}"
+PREVIEW_MEMORY="${PREVIEW_MEMORY:-512m}"
+PREVIEW_HTTPS="${PREVIEW_HTTPS:-1}"
+PREVIEW_LETSENCRYPT_EMAIL="${PREVIEW_LETSENCRYPT_EMAIL:-}"
+
+# The command arrives from the forced SSH command (sudoers keeps SSH_ORIGINAL_COMMAND), or as arguments when an
+# admin runs the script by hand.
+if [ -n "${SSH_ORIGINAL_COMMAND:-}" ]; then
+	read -r -a ARGS <<< "$SSH_ORIGINAL_COMMAND"
+else
+	ARGS=("$@")
+fi
+
+ACTION="${ARGS[0]:-}"
+PR="${ARGS[1]:-}"
+SHA="${ARGS[2]:-}"
+
+fail() {
+	echo "dolumar-preview: $*" >&2
+	exit 1
+}
+
+mysql_root() {
+	local rootpw
+	rootpw="$(cat "/var/lib/dokku/services/mysql/$PREVIEW_MYSQL_SERVICE/ROOTPASSWORD")"
+	docker exec -i -e MYSQL_PWD="$rootpw" "dokku.mysql.$PREVIEW_MYSQL_SERVICE" mysql -uroot
+}
+
+check_pr() {
+	[[ "$PR" =~ ^[0-9]{1,6}$ ]] || fail "invalid pull request number"
+	APP="dolumar-pr-$PR"
+	CACHE="$APP-cache"
+	DB="pr_$PR"
+	HOST="pr-$PR.$PREVIEW_DOMAIN"
+}
+
+deploy() {
+	check_pr
+	[[ "$SHA" =~ ^[0-9a-f]{40}$ ]] || fail "invalid commit sha"
+
+	local proto=http
+	if [ "$PREVIEW_HTTPS" = "1" ]; then
+		proto=https
+	fi
+
+	local new=0
+	if ! dokku apps:exists "$APP" > /dev/null 2>&1; then
+		new=1
+		echo "Creating $APP"
+		dokku apps:create "$APP"
+
+		dokku memcached:create "$CACHE"
+		dokku memcached:link "$CACHE" "$APP" --no-restart
+
+		# Linking puts the app on the service's network; the alias keeps the link from setting DATABASE_URL to the
+		# service's own database. Each preview gets its own database and user instead.
+		dokku mysql:link "$PREVIEW_MYSQL_SERVICE" "$APP" --alias PREVIEW_MYSQL --no-restart
+
+		local password
+		password="$(openssl rand -hex 16)"
+		mysql_root <<-SQL
+			CREATE DATABASE IF NOT EXISTS \`$DB\` CHARACTER SET utf8mb4;
+			CREATE USER IF NOT EXISTS '$DB'@'%' IDENTIFIED BY '$password';
+			ALTER USER '$DB'@'%' IDENTIFIED BY '$password';
+			GRANT ALL PRIVILEGES ON \`$DB\`.* TO '$DB'@'%';
+		SQL
+
+		dokku config:set --no-restart "$APP" \
+			"DATABASE_URL=mysql://$DB:$password@dokku-mysql-$PREVIEW_MYSQL_SERVICE:3306/$DB" \
+			PREVIEW_MODE=1 \
+			APP_DEBUG=1 \
+			"PROTOCOL=$proto" \
+			"ABSOLUTE_URL=$proto://$HOST/"
+
+		dokku domains:set "$APP" "$HOST"
+		dokku resource:limit --memory "$PREVIEW_MEMORY" "$APP"
+	fi
+
+	echo "Deploying $PREVIEW_REPO@$SHA to $APP"
+	SRC="$(mktemp -d)"
+	trap 'rm -rf "$SRC"' EXIT
+	curl -fsSL "https://codeload.github.com/$PREVIEW_REPO/tar.gz/$SHA" | tar -xz --strip-components=1 -C "$SRC"
+	tar -C "$SRC" -cf - . | dokku git:from-archive "$APP" -- "Dolumar preview" "preview@dolumar.invalid"
+
+	if [ "$new" = "1" ] && [ "$PREVIEW_HTTPS" = "1" ]; then
+		[ -n "$PREVIEW_LETSENCRYPT_EMAIL" ] || fail "set PREVIEW_LETSENCRYPT_EMAIL in $CONFIG or PREVIEW_HTTPS=0"
+		dokku letsencrypt:set "$APP" email "$PREVIEW_LETSENCRYPT_EMAIL"
+		dokku letsencrypt:enable "$APP"
+	fi
+
+	echo "PREVIEW_URL=$proto://$HOST/preview-login.php"
+}
+
+destroy() {
+	check_pr
+	echo "Destroying $APP"
+
+	if dokku apps:exists "$APP" > /dev/null 2>&1; then
+		dokku memcached:unlink "$CACHE" "$APP" --no-restart || true
+		dokku mysql:unlink "$PREVIEW_MYSQL_SERVICE" "$APP" --no-restart || true
+		dokku apps:destroy "$APP" --force
+	fi
+
+	if dokku memcached:exists "$CACHE" > /dev/null 2>&1; then
+		dokku memcached:destroy "$CACHE" --force
+	fi
+
+	mysql_root <<-SQL
+		DROP DATABASE IF EXISTS \`$DB\`;
+		DROP USER IF EXISTS '$DB'@'%';
+	SQL
+
+	echo "Destroyed $APP"
+}
+
+list() {
+	dokku apps:list 2> /dev/null | sed -n 's/^dolumar-pr-\([0-9]\{1,6\}\)$/\1/p'
+}
+
+case "$ACTION" in
+	deploy) deploy ;;
+	destroy) destroy ;;
+	list) list ;;
+	*) fail "usage: deploy <pr> <sha> | destroy <pr> | list" ;;
+esac
