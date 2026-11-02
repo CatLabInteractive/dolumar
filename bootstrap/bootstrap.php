@@ -306,3 +306,17 @@ try {
 } catch (Exception $e) {
     // no. we don't care.
 }
+
+// The statement above fails on MySQL 8 (NO_AUTO_CREATE_USER no longer exists) and needs SUPER anyway, so every
+// connection runs with the server default. On MySQL 8 that includes ONLY_FULL_GROUP_BY, which the game's older
+// GROUP BY queries were never written for (the status bar's moving squads query, for one). When such a query throws
+// while the initial windows load, every window after it is dropped too, including the map updater, so the map stops
+// showing new buildings. Drop ONLY_FULL_GROUP_BY for this connection only and keep the rest of the server's modes.
+try {
+    $db->customQuery(
+        "SET SESSION sql_mode = (SELECT TRIM(BOTH ',' FROM "
+        . "REPLACE(CONCAT(',', @@SESSION.sql_mode, ','), ',ONLY_FULL_GROUP_BY,', ',')))"
+    );
+} catch (Exception $e) {
+    // Keep the server default; the game still runs, only the old GROUP BY queries fail.
+}
