@@ -369,6 +369,37 @@ check('place-confirm', { viewport: { width: 390, height: 844 }, layout: 'mobile'
 	assert(!(await page.evaluate(() => Game.map.oScrollMap.selecting)), 'a selection is still in progress');
 });
 
+// Mobile header and tab bar: Statusbar fixed at the top, Menu as a bottom tab bar with a generated "More" tab.
+check('tabbar', { viewport: { width: 390, height: 844 }, layout: 'mobile' }, async (page) => {
+	await closeStartupSheets(page);
+	const menu = await page.locator('.topmenu').first().boundingBox();
+	assert(menu, 'no .topmenu element on the page');
+	assert(Math.round(menu.y + menu.height) === 844, '.topmenu bottom is ' + (menu.y + menu.height) + ', expected 844');
+	assert(Math.round(menu.height) === 56, '.topmenu height is ' + menu.height + ', expected 56');
+	const tabs = page.locator('.topmenu #menu-main > li:visible');
+	assert(await tabs.count() === 6, 'expected six visible tabs, got ' + await tabs.count());
+	const status = await page.locator('.status').first().boundingBox();
+	assert(status && Math.round(status.y) === 0, '.status top is ' + (status && status.y) + ', expected 0');
+	const sheets = await page.evaluate(() => {
+		const style = getComputedStyle(Game.sheets.container());
+		return { top: style.top, bottom: style.bottom };
+	});
+	assert(sheets.top === '44px', '#sheets top is ' + sheets.top + ', expected 44px');
+	assert(sheets.bottom === '56px', '#sheets bottom is ' + sheets.bottom + ', expected 56px');
+
+	await page.locator('.topmenu li.tab-more').click();
+	const more = page.locator('.sheet:visible');
+	await more.first().waitFor({ state: 'visible', timeout: 5000 });
+	const title = (await more.first().locator('.sheet-title').textContent() || '').trim();
+	assert(title === 'More', 'the visible sheet is titled "' + title + '", expected "More"');
+	assert(await more.first().locator('.navigation.ranking').count() > 0, 'the More sheet has no ranking item');
+	await more.first().locator('.sheet-close').click();
+	await page.waitForFunction(() => document.querySelectorAll('.sheet').length === 0, null, { timeout: 5000 });
+
+	await page.locator('.topmenu li[data-tab="build"] > a').click();
+	await page.waitForFunction(() => document.querySelectorAll('.sheet').length === 1, null, { timeout: 15000 });
+});
+
 async function main() {
 	const args = process.argv.slice(2);
 	const baseUrl = args.find((a) => !a.startsWith('--'));

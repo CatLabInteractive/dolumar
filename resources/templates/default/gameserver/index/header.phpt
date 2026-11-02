@@ -10,3 +10,6 @@
 
 <!-- dolumar theme -->
 <link href="<?=STATIC_ABSOLUTE_URL?>dolumar/theme/dolumar.css?version=<?=$application_version?>" rel="stylesheet" type="text/css" />
+
+<!-- mobile layout (rules apply under body.layout-mobile only) -->
+<link href="<?=STATIC_ABSOLUTE_URL?>dolumar/css/mobile.css?version=<?=$application_version?>" rel="stylesheet" type="text/css" />

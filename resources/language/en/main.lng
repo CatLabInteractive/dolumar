@@ -60,6 +60,12 @@ imprint = "Imprint & Credits"
 simulator = "Battle simulator"
 bonusbuild = "Bonus building"
 gifts = "Gifts for your friends"
+more = "More"
+zoomIn = "Zoom in"
+zoomOut = "Zoom out"
+mobileMap = "Map"
+mobileChat = "Chat"
+mobileNews = "News"
 
 [directions]
 r = "Random"

@@ -53,6 +53,12 @@ clanforum="Clanforum"
 welcome="Willkommen zurück"
 clanlogs="Logbucheinträge des Clans"
 effectreports="Berichte der Spezialeinheiten"
+more="Mehr"
+zoomIn="Vergrößern"
+zoomOut="Verkleinern"
+mobileMap="Karte"
+mobileChat="Chat"
+mobileNews="News"
 
 [directions]
 r="willkürlich"

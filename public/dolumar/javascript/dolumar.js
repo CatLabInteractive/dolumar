@@ -5,7 +5,7 @@ Game.dolumar =
 	*/
 	'init' : function ()
 	{
-		
+		Game.dolumar.mobile.init ();
 	},
 	
 	'initBattleSimulator' : function (oWindow)
@@ -429,5 +429,420 @@ Game.dolumar =
 		}
 	}
 }
+
+/*
+	Mobile layout: header action buttons and the bottom tab bar.
+
+	The Statusbar and Menu panels are restyled by css/mobile.css (all under
+	body.layout-mobile). This adds what CSS cannot: a sixth "More" tab with a
+	sheet listing the remaining menu items, a long press on a tab that opens
+	the More sheet at that item (with its village list), and the header
+	buttons. Everything is rebuilt when panel content changes and removed when
+	the layout switches back to desktop.
+*/
+Game.dolumar.mobile =
+{
+	'LONG_PRESS_MS' : 500,
+	'MORE_DIALOG_ID' : 'mobile-more',
+
+	'initialized' : false,
+	'moreSheet' : null,
+	'pressTimer' : null,
+	'suppressClick' : false,
+
+	'init' : function ()
+	{
+		var mobile = Game.dolumar.mobile;
+
+		if (mobile.initialized || typeof (Game.layout) == 'undefined' || typeof (Game.sheets) == 'undefined')
+		{
+			return;
+		}
+		mobile.initialized = true;
+
+		// Panels arrive (and are refreshed) after load: rebuild on every content change.
+		Game.gui.observe ('contentChange', function () { mobile.refresh (); });
+		Game.layout.onChange (function () { mobile.refresh (); });
+
+		mobile.refresh ();
+	},
+
+	'isMobile' : function ()
+	{
+		return Game.layout.mode () === 'mobile';
+	},
+
+	/*
+		Build (mobile) or remove (desktop) the additions. Safe to call any number of times.
+	*/
+	'refresh' : function ()
+	{
+		var mobile = Game.dolumar.mobile;
+
+		if (mobile.isMobile ())
+		{
+			mobile.buildHeader ();
+			mobile.buildTabBar ();
+		}
+		else
+		{
+			mobile.teardown ();
+		}
+	},
+
+	'teardown' : function ()
+	{
+		var mobile = Game.dolumar.mobile;
+
+		mobile.closeMore ();
+
+		$$('.mobile-header-actions').invoke ('remove');
+		$$('#menu li.tab-more').invoke ('remove');
+		$$('.panel.mobile-visible').invoke ('removeClassName', 'mobile-visible');
+	},
+
+	/*
+		Label from the Menu panel's data-label-* attributes (translated), or the fallback.
+	*/
+	'label' : function (name, fallback)
+	{
+		var menu = $('menu');
+		var value = menu ? menu.getAttribute ('data-label-' + name) : null;
+
+		return value ? value : fallback;
+	},
+
+	'buildHeader' : function ()
+	{
+		var mobile = Game.dolumar.mobile;
+		var body = $('bodyDiv');
+
+		if (!body || body.down ('.mobile-header-actions'))
+		{
+			return;
+		}
+
+		var actions = new Element ('div', { 'class' : 'mobile-header-actions' });
+
+		var buttons = [
+			[ 'zoom-out', '&#8722;', mobile.label ('zoomout', 'Zoom out'), function () { Game.map.zoomOut (); } ],
+			[ 'zoom-in', '+', mobile.label ('zoomin', 'Zoom in'), function () { Game.map.zoomIn (); } ],
+			[ 'minimap', null, mobile.label ('minimap', 'Map'), function () { mobile.togglePanel ('minimap', 'MiniMap'); } ],
+			[ 'chat', null, mobile.label ('chat', 'Chat'), function () { openWindow ('Chat'); } ],
+			[ 'news', null, mobile.label ('news', 'News'), function () { mobile.togglePanel ('newsbar', 'Newsbar'); } ]
+		];
+
+		for (var i = 0; i < buttons.length; i ++)
+		{
+			var button = new Element ('button', {
+				'type' : 'button',
+				'class' : buttons[i][0],
+				'title' : buttons[i][2],
+				'aria-label' : buttons[i][2]
+			});
+
+			if (buttons[i][1] !== null)
+			{
+				button.update (buttons[i][1]);
+			}
+			else
+			{
+				button.appendChild (document.createTextNode (buttons[i][2]));
+			}
+
+			button.observe ('click', buttons[i][3]);
+			actions.appendChild (button);
+		}
+
+		body.appendChild (actions);
+	},
+
+	/*
+		MiniMap and Newsbar are panels (not sheets): show or hide them over the map.
+		Opens the window if it is not on the page at all.
+	*/
+	'togglePanel' : function (className, windowId)
+	{
+		var panel = $$('.panel.' + className)[0];
+
+		if (!panel)
+		{
+			openWindow (windowId);
+			return;
+		}
+
+		panel.toggleClassName ('mobile-visible');
+
+		var button = $$('.mobile-header-actions button.' + (className == 'newsbar' ? 'news' : 'minimap'))[0];
+		if (button)
+		{
+			if (panel.hasClassName ('mobile-visible'))
+			{
+				button.addClassName ('active');
+			}
+			else
+			{
+				button.removeClassName ('active');
+			}
+		}
+	},
+
+	'buildTabBar' : function ()
+	{
+		var mobile = Game.dolumar.mobile;
+		var menu = $('menu');
+		var list = $('menu-main');
+
+		if (!menu || !list)
+		{
+			return;
+		}
+
+		if (!list.down ('li.tab-more'))
+		{
+			var more = new Element ('li', { 'class' : 'tab-more' });
+			var link = new Element ('a', { 'href' : 'javascript:void(0);', 'title' : mobile.label ('more', 'More') });
+			link.appendChild (new Element ('span', { 'class' : 'more-icon' }).update ('&#8943;'));
+			link.observe ('click', function (event)
+			{
+				Event.stop (event);
+				mobile.toggleMore ();
+			});
+			more.appendChild (link);
+			list.appendChild (more);
+		}
+
+		// The Menu panel's content (and so #menu) is replaced on updates: bind once per element.
+		if (!menu.mobileBound)
+		{
+			menu.mobileBound = true;
+			mobile.bindTabs (menu);
+		}
+	},
+
+	'bindTabs' : function (menu)
+	{
+		var mobile = Game.dolumar.mobile;
+
+		var tabFromEvent = function (event)
+		{
+			var li = Event.findElement (event, 'li');
+
+			while (li && li.parentNode && li.parentNode.id != 'menu-main')
+			{
+				li = $(li.parentNode).up ('li');
+			}
+
+			return (li && !li.hasClassName ('tab-more')) ? li : null;
+		};
+
+		var cancel = function ()
+		{
+			if (mobile.pressTimer)
+			{
+				clearTimeout (mobile.pressTimer);
+				mobile.pressTimer = null;
+			}
+		};
+
+		menu.addEventListener ('touchstart', function (event)
+		{
+			cancel ();
+			mobile.suppressClick = false;
+
+			var tab = mobile.isMobile () ? tabFromEvent (event) : null;
+			if (!tab)
+			{
+				return;
+			}
+
+			mobile.pressTimer = setTimeout (function ()
+			{
+				mobile.pressTimer = null;
+				mobile.suppressClick = true;
+				mobile.openMore (tab);
+			}, mobile.LONG_PRESS_MS);
+		}, { 'passive' : true });
+
+		menu.addEventListener ('touchmove', cancel, { 'passive' : true });
+		menu.addEventListener ('touchcancel', cancel, false);
+		menu.addEventListener ('touchend', function (event)
+		{
+			cancel ();
+			if (mobile.suppressClick)
+			{
+				// A long press opened More: no click on the tab underneath.
+				event.preventDefault ();
+			}
+		}, false);
+
+		// Capture phase: runs before the tab's own onclick.
+		menu.addEventListener ('click', function (event)
+		{
+			if (!mobile.isMobile ())
+			{
+				return;
+			}
+
+			if (mobile.suppressClick)
+			{
+				mobile.suppressClick = false;
+				event.preventDefault ();
+				event.stopPropagation ();
+				return;
+			}
+
+			// A tab replaces the More sheet.
+			if (tabFromEvent (event))
+			{
+				mobile.closeMore ();
+			}
+		}, true);
+	},
+
+	'toggleMore' : function ()
+	{
+		var mobile = Game.dolumar.mobile;
+		var stack = Game.sheets.stack;
+
+		if (mobile.moreSheet && stack.length > 0 && stack[stack.length - 1] === mobile.moreSheet)
+		{
+			mobile.closeMore ();
+		}
+		else
+		{
+			mobile.openMore (null);
+		}
+	},
+
+	'closeMore' : function ()
+	{
+		var mobile = Game.dolumar.mobile;
+
+		if (mobile.moreSheet)
+		{
+			var sheet = mobile.moreSheet;
+			mobile.moreSheet = null;
+			Game.sheets.close (sheet);
+		}
+	},
+
+	/*
+		Open the More sheet (rebuilt every time, so it matches the current menu).
+		With a tab: that tab's item is listed first and scrolled to.
+	*/
+	'openMore' : function (tab)
+	{
+		var mobile = Game.dolumar.mobile;
+		var main = $('menu-main');
+
+		if (!main)
+		{
+			return;
+		}
+
+		mobile.closeMore ();
+
+		var list = new Element ('ul', { 'class' : 'mobile-more-list' });
+		var target = null;
+
+		if (tab)
+		{
+			target = mobile.moreItem (tab);
+			list.appendChild (target);
+		}
+
+		var items = main.childElements ();
+		for (var i = 5; i < items.length; i ++)
+		{
+			if (!items[i].hasClassName ('tab-more') && items[i] !== tab)
+			{
+				list.appendChild (mobile.moreItem (items[i]));
+			}
+		}
+
+		var extra = $('menu-extra');
+		if (extra)
+		{
+			var others = extra.childElements ();
+			for (var j = 0; j < others.length; j ++)
+			{
+				list.appendChild (mobile.moreItem (others[j]));
+			}
+		}
+
+		var sheet = Game.sheets.open ({
+			'dialogId' : mobile.MORE_DIALOG_ID,
+			'title' : mobile.label ('more', 'More'),
+			'closable' : true,
+			'modal' : false,
+			'className' : 'mobile-more',
+			'onClose' : function (closed)
+			{
+				if (mobile.moreSheet === closed)
+				{
+					mobile.moreSheet = null;
+				}
+			}
+		});
+
+		sheet.content.appendChild (list);
+		mobile.moreSheet = sheet;
+
+		// Any link in the list: let its own onclick or href run, then close More.
+		list.observe ('click', function (event)
+		{
+			if (Event.findElement (event, 'a'))
+			{
+				setTimeout (function ()
+				{
+					if (mobile.moreSheet === sheet)
+					{
+						mobile.closeMore ();
+					}
+				}, 0);
+			}
+		});
+
+		if (target)
+		{
+			sheet.content.scrollTop = target.offsetTop - list.offsetTop;
+		}
+	},
+
+	/*
+		A More list entry: a copy of a menu item, its village (or clan, help) sub-list
+		as a nested list. The copies keep their onclick and href attributes.
+	*/
+	'moreItem' : function (source)
+	{
+		var item = $(source.cloneNode (true));
+
+		item.removeAttribute ('onmouseover');
+		item.removeAttribute ('onmouseout');
+		item.removeClassName ('over');
+
+		var sub = item.down ('div');
+		if (sub)
+		{
+			var nested = sub.down ('ul');
+			if (nested)
+			{
+				item.appendChild (nested);
+			}
+			sub.remove ();
+		}
+
+		// Ids (such as a#build) must stay unique on the page.
+		item.select ('[id]').each (function (el) { el.removeAttribute ('id'); });
+		item.select ('[onmouseover], [onmouseout]').each (function (el)
+		{
+			el.removeAttribute ('onmouseover');
+			el.removeAttribute ('onmouseout');
+		});
+
+		return item;
+	}
+};
 
 Event.observe (window, 'load', Game.dolumar.init, false);

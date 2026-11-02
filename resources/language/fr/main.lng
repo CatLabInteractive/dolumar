@@ -116,6 +116,12 @@ tutorial="Tutoriel"
 units="Unités"
 welcome="Bienvenue !"
 clanchat="Chat du clan"
+more="Plus"
+zoomIn="Zoom avant"
+zoomOut="Zoom arrière"
+mobileMap="Carte"
+mobileChat="Chat"
+mobileNews="Infos"
 
 [onlinestatus]
 offline="Déconnecté"

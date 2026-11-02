@@ -53,6 +53,12 @@ clanforum="Clan forum"
 welcome="Welkom terug"
 clanlogs="Clan logs"
 effectreports="Speciale troepen rapport"
+more="Meer"
+zoomIn="Inzoomen"
+zoomOut="Uitzoomen"
+mobileMap="Kaart"
+mobileChat="Chat"
+mobileNews="Nieuws"
 
 [directions]
 r="Willekeurig"

@@ -1,12 +1,18 @@
-<div id="menu">
-	<ul class="left">
-		<li onmouseover="this.className+=' over';" onmouseout="this.className='';">
+<div id="menu"
+	data-label-more="<?=htmlspecialchars ($this->getText ('more'))?>"
+	data-label-zoomin="<?=htmlspecialchars ($this->getText ('zoomIn'))?>"
+	data-label-zoomout="<?=htmlspecialchars ($this->getText ('zoomOut'))?>"
+	data-label-minimap="<?=htmlspecialchars ($this->getText ('mobileMap'))?>"
+	data-label-chat="<?=htmlspecialchars ($this->getText ('mobileChat'))?>"
+	data-label-news="<?=htmlspecialchars ($this->getText ('mobileNews'))?>">
+	<ul class="left" id="menu-main">
+		<li data-tab="myAccount" onmouseover="this.className+=' over';" onmouseout="this.className='';">
 			<a onclick="openWindow('myAccount');" href="javascript:void(0);" title="<?=$myAccount;?>" >
 				<span class="navigation account"><span><?=$myAccount;?></span></span>
 			</a>
 		</li>
 		
-		<li onmouseover="this.className+=' over';" onmouseout="this.className='';">
+		<li data-tab="logbook" onmouseover="this.className+=' over';" onmouseout="this.className='';">
 			<a href="javascript:void(0);" onClick="openWindow('logbook', {'village':<?=$vid?>});" title="<?=$this->getText ('logbook');?>" >
 				<span class="navigation logbook"><span><?=$this->getText ('logbook');?></span></span>
 			</a>
@@ -22,7 +28,7 @@
 			<?php } ?>
 		</li>
 		
-		<li onmouseover="this.className+=' over';" onmouseout="this.className='';">
+		<li data-tab="build" onmouseover="this.className+=' over';" onmouseout="this.className='';">
 			<a href="javascript:void(0);" onclick="openWindow('build', {'vid':'<?=$vid?>'});" title="<?=$build;?>" id="build">
 				<span class="navigation build"><span><?=$build;?></span></span>
 			</a>
@@ -39,7 +45,7 @@
 			
 		</li>
 		
-		<li onmouseover="this.className+=' over';" onmouseout="this.className='';">
+		<li data-tab="economy" onmouseover="this.className+=' over';" onmouseout="this.className='';">
 			<a href="javascript:void(0);" onclick="openWindow('economy', {'vid':'<?=$vid?>'});" title="<?=$economy;?>" id="economics">
 				<span class="navigation economy"><span><?=$economy;?></span></span>
 			</a>
@@ -54,7 +60,7 @@
 			</div>
 			<?php } ?>
 		</li>
-		<li onmouseover="this.className+=' over';" onmouseout="this.className='';">
+		<li data-tab="squads" onmouseover="this.className+=' over';" onmouseout="this.className='';">
 			<a href="javascript:void(0);" onClick="openWindow('squads', {'vid':'<?=$vid?>'});" title="<?=$units;?>" >
 				<span class="navigation units"><span><?=$units;?></span></span>
 			</a>
@@ -71,7 +77,7 @@
 		</li>
 
 		<?php if (isset ($equipment)) { ?>
-			<li onmouseover="this.className+=' over';" onmouseout="this.className='';">
+			<li data-tab="equipment" onmouseover="this.className+=' over';" onmouseout="this.className='';">
 				<a href="javascript:void(0);" onClick="openWindow('equipment', {'vid':'<?=$vid?>'});" title="<?=$equipment;?>" >
 					<span class="navigation equipment"><span><?=$equipment;?></span></span>
 				</a>
@@ -88,7 +94,7 @@
 			</li>
 		<?php } ?>
 		
-		<li onmouseover="this.className+=' over';" onmouseout="this.className='';">
+		<li data-tab="battle" onmouseover="this.className+=' over';" onmouseout="this.className='';">
 			<a href="javascript:void(0);" onClick="openWindow('battle', {'vid':'<?=$vid?>'});" title="<?=$battle;?>" >
 				<span class="navigation battle"><span><?=$battle;?></span></span>
 			</a>
@@ -106,9 +112,9 @@
 		
 	</ul>
 
-	<ul class="right rightMenu">
+	<ul class="right rightMenu" id="menu-extra">
 
-		<li>
+		<li data-tab="language">
 			<a href="javascript:void(0);" onClick="openWindow('language');" title="<?=$language;?>"><img src="<?=IMAGE_URL?>flags/<?=$flag?>.gif" style="margin-top: 7px;" /></a>
 		</li>
 
@@ -121,7 +127,7 @@
 		-->
 
 		<?php if (isset ($premium) && $premium >= 0) { ?>
-			<li class="credits">
+			<li data-tab="premiumshop" class="credits">
 				<a href="javascript:void(0);" onClick="openWindow('premiumshop');">
 					<span>
 						<?=$premium?> Credits
@@ -130,7 +136,7 @@
 			</li>
 		<?php } ?>
 		
-		<li>
+		<li data-tab="premiumshop">
 			<a href="javascript:void(0);" onClick="openWindow('premiumshop');" title="<?=$this->getText ('premiumshop');?>">
 				<span class="navigation premiumshop"><span><?=$this->getText ('premiumshop');?></span></span>
 			</a>
@@ -155,13 +161,13 @@
 		</li>
 		-->
 		
-		<li>
+		<li data-tab="search">
 			<a href="javascript:void(0);" onClick="openWindow('search');" title="<?=$this->getText ('search');?>">
 				<span class="navigation search"><span><?=$this->getText ('search');?></span></span>
 			</a>
 		</li>
 		
-		<li onmouseover="this.className+=' over';" onmouseout="this.className='';">
+		<li data-tab="clan" onmouseover="this.className+=' over';" onmouseout="this.className='';">
 			<a href="javascript:void(0);" onClick="openWindow('clan');" title="<?=$this->getText ('clan');?>">
 				<span class="navigation clan"><span><?=$this->getText ('clan');?></span></span>
 			</a>
@@ -192,7 +198,7 @@
 			<?php } ?>
 		</li>
 
-		<li onmouseover="this.className+=' over';" onmouseout="this.className='';">
+		<li data-tab="ranking" onmouseover="this.className+=' over';" onmouseout="this.className='';">
 			<a href="javascript:void(0);" onClick="openWindow('ranking', {'vid':'<?=$vid?>'});" title="<?=$ranking;?>" >
 				<span class="navigation ranking"><span><?=$ranking;?></span></span>
 			</a>
@@ -208,7 +214,7 @@
 			<?php } ?>
 		</li>
 
-		<li onmouseover="this.className+=' over';" onmouseout="this.className='';">
+		<li data-tab="help" onmouseover="this.className+=' over';" onmouseout="this.className='';">
 
 			<a href="javascript:void(0);" onClick="openWindow('help');" title="<?=$help;?>" >
 				<span class="navigation help"><span><?=$help;?></span></span>
