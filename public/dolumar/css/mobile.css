@@ -727,6 +727,10 @@ body.layout-mobile #sheets .sheet
 body.layout-mobile #sheets .sheet.sheet-modal
 {
 	top: 50%;
+	/* sheets.css gives the modal a 1px border; restate the frame so it keeps the vines. */
+	border: solid;
+	border-width: 23px 12px 11px 14px;
+	border-image: url('../theme/dolumar/frame.png') 68 37 32 42 / 23px 12px 11px 14px round;
 	border-radius: 0;
 	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
 }
