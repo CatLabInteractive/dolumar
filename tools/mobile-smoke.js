@@ -297,6 +297,78 @@ check('map-scale', { viewport: { width: 390, height: 844 }, layout: 'mobile' }, 
 	assert(pinched.stored === String(pinched.scale), 'pinch did not store the scale: ' + JSON.stringify(pinched.stored));
 });
 
+// Placement (mobile): start choosing a location from the build sheet's first build link.
+async function startPlacement(page) {
+	const vid = await firstVillageId(page);
+	await closeStartupSheets(page);
+	await openSheet(page, 'build', { vid });
+	const link = page.locator('.sheet:visible a[onclick*="selectBuildLocation"], .sheet:visible a[onclick*="selectLocation"]').first();
+	await link.waitFor({ state: 'visible', timeout: 15000 });
+	await link.click();
+	await page.locator('#map_select_actions').waitFor({ state: 'visible', timeout: 5000 });
+	assert(await visibleSheets(page).count() === 0, 'a sheet is still visible while choosing a location');
+	assert(!(await page.locator('#sheets').isVisible()), '#sheets is visible while choosing a location');
+}
+
+// Elements on the page with an inline z-index of 1000000 (the map's blocking overlay).
+// (A plain loop: Prototype.js replaces Array.prototype.filter with a version that needs an Array.)
+const overlayCount = (page) => page.evaluate(() => {
+	const all = document.querySelectorAll('div');
+	let n = 0;
+	for (let i = 0; i < all.length; i++) {
+		if (String(all[i].style.zIndex) === '1000000') {
+			n++;
+		}
+	}
+	return n;
+});
+
+check('place-cancel', { viewport: { width: 390, height: 844 }, layout: 'mobile' }, async (page) => {
+	await startPlacement(page);
+	await page.locator('#map_select_actions button.cancel').click();
+	await page.waitForFunction(() => !document.getElementById('map_select_actions'), null, { timeout: 5000 });
+	assert(await page.locator('#sheets').isVisible(), '#sheets is not visible after cancel');
+	assert(await visibleSheets(page).count() === 1, 'the build sheet is not visible after cancel');
+	assert(await overlayCount(page) === 0, 'an overlay with z-index 1000000 is left on the page');
+	assert(!(await page.evaluate(() => Game.map.oScrollMap.selecting)), 'a selection is still in progress');
+});
+
+check('place-confirm', { viewport: { width: 390, height: 844 }, layout: 'mobile' }, async (page) => {
+	await startPlacement(page);
+
+	// Pan the map with a 60px one-finger drag.
+	const before = await page.evaluate(() => Game.map.oScrollMap.div.style.left);
+	await page.evaluate(async () => {
+		const map = document.getElementById('map');
+		const touch = (x, y) => new Touch({ identifier: 1, target: map, clientX: x, clientY: y });
+		const fire = (type, touches, changed) => map.dispatchEvent(new TouchEvent(type, {
+			bubbles: true, cancelable: true, touches, targetTouches: touches, changedTouches: changed,
+		}));
+		const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+		const start = [touch(195, 400)];
+		fire('touchstart', start, start);
+		await wait(80);
+		const moved = [touch(255, 400)];
+		fire('touchmove', moved, moved);
+		await wait(150);
+		fire('touchend', [], moved);
+		await wait(100);
+	});
+	const after = await page.evaluate(() => Game.map.oScrollMap.div.style.left);
+	assert(before !== after, 'the touch drag did not pan the map (left stayed ' + before + ')');
+	assert(await page.locator('#map_select_actions').isVisible(), 'the place/cancel bar is gone after panning');
+
+	const request = page.waitForRequest((r) => r.method() === 'POST' && /\/dialog\//.test(r.url())
+		&& /"x":/.test(r.postData() || '') && /"y":/.test(r.postData() || ''), { timeout: 10000 });
+	await page.locator('#map_select_actions button.place').click();
+	await request;
+	await page.waitForFunction(() => !document.getElementById('map_select_actions'), null, { timeout: 5000 });
+	await visibleSheets(page).first().waitFor({ state: 'visible', timeout: 10000 });
+	assert(await page.locator('#sheets').isVisible(), '#sheets is not visible after placing');
+	assert(await overlayCount(page) === 0, 'an overlay with z-index 1000000 is left on the page');
+	assert(!(await page.evaluate(() => Game.map.oScrollMap.selecting)), 'a selection is still in progress');
+});
+
 async function main() {
 	const args = process.argv.slice(2);
 	const baseUrl = args.find((a) => !a.startsWith('--'));
