@@ -115,12 +115,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/CatLabInteractive/dolumar-engine.git",
-                "reference": "874e9123fc0fa464199c270aa1d8ad6676b00528"
+                "reference": "5afdab72f81552b5c9473bde74eeaca9c67f8b18"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CatLabInteractive/dolumar-engine/zipball/874e9123fc0fa464199c270aa1d8ad6676b00528",
-                "reference": "874e9123fc0fa464199c270aa1d8ad6676b00528",
+                "url": "https://api.github.com/repos/CatLabInteractive/dolumar-engine/zipball/5afdab72f81552b5c9473bde74eeaca9c67f8b18",
+                "reference": "5afdab72f81552b5c9473bde74eeaca9c67f8b18",
                 "shasum": ""
             },
             "require": {
