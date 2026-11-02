@@ -82,6 +82,14 @@ class Dolumar_NewMap_Army extends Neuron_GameServer_Map_MapObject
 		return new Neuron_GameServer_Map_Display_Sprite ($this->spriteUrl);
 	}
 
+	/**
+	*	Unrelated viewers get a sprite that does not name the kind.
+	*/
+	public function getNeutralDisplayObject ()
+	{
+		return new Neuron_GameServer_Map_Display_Sprite (Dolumar_NewMap_ArmyFactory::spriteUrl ('neutral'));
+	}
+
 	public function getRelatedVillageIds ()
 	{
 		return $this->relatedVillageIds;

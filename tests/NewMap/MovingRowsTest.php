@@ -24,6 +24,23 @@ class MovingRowsTest extends TestCase
 		$this->assertFalse(Dolumar_NewMap_MovingRows::touchesAreas([[0, 0]], []));
 	}
 
+	public function testUnrelatedArmiesAreOnlySentWhileInsideTheViewedAreas(): void
+	{
+		// Marching from (0,0) to (100,0) between 1000 and 1100; at 1050 it is at (50,0).
+		$row = ['battleId' => 7, 'vid' => 1, 'targetId' => 2, 'startDate' => 1000, 'arriveDate' => 1100,
+			'fightDate' => 1100, 'endFightDate' => null, 'endDate' => 1234, 'isFought' => 0, 'route' => null,
+			'fromX' => 0, 'fromY' => 0, 'toX' => 100, 'toY' => 0, 'fromName' => 'A', 'toName' => 'B'];
+		$army = Dolumar_NewMap_ArmyFactory::fromBattleRow($row, 1050);
+		$areasAtOrigin = Neuron_GameServer_Map_Regions::toAreas([[0, 0]], 10);   // centre (5,-5), radius 20
+
+		// The route touches the origin region, so a related viewer gets the army ...
+		$this->assertCount(1, Dolumar_NewMap_MapObjectManager::filterForViewer([$army], [2], $areasAtOrigin, 1050));
+		// ... but an unrelated viewer only gets it once it is actually inside what they look at.
+		$this->assertCount(0, Dolumar_NewMap_MapObjectManager::filterForViewer([$army], [9], $areasAtOrigin, 1050));
+		$this->assertCount(1, Dolumar_NewMap_MapObjectManager::filterForViewer([$army], [9], $areasAtOrigin, 1001));
+		$this->assertCount(0, Dolumar_NewMap_MapObjectManager::filterForViewer([$army], [], $areasAtOrigin, 1050));
+	}
+
 	public function testClanMemberOfDefenderIsRelated(): void
 	{
 		// player 9 is in a clan with player 2, who owns village 2 (the defender)

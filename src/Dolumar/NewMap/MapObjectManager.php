@@ -147,6 +147,37 @@ class Dolumar_NewMap_MapObjectManager extends Neuron_GameServer_Map_Managers_Map
 			}
 		}
 
+		$related = is_object ($viewer) ? self::relatedVillageIds ($viewer) : array ();
+
+		return self::filterForViewer ($out, $related, $areas, $now);
+	}
+
+	/**
+	*	Related armies are sent whenever their route touches the viewed areas
+	*	(the client draws the whole route). An unrelated army is only sent
+	*	while its current position is inside those areas, so a viewer cannot
+	*	learn from the response that an army is heading their way.
+	*
+	*	@param Dolumar_NewMap_Army[] $armies
+	*	@param int[] $relatedVillageIds
+	*	@param Neuron_GameServer_Map_Area[] $areas
+	*	@return Dolumar_NewMap_Army[]
+	*/
+	public static function filterForViewer (array $armies, array $relatedVillageIds, array $areas, $now)
+	{
+		$out = array ();
+		foreach ($armies as $army)
+		{
+			if (!$army->isRelatedTo ($relatedVillageIds))
+			{
+				$location = $army->getLocation ($now);
+				if (!Dolumar_NewMap_MovingRows::touchesAreas (array (array ($location->x (), $location->y ())), $areas))
+				{
+					continue;
+				}
+			}
+			$out[] = $army;
+		}
 		return $out;
 	}
 

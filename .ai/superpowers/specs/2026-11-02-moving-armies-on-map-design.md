@@ -169,6 +169,8 @@ related when `vid` or `targetId` (squads: `s_from`, `s_to`, or the squad's home 
 | `paths` | every phase movement with real timestamps and waypoints | one movement from the position at `servertime` to the position at `servertime + poll`, built with `Movement::truncate()`; nothing before or after |
 | `kind` | real kind | `neutral` |
 | `name`, `click` | present | absent |
+| `sprite` | the kind's sprite | the `neutral` sprite (`MapObject::getNeutralDisplayObject()`) |
+| sent when | the route touches a viewed region | only while the current position is inside a viewed region |
 
 `secret` is a per-deploy value derived from existing configuration (no new env var): `sha1(DB_PASSWORD . 'army')`
 computed once per request. It only has to stop two players comparing ids across sessions, not resist an attacker.

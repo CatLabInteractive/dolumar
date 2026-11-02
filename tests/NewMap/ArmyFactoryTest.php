@@ -64,6 +64,12 @@ class ArmyFactoryTest extends TestCase
 		$this->assertSame("openWindow ('squads', {'vid': 1});", implode(' ', $a->getEvents('click')));
 	}
 
+	public function testNeutralSpriteDoesNotNameTheKind(): void
+	{
+		$a = Dolumar_NewMap_ArmyFactory::fromBattleRow($this->row(), 1050);
+		$this->assertStringEndsWith('images/sprites/armies/neutral.png', $a->getNeutralDisplayObject()->getURI());
+	}
+
 	public function testMissingTownCentreGivesNull(): void
 	{
 		$this->assertNull(Dolumar_NewMap_ArmyFactory::fromBattleRow($this->row(['toX' => null]), 1050));
