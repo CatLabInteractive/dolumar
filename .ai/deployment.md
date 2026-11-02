@@ -10,7 +10,8 @@ the servers unless the owner asks for that specific action.
 
 ## What happens on deploy
 
-- `app.json` `scripts.dokku.postdeploy` runs `php tools/setup.php`. It is idempotent and only installs the schema
+- `app.json` `scripts.dokku.postdeploy` runs `tools/postdeploy.sh`, which runs `php tools/setup.php` (and, on preview
+  instances only, `tools/seed.php`). `setup.php` is idempotent and only installs the schema
   when the `n_players` table does not exist. It never migrates an existing database.
 - `app.json` `cron` installs the cron jobs: `php cron/run.php` every minute and `php cron/ai.php` every 5 minutes.
 - Composer installs dependencies from `composer.lock`, so the engine version deployed is the commit pinned there.
@@ -31,3 +32,18 @@ without them: guard any code that would call them.
 The container filesystem is thrown away on every deploy. Anything that must survive goes in a Dokku storage mount.
 Today that is only `public/signs` (custom sign images, mounted from `/var/lib/dokku/data/storage/dolumar-signs`).
 If a change writes new user files to disk, it needs a new mount and a README update.
+
+## Pull request previews
+
+Every same-repository PR gets a throwaway instance on the production Dokku server (`dolumar-pr-<n>`, at
+`pr-<n>.preview.dolumar.com`), built by `.github/workflows/preview.yml` and removed when the PR closes. Pushes to `develop` update a
+standing `dolumar-develop` preview that keeps its data. The setup and
+the security model are in the README section "Pull request previews". In short:
+
+- The GitHub key only reaches `tools/preview/dolumar-preview` (forced SSH command). That script is the only place that
+  names preview apps, services and databases; keep it unable to touch anything other than `dolumar-pr-*` /
+  `pr_*` and the `dolumar-<branch>` / `branch_*` previews of branches in its `PREVIEW_BRANCHES` setting.
+  It is copied to the server by hand, so a change to it needs the owner to reinstall it.
+- `PREVIEW_MODE=1` turns on `tools/seed.php` and `public/preview-login.php` (log in as any player, no OIDC). Both must
+  keep refusing to act without it. Never set it in production.
+- When you open a PR that needs a manual check, point the owner at the preview link in the PR comment.

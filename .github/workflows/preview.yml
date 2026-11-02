@@ -1,0 +1,166 @@
+# Per pull request preview instances on the Dokku server.
+#
+# Each open pull request from a branch in this repository gets its own app at https://pr-<n>.<PREVIEW_DOMAIN>/ with an
+# empty database seeded with test players (tools/seed.php). The app is destroyed when the pull request is closed or
+# merged. Pushes to develop update a standing preview at https://develop.<PREVIEW_DOMAIN>/ that keeps its data (the
+# branch must be listed in PREVIEW_BRANCHES on the server). The server side is tools/preview/dolumar-preview; setup steps are in README.md ("Pull request previews").
+#
+# Needs these repository secrets:
+#   PREVIEW_SSH_HOST         host name of the Dokku server
+#   PREVIEW_SSH_KEY          private key whose public half is the forced-command key of the dolumar-preview user
+#   PREVIEW_SSH_KNOWN_HOSTS  output of `ssh-keyscan <host>`
+# Previews are skipped while PREVIEW_SSH_HOST is not set, and for pull requests from forks (they get no secrets).
+
+name: Preview
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, closed]
+  push:
+    branches: [develop]
+  schedule:
+    # Safety net: remove previews whose pull request is no longer open.
+    - cron: '17 4 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+defaults:
+  run:
+    # Explicit bash enables pipefail, so a failing ssh in `ssh ... | tee` fails the step.
+    shell: bash
+
+jobs:
+  deploy:
+    if: >-
+      github.event_name == 'pull_request' &&
+      github.event.action != 'closed' &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    concurrency:
+      group: preview-${{ github.event.pull_request.number }}
+      cancel-in-progress: true
+    steps:
+      - name: Check configuration
+        id: config
+        env:
+          HOST: ${{ secrets.PREVIEW_SSH_HOST }}
+        run: echo "enabled=$([ -n "$HOST" ] && echo 1 || echo 0)" >> "$GITHUB_OUTPUT"
+
+      - name: Set up SSH
+        if: steps.config.outputs.enabled == '1'
+        env:
+          KEY: ${{ secrets.PREVIEW_SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.PREVIEW_SSH_KNOWN_HOSTS }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$KEY" > ~/.ssh/id_preview
+          chmod 600 ~/.ssh/id_preview
+          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+
+      - name: Deploy preview
+        if: steps.config.outputs.enabled == '1'
+        id: deploy
+        env:
+          HOST: ${{ secrets.PREVIEW_SSH_HOST }}
+          PR: ${{ github.event.pull_request.number }}
+          SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          ssh -i ~/.ssh/id_preview -o IdentitiesOnly=yes "dolumar-preview@$HOST" deploy "$PR" "$SHA" | tee deploy.log
+          grep -o 'PREVIEW_URL=.*' deploy.log | tail -n1 >> "$GITHUB_OUTPUT"
+
+      - name: Comment on the pull request
+        if: steps.config.outputs.enabled == '1'
+        uses: actions/github-script@v7
+        env:
+          PREVIEW_URL: ${{ steps.deploy.outputs.PREVIEW_URL }}
+          SHA: ${{ github.event.pull_request.head.sha }}
+        with:
+          script: |
+            const marker = '<!-- dolumar-preview -->';
+            const body = [
+              marker,
+              `**Preview:** ${process.env.PREVIEW_URL}`,
+              '',
+              `Deployed ${process.env.SHA.substring(0, 7)}. Log in as one of the seeded Tester players, or create a new ` +
+                'player to test race selection. The preview and its database are removed when this pull request closes.',
+            ].join('\n');
+            const { owner, repo } = context.repo;
+            const issue_number = context.payload.pull_request.number;
+            const comments = await github.paginate(github.rest.issues.listComments, { owner, repo, issue_number });
+            const existing = comments.find(c => c.body && c.body.startsWith(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({ owner, repo, comment_id: existing.id, body });
+            } else {
+              await github.rest.issues.createComment({ owner, repo, issue_number, body });
+            }
+
+  destroy:
+    if: >-
+      github.event_name == 'pull_request' &&
+      github.event.action == 'closed' &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    concurrency:
+      group: preview-${{ github.event.pull_request.number }}
+      cancel-in-progress: true
+    steps:
+      - name: Destroy preview
+        env:
+          HOST: ${{ secrets.PREVIEW_SSH_HOST }}
+          KEY: ${{ secrets.PREVIEW_SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.PREVIEW_SSH_KNOWN_HOSTS }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          [ -n "$HOST" ] || { echo "Previews not configured"; exit 0; }
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$KEY" > ~/.ssh/id_preview && chmod 600 ~/.ssh/id_preview
+          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+          ssh -i ~/.ssh/id_preview -o IdentitiesOnly=yes "dolumar-preview@$HOST" destroy "$PR"
+
+  deploy-branch:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    concurrency:
+      group: preview-${{ github.ref_name }}
+      cancel-in-progress: true
+    steps:
+      - name: Deploy branch preview
+        env:
+          HOST: ${{ secrets.PREVIEW_SSH_HOST }}
+          KEY: ${{ secrets.PREVIEW_SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.PREVIEW_SSH_KNOWN_HOSTS }}
+          BRANCH: ${{ github.ref_name }}
+          SHA: ${{ github.sha }}
+        run: |
+          [ -n "$HOST" ] || { echo "Previews not configured"; exit 0; }
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$KEY" > ~/.ssh/id_preview && chmod 600 ~/.ssh/id_preview
+          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+          ssh -i ~/.ssh/id_preview -o IdentitiesOnly=yes "dolumar-preview@$HOST" deploy "$BRANCH" "$SHA" | tee deploy.log
+          url="$(grep -o 'PREVIEW_URL=.*' deploy.log | tail -n1 | cut -d= -f2-)"
+          echo "Preview: $url" >> "$GITHUB_STEP_SUMMARY"
+
+  cleanup:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Remove previews of closed pull requests
+        env:
+          HOST: ${{ secrets.PREVIEW_SSH_HOST }}
+          KEY: ${{ secrets.PREVIEW_SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.PREVIEW_SSH_KNOWN_HOSTS }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          [ -n "$HOST" ] || { echo "Previews not configured"; exit 0; }
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$KEY" > ~/.ssh/id_preview && chmod 600 ~/.ssh/id_preview
+          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+          open_prs="$(gh pr list --repo "$GITHUB_REPOSITORY" --state open --limit 500 --json number --jq '.[].number')"
+          for pr in $(ssh -i ~/.ssh/id_preview -o IdentitiesOnly=yes "dolumar-preview@$HOST" list); do
+            if ! grep -qx "$pr" <<< "$open_prs"; then
+              ssh -i ~/.ssh/id_preview -o IdentitiesOnly=yes "dolumar-preview@$HOST" destroy "$pr"
+            fi
+          done
