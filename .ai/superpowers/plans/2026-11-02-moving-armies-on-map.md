@@ -23,11 +23,11 @@
 
 ## Review Focus
 
-1. **A battle whose fight is overdue but not yet processed** (`fightDate < now`, `isFought = 0`, because nobody loaded either village) must show the army waiting at the target, not vanish or march home. Pinned by Task 8's `testOverdueUnprocessedFightWaitsAtTarget`.
-2. **An army that died entirely** (`isFought = 1`, `endDate = endFightDate + 1`) must not get a return movement. Pinned by Task 8's `testWipedOutArmyHasNoReturn`.
-3. **A clan member of the defender** is related and sees the full attack; a player in no clan who is neither attacker nor defender is not. Pinned by Task 9's `testClanMemberOfDefenderIsRelated` and `testStrangerIsNotRelated`.
-4. **A village without a town centre** (destroyed, or `map_buildings` row with `destroyDate > 0`) must be skipped without an exception taking the whole response down. Pinned by Task 9's `testMovementWithoutTownCentreIsSkipped` and Task 4's `testExporterSkipsObjectsThatThrow`.
-5. **Memcached unreachable** must degrade to uncached answers, not errors. Pinned by Task 9's `testCacheMissWithoutMemcacheStillAnswers`.
+1. **A battle whose fight is overdue but not yet processed** (`fightDate < now`, `isFought = 0`, because nobody loaded either village) must show the army waiting at the target, not vanish or march home. Pinned by Task 9's `testOverdueUnprocessedFightWaitsAtTarget`.
+2. **An army that died entirely** (`isFought = 1`, `endDate = endFightDate + 1`) must not get a return movement. Pinned by Task 9's `testWipedOutArmyHasNoReturn`.
+3. **A clan member of the defender** is related and sees the full attack; a player in no clan who is neither attacker nor defender is not. Pinned by Task 10's `testClanMemberOfDefenderIsRelated` and `testStrangerIsNotRelated`.
+4. **A village without a town centre** (destroyed, or `map_buildings` row with `destroyDate > 0`) must be skipped without an exception taking the whole response down. Pinned by Task 9's `testMissingTownCentreGivesNull` and Task 4's `testExporterSkipsObjectsThatThrow`.
+5. **Memcached unreachable** must degrade to uncached answers, not errors. Pinned by Task 10's `testCacheMissWithoutMemcacheStillAnswers`.
 
 ---
 
@@ -670,7 +670,7 @@ git commit -m "Add Dolumar_NewMap_Army and factory building movements from battl
 - Consumes: Task 9 factory; engine `Regions`/`Area` (`isWithin`, `overlaps`); `Neuron_Core_Memcache::getInstance()` (`hasCache/getCache/setCache`, no TTL: store `array('t' => NOW, 'rows' => ...)` and treat age > 20 s as a miss); `Neuron_GameServer_Player::getVillages()`, `getClans()`, `Dolumar_Players_Clan::getMembers()`.
 - Produces: `Dolumar_NewMap_MovingRows::battles(Neuron_DB_Database $db, int $now): array` — the spec's query (town centre join `buildingType IN (1,3) AND destroyDate = 0`, village names as `fromName`/`toName`, `WHERE endDate > $now OR isFought = 0`); `::squads($db, $now)` — `squad_commands` joined to `villages_squads` (`homeVid = v_id`, `squadName = s_name`) and both town centres, `WHERE s_end > FROM_UNIXTIME($now)`, `s_start`/`s_end` selected with `UNIX_TIMESTAMP()`.
 - Produces: `Dolumar_NewMap_MovingRows::touchesAreas(array $points, array $areas): bool` — true when the padded (1 tile) bounding box of `$points` overlaps any area (use `Neuron_GameServer_Map_Area::overlaps` with an `Area` built from the box centre and half-diagonal, or a plain min/max check).
-- Produces: `Dolumar_NewMap_MapObjectManager::getMovingObjects(array $areas, $viewer = null): array` of `Dolumar_NewMap_Army`; passes `relatedVillageIds($viewer)` (array of ints, `array()` for `null`) into each army via `setViewerVillages()`? No: the exporter calls `isRelatedTo($viewer)` with the raw viewer, so the manager wraps: it returns armies whose `isRelatedTo()` receives the player, and `Army::isRelatedTo($viewer)` accepts either an array of ids or a player object; for a player object it calls `Dolumar_NewMap_MapObjectManager::relatedVillageIds($viewer)` (memoised per request in a static).
+- Produces: `Dolumar_NewMap_MapObjectManager::getMovingObjects(array $areas, $viewer = null): array` of `Dolumar_NewMap_Army`. The exporter later calls `isRelatedTo($viewer)` with the raw player, so `Army::isRelatedTo($viewer)` accepts either an array of village ids (tests) or a player object, for which it calls `Dolumar_NewMap_MapObjectManager::relatedVillageIds($viewer)` (memoised per request in a static keyed by player id).
 - Produces: `Dolumar_NewMap_MapObjectManager::relatedVillageIds($player): array` — own village ids plus every village id of every member of every clan.
 
 - [ ] **Step 1: Write the failing tests**
@@ -686,6 +686,7 @@ public function testBoxOverlappingAreaTouches(): void
 
 public function testClanMemberOfDefenderIsRelated(): void   // uses stub player/clan objects with getVillages()/getClans()/getMembers()
 public function testStrangerIsNotRelated(): void
+public function testCacheMissWithoutMemcacheStillAnswers(): void   // Neuron_Core_Memcache double whose hasCache() returns false; getMovingObjects() still returns the factory output
 ```
 
 - [ ] **Step 2: Run tests to verify they fail**, then **Step 3: implement**, **Step 4: tests + phpcs pass**.
