@@ -849,9 +849,12 @@ class Dolumar_Map_Map
 			break;
 		}
 		
+		// Keep the arc increasing: 'ne' starts below 0, so shift both ends by a full turn (2 pi).
+		// Shifting only the start gave (1.875, 0.125), and mt_rand() throws on min > max since PHP 8.
 		if ($startRad < 0)
 		{
 			$startRad += 2;
+			$endRad += 2;
 		}
 		
 		return array ($startRad, $endRad);
