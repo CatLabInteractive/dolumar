@@ -12,7 +12,7 @@
   "scripts": {
     "dokku": {
       "predeploy": "php tools/migrate.php",
-      "postdeploy": "php tools/setup.php"
+      "postdeploy": "bash tools/postdeploy.sh"
     }
   }
 }
