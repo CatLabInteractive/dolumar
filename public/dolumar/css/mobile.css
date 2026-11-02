@@ -354,3 +354,303 @@ body.layout-mobile .mobile-more-list span.guide-icon
 	background: url('../images/characters/guide-icon.png') no-repeat center;
 	background-size: contain;
 }
+
+/*
+	Window content in sheets. The desktop window rules are scoped to the Prototype
+	window (.dolumar_content_inner2), so a sheet gets these instead: content fits the
+	screen width, wide tables scroll inside their own div.table-scroll (added by
+	Game.dolumar.mobile.fitContent), and links and form controls are at least 44px tall.
+*/
+body.layout-mobile .sheet-content
+{
+	line-height: 1.35;
+	overflow-wrap: break-word;
+}
+
+body.layout-mobile .sheet-content img
+{
+	max-width: 100%;
+	height: auto;
+}
+
+/* As in a desktop window, a table takes the full width. */
+body.layout-mobile .sheet-content table
+{
+	width: 100%;
+	max-width: 100%;
+	border-collapse: separate;
+}
+
+body.layout-mobile .sheet-content td,
+body.layout-mobile .sheet-content th
+{
+	padding: 2px 4px;
+	text-align: left;
+	vertical-align: top;
+}
+
+body.layout-mobile .sheet-content th.number,
+body.layout-mobile .sheet-content td.number
+{
+	text-align: center;
+}
+
+body.layout-mobile .sheet-content td.right
+{
+	text-align: right;
+	padding-right: 0;
+}
+
+body.layout-mobile .sheet-content td.left
+{
+	padding-left: 0;
+}
+
+/* Fixed widths from inline styles (input boxes, table cells) never exceed the sheet.
+   The battle simulator's unit row scrolls sideways on purpose and keeps its width. */
+body.layout-mobile .sheet-content [style*="width"]:not(.chooseUnitContainer *)
+{
+	max-width: 100% !important;
+}
+
+body.layout-mobile .sheet-content .table-scroll
+{
+	max-width: 100%;
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+}
+
+body.layout-mobile .sheet-content .table-scroll > table
+{
+	max-width: none;
+}
+
+/* Links: readable on the dark sheet, dark again on the parchment boxes (as on desktop). */
+body.layout-mobile .sheet-content a
+{
+	color: #e8c170;
+}
+
+body.layout-mobile .sheet-content .fancybox-checked
+{
+	color: #40331f;
+}
+
+body.layout-mobile .sheet-content .fancybox-checked a
+{
+	color: #000097;
+}
+
+/* Tap targets: links in lists, buttons and form controls. */
+body.layout-mobile .sheet-content.guiwindow li > a
+{
+	display: inline-flex;
+	align-items: center;
+	min-height: 44px;
+	vertical-align: middle;
+}
+
+body.layout-mobile .sheet-content button,
+body.layout-mobile .sheet-content input[type=submit],
+body.layout-mobile .sheet-content input[type=button],
+body.layout-mobile .sheet-content form select,
+body.layout-mobile .sheet-content form input[type=text],
+body.layout-mobile .sheet-content form input[type=password],
+body.layout-mobile .sheet-content form input[type=number]
+{
+	min-height: 44px;
+	box-sizing: border-box;
+	font-family: inherit;
+	font-size: 16px;
+}
+
+body.layout-mobile .sheet-content button,
+body.layout-mobile .sheet-content input[type=submit],
+body.layout-mobile .sheet-content input[type=button]
+{
+	padding: 0 16px;
+	line-height: 42px;
+}
+
+body.layout-mobile .sheet-content select
+{
+	max-width: 100%;
+	min-height: 44px;
+	line-height: 44px;
+	font-family: inherit;
+	font-size: 16px;
+}
+
+/* Tooltip shown by a tap on an element with a title (Game.dolumar.mobile.showTooltip). */
+body.layout-mobile .tap-tooltip
+{
+	position: absolute;
+	z-index: 10;
+	max-width: calc(100% - 8px);
+	padding: 6px 10px;
+	box-sizing: border-box;
+	background: #f5e9c8;
+	color: #2c261d;
+	border: 1px solid #8a7550;
+	border-radius: 4px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+	font-size: 13px;
+	line-height: 1.3;
+	white-space: pre-line;
+	pointer-events: none;
+}
+
+/* Page list (logbook and other paged windows): 44px buttons that wrap. */
+body.layout-mobile .sheet-content div.pagelist
+{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 4px;
+	padding: 4px 0;
+}
+
+body.layout-mobile .sheet-content div.pagelist span
+{
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 44px;
+	min-height: 44px;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	color: #40331f;
+}
+
+body.layout-mobile .sheet-content div.pagelist span a
+{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	min-height: 42px;
+	color: #000097;
+}
+
+body.layout-mobile .sheet-content div.pagelist span.active a
+{
+	color: red;
+}
+
+/* Tabs (squads, battle report): a wrapping row of 44px tabs instead of fixed 20px ones. */
+body.layout-mobile .sheet-content ul.tabs
+{
+	display: flex;
+	flex-wrap: wrap;
+	height: auto;
+	padding: 0;
+	margin: 0 0 4px 0;
+	list-style: none;
+}
+
+body.layout-mobile .sheet-content ul.tabs li
+{
+	float: none;
+	height: auto;
+	margin: 0 4px 0 0;
+	padding: 0;
+}
+
+body.layout-mobile .sheet-content ul.tabs li > a
+{
+	display: flex;
+	align-items: center;
+	min-height: 44px;
+	padding: 0 10px;
+	color: #555;
+}
+
+body.layout-mobile .sheet-content ul.tabs li.active > a
+{
+	color: #000;
+}
+
+/* Action lists (squads, battle and others): a full-width 44px row per link. */
+body.layout-mobile .sheet-content ul.actions
+{
+	margin-left: 0;
+	padding-left: 0;
+	list-style: none;
+}
+
+body.layout-mobile .sheet-content ul.actions li
+{
+	padding: 0;
+	border-bottom: 1px solid #3a3226;
+}
+
+body.layout-mobile .sheet-content ul.actions li > a
+{
+	display: flex;
+	width: 100%;
+	padding: 0 4px;
+	box-sizing: border-box;
+}
+
+/* Build: "Bonus Buildings" and "Construct Building" are links alone in a paragraph. */
+body.layout-mobile .sheet-content:has(img.icon-building) p > a
+{
+	display: inline-flex;
+	align-items: center;
+	min-height: 44px;
+}
+
+/* Economy: six columns; smaller text and no wrapping inside "stock / max". */
+body.layout-mobile .sheet-content table.resources
+{
+	font-size: 12px;
+}
+
+body.layout-mobile .sheet-content table.resources td,
+body.layout-mobile .sheet-content table.resources th
+{
+	padding: 2px 3px;
+	white-space: nowrap;
+	vertical-align: middle;
+}
+
+/* Squads: unit image, equipment and stats one under the other. */
+body.layout-mobile .sheet.squads div.equipment
+{
+	float: none;
+}
+
+body.layout-mobile .sheet.squads div.equipment select
+{
+	width: 100%;
+}
+
+/* Logbook: date above the text, the action link on its own line. */
+body.layout-mobile .sheet-content table.logbook,
+body.layout-mobile .sheet-content table.logbook tbody,
+body.layout-mobile .sheet-content table.logbook tr,
+body.layout-mobile .sheet-content table.logbook td
+{
+	display: block;
+	width: auto;
+}
+
+body.layout-mobile .sheet-content table.logbook tr
+{
+	padding: 6px 0;
+	border-bottom: 1px solid #3a3226;
+}
+
+body.layout-mobile .sheet-content table.logbook td.date
+{
+	font-size: 12px;
+	color: #aaa;
+}
+
+body.layout-mobile .sheet-content table.logbook td.actions a
+{
+	display: inline-flex;
+	align-items: center;
+	min-height: 44px;
+}

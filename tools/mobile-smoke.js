@@ -419,6 +419,33 @@ check('tabbar', { viewport: { width: 390, height: 844 }, layout: 'mobile' }, asy
 	await page.waitForFunction(() => document.querySelectorAll('.sheet').length === 1, null, { timeout: 15000 });
 });
 
+// Window content fits a 390px sheet: no page overflow, and the sheet content does not scroll sideways
+// (wide tables are wrapped in a .table-scroll, which scrolls on its own).
+check('content-fit', { viewport: { width: 390, height: 844 }, layout: 'mobile' }, async (page) => {
+	const vid = await firstVillageId(page);
+	await closeStartupSheets(page);
+	const windows = [['build', { vid }], ['economy', { vid }], ['squads', { vid }], ['logbook', { village: vid }]];
+	for (const [id, data] of windows) {
+		await openSheet(page, id, data);
+		const sheet = visibleSheets(page).first();
+		await sheet.locator('.sheet-content > *').first().waitFor({ state: 'attached', timeout: 15000 });
+		await page.waitForTimeout(500);
+		const size = await page.evaluate(() => {
+			const sheets = document.querySelectorAll('.sheet');
+			const content = sheets[sheets.length - 1].querySelector('.sheet-content');
+			return {
+				page: document.documentElement.scrollWidth,
+				scroll: content.scrollWidth,
+				client: content.clientWidth,
+			};
+		});
+		assert(size.page <= 390, id + ': document scrollWidth is ' + size.page + ', expected <= 390');
+		assert(size.scroll <= size.client + 1, id + ': .sheet-content scrollWidth ' + size.scroll + ' > clientWidth ' + size.client);
+		await sheet.locator('.sheet-close').click();
+		await page.waitForFunction(() => document.querySelectorAll('.sheet').length === 0, null, { timeout: 5000 });
+	}
+});
+
 async function main() {
 	const args = process.argv.slice(2);
 	const baseUrl = args.find((a) => !a.startsWith('--'));

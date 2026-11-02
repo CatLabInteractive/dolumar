@@ -462,9 +462,15 @@ Game.dolumar.mobile =
 		mobile.initialized = true;
 
 		// Panels arrive (and are refreshed) after load: rebuild on every content change.
-		Game.gui.observe ('contentChange', function ()
+		// (Game.gui.trigger passes the event arguments as one array.)
+		Game.gui.observe ('contentChange', function (args)
 		{
 			mobile.refresh ();
+
+			if (mobile.isMobile ())
+			{
+				mobile.fitContent (args && args.length ? args[0] : args);
+			}
 
 			// After the whole batch of start-up windows (contentChange fires while it is processed).
 			if (!mobile.startupChecked)
@@ -474,7 +480,153 @@ Game.dolumar.mobile =
 		});
 		Game.layout.onChange (function () { mobile.refresh (); });
 
+		// Fit every sheet again after each server response ('update' runs after
+		// fancybox.js has boxed the new content, which makes room narrower) and after a
+		// layout change (windows moved into sheets get no contentChange).
+		Game.gui.observe ('update', function () { mobile.fitAll (); });
+		Game.layout.onChange (function () { setTimeout (mobile.fitAll, 0); });
+
+		// Tap tooltips: one delegated listener for every sheet.
+		document.addEventListener ('click', mobile.onTooltipClick, false);
+		document.addEventListener ('scroll', mobile.hideTooltip, true);
+
 		mobile.refresh ();
+	},
+
+	/*
+		Window content in a sheet (mobile mode only): a table wider than the room it has
+		is wrapped in a div.table-scroll that scrolls sideways on its own, so the sheet
+		itself never does. fitContent runs on each contentChange, fitAll on every open
+		sheet after each server response. Tables already wrapped (or inside a wrapped
+		table) are left alone, so running it again changes nothing. The rest (images,
+		inline widths, tap targets) is CSS in css/mobile.css.
+	*/
+	'fitAll' : function ()
+	{
+		var mobile = Game.dolumar.mobile;
+
+		if (mobile.isMobile ())
+		{
+			$$('#sheets .sheet-content.guiwindow').each (function (content) { mobile.fitContent (content); });
+		}
+	},
+
+	'fitContent' : function (element)
+	{
+		element = (element && element.nodeType == 1) ? $(element) : null;
+		var content = element ? (element.hasClassName ('sheet-content') ? element : element.up ('.sheet-content')) : null;
+
+		if (!content)
+		{
+			return;
+		}
+
+		var style = window.getComputedStyle (content);
+		var room = content.clientWidth - parseFloat (style.paddingLeft) - parseFloat (style.paddingRight);
+
+		// A hidden sheet (lower in the stack) cannot be measured: wrap all its tables.
+		var measured = content.offsetWidth > 0;
+
+		var tables = element.tagName == 'TABLE' ? [ element ] : element.select ('table');
+		for (var i = 0; i < tables.length; i ++)
+		{
+			var table = tables[i];
+			var parent = table.parentNode;
+
+			if (!parent || $(parent).hasClassName ('table-scroll') || table.up ('table') || table.up ('.table-scroll'))
+			{
+				continue;
+			}
+
+			if (measured && table.offsetWidth <= Math.min (room, parent.clientWidth || room))
+			{
+				continue;
+			}
+
+			var wrapper = new Element ('div', { 'class' : 'table-scroll' });
+			parent.insertBefore (wrapper, table);
+			wrapper.appendChild (table);
+		}
+	},
+
+	/*
+		A tap on an element with a title inside a sheet shows that title in a
+		div.tap-tooltip next to it (touch screens have no hover). A tap anywhere
+		else removes it. The tap itself is not stopped: links still do their thing.
+	*/
+	'onTooltipClick' : function (event)
+	{
+		var mobile = Game.dolumar.mobile;
+		var target = event.target;
+
+		if (target && target.nodeType != 1)
+		{
+			target = target.parentNode;
+		}
+
+		var titled = (mobile.isMobile () && target && target.closest) ? target.closest ('.sheet-content.guiwindow [title]') : null;
+		var text = titled ? titled.getAttribute ('title') : '';
+
+		if (!titled || !text || mobile.tooltipFor === titled)
+		{
+			// A second tap on the same element closes its tooltip.
+			mobile.hideTooltip ();
+			return;
+		}
+
+		mobile.showTooltip (titled, text);
+	},
+
+	'tooltip' : null,
+	'tooltipFor' : null,
+
+	'showTooltip' : function (element, text)
+	{
+		var mobile = Game.dolumar.mobile;
+		var sheet = element.closest ('.sheet');
+
+		mobile.hideTooltip ();
+
+		if (!sheet)
+		{
+			return;
+		}
+
+		var tip = document.createElement ('div');
+		tip.className = 'tap-tooltip';
+		tip.setAttribute ('role', 'tooltip');
+		tip.textContent = text;
+		sheet.appendChild (tip);
+
+		// Below the element (above it when there is no room), inside the sheet.
+		var box = sheet.getBoundingClientRect ();
+		var rect = element.getBoundingClientRect ();
+		var left = Math.max (4, Math.min (rect.left - box.left, box.width - tip.offsetWidth - 4));
+		var top = rect.bottom - box.top + 4;
+
+		if (top + tip.offsetHeight > box.height - 4)
+		{
+			top = Math.max (4, rect.top - box.top - tip.offsetHeight - 4);
+		}
+
+		tip.style.left = left + 'px';
+		tip.style.top = top + 'px';
+
+		mobile.tooltip = tip;
+		mobile.tooltipFor = element;
+	},
+
+	'hideTooltip' : function ()
+	{
+		var mobile = Game.dolumar.mobile;
+
+		if (mobile.tooltip && mobile.tooltip.parentNode)
+		{
+			mobile.tooltip.parentNode.removeChild (mobile.tooltip);
+		}
+
+		mobile.tooltip = null;
+		mobile.tooltipFor = null;
 	},
 
 	/*
@@ -535,6 +687,7 @@ Game.dolumar.mobile =
 		var mobile = Game.dolumar.mobile;
 
 		mobile.closeMore ();
+		mobile.hideTooltip ();
 
 		$$('.mobile-header-actions').invoke ('remove');
 		$$('#menu li.tab-more').invoke ('remove');
