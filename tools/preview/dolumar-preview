@@ -37,6 +37,8 @@ PREVIEW_BRANCHES="${PREVIEW_BRANCHES:-develop}"
 # admin runs the script by hand.
 if [ -n "${SSH_ORIGINAL_COMMAND:-}" ]; then
 	read -r -a ARGS <<< "$SSH_ORIGINAL_COMMAND"
+	# The dokku CLI also reads SSH_ORIGINAL_COMMAND and would run it instead of the arguments we pass.
+	unset SSH_ORIGINAL_COMMAND
 else
 	ARGS=("$@")
 fi
