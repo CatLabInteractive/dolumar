@@ -175,7 +175,7 @@ class Image_GraphViz
      *
      * @access public
      */
-    function Image_GraphViz($directed = true, $attributes = array(),
+    function __construct($directed = true, $attributes = array(),
                             $name = 'G', $strict = true, $returnError = false)
     {
         $this->setDirected($directed);
