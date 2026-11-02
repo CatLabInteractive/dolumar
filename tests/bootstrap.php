@@ -13,6 +13,6 @@ require_once __DIR__ . '/../vendor/autoload.php';
 if (!defined ('NOW')) {
 	define ('NOW', time ());
 }
-if (!defined ('STATIC_ABSOLUTE_URL')) {
-	define ('STATIC_ABSOLUTE_URL', 'http://localhost/static/');
+if (!defined ('IMAGE_URL')) {
+	define ('IMAGE_URL', 'http://localhost/static/images/');
 }
