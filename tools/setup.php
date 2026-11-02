@@ -49,8 +49,41 @@ catch (Throwable $e) {
 	exit (1);
 }
 
+// Runs a SQL script (multiple statements) through mysqli and drains all results.
+function dolumar_run_sql ($sql)
+{
+	mysqli_report (MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+	$mysqli = new mysqli (DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE, defined ('DB_PORT') ? (int)DB_PORT : 3306);
+	$mysqli->set_charset ('utf8mb4');
+	$mysqli->multi_query ($sql);
+	do {
+		if ($result = $mysqli->store_result ()) {
+			$result->free ();
+		}
+	} while ($mysqli->more_results () && $mysqli->next_result ());
+	$mysqli->close ();
+}
+
 if ($exists) {
-	echo 'Database already installed, nothing to do.' . "\n";
+	// Already installed: apply idempotent upgrades, in name order, on every deploy.
+	$files = glob (__DIR__ . '/../dump/upgrades/*.sql') ?: array ();
+	sort ($files);
+	foreach ($files as $file) {
+		$sql = file_get_contents ($file);
+		if ($sql === false) {
+			fwrite (STDERR, 'Could not read ' . basename ($file) . "\n");
+			exit (1);
+		}
+		try {
+			dolumar_run_sql ($sql);
+		}
+		catch (Throwable $e) {
+			fwrite (STDERR, 'Upgrade ' . basename ($file) . ' failed: ' . $e->getMessage () . "\n");
+			exit (1);
+		}
+		echo 'Applied upgrade ' . basename ($file) . "\n";
+	}
+	echo 'Database already installed, nothing more to do.' . "\n";
 	exit (0);
 }
 
