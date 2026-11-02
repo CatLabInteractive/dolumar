@@ -36,6 +36,9 @@ class Dolumar_Npc_Snapshot
 	/** @var string one of Dolumar_Npc_Config::AGGRESSION_* */
 	public $aggression = Dolumar_Npc_Config::AGGRESSION_COUNTER;
 
+	/** @var int players below this many total runes are never attacked (NPC_PROTECTION_RUNES) */
+	public $protectionRunes = Dolumar_Npc_Config::PROTECTION_RUNES_DEFAULT;
+
 	/** @var array resource name => amount in the NPC village */
 	public $resources = [];
 
