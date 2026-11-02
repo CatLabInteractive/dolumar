@@ -40,8 +40,7 @@ body.layout-mobile .panel.status
 	overflow-y: hidden;
 	white-space: nowrap;
 	-webkit-overflow-scrolling: touch;
-	background: #2c261d;
-	border-bottom: 1px solid #4a4032;
+	background: transparent;
 	z-index: 1001 !important;
 }
 
@@ -77,8 +76,7 @@ body.layout-mobile .mobile-header-actions
 	width: var(--mobile-header-actions-width);
 	height: var(--mobile-header-height);
 	display: flex;
-	background: #2c261d;
-	border-bottom: 1px solid #4a4032;
+	background: transparent;
 	box-sizing: border-box;
 	z-index: 1001;
 }
@@ -93,9 +91,10 @@ body.layout-mobile .mobile-header-actions button
 	padding: 0;
 	border: 0;
 	background: transparent;
-	color: #fff;
-	font-family: Tahoma, Arial, sans-serif;
-	font-size: 11px;
+	color: #f0dfb0;
+	text-shadow: 0 1px 1px #000;
+	font-family: Verdana, Tahoma, Arial, sans-serif;
+	font-size: 12px;
 	line-height: 43px;
 	text-align: center;
 	overflow: hidden;
@@ -113,7 +112,8 @@ body.layout-mobile .mobile-header-actions button.zoom-out
 
 body.layout-mobile .mobile-header-actions button.active
 {
-	background: #4a4032;
+	background: rgba(255, 220, 140, 0.18);
+	border-radius: 6px;
 }
 
 /* Tab bar: the Menu panel fixed at the bottom. */
@@ -127,10 +127,23 @@ body.layout-mobile .panel.topmenu
 	width: auto !important;
 	height: var(--mobile-tabbar-height) !important;
 	margin: 0 !important;
-	background: #2c261d;
-	border-top: 1px solid #4a4032;
+	/* The desktop top menu's stone, at native scale, with a sliver of the gold status bar on top. */
+	background: #1a1612 url('../images/topmenu.png') repeat-x left bottom;
+	border-top: 0;
+	box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.5);
 	box-sizing: border-box;
 	z-index: 1001 !important;
+}
+
+body.layout-mobile .panel.topmenu::before
+{
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 5px;
+	background: url('../images/statusbar.png') repeat-x left top;
 }
 
 body.layout-mobile #menu
@@ -189,7 +202,8 @@ body.layout-mobile #menu ul.left > li > a
 	height: 100%;
 	padding: 0 2px;
 	box-sizing: border-box;
-	color: #ddd;
+	color: #f0dfb0;
+	text-shadow: 0 1px 1px #000;
 	text-decoration: none;
 	-webkit-tap-highlight-color: transparent;
 	-webkit-touch-callout: none;
@@ -205,7 +219,7 @@ body.layout-mobile #menu ul.left > li > a::after
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
-	font-family: Tahoma, Arial, sans-serif;
+	font-family: Verdana, Tahoma, Arial, sans-serif;
 	font-size: 10px;
 	line-height: 12px;
 }
@@ -216,7 +230,7 @@ body.layout-mobile #menu li.tab-more span.more-icon
 	height: 27px;
 	font-size: 22px;
 	line-height: 27px;
-	color: #fff;
+	color: #f0dfb0;
 }
 
 /* More sheet: the remaining menu items as a vertical list. */
@@ -230,7 +244,7 @@ body.layout-mobile .mobile-more-list ul
 
 body.layout-mobile .mobile-more-list > li
 {
-	border-bottom: 1px solid #3a3226;
+	border-bottom: 1px solid rgba(90, 70, 40, 0.35);
 }
 
 body.layout-mobile .mobile-more-list a
@@ -239,7 +253,7 @@ body.layout-mobile .mobile-more-list a
 	align-items: center;
 	min-height: 44px;
 	padding: 0 12px;
-	color: #ddd;
+	color: #40331f;
 	text-decoration: none;
 }
 
@@ -259,18 +273,18 @@ body.layout-mobile .mobile-more-list ul a
 	min-height: 40px;
 	padding-left: 47px;
 	font-size: 13px;
-	color: #bbb;
+	color: #5a4a30;
 }
 
 body.layout-mobile .mobile-more-list ul li.active a
 {
-	color: #ffdd55;
+	color: #a0121a;
 }
 
 body.layout-mobile .mobile-more-list ul li.title a
 {
 	font-weight: bold;
-	color: #ddd;
+	color: #40331f;
 }
 
 /* Panels hidden by default; the header buttons show the minimap and the newsbar. */
@@ -307,7 +321,7 @@ body.layout-mobile .panel.newsbar.mobile-visible
 	margin: 0 !important;
 	padding: 0 33px;
 	box-sizing: border-box;
-	background: #2c261d;
+	background: #1a1612 url('../images/topmenu.png') repeat-x left bottom;
 	z-index: 1001 !important;
 }
 
@@ -429,18 +443,8 @@ body.layout-mobile .sheet-content .table-scroll > table
 	max-width: none;
 }
 
-/* Links: readable on the dark sheet, dark again on the parchment boxes (as on desktop). */
+/* Links: the desktop window colour on the parchment sheet. */
 body.layout-mobile .sheet-content a
-{
-	color: #e8c170;
-}
-
-body.layout-mobile .sheet-content .fancybox-checked
-{
-	color: #40331f;
-}
-
-body.layout-mobile .sheet-content .fancybox-checked a
 {
 	color: #000097;
 }
@@ -570,14 +574,7 @@ body.layout-mobile .sheet-content ul.tabs li
 	height: auto;
 	margin: 0 4px 0 0;
 	padding: 0;
-	/* main.css gives tabs a light yellow image; on the dark sheet they are dark. */
-	background: #2c261d;
 	border-color: #8a7550;
-}
-
-body.layout-mobile .sheet-content ul.tabs li.active
-{
-	background: #4a4032;
 }
 
 body.layout-mobile .sheet-content ul.tabs li > a
@@ -586,12 +583,12 @@ body.layout-mobile .sheet-content ul.tabs li > a
 	align-items: center;
 	min-height: 44px;
 	padding: 0 10px;
-	color: #c9b48a;
+	color: #40331f;
 }
 
 body.layout-mobile .sheet-content ul.tabs li.active > a
 {
-	color: #fff;
+	color: #000;
 	font-weight: bold;
 }
 
@@ -606,7 +603,7 @@ body.layout-mobile .sheet-content ul.actions
 body.layout-mobile .sheet-content ul.actions li
 {
 	padding: 0;
-	border-bottom: 1px solid #3a3226;
+	border-bottom: 1px solid rgba(90, 70, 40, 0.35);
 }
 
 body.layout-mobile .sheet-content ul.actions li > a
@@ -663,13 +660,13 @@ body.layout-mobile .sheet-content table.logbook td
 body.layout-mobile .sheet-content table.logbook tr
 {
 	padding: 6px 0;
-	border-bottom: 1px solid #3a3226;
+	border-bottom: 1px solid rgba(90, 70, 40, 0.35);
 }
 
 body.layout-mobile .sheet-content table.logbook td.date
 {
 	font-size: 12px;
-	color: #aaa;
+	color: #6a5a40;
 }
 
 body.layout-mobile .sheet-content table.logbook td.actions a
@@ -677,4 +674,116 @@ body.layout-mobile .sheet-content table.logbook td.actions a
 	display: inline-flex;
 	align-items: center;
 	min-height: 44px;
+}
+
+/*
+	Illustrated skin: the desktop's own textures on the mobile chrome.
+	Header and tab bar use the top menu's stone; a sheet is a desktop window at a third of
+	the scale, drawn with border-image from theme/dolumar/frame.png (the theme's nine
+	slices in one image: 42 and 37 wide, 68 and 32 high), with the window parchment inside.
+*/
+
+/* One continuous stone bar behind the status panel and the header buttons, with the logo. */
+body.layout-mobile::before
+{
+	content: '';
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: var(--mobile-header-height);
+	z-index: 1000;
+	background:
+		url('../images/topmenu_center.png') no-repeat 4px 2px / 78px 40px,
+		#1a1612 url('../images/topmenu.png') repeat-x left top / auto var(--mobile-header-height);
+	border-bottom: 2px solid #0e0c09;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+	box-sizing: border-box;
+	pointer-events: none;
+}
+
+body.layout-mobile .panel.status
+{
+	padding-left: 86px;
+}
+
+/* A dark page behind an open sheet; the map stays as it is when nothing is open. */
+body.layout-mobile #sheets:has(.sheet:not(.sheet-modal))
+{
+	background: #15110c;
+}
+
+body.layout-mobile #sheets .sheet
+{
+	/* The top band tucks under the header so only the vine curls show. */
+	top: -14px;
+	border-style: solid;
+	border-width: 23px 12px 11px 14px;
+	border-image: url('../theme/dolumar/frame.png') 68 37 32 42 / 23px 12px 11px 14px round;
+	background: url('../theme/dolumar/overlay.png') repeat padding-box;
+	color: #40331f;
+}
+
+body.layout-mobile #sheets .sheet.sheet-modal
+{
+	top: 50%;
+	border-radius: 0;
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
+}
+
+body.layout-mobile #sheets .sheet-bar
+{
+	min-height: 40px;
+	margin: 0 4px;
+	background: transparent;
+	border-bottom: 1px solid rgba(90, 70, 40, 0.4);
+}
+
+body.layout-mobile #sheets .sheet-title
+{
+	color: #000;
+	font-family: Verdana, Tahoma, Arial, sans-serif;
+	font-size: 15px;
+}
+
+body.layout-mobile #sheets .sheet-back,
+body.layout-mobile #sheets .sheet-close
+{
+	width: 40px;
+	height: 40px;
+	line-height: 40px;
+	color: #2a2010;
+	font-size: 22px;
+}
+
+body.layout-mobile #sheets .sheet-close
+{
+	color: transparent;
+	background: url('../theme/dolumar/close.png') no-repeat center / 16px 18px;
+}
+
+body.layout-mobile #sheets .sheet-content
+{
+	padding: 8px 10px 12px;
+}
+
+body.layout-mobile #sheets .sheet-modal .sheet-content
+{
+	padding: 12px;
+}
+
+/* Form controls on parchment. */
+body.layout-mobile .sheet-content select,
+body.layout-mobile .sheet-content textarea,
+body.layout-mobile .sheet-content input:not([type]),
+body.layout-mobile .sheet-content input[type=text],
+body.layout-mobile .sheet-content input[type=password],
+body.layout-mobile .sheet-content input[type=number],
+body.layout-mobile .sheet-content input[type=email],
+body.layout-mobile .sheet-content input[type=search]
+{
+	background: #fff8e4;
+	color: #40331f;
+	border: 1px solid #a08c5a;
+	border-radius: 4px;
 }
