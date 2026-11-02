@@ -449,6 +449,7 @@ Game.dolumar.mobile =
 	'moreSheet' : null,
 	'pressTimer' : null,
 	'suppressClick' : false,
+	'startupChecked' : false,
 
 	'init' : function ()
 	{
@@ -461,10 +462,49 @@ Game.dolumar.mobile =
 		mobile.initialized = true;
 
 		// Panels arrive (and are refreshed) after load: rebuild on every content change.
-		Game.gui.observe ('contentChange', function () { mobile.refresh (); });
+		Game.gui.observe ('contentChange', function ()
+		{
+			mobile.refresh ();
+
+			// After the whole batch of start-up windows (contentChange fires while it is processed).
+			if (!mobile.startupChecked)
+			{
+				setTimeout (mobile.closeStartupChat, 0);
+			}
+		});
 		Game.layout.onChange (function () { mobile.refresh (); });
 
 		mobile.refresh ();
+	},
+
+	/*
+		Once per page load, when the start-up windows are in (the Menu is one of them):
+		in mobile mode, close the General chat sheet the server opens at start, the same
+		way the sheet's close button does. Later Chat opens are left alone.
+	*/
+	'closeStartupChat' : function ()
+	{
+		var mobile = Game.dolumar.mobile;
+
+		if (mobile.startupChecked || Game.gui.getWindowsFromWindowId ('Menu').length == 0)
+		{
+			return;
+		}
+		mobile.startupChecked = true;
+
+		if (!mobile.isMobile ())
+		{
+			return;
+		}
+
+		for (var i = Game.gui.aOpenWindows.length - 1; i >= 0; i --)
+		{
+			var entry = Game.gui.aOpenWindows[i];
+			if (entry.sWindowId.toLowerCase () == 'chat' && entry.oSheet)
+			{
+				Game.sheets.dismiss (entry.oSheet);
+			}
+		}
 	},
 
 	'isMobile' : function ()
@@ -558,7 +598,7 @@ Game.dolumar.mobile =
 	},
 
 	/*
-		MiniMap and Newsbar are panels (not sheets): show or hide them over the map.
+		MiniMap, Newsbar and Guide are panels (not sheets): show or hide them over the map.
 		Opens the window if it is not on the page at all.
 	*/
 	'togglePanel' : function (className, windowId)
@@ -573,7 +613,8 @@ Game.dolumar.mobile =
 
 		panel.toggleClassName ('mobile-visible');
 
-		var button = $$('.mobile-header-actions button.' + (className == 'newsbar' ? 'news' : 'minimap'))[0];
+		var buttonClass = { 'newsbar' : 'news', 'minimap' : 'minimap' }[className];
+		var button = buttonClass ? $$('.mobile-header-actions button.' + buttonClass)[0] : null;
 		if (button)
 		{
 			if (panel.hasClassName ('mobile-visible'))
@@ -671,8 +712,10 @@ Game.dolumar.mobile =
 			cancel ();
 			if (mobile.suppressClick)
 			{
-				// A long press opened More: no click on the tab underneath.
+				// A long press opened More: no click on the tab underneath. Only that one
+				// (synthetic) click: the flag is cleared shortly after, so a later mouse click works.
 				event.preventDefault ();
+				setTimeout (function () { mobile.suppressClick = false; }, 400);
 			}
 		}, false);
 
@@ -729,7 +772,8 @@ Game.dolumar.mobile =
 
 	/*
 		Open the More sheet (rebuilt every time, so it matches the current menu).
-		With a tab: that tab's item is listed first and scrolled to.
+		With a tab (long press): that tab's item, with its village list, is listed first.
+		A "Guide" entry at the top shows or hides the Guide panel.
 	*/
 	'openMore' : function (tab)
 	{
@@ -744,12 +788,20 @@ Game.dolumar.mobile =
 		mobile.closeMore ();
 
 		var list = new Element ('ul', { 'class' : 'mobile-more-list' });
-		var target = null;
+
+		if ($$('.panel.guide').length > 0)
+		{
+			var guide = new Element ('li', { 'class' : 'mobile-more-guide' });
+			var guideLink = new Element ('a', { 'href' : 'javascript:void(0);', 'title' : mobile.label ('guide', 'Guide') });
+			guideLink.appendChild (new Element ('span', { 'class' : 'guide-icon' }));
+			guideLink.observe ('click', function () { mobile.togglePanel ('guide', 'Guide'); });
+			guide.appendChild (guideLink);
+			list.appendChild (guide);
+		}
 
 		if (tab)
 		{
-			target = mobile.moreItem (tab);
-			list.appendChild (target);
+			list.appendChild (mobile.moreItem (tab));
 		}
 
 		var items = main.childElements ();
@@ -803,11 +855,6 @@ Game.dolumar.mobile =
 				}, 0);
 			}
 		});
-
-		if (target)
-		{
-			sheet.content.scrollTop = target.offsetTop - list.offsetTop;
-		}
 	},
 
 	/*

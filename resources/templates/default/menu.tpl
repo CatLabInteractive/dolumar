@@ -4,7 +4,8 @@
 	data-label-zoomout="<?=htmlspecialchars ($this->getText ('zoomOut'))?>"
 	data-label-minimap="<?=htmlspecialchars ($this->getText ('mobileMap'))?>"
 	data-label-chat="<?=htmlspecialchars ($this->getText ('mobileChat'))?>"
-	data-label-news="<?=htmlspecialchars ($this->getText ('mobileNews'))?>">
+	data-label-news="<?=htmlspecialchars ($this->getText ('mobileNews'))?>"
+	data-label-guide="<?=htmlspecialchars ($this->getText ('mobileGuide'))?>">
 	<ul class="left" id="menu-main">
 		<li data-tab="myAccount" onmouseover="this.className+=' over';" onmouseout="this.className='';">
 			<a onclick="openWindow('myAccount');" href="javascript:void(0);" title="<?=$myAccount;?>" >

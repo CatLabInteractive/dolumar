@@ -59,6 +59,7 @@ zoomOut="Uitzoomen"
 mobileMap="Kaart"
 mobileChat="Chat"
 mobileNews="Nieuws"
+mobileGuide="Gids"
 
 [directions]
 r="Willekeurig"

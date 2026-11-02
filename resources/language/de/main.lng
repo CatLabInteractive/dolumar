@@ -59,6 +59,7 @@ zoomOut="Verkleinern"
 mobileMap="Karte"
 mobileChat="Chat"
 mobileNews="News"
+mobileGuide="Berater"
 
 [directions]
 r="willkürlich"

@@ -371,6 +371,18 @@ check('place-confirm', { viewport: { width: 390, height: 844 }, layout: 'mobile'
 
 // Mobile header and tab bar: Statusbar fixed at the top, Menu as a bottom tab bar with a generated "More" tab.
 check('tabbar', { viewport: { width: 390, height: 844 }, layout: 'mobile' }, async (page) => {
+	// The General chat the server opens at start is closed on mobile (Welcome stays).
+	const chatOpen = () => page.evaluate(() => {
+		let n = 0;
+		for (let i = 0; i < Game.gui.aOpenWindows.length; i++) {
+			if (Game.gui.aOpenWindows[i].sWindowId.toLowerCase() === 'chat') {
+				n++;
+			}
+		}
+		return n;
+	});
+	await page.waitForTimeout(1000);
+	assert(await chatOpen() === 0, 'the start-up Chat window is still open on mobile');
 	await closeStartupSheets(page);
 	const menu = await page.locator('.topmenu').first().boundingBox();
 	assert(menu, 'no .topmenu element on the page');
@@ -393,6 +405,13 @@ check('tabbar', { viewport: { width: 390, height: 844 }, layout: 'mobile' }, asy
 	const title = (await more.first().locator('.sheet-title').textContent() || '').trim();
 	assert(title === 'More', 'the visible sheet is titled "' + title + '", expected "More"');
 	assert(await more.first().locator('.navigation.ranking').count() > 0, 'the More sheet has no ranking item');
+	const guide = more.first().locator('.mobile-more-list > li.mobile-more-guide > a[title="Guide"]');
+	assert(await guide.count() === 1, 'the More sheet has no Guide entry');
+	await guide.click();
+	await page.waitForFunction(() => document.querySelectorAll('.sheet').length === 0, null, { timeout: 5000 });
+	assert(await page.locator('.panel.guide.mobile-visible .icon a').isVisible(), 'the Guide panel is not visible after tapping Guide');
+	await page.locator('.topmenu li.tab-more').click();
+	await more.first().waitFor({ state: 'visible', timeout: 5000 });
 	await more.first().locator('.sheet-close').click();
 	await page.waitForFunction(() => document.querySelectorAll('.sheet').length === 0, null, { timeout: 5000 });
 

@@ -66,6 +66,7 @@ zoomOut = "Zoom out"
 mobileMap = "Map"
 mobileChat = "Chat"
 mobileNews = "News"
+mobileGuide = "Guide"
 
 [directions]
 r = "Random"

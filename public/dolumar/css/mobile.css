@@ -332,3 +332,25 @@ body.layout-mobile .panel.newsbar div.newsbar-villagename
 	margin-left: -140px;
 	background-size: 100% 100%;
 }
+
+/* Guide: shown from the "Guide" entry in the More sheet (a second tap hides it). */
+body.layout-mobile .panel.guide.mobile-visible
+{
+	display: block !important;
+	position: fixed !important;
+	top: auto !important;
+	left: auto !important;
+	right: 0 !important;
+	bottom: var(--mobile-tabbar-height) !important;
+	margin: 0 !important;
+	z-index: 1001 !important;
+}
+
+body.layout-mobile .mobile-more-list span.guide-icon
+{
+	display: inline-block;
+	width: 25px;
+	height: 25px;
+	background: url('../images/characters/guide-icon.png') no-repeat center;
+	background-size: contain;
+}

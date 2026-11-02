@@ -122,6 +122,7 @@ zoomOut="Zoom arrière"
 mobileMap="Carte"
 mobileChat="Chat"
 mobileNews="Infos"
+mobileGuide="Guide"
 
 [onlinestatus]
 offline="Déconnecté"
