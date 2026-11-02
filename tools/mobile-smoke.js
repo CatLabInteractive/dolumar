@@ -30,8 +30,9 @@ function check(name, options, fn) {
 async function login(page, baseUrl, user = 1) {
 	const start = new URL('/', baseUrl);
 	if (user > 1) {
-		// The mock remembers the player number in a cookie once it is passed to /authorize.
-		await page.context().addCookies([{ name: 'oidc_mock_user', value: String(user), url: 'http://localhost:8090/' }]);
+		// The mock reads the player number from this cookie; set it here for the mock's host (MOBILE_SMOKE_OIDC_URL).
+		const mock = process.env.MOBILE_SMOKE_OIDC_URL || 'http://localhost:8090';
+		await page.context().addCookies([{ name: 'oidc_mock_user', value: String(user), url: mock }]);
 	}
 	if (page.__layout) {
 		start.searchParams.set('layout', page.__layout);

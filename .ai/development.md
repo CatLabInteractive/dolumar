@@ -40,7 +40,8 @@ cannot log in.
 | Mobile smoke | `node tools/mobile-smoke.js http://localhost:8080 [--only=mobile-shell]` | Browser checks of the desktop and mobile UI. Needs the dev OIDC mock. |
 
 The mobile smoke test needs Node 18+ and Chromium on the host. Nothing is committed under `node_modules/`;
-`--no-save` keeps `package.json` out of the repository.
+`--no-save` keeps `package.json` out of the repository. Set `MOBILE_SMOKE_OIDC_URL` (default
+`http://localhost:8090`) if the OIDC mock runs elsewhere; it is only used for players other than 1.
 
 This repository has no unit tests of its own. For game logic changes, verify by playing the affected flow locally
 and say in the PR what you checked.
