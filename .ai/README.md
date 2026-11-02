@@ -1,7 +1,7 @@
 # AI documentation for Dolumar
 
 This directory holds documentation written for AI coding agents (and useful to humans too). The root
-[`AGENT.md`](../AGENT.md) is the entry point and points here.
+[`AGENTS.md`](../AGENTS.md) is the entry point and points here.
 
 | File | Read it when |
 |------|--------------|

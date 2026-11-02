@@ -1,4 +1,4 @@
-# AGENT.md
+# AGENTS.md
 
 Instructions for AI coding agents working in this repository. Keep this file short: it is the entry point,
 and the detailed documentation lives in [`.ai/`](.ai/README.md).

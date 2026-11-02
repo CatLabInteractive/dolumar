@@ -6,7 +6,7 @@
 | [`dolumar-engine`](https://github.com/CatLabInteractive/dolumar-engine) | "Neuron" game-server framework the game runs on. A Composer library, not runnable on its own. | PHP 8.4 | Composer dependency of `dolumar` |
 | [`dolumar-portal`](https://github.com/CatLabInteractive/dolumar-portal) | Marketing / portal website (www.dolumar.com), built on the private `catlab-ancient-cms`. Shares no code with the game. | PHP 8.5, MySQL | Separate Docker/Dokku app |
 
-Each repository has its own `AGENT.md` and `.ai/` directory.
+Each repository has its own `AGENTS.md` and `.ai/` directory.
 
 ## Changing the engine
 
