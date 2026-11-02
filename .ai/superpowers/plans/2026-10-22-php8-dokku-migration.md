@@ -8,7 +8,7 @@
 
 **Tech Stack:** PHP 8.4 (Heroku PHP buildpack on Dokku), mysqli, ext-memcached, PHPMailer 6, league/oauth2-client 2.x, vlucas/phpdotenv 5, PHPUnit 11, PHP_CodeSniffer + PHPCompatibility, gitleaks, Dokku + dokku-mysql + dokku-memcached + dokku-letsencrypt.
 
-**Spec:** `docs/superpowers/specs/2026-10-22-php8-dokku-migration-design.md`
+**Spec:** `.ai/superpowers/specs/2026-10-22-php8-dokku-migration-design.md`
 
 ## Global Constraints
 
