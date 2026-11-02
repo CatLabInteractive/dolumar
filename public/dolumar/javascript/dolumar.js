@@ -465,11 +465,14 @@ Game.dolumar.mobile =
 		// (Game.gui.trigger passes the event arguments as one array.)
 		Game.gui.observe ('contentChange', function (args)
 		{
+			var element = args && args.length ? args[0] : args;
+
+			mobile.hideStaleTooltip (element);
 			mobile.refresh ();
 
 			if (mobile.isMobile ())
 			{
-				mobile.fitContent (args && args.length ? args[0] : args);
+				mobile.fitContent (element);
 			}
 
 			// After the whole batch of start-up windows (contentChange fires while it is processed).
@@ -486,9 +489,9 @@ Game.dolumar.mobile =
 		Game.gui.observe ('update', function () { mobile.fitAll (); });
 		Game.layout.onChange (function () { setTimeout (mobile.fitAll, 0); });
 
-		// Tap tooltips: one delegated listener for every sheet.
-		document.addEventListener ('click', mobile.onTooltipClick, false);
-		document.addEventListener ('scroll', mobile.hideTooltip, true);
+		// Tap tooltips: one delegated listener on the sheets container (not on document:
+		// iOS Safari only delivers a tap as a click to an ancestor below body).
+		mobile.bindTooltips ();
 
 		mobile.refresh ();
 	},
@@ -504,6 +507,8 @@ Game.dolumar.mobile =
 	'fitAll' : function ()
 	{
 		var mobile = Game.dolumar.mobile;
+
+		mobile.hideStaleTooltip (null);
 
 		if (mobile.isMobile ())
 		{
@@ -579,6 +584,47 @@ Game.dolumar.mobile =
 
 	'tooltip' : null,
 	'tooltipFor' : null,
+
+	'bindTooltips' : function ()
+	{
+		var mobile = Game.dolumar.mobile;
+		var container = Game.sheets.container ();
+
+		if (!container || container.mobileTooltipBound)
+		{
+			return;
+		}
+		container.mobileTooltipBound = true;
+
+		container.addEventListener ('click', mobile.onTooltipClick, false);
+
+		// Scroll does not bubble: capture it for every scrolling sheet content.
+		container.addEventListener ('scroll', function () { mobile.hideTooltip (); }, true);
+	},
+
+	/*
+		Remove the tooltip when what it points at is gone or hidden: its element left the
+		page (content replaced), was inside the element whose content changed, or its
+		sheet is no longer shown (another sheet on top). Other content changes, such as
+		the Statusbar's regular refresh, leave it alone.
+	*/
+	'hideStaleTooltip' : function (changed)
+	{
+		var mobile = Game.dolumar.mobile;
+		var target = mobile.tooltipFor;
+
+		if (!target)
+		{
+			return;
+		}
+
+		if (!document.body.contains (target)
+			|| (changed && changed.nodeType == 1 && changed.contains (target))
+			|| target.offsetParent === null)
+		{
+			mobile.hideTooltip ();
+		}
+	},
 
 	'showTooltip' : function (element, text)
 	{

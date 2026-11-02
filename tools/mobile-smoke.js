@@ -444,6 +444,55 @@ check('content-fit', { viewport: { width: 390, height: 844 }, layout: 'mobile' }
 		await sheet.locator('.sheet-close').click();
 		await page.waitForFunction(() => document.querySelectorAll('.sheet').length === 0, null, { timeout: 5000 });
 	}
+
+	// A wide table that arrives through a content update is wrapped once, however often the hook runs.
+	await openSheet(page, 'economy', { vid });
+	await visibleSheets(page).first().locator('.sheet-content table').first().waitFor({ state: 'attached', timeout: 15000 });
+	const wrap = await page.evaluate(() => {
+		const sheets = document.querySelectorAll('.sheet');
+		const content = sheets[sheets.length - 1].querySelector('.sheet-content');
+		const holder = document.createElement('div');
+		holder.innerHTML = '<table class="smoke-wide"><tr>' + '<td style="white-space:nowrap">wide-column-content-xxxxx</td>'.repeat(6) + '</tr></table>';
+		content.appendChild(holder);
+		Game.gui.onUpdateContent(content);
+		Game.gui.onUpdateContent(content);
+		const table = content.querySelector('table.smoke-wide');
+		const result = {
+			wrappers: holder.querySelectorAll('.table-scroll').length,
+			parent: table.parentNode.className,
+			scroll: content.scrollWidth,
+			client: content.clientWidth,
+			page: document.documentElement.scrollWidth,
+		};
+		holder.remove();
+		return result;
+	});
+	assert(wrap.wrappers === 1 && wrap.parent === 'table-scroll', 'wide table: expected one .table-scroll around it, got ' + JSON.stringify(wrap));
+	assert(wrap.scroll <= wrap.client + 1 && wrap.page <= 390, 'wide table: the sheet overflows: ' + JSON.stringify(wrap));
+
+	// Tap tooltip: a tap on a titled icon shows one tooltip with its title, a second tap removes it.
+	const icon = visibleSheets(page).first().locator('.sheet-content span.resource[title]').first();
+	const iconTitle = await icon.getAttribute('title');
+	await icon.tap();
+	const tips = await page.locator('.tap-tooltip').allTextContents();
+	assert(tips.length === 1 && tips[0] === iconTitle, 'tooltip: expected one .tap-tooltip "' + iconTitle + '", got ' + JSON.stringify(tips));
+	await icon.tap();
+	assert(await page.locator('.tap-tooltip').count() === 0, 'tooltip: still shown after a second tap');
+	await visibleSheets(page).first().locator('.sheet-close').click();
+	await page.waitForFunction(() => document.querySelectorAll('.sheet').length === 0, null, { timeout: 5000 });
+
+	// 44px tap targets: a list link (squads actions) and a submit button (battle simulator).
+	const tall = async (locator, what) => {
+		await locator.waitFor({ state: 'visible', timeout: 15000 });
+		const box = await locator.boundingBox();
+		assert(box && box.height >= 44, what + ' is ' + (box && box.height) + 'px tall, expected >= 44');
+	};
+	await openSheet(page, 'squads', { vid });
+	await tall(visibleSheets(page).first().locator('.sheet-content li > a').first(), 'squads list link');
+	await visibleSheets(page).first().locator('.sheet-close').click();
+	await page.waitForFunction(() => document.querySelectorAll('.sheet').length === 0, null, { timeout: 5000 });
+	await openSheet(page, 'Simulator', {});
+	await tall(visibleSheets(page).first().locator('.sheet-content button[type=submit], .sheet-content input[type=submit]').first(), 'simulator submit button');
 });
 
 async function main() {

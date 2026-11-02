@@ -360,6 +360,9 @@ body.layout-mobile .mobile-more-list span.guide-icon
 	window (.dolumar_content_inner2), so a sheet gets these instead: content fits the
 	screen width, wide tables scroll inside their own div.table-scroll (added by
 	Game.dolumar.mobile.fitContent), and links and form controls are at least 44px tall.
+	fitContent may put a div.table-scroll between a table and its parent (in a hidden
+	sheet it wraps every table), so per-window rules use descendant selectors, never
+	"parent > table".
 */
 body.layout-mobile .sheet-content
 {
@@ -407,7 +410,8 @@ body.layout-mobile .sheet-content td.left
 }
 
 /* Fixed widths from inline styles (input boxes, table cells) never exceed the sheet.
-   The battle simulator's unit row scrolls sideways on purpose and keeps its width. */
+   The battle simulator's unit row scrolls sideways on purpose and keeps its width.
+   This also matches inline min-width/max-width; no template uses those today. */
 body.layout-mobile .sheet-content [style*="width"]:not(.chooseUnitContainer *)
 {
 	max-width: 100% !important;
@@ -442,7 +446,8 @@ body.layout-mobile .sheet-content .fancybox-checked a
 }
 
 /* Tap targets: links in lists, buttons and form controls. */
-body.layout-mobile .sheet-content.guiwindow li > a
+body.layout-mobile .sheet-content.guiwindow li > a,
+body.layout-mobile .sheet-content.guiwindow form a
 {
 	display: inline-flex;
 	align-items: center;
@@ -479,6 +484,12 @@ body.layout-mobile .sheet-content select
 	line-height: 44px;
 	font-family: inherit;
 	font-size: 16px;
+}
+
+/* Titled elements: a pointer cursor makes iOS Safari deliver the tap as a click. */
+body.layout-mobile .sheet-content.guiwindow [title]
+{
+	cursor: pointer;
 }
 
 /* Tooltip shown by a tap on an element with a title (Game.dolumar.mobile.showTooltip). */
@@ -555,6 +566,14 @@ body.layout-mobile .sheet-content ul.tabs li
 	height: auto;
 	margin: 0 4px 0 0;
 	padding: 0;
+	/* main.css gives tabs a light yellow image; on the dark sheet they are dark. */
+	background: #2c261d;
+	border-color: #8a7550;
+}
+
+body.layout-mobile .sheet-content ul.tabs li.active
+{
+	background: #4a4032;
 }
 
 body.layout-mobile .sheet-content ul.tabs li > a
@@ -563,12 +582,13 @@ body.layout-mobile .sheet-content ul.tabs li > a
 	align-items: center;
 	min-height: 44px;
 	padding: 0 10px;
-	color: #555;
+	color: #c9b48a;
 }
 
 body.layout-mobile .sheet-content ul.tabs li.active > a
 {
-	color: #000;
+	color: #fff;
+	font-weight: bold;
 }
 
 /* Action lists (squads, battle and others): a full-width 44px row per link. */
