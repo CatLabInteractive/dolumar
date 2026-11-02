@@ -133,12 +133,14 @@ echo "command=\"sudo /usr/local/bin/dolumar-preview\",restrict $(cat /root/dolum
 chown dolumar-preview: /home/dolumar-preview/.ssh/authorized_keys && chmod 600 /home/dolumar-preview/.ssh/authorized_keys
 ```
 
-Then add three repository secrets (Settings → Secrets and variables → Actions) and delete the private key from the
-server:
+Then add three repository secrets (Settings → Secrets and variables → Actions):
 
 * `PREVIEW_SSH_HOST`: the server's host name.
-* `PREVIEW_SSH_KEY`: the contents of `/root/dolumar-preview-key`.
+* `PREVIEW_SSH_KEY`: the contents of `/root/dolumar-preview-key` (the private key from step 5).
 * `PREVIEW_SSH_KNOWN_HOSTS`: the output of `ssh-keyscan <host>`.
+
+Once `PREVIEW_SSH_KEY` is saved, delete that private key from the server with `shred -u /root/dolumar-preview-key`, so
+GitHub holds the only copy. Keep `/root/dolumar-preview-key.pub` and the `authorized_keys` entry.
 
 Until `PREVIEW_SSH_HOST` is set the workflow does nothing. When `tools/preview/dolumar-preview` changes, copy it to the
 server again (step 3). To remove a preview by hand: `dolumar-preview destroy <number>`.
