@@ -36,11 +36,13 @@ If a change writes new user files to disk, it needs a new mount and a README upd
 ## Pull request previews
 
 Every same-repository PR gets a throwaway instance on the production Dokku server (`dolumar-pr-<n>`, at
-`pr-<n>.preview.dolumar.com`), built by `.github/workflows/preview.yml` and removed when the PR closes. The setup and
+`pr-<n>.preview.dolumar.com`), built by `.github/workflows/preview.yml` and removed when the PR closes. Pushes to `develop` update a
+standing `dolumar-develop` preview that keeps its data. The setup and
 the security model are in the README section "Pull request previews". In short:
 
 - The GitHub key only reaches `tools/preview/dolumar-preview` (forced SSH command). That script is the only place that
-  names preview apps, services and databases; keep it unable to touch anything that is not `dolumar-pr-*` / `pr_*`.
+  names preview apps, services and databases; keep it unable to touch anything other than `dolumar-pr-*` /
+  `pr_*` and the `dolumar-<branch>` / `branch_*` previews of branches in its `PREVIEW_BRANCHES` setting.
   It is copied to the server by hand, so a change to it needs the owner to reinstall it.
 - `PREVIEW_MODE=1` turns on `tools/seed.php` and `public/preview-login.php` (log in as any player, no OIDC). Both must
   keep refusing to act without it. Never set it in production.

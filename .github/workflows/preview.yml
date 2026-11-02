@@ -2,7 +2,8 @@
 #
 # Each open pull request from a branch in this repository gets its own app at https://pr-<n>.<PREVIEW_DOMAIN>/ with an
 # empty database seeded with test players (tools/seed.php). The app is destroyed when the pull request is closed or
-# merged. The server side is tools/preview/dolumar-preview; setup steps are in README.md ("Pull request previews").
+# merged. Pushes to develop update a standing preview at https://develop.<PREVIEW_DOMAIN>/ that keeps its data (the
+# branch must be listed in PREVIEW_BRANCHES on the server). The server side is tools/preview/dolumar-preview; setup steps are in README.md ("Pull request previews").
 #
 # Needs these repository secrets:
 #   PREVIEW_SSH_HOST         host name of the Dokku server
@@ -15,6 +16,8 @@ name: Preview
 on:
   pull_request:
     types: [opened, reopened, synchronize, closed]
+  push:
+    branches: [develop]
   schedule:
     # Safety net: remove previews whose pull request is no longer open.
     - cron: '17 4 * * *'
@@ -112,8 +115,31 @@ jobs:
           printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
           ssh -i ~/.ssh/id_preview -o IdentitiesOnly=yes "dolumar-preview@$HOST" destroy "$PR"
 
+  deploy-branch:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    concurrency:
+      group: preview-${{ github.ref_name }}
+      cancel-in-progress: true
+    steps:
+      - name: Deploy branch preview
+        env:
+          HOST: ${{ secrets.PREVIEW_SSH_HOST }}
+          KEY: ${{ secrets.PREVIEW_SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.PREVIEW_SSH_KNOWN_HOSTS }}
+          BRANCH: ${{ github.ref_name }}
+          SHA: ${{ github.sha }}
+        run: |
+          [ -n "$HOST" ] || { echo "Previews not configured"; exit 0; }
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$KEY" > ~/.ssh/id_preview && chmod 600 ~/.ssh/id_preview
+          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+          ssh -i ~/.ssh/id_preview -o IdentitiesOnly=yes "dolumar-preview@$HOST" deploy "$BRANCH" "$SHA" | tee deploy.log
+          url="$(grep -o 'PREVIEW_URL=.*' deploy.log | tail -n1 | cut -d= -f2-)"
+          echo "Preview: $url" >> "$GITHUB_STEP_SUMMARY"
+
   cleanup:
-    if: github.event_name != 'pull_request'
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - name: Remove previews of closed pull requests
