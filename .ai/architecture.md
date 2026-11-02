@@ -52,6 +52,24 @@ an isometric map. Each window is a PHP class:
   `$this->getRequestData()` and `$this->getInputData()`.
 - `getContent()` usually fills a `Neuron_Core_Template` and returns `$page->parse('name.tpl')`.
 
+### Layout modes
+
+The client runs in one of two layout modes, `desktop` or `mobile`, shown as `body.layout-desktop` or
+`body.layout-mobile`. The player picks a preference (`desktop`, the default, `mobile` or `auto`) in MyAccount; it is
+stored as the player preference `layout`, and `?layout=desktop|mobile|auto` on the shell URL overrides it for one
+page load. `auto` means mobile below a viewport width of 800 CSS pixels. In mobile mode every `window`-type dialog
+opens as a full-screen sheet in a stack (`#sheets`, back and close buttons) instead of a draggable window; the PHP
+windows and the dialog XML are the same in both modes. `panel` windows (Menu, Statusbar, Newsbar, MiniMap) stay
+panels and are restyled by CSS. Switching mode moves open windows between the two forms.
+
+- Engine: `assets/javascript/layout.js` (`Game.layout`: mode, preference, breakpoint, `onChange`, the `meta#viewport`
+  of the shell), `assets/javascript/sheets.js` and `assets/css/sheets.css` (`Game.sheets`), the sheet branch in
+  `gui.js`, map scale, pinch zoom and touch placement in `scrollmap.js`/`gamemap.js`, and the preference toggle in
+  MyAccount (`templates/gameserver/account/myAccount.tpl`).
+- Game: `public/dolumar/css/mobile.css` (everything scoped under `body.layout-mobile`) and `Game.dolumar.mobile` in
+  `public/dolumar/javascript/dolumar.js`, which builds the mobile header actions and the bottom tab bar from the
+  Statusbar and Menu panels. `tools/mobile-smoke.js` is the browser smoke test for both modes.
+
 ## Domain model (game)
 
 Under `src/Dolumar/`:
