@@ -92,8 +92,8 @@ Change: the credit type for an API call is **the credit type owned by the callin
   - charge
   - `GET credits/mandates`
   - `credits/requests/{id}`
-- **Fallback (my call):** if the client has no product, or its product has no credit type, the call uses type 1 exactly as today. QuizWitz accepts Accounts tokens issued to several clients (web, mobile, mcp, quizfabriek), and not all of them are guaranteed to be linked to its product, so an error here could break QuizWitz.
-- A client whose product owns a different type never touches type 1.
+- **No fallback** (owner decision): if the client has no product, or its product has no credit type, the call fails with a clear error. It never falls back to type 1. A client only ever touches its own product's credit type.
+- Consequence: QuizWitz accepts Accounts tokens issued to several clients (web, mobile, mcp, quizfabriek). Every one of them that calls the credits API must be linked to type 1's product **before** this ships, or QuizWitz credits break for its users. This is a rollout step.
 
 `credits/requests/{id}` keeps returning 404 for a request whose credit type belongs to another product.
 
@@ -171,7 +171,10 @@ While credits are not configured, purchase links stay hidden. Today the speed-up
 
 ## Rollout
 
-1. Accounts change, reviewed and deployed. QuizWitz must keep working.
-2. Accounts admin setup: product, credit type and price, client link.
-3. Dolumar deploy. Players re-log in for the `credits` scope.
-4. A test purchase of each kind with admin-granted credits, then one real top-up.
+1. Before deploying, link every OAuth client that has used the credits API to QuizWitz's product.
+   - Query the production data for clients whose tokens created credit requests or mandates, or that call `credit-price`.
+   - Check that every one of them, and every client QuizWitz introspects, has a product with a credit type.
+2. Accounts change, reviewed and deployed. QuizWitz must keep working.
+3. Accounts admin setup: product, credit type and price, client link.
+4. Dolumar deploy. Players re-log in for the `credits` scope.
+5. A test purchase of each kind with admin-granted credits, then one real top-up.
