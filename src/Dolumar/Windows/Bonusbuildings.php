@@ -46,6 +46,11 @@ class Dolumar_Windows_Bonusbuildings
 	
 	public function getContent ($error = null)
 	{
+		if (!Dolumar_Premium_Prices::creditsEnabled ())
+		{
+			return '<p>Bonus buildings are not available right now.</p>';
+		}
+
 		$sUploadUrl = ABSOLUTE_URL.'page/customsign/?sessionId=' . session_id ();
 		
 		if (!file_exists (PUBLIC_PATH) || !is_writable (PUBLIC_PATH))
@@ -177,6 +182,11 @@ class Dolumar_Windows_Bonusbuildings
 	
 	public function processInput ()
 	{
+		if (!Dolumar_Premium_Prices::creditsEnabled ())
+		{
+			return;
+		}
+
 		$data = $this->getInputData ();
 		
 		if (isset ($data['action']))

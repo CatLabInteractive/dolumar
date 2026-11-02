@@ -5,6 +5,15 @@
  */
 class Dolumar_Premium_Prices
 {
+	/**
+	 * Credits are on only when the Accounts credit service is configured.
+	 * While off, every purchase link is hidden.
+	 */
+	public static function creditsEnabled ()
+	{
+		return Neuron_GameServer_Credits::getPureCreditsObject () !== null;
+	}
+
 	const RUNE = 75;
 	const MOVE_VILLAGE = 750;
 	const MOVE_BUILDING = 100;

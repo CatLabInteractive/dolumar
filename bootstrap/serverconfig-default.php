@@ -122,3 +122,7 @@ defEnvOrDefault('OPENID_CONNECT_PROFILE_URL');
 defEnvOrDefault('OPENID_CONNECT_CLIENT_ID');
 defEnvOrDefault('OPENID_CONNECT_SECRET');
 defEnvOrDefault('OPENID_CONNECT_PROFILE_URL_PREFIX');
+
+// CatLab Accounts credits (credits are on only when the client id, secret and type id are set)
+defEnvOrDefault('CATLAB_ACCOUNTS_URL', 'https://accounts.catlab.eu/');
+defEnvOrDefault('CATLAB_CREDITS_TYPE_ID');

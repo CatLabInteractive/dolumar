@@ -78,6 +78,28 @@ dokku letsencrypt:cron-job --add
 ## OpenID Connect
 * Redirect URL: https://YOUR_DOMAIN/oauth2/login/next
 
-## CatLab Credits
-Paid features used to run on the CatLab Credits framework. That service is not currently available, so leave
-`CREDITS_*` unset.
+## Credits (CatLab Accounts)
+Paid features (premium, runes, resources, moving villages and buildings, bonus buildings, speed-ups) are bought with
+Dolumar credits on [CatLab Accounts](https://accounts.catlab.eu/). Credits are enabled only when
+`OPENID_CONNECT_CLIENT_ID`, `OPENID_CONNECT_SECRET` and `CATLAB_CREDITS_TYPE_ID` are all set; otherwise every
+purchase link is hidden. The old `CREDITS_*` settings stay unset.
+
+Setup:
+
+1. In the Accounts admin, create a "Dolumar" product.
+2. Create a "Dolumar Credits" credit type pointing at that product. The price is EUR 0.014 per credit including VAT
+   (500 credits = EUR 7.00). Accounts stores prices excluding VAT, so enter about EUR 0.01157 (0.014 / 1.21) on the
+   admin price page.
+3. Add the discount tiers on the same page: 100 credits x1.00, 1000 x0.95, 2000 x0.91, 3000 x0.86, 5000 x0.83.
+4. Link Dolumar's OIDC client to the product and allow the `credits` scope.
+5. On the game server:
+
+   ```
+   dokku config:set dolumar CATLAB_CREDITS_TYPE_ID=<credit type id>
+   # optional, defaults to https://accounts.catlab.eu/
+   dokku config:set dolumar CATLAB_ACCOUNTS_URL=https://accounts.catlab.eu/
+   ```
+6. Players log in once more to grant the `credits` scope. Until then, purchase links send them through login.
+
+Pending purchases that missed their notification are settled by the `cron/constantly.php` job and when a player
+opens the premium shop.

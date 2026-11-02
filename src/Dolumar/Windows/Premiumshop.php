@@ -47,6 +47,16 @@ class Dolumar_Windows_Premiumshop extends Neuron_GameServer_Windows_Window
 		$action = isset ($input['action']) ? $input['action'] : null;
 		
 		$player = Neuron_GameServer::getPlayer ();
+
+		if (!Dolumar_Premium_Prices::creditsEnabled ())
+		{
+			// No purchases while credits are off.
+			$page = new Neuron_Core_Template ();
+			$page->set ('credits_enabled', false);
+			return $page->parse ('dolumar/premium/premiumshop.phpt');
+		}
+
+		$this->reconcilePending ();
 		
 		if (isset ($action) && (!$player || !$player->isPlaying ()))
 		{
@@ -78,9 +88,32 @@ class Dolumar_Windows_Premiumshop extends Neuron_GameServer_Windows_Window
 		}
 	}
 	
+	/**
+	 * Settle pending purchases (e.g. a missed notify) when the shop opens.
+	 * The service has no per-player reconcile, so run the global one with a
+	 * small limit. Never fatal.
+	 */
+	private function reconcilePending ()
+	{
+		try
+		{
+			$client = Neuron_GameServer_Credits::getPureCreditsObject ();
+			if ($client)
+			{
+				$service = new Neuron_GameServer_Credits_PurchaseService ($client);
+				$service->reconcile (5);
+			}
+		}
+		catch (\Throwable $e)
+		{
+			error_log ('Premiumshop reconcile failed: ' . get_class ($e));
+		}
+	}
+
 	private function getOverview ()
 	{
 		$page = new Neuron_Core_Template ();
+		$page->set ('credits_enabled', true);
 
 		// Premium
 		$player = Neuron_GameServer::getPlayer ();
