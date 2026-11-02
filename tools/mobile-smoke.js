@@ -57,6 +57,15 @@ async function login(page, baseUrl, user = 1) {
 		await page.reload({ waitUntil: 'load' });
 		await page.waitForFunction(() => typeof CONFIG_GAME_NAME !== 'undefined', null, { timeout: 15000 });
 	}
+
+	// The OIDC redirect drops the ?layout= query string; load the shell once more with it.
+	if (page.__layout) {
+		await page.goto(new URL('/?layout=' + page.__layout, baseUrl).toString(), { waitUntil: 'load' });
+		await page.waitForFunction(() => typeof CONFIG_GAME_NAME !== 'undefined', null, { timeout: 15000 });
+	}
+
+	// Wait until the map has loaded and the "Loading..." dialog is closed.
+	await page.waitForFunction(() => Game.core && Game.core.isMapLoaded && Game.gui.bIsInDialog <= 0, null, { timeout: 15000 });
 }
 
 function assert(condition, message) {
@@ -104,6 +113,81 @@ check('layout-toggle', { viewport: { width: 1280, height: 800 } }, async (page) 
 	await page.waitForTimeout(1000);
 	await page.goto(baseUrl, { waitUntil: 'load' });
 	await page.waitForSelector('body.layout-desktop', { timeout: 15000 });
+});
+
+// Village id from the Menu panel's build link: openWindow('build', {'vid':'<id>'}).
+async function firstVillageId(page) {
+	const link = page.locator('a#build[onclick]').first();
+	await link.waitFor({ state: 'attached', timeout: 15000 });
+	const onclick = await link.getAttribute('onclick');
+	const match = /'vid'\s*:\s*'?(\d+)/.exec(onclick || '');
+	assert(match, 'no village id in the Menu build link: ' + onclick);
+	return match[1];
+}
+
+// Close the sheets the shell opens at start (such as "Welcome back"), so a check starts from an empty stack.
+async function closeStartupSheets(page) {
+	await page.waitForTimeout(1000);
+	for (let i = 0; i < 10 && await page.locator('.sheet').count() > 0; i++) {
+		await page.locator('.sheet:visible .sheet-close:visible').first().click();
+	}
+	assert(await page.locator('.sheet').count() === 0, 'could not close the start-up sheets');
+}
+
+// Open a window and wait until its sheet (one more than before) is on the page.
+async function openSheet(page, windowId, requestData) {
+	const before = await page.locator('.sheet').count();
+	await page.evaluate(([id, data]) => openWindow(id, data), [windowId, requestData]);
+	await page.waitForFunction((n) => document.querySelectorAll('.sheet').length > n, before, { timeout: 15000 });
+}
+
+const visibleSheets = (page) => page.locator('.sheet:visible');
+
+check('sheets-open', { viewport: { width: 390, height: 844 }, layout: 'mobile' }, async (page) => {
+	const vid = await firstVillageId(page);
+	await closeStartupSheets(page);
+	await openSheet(page, 'build', { vid });
+	assert(await page.locator('.sheet').count() === 1, 'expected one .sheet, got ' + await page.locator('.sheet').count());
+	const title = (await page.locator('.sheet .sheet-title').first().textContent() || '').trim();
+	assert(title.length > 0, 'the sheet has no title text');
+	assert(await page.locator('.dialog').count() === 0, 'unexpected .dialog element on the mobile layout');
+});
+
+check('sheets-stack', { viewport: { width: 390, height: 844 }, layout: 'mobile' }, async (page) => {
+	const vid = await firstVillageId(page);
+	await closeStartupSheets(page);
+	await openSheet(page, 'build', { vid });
+	await openSheet(page, 'economy', { vid });
+	const sheets = page.locator('.sheet');
+	assert(await sheets.count() === 2, 'expected two .sheet elements, got ' + await sheets.count());
+	assert(await visibleSheets(page).count() === 1, 'expected one visible sheet, got ' + await visibleSheets(page).count());
+	assert(await sheets.nth(1).isVisible(), 'the last sheet is not the visible one');
+
+	const openBefore = await page.evaluate(() => Game.gui.aOpenWindows.length);
+	await sheets.nth(1).locator('.sheet-back').click();
+	await page.waitForFunction(() => document.querySelectorAll('.sheet').length === 1, null, { timeout: 5000 });
+	assert(await sheets.first().isVisible(), 'the first sheet is not visible after going back');
+	const openAfter = await page.evaluate(() => Game.gui.aOpenWindows.length);
+	assert(openAfter === openBefore - 1, 'aOpenWindows went from ' + openBefore + ' to ' + openAfter + ', expected one less');
+});
+
+check('sheets-modal', { viewport: { width: 390, height: 844 }, layout: 'mobile' }, async (page) => {
+	const vid = await firstVillageId(page);
+	await closeStartupSheets(page);
+	await openSheet(page, 'build', { vid });
+	await page.evaluate(() => {
+		const entry = Game.gui.aOpenWindows.filter((w) => w.sWindowId.toLowerCase() === 'build')[0];
+		Game.gui.dialogMessage(entry, 'text', 'Yes', 'void(0)', 'No', 'void(0)');
+	});
+	const modal = page.locator('.sheet.sheet-modal');
+	await modal.waitFor({ state: 'visible', timeout: 5000 });
+	assert(await page.locator('.sheet-backdrop:visible').count() === 1, 'no visible .sheet-backdrop under the modal');
+	const sheet = page.locator('.sheet:not(.sheet-modal)');
+	assert(await sheet.count() === 1 && await sheet.first().isVisible(), 'the sheet under the modal is not visible');
+
+	await modal.locator('.sheet-content button').nth(1).click();
+	await page.waitForFunction(() => document.querySelectorAll('.sheet-modal, .sheet-backdrop').length === 0, null, { timeout: 5000 });
+	assert(await sheet.count() === 1 && await sheet.first().isVisible(), 'the sheet is gone after closing the modal');
 });
 
 async function main() {
