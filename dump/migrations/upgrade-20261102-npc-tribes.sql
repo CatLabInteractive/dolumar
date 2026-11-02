@@ -1,39 +1,8 @@
-<?php
-/**
- *  Dolumar, browser based strategy game
- *  Copyright (C) 2009 Thijs Van der Schaeghe
- *  CatLab Interactive bvba, Gent, Belgium
- *  http://www.catlab.eu/
- *  http://www.dolumar.com/
- *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License along
- *  with this program; if not, write to the Free Software Foundation, Inc.,
- *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- */
+-- NPC tribes: one row per NPC village (name, multipliers, processed-event watermarks, current request),
+-- one standing row per NPC village and player, and a decision log.
+-- (No semicolons in comments: tools/migrate.php splits on them.)
 
-/**
- * The three NPC tables. There is no migration framework, so the statements are idempotent and
- * run at the start of every cron/ai.php run; dump/dump.sql carries the same statements.
- */
-class Dolumar_Npc_Schema
-{
-	/**
-	 * @return string[]
-	 */
-	public static function statements ()
-	{
-		return [
-			"CREATE TABLE IF NOT EXISTS `npc_villages` (
+CREATE TABLE `npc_villages` (
   `vid` int(11) NOT NULL,
   `tribe_name` varchar(60) NOT NULL DEFAULT '',
   `mul_threshold` float NOT NULL DEFAULT '1',
@@ -47,9 +16,9 @@ class Dolumar_Npc_Schema
   `created` int(11) NOT NULL DEFAULT '0',
   `last_run` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`vid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-			"CREATE TABLE IF NOT EXISTS `npc_standings` (
+CREATE TABLE `npc_standings` (
   `vid` int(11) NOT NULL,
   `plid` int(11) NOT NULL,
   `standing` float NOT NULL DEFAULT '0',
@@ -76,9 +45,9 @@ class Dolumar_Npc_Schema
   `pact` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`vid`,`plid`),
   KEY `plid` (`plid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-			"CREATE TABLE IF NOT EXISTS `npc_log` (
+CREATE TABLE `npc_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `vid` int(11) NOT NULL,
   `plid` int(11) DEFAULT NULL,
@@ -86,18 +55,4 @@ class Dolumar_Npc_Schema
   `message` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   KEY `vid` (`vid`,`date`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
-		];
-	}
-
-	/**
-	 * Create the tables when they do not exist yet.
-	 */
-	public static function ensure ()
-	{
-		$db = Neuron_DB_Database::getInstance ();
-		foreach (self::statements () as $sql) {
-			$db->query ($sql);
-		}
-	}
-}
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

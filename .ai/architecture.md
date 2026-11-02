@@ -95,13 +95,14 @@ Each tribe keeps a hidden standing per player (-100..100) that decays toward 0 a
 tribes send scouts, an envoy with a price, then war parties; gifts and delivered requests make them friendly
 enough to send support squads. Every number is a constant in `Dolumar_Npc_Config`; `NPC_AGGRESSION`
 (`off`/`counter`/`full`) and `NPC_PROTECTION_RUNES` come from the environment. Tables `npc_villages`,
-`npc_standings` and `npc_log` are created by `Dolumar_Npc_Schema::ensure()` on every run and mirrored in
-`dump/dump.sql`. The full design is `.ai/superpowers/specs/2026-11-02-npc-standing-ai-design.md`.
+`npc_standings` and `npc_log` come from the migration `dump/migrations/upgrade-20261102-npc-tribes.sql`. The full
+design is `.ai/superpowers/specs/2026-11-02-npc-standing-ai-design.md`.
 
 ## Storage
 
 - MySQL: the whole game state. The schema is `dump/dump.sql`; `tools/setup.php` installs it only into an empty
-  database. There is no migration framework: schema changes need a hand-written, idempotent SQL step and must be
-  added to `dump/dump.sql` as well.
+  database. Schema changes are migration files in `dump/migrations/` (`upgrade-YYYYMMDD-name.sql`), run once per
+  database by `tools/migrate.php` (the Dokku predeploy script) and recorded in the `migrations` table; the same
+  change goes into `dump/dump.sql` in the same commit. See `dump/README.md`.
 - Memcached: required. The map, sessions and many lookups depend on it.
 - Filesystem: custom sign images in `SIGNS_PATH` (persistent volume in production) and a cache in `CACHE_DIR`.

@@ -11,6 +11,7 @@ cp .env.docker.example .env.docker
 docker compose up -d --build
 docker compose exec web composer install
 docker compose exec web php tools/setup.php     # installs dump/dump.sql into an empty database
+docker compose exec web php tools/migrate.php   # applies pending dump/migrations/ to an existing database
 mkdir -p public/signs && chmod 777 public/signs
 ```
 
@@ -35,6 +36,12 @@ GitHub Actions (`.github/workflows/tests.yml`) runs the syntax check, phpcs and 
 request and on pushes to `master`, on PHP 8.4. Only logic that is pure PHP over arrays can be unit-tested here;
 code that talks to the database (windows, village managers, the NPC executor) is verified by playing the affected
 flow locally. Say in the PR what you checked.
+
+## Schema changes
+
+Add `dump/migrations/upgrade-YYYYMMDD-name.sql` and make the same change in `dump/dump.sql` in the same commit;
+`tools/migrate.php` runs each file once and records it in the `migrations` table. The rules (ordering, no `;` in
+comments, two deploys for destructive changes) are in [`dump/README.md`](../dump/README.md).
 
 ## Debugging
 

@@ -51,8 +51,6 @@ if (!$lock->setLock ('npc_ai', 0, 600)) {
 }
 
 try {
-    Dolumar_Npc_Schema::ensure ();
-
     // Make sure every player has an NPC village within reach of each of their villages.
     $players = $game->getServer()->getActivePlayers();
 

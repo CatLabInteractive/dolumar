@@ -50,7 +50,7 @@ delivering the request shown on its village profile make it friendly, and friend
 when attacked. The design is in
 [`.ai/superpowers/specs/2026-11-02-npc-standing-ai-design.md`](.ai/superpowers/specs/2026-11-02-npc-standing-ai-design.md);
 the code lives in `src/Dolumar/Npc/` with every tunable number in `Dolumar_Npc_Config`. The three `npc_*`
-tables are created by the cron run itself (`Dolumar_Npc_Schema`) and are in `dump/dump.sql`.
+tables come from the migration `dump/migrations/upgrade-20261102-npc-tribes.sql`.
 
 ## Deploying on Dokku
 On the server (Dokku with the `dokku-mysql`, `dokku-memcached` and `dokku-letsencrypt` plugins installed):
@@ -86,6 +86,8 @@ dokku letsencrypt:cron-job --add
 
 * The `postdeploy` script in [`app.json`](app.json) runs `php tools/setup.php` on every deploy. It is idempotent and
   only installs the schema into an empty database.
+* Schema changes are migration files in `dump/migrations/`, run by `php tools/migrate.php` as the Dokku predeploy
+  script (see [`dump/README.md`](dump/README.md)).
 * The cron jobs (`cron/run.php` every minute, `cron/ai.php` every 5 minutes) are also defined in `app.json`
   and are installed by Dokku automatically.
 * Check a deployment with `tools/smoke.sh https://YOUR_DOMAIN`.

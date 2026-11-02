@@ -1640,10 +1640,26 @@ CREATE TABLE `villages_visits` (
 
 -- Dump completed on 2018-05-24 15:03:20
 --
--- NPC tables (see src/Dolumar/Npc/Schema.php, which creates them idempotently on each cron/ai.php run)
+-- Table structure for table `migrations` (which files of dump/migrations/ have been applied, see dump/README.md)
 --
 
-CREATE TABLE IF NOT EXISTS `npc_villages` (
+DROP TABLE IF EXISTS `migrations`;
+CREATE TABLE `migrations` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `migration` varchar(255) NOT NULL,
+  `created_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `migration` (`migration`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- NPC tribes (dump/migrations/upgrade-20261102-npc-tribes.sql)
+--
+
+DROP TABLE IF EXISTS `npc_villages`;
+DROP TABLE IF EXISTS `npc_standings`;
+DROP TABLE IF EXISTS `npc_log`;
+CREATE TABLE `npc_villages` (
   `vid` int(11) NOT NULL,
   `tribe_name` varchar(60) NOT NULL DEFAULT '',
   `mul_threshold` float NOT NULL DEFAULT '1',
@@ -1659,7 +1675,7 @@ CREATE TABLE IF NOT EXISTS `npc_villages` (
   PRIMARY KEY (`vid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE IF NOT EXISTS `npc_standings` (
+CREATE TABLE `npc_standings` (
   `vid` int(11) NOT NULL,
   `plid` int(11) NOT NULL,
   `standing` float NOT NULL DEFAULT '0',
@@ -1688,7 +1704,7 @@ CREATE TABLE IF NOT EXISTS `npc_standings` (
   KEY `plid` (`plid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE IF NOT EXISTS `npc_log` (
+CREATE TABLE `npc_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `vid` int(11) NOT NULL,
   `plid` int(11) DEFAULT NULL,
@@ -1697,4 +1713,3 @@ CREATE TABLE IF NOT EXISTS `npc_log` (
   PRIMARY KEY (`id`),
   KEY `vid` (`vid`,`date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-

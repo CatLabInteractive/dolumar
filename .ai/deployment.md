@@ -10,8 +10,11 @@ the servers unless the owner asks for that specific action.
 
 ## What happens on deploy
 
+- `app.json` `scripts.dokku.predeploy` runs `php tools/migrate.php` in the new image before it takes traffic: every
+  file in `dump/migrations/` not yet recorded in the `migrations` table is executed, in name order. A failure
+  aborts the deploy and the old release keeps serving. See [`dump/README.md`](../dump/README.md).
 - `app.json` `scripts.dokku.postdeploy` runs `php tools/setup.php`. It is idempotent and only installs the schema
-  when the `n_players` table does not exist. It never migrates an existing database.
+  (`dump/dump.sql`) when the `n_players` table does not exist, then records all migrations as applied.
 - `app.json` `cron` installs the cron jobs: `php cron/run.php` every minute and `php cron/ai.php` every 5 minutes.
 - Composer installs dependencies from `composer.lock`, so the engine version deployed is the commit pinned there.
 

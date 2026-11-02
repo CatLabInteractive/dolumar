@@ -131,8 +131,9 @@ cron/ai.php
 - `Dolumar_Npc_StandingRepository`: reads and writes `npc_villages` and `npc_standings`.
 - `Dolumar_Npc_Tribe`: tribe name generation (moved from `Dolumar_Players_NPCPlayer::getNewVillageName`, which keeps
   generating village names), hoard words, request generation (a resource the tribe is short of, sized to its hoard).
-- `Dolumar_Npc_Schema`: idempotent `CREATE TABLE IF NOT EXISTS` for the three tables, called once per cron run. The
-  same statements go into `dump/dump.sql`.
+- Schema: the three tables ship as the migration `dump/migrations/upgrade-20261102-npc-tribes.sql` (run once by
+  `tools/migrate.php` on deploy) and are in `dump/dump.sql` for fresh installs. (Originally planned as an idempotent
+  `Dolumar_Npc_Schema::ensure()` on every cron run; replaced by the migration flow added in the same PR.)
 
 ### Data
 

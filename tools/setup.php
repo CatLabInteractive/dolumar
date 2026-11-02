@@ -75,4 +75,19 @@ catch (Throwable $e) {
 	fwrite (STDERR, 'Install failed: ' . $e->getMessage () . "\n");
 	exit (1);
 }
+
+// The dump already contains every migration: record them so tools/migrate.php does not run them again.
+try {
+	$db = Neuron_DB_Database::getInstance ();
+	Dolumar_Db_Migrations::ensureTable ($db);
+	$files = Dolumar_Db_MigrationPlan::migrations (scandir (__DIR__ . '/../dump/migrations'));
+	foreach ($files as $fileName) {
+		Dolumar_Db_Migrations::record ($db, $fileName);
+	}
+	echo 'Recorded ' . count ($files) . ' migrations as applied.' . "\n";
+}
+catch (Throwable $e) {
+	fwrite (STDERR, 'Could not record migrations: ' . $e->getMessage () . "\n");
+	exit (1);
+}
 echo 'Done!' . "\n";
