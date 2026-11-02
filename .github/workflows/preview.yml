@@ -41,7 +41,8 @@ jobs:
     runs-on: ubuntu-latest
     concurrency:
       group: preview-${{ github.event.pull_request.number }}
-      cancel-in-progress: true
+      # Queue instead of cancelling: a cancelled run kills ssh mid-deploy and leaves Dokku's deploy lock behind.
+      cancel-in-progress: false
     steps:
       - name: Check configuration
         id: config
@@ -105,7 +106,8 @@ jobs:
     runs-on: ubuntu-latest
     concurrency:
       group: preview-${{ github.event.pull_request.number }}
-      cancel-in-progress: true
+      # Queue instead of cancelling: a cancelled run kills ssh mid-deploy and leaves Dokku's deploy lock behind.
+      cancel-in-progress: false
     steps:
       - name: Destroy preview
         env:
@@ -125,7 +127,8 @@ jobs:
     runs-on: ubuntu-latest
     concurrency:
       group: preview-${{ github.ref_name }}
-      cancel-in-progress: true
+      # Queue instead of cancelling: a cancelled run kills ssh mid-deploy and leaves Dokku's deploy lock behind.
+      cancel-in-progress: false
     steps:
       - name: Deploy branch preview
         env:

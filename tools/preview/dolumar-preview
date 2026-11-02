@@ -17,6 +17,8 @@
 
 set -euo pipefail
 set -f
+# sudo keeps the caller's home as working directory, which root-run tools then cannot return to.
+cd /
 
 CONFIG=/etc/default/dolumar-preview
 if [ -f "$CONFIG" ]; then
