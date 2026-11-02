@@ -629,10 +629,13 @@ class Dolumar_Players_Player extends Neuron_GameServer_Player
 
 		$logs = Dolumar_Players_Logs::getInstance ();
 
+		$maxdate = mktime (0, 0, 0, date ('n', NOW), 1, date ('Y', NOW));
+
+		// Set the window explicitly (the logs instance is shared): this month,
+		// including runes bought earlier in this same request (cron reconcile).
 		$logs->clearFilters ();
 		$logs->addShowOnly ('premium_runes_bought');
-
-		$maxdate = mktime (0, 0, 0, date ('n', NOW), 1, date ('Y', NOW));
+		$logs->setTimeInterval ($maxdate, null);
 
 		$amount = 0;
 		foreach ($logs->getLogs ($this->getVillages (), 0, $maximum, 'DESC') as $v)
@@ -663,6 +666,7 @@ class Dolumar_Players_Player extends Neuron_GameServer_Player
 
 		$objLogs->clearFilters ();
 		$objLogs->addShowOnly ('premium_movevillage');
+		$objLogs->setTimeInterval (null, null);
 
 		foreach ($objLogs->getLogs ($village, 0, 1, 'DESC') as $v)
 		{
@@ -722,7 +726,8 @@ class Dolumar_Players_Player extends Neuron_GameServer_Player
 
 		$objLogs->clearFilters ();
 		$objLogs->addShowOnly ('premium_movevillage');
-		$objLogs->setTimeInterval (time () - 60 * 60 * Dolumar_Premium_Prices::MIN_MOVEVILLAGE_INTERVAL_DAYS);
+		// No upper bound: a move applied earlier in this request (cron reconcile) counts too.
+		$objLogs->setTimeInterval (time () - 60 * 60 * Dolumar_Premium_Prices::MIN_MOVEVILLAGE_INTERVAL_DAYS, null);
 
 		return count ($objLogs->getLogs ($village, 0, 5, 'DESC')) == 0;
 	}

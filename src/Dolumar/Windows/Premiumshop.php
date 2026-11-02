@@ -56,7 +56,7 @@ class Dolumar_Windows_Premiumshop extends Neuron_GameServer_Windows_Window
 			return $page->parse ('dolumar/premium/premiumshop.phpt');
 		}
 
-		$this->reconcilePending ();
+		$this->reconcilePending ($player);
 		
 		if (isset ($action) && (!$player || !$player->isPlaying ()))
 		{
@@ -89,19 +89,23 @@ class Dolumar_Windows_Premiumshop extends Neuron_GameServer_Windows_Window
 	}
 	
 	/**
-	 * Settle pending purchases (e.g. a missed notify) when the shop opens.
-	 * The service has no per-player reconcile, so run the global one with a
-	 * small limit. Never fatal.
+	 * Settle this player's own pending purchases (e.g. a missed notify) when
+	 * the shop opens. Other players' purchases are left to cron. Never fatal.
 	 */
-	private function reconcilePending ()
+	private function reconcilePending ($player)
 	{
+		if (!$player || !$player->getId ())
+		{
+			return;
+		}
+
 		try
 		{
 			$client = Neuron_GameServer_Credits::getPureCreditsObject ();
 			if ($client)
 			{
 				$service = new Neuron_GameServer_Credits_PurchaseService ($client);
-				$service->reconcile (5);
+				$service->reconcileForPlayer ($player, 5);
 			}
 		}
 		catch (\Throwable $e)

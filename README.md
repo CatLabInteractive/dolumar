@@ -94,7 +94,11 @@ Setup:
    should show 500 credits at about EUR 7.01 for EU buyers.
 3. Enter the discount tiers in the same form's textarea, one per line: `100=1.00`, `1000=0.95`, `2000=0.91`,
    `3000=0.86`, `5000=0.83`.
-4. Link Dolumar's OIDC client to the product and allow the `credits` scope.
+4. Link Dolumar's OIDC client to the product and allow the `credits` scope. Do this (steps 1-4) **before** setting
+   `CATLAB_CREDITS_TYPE_ID` in step 5: as soon as that is set the game asks for the `credits` scope at login, and
+   Accounts refuses the login while the client is not allowed that scope.
+   A newly created OIDC client also needs a signing key (a row in `oauth2_public_keys`); the existing production
+   client already has one.
 5. On the game server:
 
    ```
@@ -102,7 +106,17 @@ Setup:
    # optional, defaults to https://accounts.catlab.eu/
    dokku config:set dolumar CATLAB_ACCOUNTS_URL=https://accounts.catlab.eu/
    ```
+
+   `CATLAB_ACCOUNTS_URL` must be exactly Accounts' public URL (same scheme, host and path; a trailing slash is
+   optional): the game only redirects players to confirm URLs that start with it, so any other spelling (`http`
+   instead of `https`, `www.`, ...) makes every purchase fail with "temporarily unavailable".
 6. Players log in once more to grant the `credits` scope. Until then, purchase links send them through login.
 
-Pending purchases that missed their notification are settled by the `cron/constantly.php` job and when a player
-opens the premium shop.
+Pending purchases that missed their notification, and refunds that could not reach Accounts (`refund_pending`), are
+settled by the `cron/constantly.php` job; a player's own purchases are also settled when they open the premium shop.
+
+After the first real deploy, check the logs for `REFUND FAILED` and `marked failed`: both mean a purchase needs
+manual attention (a refund Accounts refused, or a request that could not be matched).
+
+Merge order: game PR #3, then the engine PR, then re-lock `composer.lock` to the merged engine commit, then this
+branch.

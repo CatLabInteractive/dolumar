@@ -1652,10 +1652,11 @@ CREATE TABLE IF NOT EXISTS `n_auth_catlab` (
 CREATE TABLE IF NOT EXISTS `n_credit_purchases` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `plid` INT NOT NULL,
+  `profile_id` INT NULL,
   `credits` INT NOT NULL,
   `description` VARCHAR(255) NOT NULL,
   `action_data` TEXT NOT NULL,
-  `status` ENUM('pending','granted','refunded','expired','failed') NOT NULL DEFAULT 'pending',
+  `status` ENUM('pending','granted','refunded','expired','failed','refund_pending') NOT NULL DEFAULT 'pending',
   `credit_request_id` INT NULL,
   `created_at` DATETIME NOT NULL,
   `expires_at` DATETIME NOT NULL,
