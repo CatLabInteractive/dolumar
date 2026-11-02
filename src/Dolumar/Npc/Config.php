@@ -23,7 +23,7 @@
 
 /**
  * Every tunable number of the NPC behaviour, in one place.
- * See .ai/superpowers/specs/2026-11-02-npc-standing-ai-design.md for what each one means.
+ * See docs/superpowers/specs/2026-11-02-npc-standing-ai-design.md for what each one means.
  */
 class Dolumar_Npc_Config
 {

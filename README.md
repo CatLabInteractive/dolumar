@@ -19,6 +19,7 @@ docker compose exec web php tools/setup.php   # only needed for an empty databas
 * `public/signs` must exist and be writable by the web container (`mkdir -p public/signs && chmod 777 public/signs`).
 * Smoke test: `tools/smoke.sh http://localhost:8080`. If OpenID Connect is not configured, run it as
   `SMOKE_NO_OAUTH=1 tools/smoke.sh http://localhost:8080`.
+* Game tests (the NPC decision logic, no database needed): `docker compose exec web vendor/bin/phpunit`.
 * Engine tests: `docker compose exec -w /engine web vendor/bin/phpunit`.
 
 ## Configuration
@@ -34,8 +35,22 @@ the most important ones are:
 * `APP_DEBUG`: enables debug output; leave unset in production.
 * `SIGNS_PATH`: where custom sign images are stored (defaults to `public/signs`). Must be persistent in production.
 * `AIRBRAKE_TOKEN`: optional error reporting.
+* `NPC_AGGRESSION`: how far the goblin tribes go when raided: `off` (they only build and defend), `counter`
+  (default: scouts, an envoy, then counter-attacks against raiders), or `full` (also strikes against players who
+  attack the tribe's allies). `NPC_PROTECTION_RUNES` (default 10): players with fewer runes are never attacked,
+  nor are accounts younger than seven days.
 
 `CREDITS_*` and `SERVERLIST_*` are optional and off by default; the game works without them.
+
+## NPC tribes
+Every player gets a goblin village nearby, run by `cron/ai.php` every five minutes. A tribe hoards resources,
+keeps a hidden standing per player and reacts to how it is treated: raid it and it sends scouts, then an envoy
+with a price, then war parties; pay the envoy or beat a war party at home and you get a truce. Gifts and
+delivering the request shown on its village profile make it friendly, and friends get goblin reinforcements
+when attacked. The design is in
+[`docs/superpowers/specs/2026-11-02-npc-standing-ai-design.md`](docs/superpowers/specs/2026-11-02-npc-standing-ai-design.md);
+the code lives in `src/Dolumar/Npc/` with every tunable number in `Dolumar_Npc_Config`. The three `npc_*`
+tables are created by the cron run itself (`Dolumar_Npc_Schema`) and are in `dump/dump.sql`.
 
 ## Deploying on Dokku
 On the server (Dokku with the `dokku-mysql`, `dokku-memcached` and `dokku-letsencrypt` plugins installed):

@@ -12,7 +12,7 @@ orchestrator driven by `cron/ai.php` every 5 minutes.
 **Tech Stack:** PHP 8.4 (`Dolumar_*` classmap autoload, no namespaces), MySQL via `Neuron_Core_Database` /
 `Neuron_DB_Database`, PHPUnit 11 for the new `tests/` suite, phpcs PHPCompatibility.
 
-**Spec:** `.ai/superpowers/specs/2026-11-02-npc-standing-ai-design.md`
+**Spec:** `docs/superpowers/specs/2026-11-02-npc-standing-ai-design.md`
 
 ## Global Constraints
 
