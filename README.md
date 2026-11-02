@@ -48,7 +48,7 @@ keeps a hidden standing per player and reacts to how it is treated: raid it and 
 with a price, then war parties; pay the envoy or beat a war party at home and you get a truce. Gifts and
 delivering the request shown on its village profile make it friendly, and friends get goblin reinforcements
 when attacked. The design is in
-[`docs/superpowers/specs/2026-11-02-npc-standing-ai-design.md`](docs/superpowers/specs/2026-11-02-npc-standing-ai-design.md);
+[`.ai/superpowers/specs/2026-11-02-npc-standing-ai-design.md`](.ai/superpowers/specs/2026-11-02-npc-standing-ai-design.md);
 the code lives in `src/Dolumar/Npc/` with every tunable number in `Dolumar_Npc_Config`. The three `npc_*`
 tables are created by the cron run itself (`Dolumar_Npc_Schema`) and are in `dump/dump.sql`.
 

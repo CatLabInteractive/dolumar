@@ -24,7 +24,7 @@
 /**
  * The NPC village module ($village->ai): a thin orchestrator over the Dolumar_Npc_* classes.
  * One run = snapshot, standing update, planning, execution, save.
- * See docs/superpowers/specs/2026-11-02-npc-standing-ai-design.md.
+ * See .ai/superpowers/specs/2026-11-02-npc-standing-ai-design.md.
  */
 class Dolumar_Players_Village_Ai
 {
