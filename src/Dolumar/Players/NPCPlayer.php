@@ -67,6 +67,14 @@ class Dolumar_Players_NPCPlayer extends Dolumar_Players_Player
     }
 
     /**
+     * The tribe has no inbox: battle and transfer notifications meant for the owner are dropped.
+     */
+    public function sendNotification ($txtMsgKey, $txtMsgSection, $inputData = array (), $objSender = null, $isPublic = false)
+    {
+        // do nothing.
+    }
+
+    /**
      * Get a name for a new village
      * @return string
      */

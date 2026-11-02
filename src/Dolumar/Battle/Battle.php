@@ -135,6 +135,12 @@ class Dolumar_Battle_Battle
 	
 	public static function getHonourPenalty ($attackingVillage, $defendingVillage)
 	{		
+		// Raids on and by the tribes cost no honour.
+		if ($attackingVillage->isNpc () || $defendingVillage->isNpc ())
+		{
+			return 0;
+		}
+
 		$max_honour_loss = self::MAX_HONOUR_LOSS;
 
 		// If the defending village has been offline for 31 days, honour doesn't count
@@ -646,6 +652,9 @@ class Dolumar_Battle_Battle
 		$iRankingBonus = max (0.10, $iRankingBonus);
 
 		$procent = $result * 15;
+
+		// A tribe hides its hoard from those it holds a grudge against (and completely during a truce).
+		$lootFactor = $this->getNpcLootFactor ();
 		
 		$resources = $this->defendingVillage->resources->getResources ();
 
@@ -653,7 +662,7 @@ class Dolumar_Battle_Battle
 		foreach ($resources as $k => $v)
 		{
 			$proc = max (0, rand ($procent - 5, $procent + 5));
-			$am = floor ($v * ($proc / 100) );
+			$am = floor ($v * ($proc / 100) * $lootFactor);
 
 			if ($am > 0)
 			{
@@ -680,7 +689,7 @@ class Dolumar_Battle_Battle
 		
 		$procent = ($fVictory * $iRuneStealPercentage) / 100;
 		
-		$stolenRunes = floor ($this->defendingVillage->resources->getTotalRunes () * $procent);
+		$stolenRunes = floor ($this->defendingVillage->resources->getTotalRunes () * $procent * $lootFactor);
 		
 		//$stolenRunes = 0;
 		
@@ -689,6 +698,29 @@ class Dolumar_Battle_Battle
 		return $output;
 	}
 	
+	/**
+	 * @return float 1.0 unless the defender is an NPC village with a standing toward the attacker's owner
+	 */
+	private function getNpcLootFactor ()
+	{
+		if (!$this->defendingVillage->isNpc () || $this->attackingVillage->isNpc ())
+		{
+			return 1.0;
+		}
+
+		$repository = Dolumar_Npc_StandingRepository::getInstance ();
+		$row = $repository->standing ($this->defendingVillage->getId (), $this->attackingVillage->getOwner ()->getId ());
+		if ($row === null)
+		{
+			return 1.0;
+		}
+
+		$tribe = $repository->tribe ($this->defendingVillage->getId ());
+		$mulDecay = $tribe ? (float) $tribe['mul_decay'] : 1.0;
+
+		return Dolumar_Npc_Standing::lootFactor ($row, NOW, $mulDecay);
+	}
+
 	/*
 		Return the percentage of runes that is stolen
 		from the defender in a 100% victory in case

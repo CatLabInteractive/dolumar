@@ -21,9 +21,12 @@
  *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-require_once __DIR__ . '/../bootstrap/bootstrap.php';
+if (PHP_SAPI !== 'cli') {
+	http_response_code (404);
+	exit;
+}
 
-//define ('DISABLE_STATIC_FACTORY', true);
+require_once __DIR__ . '/../bootstrap/bootstrap.php';
 
 set_time_limit (600);
 
@@ -40,48 +43,58 @@ function writeln($message)
     echo $message . "\n";
 }
 
-// Generate ai villages for each village in the game
-$players = $game->getServer()->getActivePlayers();
-
-$hasRun = [];
-
-writeln('Generating AI villages');
-foreach ($players as $player) {
-
-    writeln('Processing player "' . $player->getName() . '"');
-    $villages = $player->getVillages(false);
-
-    foreach ($villages as $village) {
-        writeln('- Checking village "' . $village->getName() . '"');
-    }
-
-    $village->lookForNPCs();
-
+// Never let two runs overlap: a run can take a while and every decision must be made once.
+$lock = Neuron_Core_Lock::__getInstance ();
+if (!$lock->setLock ('npc_ai', 0, 600)) {
+    writeln('Another AI run is still going; skipping.');
+    exit;
 }
 
-// Secondly, get all existing AI villages and run through those
-$aiVillages = Dolumar_Players_Village::getAllNpc(false);
+try {
+    Dolumar_Npc_Schema::ensure ();
 
-foreach ($aiVillages as $aiVillage) {
+    // Make sure every player has an NPC village within reach of each of their villages.
+    $players = $game->getServer()->getActivePlayers();
 
-    if (isset($hasRun[$aiVillage->getId()])) {
-        writeln('Found AI village: ' . $aiVillage->getName() . ', but has already been processed.');
-        continue;
+    writeln('Generating AI villages');
+    foreach ($players as $player) {
+
+        writeln('Processing player "' . $player->getName() . '"');
+
+        foreach ($player->getVillages(false) as $village) {
+            writeln('- Checking village "' . $village->getName() . '"');
+            $village->lookForNPCs();
+        }
     }
 
-    // do we have a town center?
-    $tc = $aiVillage->buildings->getTownCenter();
-    if (!$tc) {
-        $aiVillage->destroyVillage();
-        continue;
+    // Then run every NPC village once.
+    $hasRun = [];
+    $aiVillages = Dolumar_Players_Village::getAllNpc(false);
+
+    foreach ($aiVillages as $aiVillage) {
+
+        if (isset($hasRun[$aiVillage->getId()])) {
+            continue;
+        }
+        $hasRun[$aiVillage->getId()] = true;
+
+        // do we have a town center?
+        $tc = $aiVillage->buildings->getTownCenter();
+        if (!$tc) {
+            $aiVillage->destroyVillage();
+            continue;
+        }
+
+        writeln('Found AI village: ' . $aiVillage->getName());
+
+        try {
+            $aiVillage->ai->run('writeln');
+        } catch (Exception $e) {
+            writeln('[' . $aiVillage->getId() . '] failed: ' . $e->getMessage());
+        }
     }
 
-    $hasRun[$aiVillage->getId()] = true;
-
-    writeln('Found AI village: ' . $aiVillage->getName());
-    $aiModule = $aiVillage->ai;
-    $aiModule->run('writeln');
-
+    writeln('All done!');
+} finally {
+    $lock->releaseLock ('npc_ai', 0);
 }
-
-writeln('All done!');
