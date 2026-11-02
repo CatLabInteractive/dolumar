@@ -7,3 +7,5 @@
 composer.phar
 /.env.docker
 /public/signs/
+
+.phpunit.result.cache
