@@ -67,6 +67,8 @@ mobileMap = "Map"
 mobileChat = "Chat"
 mobileNews = "News"
 mobileGuide = "Guide"
+placeCancel = "Cancel"
+placeConfirm = "Place"
 
 [directions]
 r = "Random"

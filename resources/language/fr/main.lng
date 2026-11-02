@@ -123,6 +123,8 @@ mobileMap="Carte"
 mobileChat="Chat"
 mobileNews="Infos"
 mobileGuide="Guide"
+placeCancel="Annuler"
+placeConfirm="Placer"
 
 [onlinestatus]
 offline="Déconnecté"

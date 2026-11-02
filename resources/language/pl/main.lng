@@ -96,6 +96,8 @@ thievery="Złodzieje"
 tutorial="Tutorial"
 units="Jednostki"
 welcome="Zapraszamy z powrotem"
+placeCancel="Anuluj"
+placeConfirm="Umieść"
 
 [onlinestatus]
 offline="Off-line"

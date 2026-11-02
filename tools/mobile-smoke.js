@@ -115,6 +115,26 @@ check('layout-toggle', { viewport: { width: 1280, height: 800 } }, async (page) 
 	await page.waitForSelector('body.layout-desktop', { timeout: 15000 });
 });
 
+// Desktop layout on a phone: the 0.5-scale viewport is set while the head is parsed (before
+// DOMContentLoaded, not at window.load), and the meta is not rewritten when nothing changed.
+check('desktop-touch-viewport', { viewport: { width: 390, height: 844 }, layout: 'desktop', recordViewport: true }, async (page) => {
+	assert(await page.locator('body.layout-desktop').count() === 1, 'body has no layout-desktop class');
+	const expected = await page.evaluate(() => Game.layout.DESKTOP_TOUCH_VIEWPORT);
+	const state = await page.evaluate(() => ({
+		atDomReady: window.__viewportAtDomReady,
+		now: document.getElementById('viewport').getAttribute('content'),
+		writes: window.__viewportWrites,
+	}));
+	assert(state.atDomReady === expected, 'viewport at DOMContentLoaded is "' + state.atDomReady + '", expected "' + expected + '"');
+	assert(state.now === expected, 'viewport is "' + state.now + '", expected "' + expected + '"');
+	assert(state.writes === 0, 'viewport meta was written ' + state.writes + ' time(s) after DOMContentLoaded');
+
+	await page.evaluate(() => window.dispatchEvent(new Event('resize')));
+	await page.waitForTimeout(100);
+	const writes = await page.evaluate(() => window.__viewportWrites);
+	assert(writes === 0, 'an unchanged resize rewrote the viewport meta ' + writes + ' time(s)');
+});
+
 // Village id from the Menu panel's build link: openWindow('build', {'vid':'<id>'}).
 async function firstVillageId(page) {
 	const link = page.locator('a#build[onclick]').first();
@@ -295,6 +315,30 @@ check('map-scale', { viewport: { width: 390, height: 844 }, layout: 'mobile' }, 
 	await page.evaluate(() => Game.map.setScale(1));
 	assert(pinched.scale > 1, 'pinch did not grow the scale: ' + pinched.scale);
 	assert(pinched.stored === String(pinched.scale), 'pinch did not store the scale: ' + JSON.stringify(pinched.stored));
+
+	// An OS-cancelled gesture (touchcancel) resets the pinch and the drag, like touchend.
+	const cancelled = await page.evaluate(() => {
+		const map = document.getElementById('map');
+		const o = Game.map.oScrollMap;
+		const touch = (id, x, y) => new Touch({ identifier: id, target: map, clientX: x, clientY: y });
+		const fire = (type, touches, changed) => map.dispatchEvent(new TouchEvent(type, {
+			bubbles: true, cancelable: true, touches, targetTouches: touches, changedTouches: changed,
+		}));
+		const two = [touch(1, 145, 400), touch(2, 245, 400)];
+		fire('touchstart', two, two);
+		const pinchStarted = o.pinching === true;
+		fire('touchcancel', [], two);
+		const pinchAfter = o.pinching;
+		const one = [touch(1, 195, 400)];
+		fire('touchstart', one, one);
+		const dragStarted = o.dragging === true;
+		fire('touchcancel', [], one);
+		return { pinchStarted, pinchAfter, dragStarted, dragAfter: o.dragging };
+	});
+	await page.evaluate(() => Game.map.setScale(1));
+	assert(cancelled.pinchStarted && cancelled.dragStarted, 'the test gestures did not start: ' + JSON.stringify(cancelled));
+	assert(!cancelled.pinchAfter, 'touchcancel left pinching = true');
+	assert(!cancelled.dragAfter, 'touchcancel left dragging = true');
 });
 
 // Placement (mobile): start choosing a location from the build sheet's first build link.
@@ -310,6 +354,17 @@ async function startPlacement(page) {
 	assert(!(await page.locator('#sheets').isVisible()), '#sheets is visible while choosing a location');
 }
 
+// Count calls of the map's enableControls from now on (each call adds another set of map listeners).
+const countEnableControls = (page) => page.evaluate(() => {
+	const map = Game.map.oScrollMap;
+	const original = map.enableControls;
+	window.__enableControlsCalls = 0;
+	map.enableControls = function () {
+		window.__enableControlsCalls++;
+		return original.apply(this, arguments);
+	};
+});
+
 // Elements on the page with an inline z-index of 1000000 (the map's blocking overlay).
 // (A plain loop: Prototype.js replaces Array.prototype.filter with a version that needs an Array.)
 const overlayCount = (page) => page.evaluate(() => {
@@ -324,16 +379,32 @@ const overlayCount = (page) => page.evaluate(() => {
 });
 
 check('place-cancel', { viewport: { width: 390, height: 844 }, layout: 'mobile' }, async (page) => {
+	await countEnableControls(page);
 	await startPlacement(page);
+
+	// Button text comes from the Menu panel's translated data-label-* attributes.
+	const labels = await page.evaluate(() => ({
+		cancel: document.querySelector('#map_select_actions button.cancel').textContent,
+		place: document.querySelector('#map_select_actions button.place').textContent,
+		expectCancel: document.getElementById('menu').getAttribute('data-label-selectcancel'),
+		expectPlace: document.getElementById('menu').getAttribute('data-label-selectplace'),
+	}));
+	assert(labels.expectCancel && labels.expectPlace, 'the Menu panel has no data-label-selectcancel/selectplace');
+	assert(labels.cancel === labels.expectCancel && labels.place === labels.expectPlace,
+		'place/cancel buttons are not translated: ' + JSON.stringify(labels));
+
 	await page.locator('#map_select_actions button.cancel').click();
 	await page.waitForFunction(() => !document.getElementById('map_select_actions'), null, { timeout: 5000 });
 	assert(await page.locator('#sheets').isVisible(), '#sheets is not visible after cancel');
 	assert(await visibleSheets(page).count() === 1, 'the build sheet is not visible after cancel');
 	assert(await overlayCount(page) === 0, 'an overlay with z-index 1000000 is left on the page');
 	assert(!(await page.evaluate(() => Game.map.oScrollMap.selecting)), 'a selection is still in progress');
+	const calls = await page.evaluate(() => window.__enableControlsCalls);
+	assert(calls === 0, 'cancel re-enabled the map controls ' + calls + ' time(s) (duplicate listeners)');
 });
 
 check('place-confirm', { viewport: { width: 390, height: 844 }, layout: 'mobile' }, async (page) => {
+	await countEnableControls(page);
 	await startPlacement(page);
 
 	// Pan the map with a 60px one-finger drag.
@@ -367,6 +438,8 @@ check('place-confirm', { viewport: { width: 390, height: 844 }, layout: 'mobile'
 	assert(await page.locator('#sheets').isVisible(), '#sheets is not visible after placing');
 	assert(await overlayCount(page) === 0, 'an overlay with z-index 1000000 is left on the page');
 	assert(!(await page.evaluate(() => Game.map.oScrollMap.selecting)), 'a selection is still in progress');
+	const calls = await page.evaluate(() => window.__enableControlsCalls);
+	assert(calls === 0, 'place re-enabled the map controls ' + calls + ' time(s) (duplicate listeners)');
 });
 
 // Mobile header and tab bar: Statusbar fixed at the top, Menu as a bottom tab bar with a generated "More" tab.
@@ -527,6 +600,20 @@ async function main() {
 		context.setDefaultTimeout(30000);
 		const page = await context.newPage();
 		page.__layout = options.layout;
+		if (options.recordViewport) {
+			// Viewport meta content at DOMContentLoaded, and the number of writes to it after that.
+			await page.addInitScript(() => {
+				document.addEventListener('DOMContentLoaded', () => {
+					const meta = document.getElementById('viewport');
+					window.__viewportAtDomReady = meta ? meta.getAttribute('content') : null;
+					window.__viewportWrites = 0;
+					if (meta) {
+						new MutationObserver((records) => { window.__viewportWrites += records.length; })
+							.observe(meta, { attributes: true, attributeFilter: ['content'] });
+					}
+				});
+			});
+		}
 		try {
 			await login(page, baseUrl);
 			await fn(page);

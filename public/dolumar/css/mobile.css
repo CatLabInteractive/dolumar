@@ -461,7 +461,11 @@ body.layout-mobile .sheet-content input[type=button],
 body.layout-mobile .sheet-content form select,
 body.layout-mobile .sheet-content form input[type=text],
 body.layout-mobile .sheet-content form input[type=password],
-body.layout-mobile .sheet-content form input[type=number]
+body.layout-mobile .sheet-content form input[type=number],
+body.layout-mobile .sheet-content input:not([type]),
+body.layout-mobile .sheet-content input[type=email],
+body.layout-mobile .sheet-content input[type=search],
+body.layout-mobile .sheet-content textarea
 {
 	min-height: 44px;
 	box-sizing: border-box;

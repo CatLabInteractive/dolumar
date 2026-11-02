@@ -60,6 +60,8 @@ mobileMap="Kaart"
 mobileChat="Chat"
 mobileNews="Nieuws"
 mobileGuide="Gids"
+placeCancel="Annuleren"
+placeConfirm="Plaatsen"
 
 [directions]
 r="Willekeurig"

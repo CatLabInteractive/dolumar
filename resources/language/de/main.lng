@@ -60,6 +60,8 @@ mobileMap="Karte"
 mobileChat="Chat"
 mobileNews="News"
 mobileGuide="Berater"
+placeCancel="Abbrechen"
+placeConfirm="Platzieren"
 
 [directions]
 r="willkürlich"
