@@ -113,8 +113,9 @@ class Dolumar_Windows_Speedup
 			return '<p>Invalid input: scout data not found.</p>';
 		}
 
-		$price = PREMIUM_SPEEDUP_SCOUTING_PRICE;
-		$unit = PREMIUM_SPEEDUP_SCOUTING_UNIT;
+		$speedup = Dolumar_Premium_Prices::getSpeedup ('scouting');
+		$price = $speedup['price'];
+		$unit = $speedup['unit'];
 
 		if (isset ($inputData['duration']))
 		{
@@ -157,8 +158,9 @@ class Dolumar_Windows_Speedup
 			return '<p>Order not found.</p>';
 		}
 
-		$price = PREMIUM_SPEEDUP_TRAINING_PRICE;
-		$unit = PREMIUM_SPEEDUP_TRAINING_UNIT;
+		$speedup = Dolumar_Premium_Prices::getSpeedup ('training');
+		$price = $speedup['price'];
+		$unit = $speedup['unit'];
 
 		if (isset ($inputData['duration']))
 		{
@@ -197,8 +199,9 @@ class Dolumar_Windows_Speedup
 			return '<p>Invalid input: building not found: ' . $id . '</p>';
 		}
 
-		$price = PREMIUM_SPEEDUP_BUILDINGS_PRICE;
-		$unit = PREMIUM_SPEEDUP_BUILDINGS_UNIT;
+		$speedup = Dolumar_Premium_Prices::getSpeedup ('building');
+		$price = $speedup['price'];
+		$unit = $speedup['unit'];
 
 		if (isset ($inputData['duration']))
 		{

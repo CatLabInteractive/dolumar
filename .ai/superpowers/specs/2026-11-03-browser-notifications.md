@@ -44,7 +44,7 @@ Public messages (written for other players' feeds: attack launched, clan join/le
 
 1. `php tools/vapid-keys.php` once, then `dokku config:set dolumar VAPID_PUBLIC_KEY=… VAPID_PRIVATE_KEY=…`
    (optionally `VAPID_SUBJECT=mailto:…`). Never rotate the pair.
-2. Run `dump/migrations/upgrade-20261103-push-notifications.sql` on production (idempotent).
+2. The tables come from `dump/upgrades/20261103-push-notifications.sql`, which `tools/setup.php` applies on every deploy.
 
 ## Not done
 

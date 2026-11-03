@@ -50,6 +50,11 @@ class Dolumar_Windows_Statusbar
 	*/
 	public static function canSpeedUp ($sType)
 	{
+		if (!Dolumar_Premium_Prices::creditsEnabled ())
+		{
+			return false;
+		}
+
 		switch ($sType)
 		{
 			case 'building':
