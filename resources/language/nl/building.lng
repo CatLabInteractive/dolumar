@@ -38,6 +38,7 @@ intro="Om een gebouw te bouwen heb je de juiste rune en genoeg grondstoffen nodi
 requires="Heeft @@0 nodig."
 construct="Bouw gebouw"
 click="Klik eerst op 'bouwen' en kies daarna een locatie op de kaart. Om te annuleren rechts klikten"
+clickMobile="Tik op bouwen, sleep de kaart tot het gebouw op de juiste plek staat en tik op Plaatsen."
 selectRune="Je moet een rune kiezen voor je dit gebouw kan bouwen."
 upgradeFirst="Bouw je andere @@buildings eerst uit."
 

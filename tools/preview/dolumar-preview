@@ -120,6 +120,9 @@ deploy() {
 		dokku resource:limit --memory "$PREVIEW_MEMORY" "$APP"
 	fi
 
+	# The PR commit as the asset cache-busting version (git:from-archive makes its own commit).
+	dokku config:set --no-restart "$APP" "APP_VERSION=$SHA"
+
 	# Set on every deploy, not only when the app is created, so existing previews pick up a change to $CONFIG.
 	if [ -n "$PREVIEW_AIRBRAKE_TOKEN" ]; then
 		local airbrake=("AIRBRAKE_TOKEN=$PREVIEW_AIRBRAKE_TOKEN" "AIRBRAKE_ENVIRONMENT=preview-${APP#dolumar-}")

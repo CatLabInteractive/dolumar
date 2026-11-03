@@ -140,6 +140,10 @@ changePass="Ändere das Passwort"
 account="Accountoptionen"
 resetAccount="Account neu starten"
 vacationMode="Urlaubsmodus"
+layout="Oberflächen-Layout"
+layoutAuto="Automatisch"
+layoutDesktop="Desktop"
+layoutMobile="Mobil"
 
 [resetaccount]
 about="Manchmal ist es besser deinen Account zurückzusetzen auf Null und nochmal neu zu starten. Anstatt einen neuen Account zu eröffnen, kannst du deinen Account hier zurücksetzen."
