@@ -3,6 +3,9 @@ attacking="@@actor envoie ses forces de @@village pour attaquer @@defender (@@pl
 defending="Votre village @@village subit l'attaque de @@attacker (@@pl_attacker)."
 attacking_long="@@player tente d'affirmer sa suprématie sur les champs de bataille ! Sa guerre contre @@defender prouvera sa supériorité. Aiderez-vous  @@player dans son combat ?"
 defending_long="Votre village @@village subit une attaque ! Préparez-vous au combat !"
+fought_attacker = "Votre armée de @@village a combattu à @@target. Consultez vos rapports de bataille."
+fought_defender = "@@attacker a attaqué votre village @@village. Consultez vos rapports de bataille."
+returned = "Votre armée est rentrée à @@village."
 
 [messages]
 received="Vous avez reçu un message de @@player."
@@ -33,3 +36,14 @@ build="@@actor a acheté un bâtiment bonus @@building pour le village @@village
 [equipment]
 received="Vous avez reçu @@amount @@equipment de @@player."
 
+[building]
+ready = "Votre @@building à @@village est prêt."
+upgraded = "Votre @@building à @@village est maintenant au niveau @@level."
+
+[categories]
+battle = "Attaques et batailles"
+building = "Bâtiments terminés"
+resources = "Ressources reçues"
+runes = "Runes reçues"
+equipment = "Équipement reçu"
+portal = "Portails du clan"

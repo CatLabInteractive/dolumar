@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c72af01336a4bd9e1f5c03f54285e39e",
+    "content-hash": "588355e863b93fb1ebabe70d4e3794ce",
     "packages": [
         {
             "name": "airbrake/phpbrake",
@@ -210,10 +210,10 @@
                 "GPL-3.0"
             ],
             "support": {
-                "source": "https://github.com/CatLabInteractive/dolumar-engine/tree/master",
+                "source": "https://github.com/CatLabInteractive/dolumar-engine/tree/claude/project-thread-d3x5ln",
                 "issues": "https://github.com/CatLabInteractive/dolumar-engine/issues"
             },
-            "time": "2026-11-03T08:08:05+00:00"
+            "time": "2026-11-03T08:46:58+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -4318,7 +4318,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.4.27",
+        "php": "~8.4.27",
         "ext-memcached": "*",
         "ext-mysqli": "*",
         "ext-gd": "*",

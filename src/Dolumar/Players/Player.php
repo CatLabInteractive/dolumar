@@ -1084,4 +1084,25 @@ class Dolumar_Players_Player extends Neuron_GameServer_Player
 		
 		parent::__destruct ();
 	}
+
+	/*
+		Browser notification categories a player can switch off in My Account.
+		Each is a section of the "notifications" language file.
+	*/
+	public function getPushCategories ()
+	{
+		$text = $this->getRightLanguage ();
+
+		$out = array ();
+		foreach (array ('battle', 'building', 'resources', 'runes', 'equipment', 'portal') as $category)
+		{
+			$out[$category] = $text->get ($category, 'categories', 'notifications', $category);
+		}
+		return $out;
+	}
+
+	public function getPushDefaultMuted ()
+	{
+		return array ('portal');
+	}
 }

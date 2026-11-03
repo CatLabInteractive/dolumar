@@ -3,6 +3,9 @@ attacking = "@@actor sent his forces from @@village to attack @@defender (@@pl_d
 attacking_long = "@@player is trying to fight his way to the top! Hopefully, his war against @@defender will proof to be a succesful one. Will you help @@player in this fight?"
 defending = "Your village @@village is under attack by @@attacker (@@pl_attacker)."
 defending_long = "It looks like your village @@village is under attack! Take precautions now!"
+fought_attacker = "Your army from @@village has fought at @@target. Check your battle reports."
+fought_defender = "@@attacker has attacked your village @@village. Check your battle reports."
+returned = "Your army has returned home to @@village."
 
 [messages]
 received = "You have received a message from @@player."
@@ -38,3 +41,15 @@ build = "@@actor has bought a @@building for village @@village."
 [gifts]
 runesender = "Send a free random rune to one of your friends."
 runereceiver = "@@sender has send you a free rune to use in Dolumar @@server."
+
+[building]
+ready = "Your @@building in @@village is ready."
+upgraded = "Your @@building in @@village is now level @@level."
+
+[categories]
+battle = "Attacks and battles"
+building = "Finished buildings"
+resources = "Resources received"
+runes = "Runes received"
+equipment = "Equipment received"
+portal = "Clan portals"

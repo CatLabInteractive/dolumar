@@ -17,6 +17,8 @@
 
 set -euo pipefail
 set -f
+# sudo keeps the caller's home as working directory, which root-run tools then cannot return to.
+cd /
 
 CONFIG=/etc/default/dolumar-preview
 if [ -f "$CONFIG" ]; then
@@ -32,6 +34,10 @@ PREVIEW_HTTPS="${PREVIEW_HTTPS:-1}"
 PREVIEW_LETSENCRYPT_EMAIL="${PREVIEW_LETSENCRYPT_EMAIL:-}"
 # Space-separated branches that may have a standing preview.
 PREVIEW_BRANCHES="${PREVIEW_BRANCHES:-develop}"
+# Optional error tracker (Errbit / Airbrake) for every preview; leave PREVIEW_AIRBRAKE_TOKEN empty to turn it off.
+PREVIEW_AIRBRAKE_HOST="${PREVIEW_AIRBRAKE_HOST:-}"
+PREVIEW_AIRBRAKE_TOKEN="${PREVIEW_AIRBRAKE_TOKEN:-}"
+PREVIEW_AIRBRAKE_PROJECT_ID="${PREVIEW_AIRBRAKE_PROJECT_ID:-}"
 
 # The command arrives from the forced SSH command (sudoers keeps SSH_ORIGINAL_COMMAND), or as arguments when an
 # admin runs the script by hand.
@@ -83,9 +89,7 @@ deploy() {
 		proto=https
 	fi
 
-	local new=0
 	if ! dokku apps:exists "$APP" > /dev/null 2>&1; then
-		new=1
 		echo "Creating $APP"
 		dokku apps:create "$APP"
 
@@ -110,7 +114,7 @@ deploy() {
 			PREVIEW_MODE=1 \
 			APP_DEBUG=1 \
 			"PROTOCOL=$proto" \
-			"ABSOLUTE_URL=$proto://$HOST/"
+			"ABSOLUTE_URL=$proto://$HOST/" > /dev/null # its output echoes the values, and this runs in a public Actions log
 
 		dokku domains:set "$APP" "$HOST"
 		dokku resource:limit --memory "$PREVIEW_MEMORY" "$APP"
@@ -119,16 +123,32 @@ deploy() {
 	# The PR commit as the asset cache-busting version (git:from-archive makes its own commit).
 	dokku config:set --no-restart "$APP" "APP_VERSION=$SHA"
 
-	echo "Deploying $PREVIEW_REPO@$SHA to $APP"
-	SRC="$(mktemp -d)"
-	trap 'rm -rf "$SRC"' EXIT
-	curl -fsSL "https://codeload.github.com/$PREVIEW_REPO/tar.gz/$SHA" | tar -xz --strip-components=1 -C "$SRC"
-	tar -C "$SRC" -cf - . | dokku git:from-archive "$APP" -- "Dolumar preview" "preview@dolumar.invalid"
+	# Set on every deploy, not only when the app is created, so existing previews pick up a change to $CONFIG.
+	if [ -n "$PREVIEW_AIRBRAKE_TOKEN" ]; then
+		local airbrake=("AIRBRAKE_TOKEN=$PREVIEW_AIRBRAKE_TOKEN" "AIRBRAKE_ENVIRONMENT=preview-${APP#dolumar-}")
+		[ -z "$PREVIEW_AIRBRAKE_HOST" ] || airbrake+=("AIRBRAKE_HOST=$PREVIEW_AIRBRAKE_HOST")
+		[ -z "$PREVIEW_AIRBRAKE_PROJECT_ID" ] || airbrake+=("AIRBRAKE_PROJECT_ID=$PREVIEW_AIRBRAKE_PROJECT_ID")
+		dokku config:set --no-restart "$APP" "${airbrake[@]}" > /dev/null
+	fi
 
-	if [ "$new" = "1" ] && [ "$PREVIEW_HTTPS" = "1" ]; then
+	echo "Deploying $PREVIEW_REPO@$SHA to $APP"
+	WORK="$(mktemp -d)"
+	trap 'rm -rf "$WORK"' EXIT
+	mkdir "$WORK/src"
+	curl -fsSL "https://codeload.github.com/$PREVIEW_REPO/tar.gz/$SHA" | tar -xz --strip-components=1 -C "$WORK/src"
+	if ! tar -C "$WORK/src" -cf - . | dokku git:from-archive "$APP" -- "Dolumar preview" "preview@dolumar.invalid" 2>&1 | tee "$WORK/deploy.log"; then
+		# A re-run for a commit that is already deployed: git:from-archive refuses an unchanged tree. Rebuild instead,
+		# so the re-run still runs the build and postdeploy again.
+		grep -q 'No changes detected' "$WORK/deploy.log" || fail "deploy of $APP failed"
+		echo "Commit already deployed, rebuilding $APP"
+		dokku ps:rebuild "$APP"
+	fi
+
+	# Checked on every deploy, not only when the app is created, so a failed certificate request is retried.
+	if [ "$PREVIEW_HTTPS" = "1" ] && [ "$(dokku letsencrypt:active "$APP" 2> /dev/null)" != "true" ]; then
 		[ -n "$PREVIEW_LETSENCRYPT_EMAIL" ] || fail "set PREVIEW_LETSENCRYPT_EMAIL in $CONFIG or PREVIEW_HTTPS=0"
 		dokku letsencrypt:set "$APP" email "$PREVIEW_LETSENCRYPT_EMAIL"
-		dokku letsencrypt:enable "$APP"
+		dokku letsencrypt:enable "$APP" || fail "Let's Encrypt failed for $HOST; the app runs at http://$HOST/ meanwhile. Check that $HOST resolves to this server."
 	fi
 
 	echo "PREVIEW_URL=$proto://$HOST/preview-login.php"
