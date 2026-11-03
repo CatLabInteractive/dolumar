@@ -116,6 +116,9 @@ deploy() {
 		dokku resource:limit --memory "$PREVIEW_MEMORY" "$APP"
 	fi
 
+	# The PR commit as the asset cache-busting version (git:from-archive makes its own commit).
+	dokku config:set --no-restart "$APP" "APP_VERSION=$SHA"
+
 	echo "Deploying $PREVIEW_REPO@$SHA to $APP"
 	SRC="$(mktemp -d)"
 	trap 'rm -rf "$SRC"' EXIT

@@ -32,6 +32,8 @@ the most important ones are:
   (plus `EMAIL_FROM`, `EMAIL_FROM_NAME`): SMTP credentials, needed for email validation. Any SMTP server works.
 * `OPENID_CONNECT_*`: OpenID Connect login provider (authorize/token/profile URLs, client id and secret).
 * `APP_DEBUG`: enables debug output; leave unset in production.
+* `APP_VERSION`: cache-busting version appended to script and stylesheet URLs. Defaults to the deployed git commit
+  (`GIT_REV`, set by Dokku on every deploy); only set it when deploying without git.
 * `SIGNS_PATH`: where custom sign images are stored (defaults to `public/signs`). Must be persistent in production.
 * `AIRBRAKE_TOKEN`: optional error reporting.
 

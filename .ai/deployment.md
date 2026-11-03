@@ -24,6 +24,11 @@ add a setting, add it there (with a comment) and to the README's configuration s
 Key variables: `DATABASE_URL`, `MEMCACHED_URL`, `ABSOLUTE_URL`, `PROTOCOL`, `EMAIL_SMTP_*`, `EMAIL_FROM*`,
 `OPENID_CONNECT_*`, `APP_DEBUG` (never set in production), `SIGNS_PATH`, `CACHE_DIR`, `AIRBRAKE_*`.
 
+Scripts and stylesheets are loaded with `?version=APP_VERSION`. The bootstrap takes that from `APP_VERSION` or,
+by default, from `GIT_REV`, which Dokku sets to the deployed commit, so every deploy busts the browser cache. The
+engine's fallback is the repo's SVN-era `version.txt`, which never changes; a deployment without either variable
+serves stale assets after an update.
+
 `CREDITS_*` and `SERVERLIST_*` belong to dead CatLab services. They stay unset and the game must keep working
 without them: guard any code that would call them.
 
