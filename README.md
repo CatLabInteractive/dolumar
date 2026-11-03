@@ -36,6 +36,8 @@ the most important ones are:
   (`GIT_REV`, set by Dokku on every deploy); only set it when deploying without git.
 * `SIGNS_PATH`: where custom sign images are stored (defaults to `public/signs`). Must be persistent in production.
 * `AIRBRAKE_TOKEN`: optional error reporting.
+* `PREMIUM_SPEEDUP_BUILDINGS`, `PREMIUM_SPEEDUP_TRAINING`, `PREMIUM_SPEEDUP_SCOUTING`: set to `1` to let players pay
+  credits to speed up that queue. Off by default.
 
 `CREDITS_*` and `SERVERLIST_*` are optional and off by default; the game works without them.
 
