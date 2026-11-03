@@ -117,7 +117,7 @@ curl -fsSL https://raw.githubusercontent.com/CatLabInteractive/dolumar/master/to
 chmod 755 /usr/local/bin/dolumar-preview.new && mv /usr/local/bin/dolumar-preview.new /usr/local/bin/dolumar-preview
 cat > /etc/default/dolumar-preview <<'CONF'
 PREVIEW_DOMAIN=preview.dolumar.com
-PREVIEW_LETSENCRYPT_EMAIL=you@example.com
+PREVIEW_LETSENCRYPT_EMAIL=support@catlab.eu
 # PREVIEW_HTTPS=0       # plain http, skips Let's Encrypt
 # PREVIEW_MEMORY=512m   # memory limit per preview
 # PREVIEW_BRANCHES=develop  # branches with a standing preview
