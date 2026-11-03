@@ -518,7 +518,11 @@ abstract class Dolumar_Units_Unit implements Neuron_GameServer_Interfaces_Logabl
 			
 			foreach ($this->stats as $k => $v)
 			{
-				$this->stats[$k] = round ($v);
+				// atType is a string; PHP 8 no longer rounds it to 0
+				if (is_numeric ($v))
+				{
+					$this->stats[$k] = round ($v);
+				}
 			}
 			
 			// In order to preserve OOP design

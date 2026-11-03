@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c72af01336a4bd9e1f5c03f54285e39e",
+    "content-hash": "588355e863b93fb1ebabe70d4e3794ce",
     "packages": [
         {
             "name": "airbrake/phpbrake",
@@ -175,12 +175,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/CatLabInteractive/dolumar-engine.git",
-                "reference": "a7cf517df4b02c4144f3436aafb92d70a59b236c"
+                "reference": "c8ac38763ced66e3223ec8ed27315a79769cefc4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CatLabInteractive/dolumar-engine/zipball/a7cf517df4b02c4144f3436aafb92d70a59b236c",
-                "reference": "a7cf517df4b02c4144f3436aafb92d70a59b236c",
+                "url": "https://api.github.com/repos/CatLabInteractive/dolumar-engine/zipball/c8ac38763ced66e3223ec8ed27315a79769cefc4",
+                "reference": "c8ac38763ced66e3223ec8ed27315a79769cefc4",
                 "shasum": ""
             },
             "require": {
@@ -210,10 +210,10 @@
                 "GPL-3.0"
             ],
             "support": {
-                "source": "https://github.com/CatLabInteractive/dolumar-engine/tree/master",
+                "source": "https://github.com/CatLabInteractive/dolumar-engine/tree/claude/project-thread-d3x5ln",
                 "issues": "https://github.com/CatLabInteractive/dolumar-engine/issues"
             },
-            "time": "2026-11-03T07:42:02+00:00"
+            "time": "2026-11-03T08:46:58+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -4318,7 +4318,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.4.27",
+        "php": "~8.4.27",
         "ext-memcached": "*",
         "ext-mysqli": "*",
         "ext-gd": "*",

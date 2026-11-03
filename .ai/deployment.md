@@ -26,6 +26,10 @@ Key variables: `DATABASE_URL`, `MEMCACHED_URL`, `ABSOLUTE_URL`, `PROTOCOL`, `EMA
 `VAPID_*` (browser notifications; generated once with `php tools/vapid-keys.php` and never rotated, since a new pair
 breaks every existing subscription).
 
+Error reporting (`AIRBRAKE_*`) goes through `Dolumar_ErrorReporting_Notifier`, a phpbrake subclass. phpbrake drops a
+failed delivery silently, so the subclass logs it (`Error tracker: ...` in `dokku logs`): check there first when
+errors do not show up in Errbit.
+
 Paid speed-ups (spend credits to finish a building, training or scouting queue sooner) are off unless
 `PREMIUM_SPEEDUP_BUILDINGS`, `PREMIUM_SPEEDUP_TRAINING` or `PREMIUM_SPEEDUP_SCOUTING` is set to `1`. When off,
 `Dolumar_Windows_Statusbar::canSpeedUp()` hides the link and the `Speedup` window refuses the request.
@@ -49,7 +53,12 @@ the security model are in the README section "Pull request previews". In short:
 - The GitHub key only reaches `tools/preview/dolumar-preview` (forced SSH command). That script is the only place that
   names preview apps, services and databases; keep it unable to touch anything other than `dolumar-pr-*` /
   `pr_*` and the `dolumar-<branch>` / `branch_*` previews of branches in its `PREVIEW_BRANCHES` setting.
-  It is copied to the server by hand, so a change to it needs the owner to reinstall it.
+  It is copied to the server by hand, so a change to it needs the owner to reinstall it (README step 3, which is
+  safe to re-run). Its settings (domain, Let's Encrypt email, Errbit key) live only on the server in
+  `/etc/default/dolumar-preview`; keep real values out of the repository.
 - `PREVIEW_MODE=1` turns on `tools/seed.php` and `public/preview-login.php` (log in as any player, no OIDC). Both must
   keep refusing to act without it. Never set it in production.
+- Previews report errors to Errbit only when `PREVIEW_AIRBRAKE_TOKEN` (and `PREVIEW_AIRBRAKE_HOST`) are set in the
+  script's config file; the script copies them into every preview on each deploy, with
+  `AIRBRAKE_ENVIRONMENT=preview-<name>`. Without them a preview's errors only appear in `dokku logs <app>`.
 - When you open a PR that needs a manual check, point the owner at the preview link in the PR comment.
