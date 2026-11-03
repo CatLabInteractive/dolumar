@@ -443,6 +443,7 @@ Game.dolumar =
 Game.dolumar.mobile =
 {
 	'LONG_PRESS_MS' : 500,
+	'ZOOM_IDLE_MS' : 3000,
 	'MORE_DIALOG_ID' : 'mobile-more',
 
 	'initialized' : false,
@@ -450,6 +451,8 @@ Game.dolumar.mobile =
 	'pressTimer' : null,
 	'suppressClick' : false,
 	'startupChecked' : false,
+	'zoomTimer' : null,
+	'zoomWake' : null,
 
 	'init' : function ()
 	{
@@ -486,8 +489,15 @@ Game.dolumar.mobile =
 		// Fit every sheet again after each server response ('update' runs after
 		// fancybox.js has boxed the new content, which makes room narrower) and after a
 		// layout change (windows moved into sheets get no contentChange).
-		Game.gui.observe ('update', function () { mobile.fitAll (); });
+		Game.gui.observe ('update', function () { mobile.fitAll (); mobile.syncHeader (); });
 		Game.layout.onChange (function () { setTimeout (mobile.fitAll, 0); });
+
+		// The tab bar marks the tab whose window is the top sheet (the window is registered
+		// right after its sheet opens, hence the timeout).
+		if (Game.sheets.observe)
+		{
+			Game.sheets.observe (function () { setTimeout (mobile.syncActiveTab, 0); });
+		}
 
 		// Tap tooltips: one delegated listener on the sheets container (not on document:
 		// iOS Safari only delivers a tap as a click to an ancestor below body).
@@ -720,7 +730,9 @@ Game.dolumar.mobile =
 		if (mobile.isMobile ())
 		{
 			mobile.buildHeader ();
+			mobile.syncHeader ();
 			mobile.buildTabBar ();
+			mobile.syncActiveTab ();
 		}
 		else
 		{
@@ -735,9 +747,17 @@ Game.dolumar.mobile =
 		mobile.closeMore ();
 		mobile.hideTooltip ();
 
-		$$('.mobile-header-actions, .mobile-map-zoom').invoke ('remove');
+		$$('.mobile-header, .mobile-resources, .mobile-map-zoom').invoke ('remove');
 		$$('#menu li.tab-more').invoke ('remove');
+		$$('#menu li.active-tab').invoke ('removeClassName', 'active-tab');
 		$$('.panel.mobile-visible').invoke ('removeClassName', 'mobile-visible');
+
+		if (mobile.zoomWake)
+		{
+			document.removeEventListener ('touchstart', mobile.zoomWake, { 'passive' : true, 'capture' : true });
+			document.removeEventListener ('mousedown', mobile.zoomWake, true);
+			mobile.zoomWake = null;
+		}
 	},
 
 	/*
@@ -752,25 +772,31 @@ Game.dolumar.mobile =
 	},
 
 	/*
-		Inline icons for the header buttons (cream strokes, like the header text).
+		Inline icons (cream strokes, like the header text): header buttons and the More tab.
 	*/
 	'icons' : {
-		'minimap' : '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z"/><path d="M9 4v14M15 6v14"/></svg>',
-		'chat' : '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/></svg>',
-		'news' : '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M5 4h15v15a1.5 1.5 0 0 1-3 0V6"/><path d="M5 4v15a1.5 1.5 0 0 0 1.5 1.5H18"/><path d="M8 8h6M8 11h6M8 14h6"/></svg>'
+		'minimap' : '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z"/><path d="M9 4v14M15 6v14"/></svg>',
+		'chat' : '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/></svg>',
+		'inbox' : '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M3 6h18v13H3z"/><path d="M3 7l9 6 9-6"/></svg>',
+		'more' : '<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="8" cy="12" r="1.3" fill="currentColor"/><circle cx="12" cy="12" r="1.3" fill="currentColor"/><circle cx="16" cy="12" r="1.3" fill="currentColor"/></svg>'
 	},
 
+	/*
+		The header: village switcher in the middle (name, previous and next village, driven by
+		the Newsbar panel's own links), Map, Chat and Inbox at the right, the resource strip of
+		the Newsbar underneath, and a floating zoom pair on the map that fades when idle.
+	*/
 	'buildHeader' : function ()
 	{
 		var mobile = Game.dolumar.mobile;
 		var body = $('bodyDiv');
 
-		if (!body || body.down ('.mobile-header-actions'))
+		if (!body || body.down ('.mobile-header'))
 		{
 			return;
 		}
 
-		var makeButton = function (cls, html, label, onclick)
+		var makeButton = function (cls, html, label, onclick, showLabel)
 		{
 			var button = new Element ('button', {
 				'type' : 'button',
@@ -780,19 +806,31 @@ Game.dolumar.mobile =
 			});
 
 			button.update (html);
+			if (showLabel)
+			{
+				button.appendChild (new Element ('span', { 'class' : 'label' }).update (label));
+			}
 			button.observe ('click', onclick);
 
 			return button;
 		};
 
-		// Panel and window toggles, as icons, at the right of the header.
+		var header = new Element ('div', { 'class' : 'mobile-header' });
+
+		var village = new Element ('div', { 'class' : 'mobile-village' });
+		village.appendChild (makeButton ('prev', '&#8249;', mobile.label ('prevvillage', 'Previous village'), function () { mobile.newsbarClick ('div.newsbar-line .goLeft a'); }));
+		village.appendChild (makeButton ('name', '', mobile.label ('home', 'Home'), function () { mobile.newsbarClick ('span.footer-navigation.home'); }));
+		village.appendChild (makeButton ('next', '&#8250;', mobile.label ('nextvillage', 'Next village'), function () { mobile.newsbarClick ('div.newsbar-line .goRight a'); }));
+		header.appendChild (village);
+
 		var actions = new Element ('div', { 'class' : 'mobile-header-actions' });
+		actions.appendChild (makeButton ('minimap', mobile.icons.minimap, mobile.label ('minimap', 'Map'), function () { mobile.togglePanel ('minimap', 'MiniMap'); }, true));
+		actions.appendChild (makeButton ('chat', mobile.icons.chat, mobile.label ('chat', 'Chat'), function () { openWindow ('Chat'); }, true));
+		actions.appendChild (makeButton ('inbox', mobile.icons.inbox, mobile.label ('inbox', 'Inbox'), function () { openWindow ('messages'); }, true));
+		header.appendChild (actions);
 
-		actions.appendChild (makeButton ('minimap', mobile.icons.minimap, mobile.label ('minimap', 'Map'), function () { mobile.togglePanel ('minimap', 'MiniMap'); }));
-		actions.appendChild (makeButton ('chat', mobile.icons.chat, mobile.label ('chat', 'Chat'), function () { openWindow ('Chat'); }));
-		actions.appendChild (makeButton ('news', mobile.icons.news, mobile.label ('news', 'News'), function () { mobile.togglePanel ('newsbar', 'Newsbar'); }));
-
-		body.appendChild (actions);
+		body.appendChild (header);
+		body.appendChild (new Element ('div', { 'class' : 'mobile-resources' }));
 
 		// Zoom as a floating pair on the map (pinch works too); sheets cover it.
 		var zoom = new Element ('div', { 'class' : 'mobile-map-zoom' });
@@ -801,10 +839,132 @@ Game.dolumar.mobile =
 		zoom.appendChild (makeButton ('zoom-out', '&#8722;', mobile.label ('zoomout', 'Zoom out'), function () { Game.map.zoomOut (); }));
 
 		body.appendChild (zoom);
+
+		// Shown on any touch, hidden again after a few seconds without one.
+		mobile.zoomWake = function ()
+		{
+			zoom.removeClassName ('idle');
+
+			if (mobile.zoomTimer)
+			{
+				clearTimeout (mobile.zoomTimer);
+			}
+
+			mobile.zoomTimer = setTimeout (function ()
+			{
+				mobile.zoomTimer = null;
+				zoom.addClassName ('idle');
+			}, mobile.ZOOM_IDLE_MS);
+		};
+
+		// Capture phase: the map stops its touch events from bubbling.
+		document.addEventListener ('touchstart', mobile.zoomWake, { 'passive' : true, 'capture' : true });
+		document.addEventListener ('mousedown', mobile.zoomWake, true);
+		mobile.zoomWake ();
 	},
 
 	/*
-		MiniMap, Newsbar and Guide are panels (not sheets): show or hide them over the map.
+		Copy the current village, the resources and the inbox state from the Newsbar panel
+		(hidden on a phone) into the header. Runs after every content change and server response.
+	*/
+	'syncHeader' : function ()
+	{
+		var mobile = Game.dolumar.mobile;
+		var header = $$('.mobile-header')[0];
+		var strip = $$('.mobile-resources')[0];
+
+		if (!header || !strip)
+		{
+			return;
+		}
+
+		var panel = $$('.panel.newsbar')[0];
+		var village = header.down ('.mobile-village');
+
+		// The village name link is a direct child (the arrows inside are links too).
+		var holder = panel ? panel.down ('.newsbar-villagename') : null;
+		var source = holder ? holder.childElements ().find (function (el) { return el.tagName == 'A'; }) : null;
+		var name = source ? source.innerHTML : '';
+		if (village.down ('.name').innerHTML !== name)
+		{
+			village.down ('.name').update (name);
+		}
+
+		// Previous and next only make sense with more than one village (the Build tab lists them).
+		if ($$('#menu-main li[data-tab="build"] ul li').length > 1)
+		{
+			village.addClassName ('switchable');
+		}
+		else
+		{
+			village.removeClassName ('switchable');
+		}
+
+		var costs = panel ? panel.down ('.newsbar-content span.cost-resources') : null;
+		var html = costs ? costs.outerHTML : '';
+		if (strip.mobileHtml !== html)
+		{
+			strip.mobileHtml = html;
+			strip.update ('');
+
+			if (costs)
+			{
+				var copy = $(costs.cloneNode (true));
+				strip.appendChild (copy);
+
+				// The amounts count up client-side (Game.gui.updateIncreasing keeps its
+				// state on the element): give each copy the state of its original.
+				var originals = costs.select ('.increasing');
+				copy.select ('.increasing').each (function (el, i)
+				{
+					if (originals[i] && typeof (originals[i].initial) != 'undefined')
+					{
+						el.initial = originals[i].initial;
+						el.startdate = originals[i].startdate;
+						el.income = originals[i].income;
+						el.maximum = originals[i].maximum;
+					}
+				});
+			}
+		}
+
+		var inbox = header.down ('button.inbox');
+		if (panel && panel.down ('span.footer-navigation.messages.full'))
+		{
+			inbox.addClassName ('has-messages');
+		}
+		else
+		{
+			inbox.removeClassName ('has-messages');
+		}
+	},
+
+	/*
+		Click a link of the Newsbar panel (its village switcher and home links work on the
+		panel's own window), so the header needs no copy of their actions.
+	*/
+	'newsbarClick' : function (selector)
+	{
+		var panel = $$('.panel.newsbar')[0];
+		var target = panel ? panel.down (selector) : null;
+
+		if (target && target.tagName != 'A')
+		{
+			target = target.up ('a');
+		}
+
+		if (target)
+		{
+			target.click ();
+		}
+		else
+		{
+			openWindow ('Newsbar');
+		}
+	},
+
+	/*
+		MiniMap and Guide are panels (not sheets): show or hide them over the map.
 		Opens the window if it is not on the page at all.
 	*/
 	'togglePanel' : function (className, windowId)
@@ -819,8 +979,7 @@ Game.dolumar.mobile =
 
 		panel.toggleClassName ('mobile-visible');
 
-		var buttonClass = { 'newsbar' : 'news', 'minimap' : 'minimap' }[className];
-		var button = buttonClass ? $$('.mobile-header-actions button.' + buttonClass)[0] : null;
+		var button = $$('.mobile-header-actions button.' + className)[0];
 		if (button)
 		{
 			if (panel.hasClassName ('mobile-visible'))
@@ -832,6 +991,47 @@ Game.dolumar.mobile =
 				button.removeClassName ('active');
 			}
 		}
+	},
+
+	/*
+		Mark the tab whose window is the top sheet (or More), so the tab bar shows where you are.
+	*/
+	'syncActiveTab' : function ()
+	{
+		var mobile = Game.dolumar.mobile;
+		var list = $('menu-main');
+
+		if (!list || !mobile.isMobile () || !Game.sheets.top)
+		{
+			return;
+		}
+
+		var top = Game.sheets.top ();
+		var current = null;
+
+		if (top && top === mobile.moreSheet)
+		{
+			current = 'more';
+		}
+		else if (top && top.dialogId !== null)
+		{
+			var entry = Game.gui.getWindowFromDialogId (top.dialogId);
+			current = entry ? String (entry.sWindowId).toLowerCase () : null;
+		}
+
+		list.childElements ().each (function (li)
+		{
+			var tab = li.hasClassName ('tab-more') ? 'more' : String (li.getAttribute ('data-tab') || '').toLowerCase ();
+
+			if (tab && tab === current)
+			{
+				li.addClassName ('active-tab');
+			}
+			else
+			{
+				li.removeClassName ('active-tab');
+			}
+		});
 	},
 
 	'buildTabBar' : function ()
@@ -849,7 +1049,7 @@ Game.dolumar.mobile =
 		{
 			var more = new Element ('li', { 'class' : 'tab-more' });
 			var link = new Element ('a', { 'href' : 'javascript:void(0);', 'title' : mobile.label ('more', 'More') });
-			link.appendChild (new Element ('span', { 'class' : 'more-icon' }).update ('&#8943;'));
+			link.appendChild (new Element ('span', { 'class' : 'more-icon' }).update (mobile.icons.more));
 			link.observe ('click', function (event)
 			{
 				Event.stop (event);
@@ -941,10 +1141,15 @@ Game.dolumar.mobile =
 				return;
 			}
 
-			// A tab replaces the More sheet.
+			// A tab starts a fresh stack: the sheets that were open (and More) are dismissed
+			// first. Links inside a sheet still stack, so Back keeps working there.
 			if (tabFromEvent (event))
 			{
 				mobile.closeMore ();
+				if (Game.sheets.dismissAll)
+				{
+					Game.sheets.dismissAll ();
+				}
 			}
 		}, true);
 	},

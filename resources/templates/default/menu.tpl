@@ -4,7 +4,10 @@
 	data-label-zoomout="<?=htmlspecialchars ($this->getText ('zoomOut'))?>"
 	data-label-minimap="<?=htmlspecialchars ($this->getText ('mobileMap'))?>"
 	data-label-chat="<?=htmlspecialchars ($this->getText ('mobileChat'))?>"
-	data-label-news="<?=htmlspecialchars ($this->getText ('mobileNews'))?>"
+	data-label-inbox="<?=htmlspecialchars ($this->getText ('mobileInbox'))?>"
+	data-label-home="<?=htmlspecialchars ($this->getText ('home'))?>"
+	data-label-prevvillage="<?=htmlspecialchars ($this->getText ('mobilePrevVillage'))?>"
+	data-label-nextvillage="<?=htmlspecialchars ($this->getText ('mobileNextVillage'))?>"
 	data-label-guide="<?=htmlspecialchars ($this->getText ('mobileGuide'))?>"
 	data-label-selectcancel="<?=htmlspecialchars ($this->getText ('placeCancel'))?>"
 	data-label-selectplace="<?=htmlspecialchars ($this->getText ('placeConfirm'))?>">

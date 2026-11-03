@@ -515,13 +515,23 @@ check('tabbar', { viewport: { width: 390, height: 844 }, layout: 'mobile' }, asy
 	assert(Math.round(menu.height) === 56, '.topmenu height is ' + menu.height + ', expected 56');
 	const tabs = page.locator('.topmenu #menu-main > li:visible');
 	assert(await tabs.count() === 6, 'expected six visible tabs, got ' + await tabs.count());
-	const status = await page.locator('.status').first().boundingBox();
-	assert(status && Math.round(status.y) === 0, '.status top is ' + (status && status.y) + ', expected 0');
+	// Header: village switcher and buttons on the first row, the resource strip on the second.
+	const header = await page.locator('.mobile-header').first().boundingBox();
+	assert(header && Math.round(header.y) === 0 && Math.round(header.height) === 48, '.mobile-header is ' + JSON.stringify(header) + ', expected 48px at the top');
+	const resources = await page.locator('.mobile-resources').first().boundingBox();
+	assert(resources && Math.round(resources.y) === 48 && Math.round(resources.height) === 24, '.mobile-resources is ' + JSON.stringify(resources) + ', expected 24px under the header');
+	assert(await page.locator('.mobile-resources span.resource').count() > 0, 'the resource strip shows no resources');
+	const village = (await page.locator('.mobile-village button.name').textContent() || '').trim();
+	assert(village.length > 0, 'the header shows no village name');
+	for (const label of ['Map', 'Chat', 'Inbox']) {
+		assert(await page.locator('.mobile-header-actions button .label', { hasText: label }).count() === 1, 'no labelled ' + label + ' button in the header');
+	}
+	assert(await page.locator('.status').first().isHidden(), 'the Statusbar panel is visible on mobile');
 	const sheets = await page.evaluate(() => {
 		const style = getComputedStyle(Game.sheets.container());
 		return { top: style.top, bottom: style.bottom };
 	});
-	assert(sheets.top === '44px', '#sheets top is ' + sheets.top + ', expected 44px');
+	assert(sheets.top === '72px', '#sheets top is ' + sheets.top + ', expected 72px');
 	assert(sheets.bottom === '56px', '#sheets bottom is ' + sheets.bottom + ', expected 56px');
 
 	await page.locator('.topmenu li.tab-more').click();
@@ -542,6 +552,24 @@ check('tabbar', { viewport: { width: 390, height: 844 }, layout: 'mobile' }, asy
 
 	await page.locator('.topmenu li[data-tab="build"] > a').click();
 	await page.waitForFunction(() => document.querySelectorAll('.sheet').length === 1, null, { timeout: 15000 });
+
+	// A root sheet: title and village subtitle, no Back, the Build tab marked, actions as buttons.
+	const build = page.locator('.sheet:visible').first();
+	assert((await build.locator('.sheet-title-text').textContent() || '').trim() === 'Build Buildings', 'the Build sheet title is not "Build Buildings"');
+	assert((await build.locator('.sheet-subtitle').textContent() || '').trim().length > 0, 'the Build sheet has no village subtitle');
+	assert(await build.locator('.sheet-back').isHidden(), 'Back is shown on a root sheet');
+	await page.waitForFunction(() => document.querySelector('#menu-main li[data-tab="build"].active-tab') !== null, null, { timeout: 5000 });
+	assert(await build.locator('a.action-button.primary').count() > 0, 'the Build sheet has no primary Construct button');
+	assert(await build.locator('p.hint-mobile').isVisible() && await build.locator('p.hint-desktop').isHidden(), 'the Build sheet does not show the touch hint only');
+
+	// A link inside a sheet stacks (Back appears); a tab tap starts a fresh stack.
+	await build.locator('a.action-button', { hasText: 'Bonus Buildings' }).click();
+	await page.waitForFunction(() => Game.sheets.stack.length === 2, null, { timeout: 15000 });
+	assert(await page.locator('.sheet:visible .sheet-back').isVisible(), 'Back is hidden on a stacked sheet');
+	await page.locator('.topmenu li[data-tab="logbook"] > a').click();
+	await page.waitForFunction(() => Game.sheets.stack.length === 1 && Game.gui.aOpenWindows.filter(w => w.sWindowId.toLowerCase() === 'logbook').length === 1, null, { timeout: 15000 });
+	assert(await page.locator('.sheet:visible .sheet-back').isHidden(), 'Back is shown after a tab tap reset the stack');
+	await page.waitForFunction(() => document.querySelector('#menu-main li[data-tab="logbook"].active-tab') !== null, null, { timeout: 5000 });
 });
 
 // Window content fits a 390px sheet: no page overflow, and the sheet content does not scroll sideways

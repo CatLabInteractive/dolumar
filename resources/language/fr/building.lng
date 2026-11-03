@@ -1,5 +1,6 @@
 [build]
 click="Cliquez d'abord sur le bouton de construction, puis choisissez une position sur la carte. Faites un clic-droit pour annuler la construction."
+clickMobile="Touchez Construire, faites glisser la carte jusqu'à ce que le bâtiment soit au bon endroit, puis touchez Placer."
 construct="Construire ce bâtiment"
 intro="Pour construire un bâtiment vous aurez besoin d'une rune adéquate et des ressources nécessaires. Vous pouvez trouver des runes en explorant les alentours ou en attaquant d'autres joueurs. Si certains bâtiment requièrent des runes spécifiques, d'autres vous laisse le choix. Sélectionnez alors une rune, puis lancer la construction."
 requires="Requière @@0."
