@@ -10,10 +10,13 @@ the servers unless the owner asks for that specific action.
 
 ## What happens on deploy
 
-- `app.json` `scripts.dokku.postdeploy` runs `tools/postdeploy.sh`, which runs `php tools/setup.php` (and, on preview
-  instances only, `tools/seed.php`). `setup.php` installs the schema (`dump/dump.sql`) when the `n_players` table
-  does not exist; otherwise it runs every `dump/upgrades/*.sql` in name order. Those files are idempotent, and a
-  failure fails the deploy. See [`dump/upgrades/README.md`](../dump/upgrades/README.md).
+- `app.json` `scripts.dokku.predeploy` runs `tools/predeploy.sh`, which runs `php tools/setup.php` after the build and
+  before the new containers start. `setup.php` installs the schema (`dump/dump.sql`) when the `n_players` table does
+  not exist; otherwise it runs every `dump/upgrades/*.sql` in name order. Those files are idempotent, and a failure
+  aborts the deploy while the previous release keeps running. See
+  [`dump/upgrades/README.md`](../dump/upgrades/README.md). To run it by hand: `dokku run <app> php tools/setup.php`.
+- `app.json` `scripts.dokku.postdeploy` runs `tools/postdeploy.sh`, which on preview instances only seeds test players
+  (`tools/seed.php`).
 - `app.json` `cron` installs the cron jobs: `php cron/run.php` every minute and `php cron/ai.php` every 15 minutes.
 - Composer installs dependencies from `composer.lock`, so the engine version deployed is the commit pinned there.
 
