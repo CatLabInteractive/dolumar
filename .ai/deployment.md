@@ -26,6 +26,10 @@ Key variables: `DATABASE_URL`, `MEMCACHED_URL`, `ABSOLUTE_URL`, `PROTOCOL`, `EMA
 `VAPID_*` (browser notifications; generated once with `php tools/vapid-keys.php` and never rotated, since a new pair
 breaks every existing subscription).
 
+Paid speed-ups (spend credits to finish a building, training or scouting queue sooner) are off unless
+`PREMIUM_SPEEDUP_BUILDINGS`, `PREMIUM_SPEEDUP_TRAINING` or `PREMIUM_SPEEDUP_SCOUTING` is set to `1`. When off,
+`Dolumar_Windows_Statusbar::canSpeedUp()` hides the link and the `Speedup` window refuses the request.
+
 `CREDITS_*` and `SERVERLIST_*` belong to dead CatLab services. They stay unset and the game must keep working
 without them: guard any code that would call them.
 

@@ -257,9 +257,16 @@ define ('PREMIUM_GAME_TOKEN', 'Dolumar');
 
 /*
 * More premium features
+*
+* Paying credits to speed up buildings, training and scouting is off by default. Each type can be
+* switched on with an environment variable of the same name (PREMIUM_SPEEDUP_BUILDINGS=1, ...).
 */
-if (!defined ('PREMIUM_SPEEDUP_BUILDINGS'))
-	define ('PREMIUM_SPEEDUP_BUILDINGS', true);
+foreach (array ('PREMIUM_SPEEDUP_BUILDINGS', 'PREMIUM_SPEEDUP_TRAINING', 'PREMIUM_SPEEDUP_SCOUTING') as $speedupFlag) {
+	if (!defined ($speedupFlag)) {
+		define ($speedupFlag, filter_var (getenv ($speedupFlag), FILTER_VALIDATE_BOOLEAN));
+	}
+}
+unset ($speedupFlag);
 
 if (!defined ('PREMIUM_SPEEDUP_BUILDINGS_PRICE'))
 	define ('PREMIUM_SPEEDUP_BUILDINGS_PRICE', 20);
@@ -267,17 +274,11 @@ if (!defined ('PREMIUM_SPEEDUP_BUILDINGS_PRICE'))
 if (!defined ('PREMIUM_SPEEDUP_BUILDINGS_UNIT'))
 	define ('PREMIUM_SPEEDUP_BUILDINGS_UNIT', 1800);
 
-if (!defined ('PREMIUM_SPEEDUP_TRAINING'))
-	define ('PREMIUM_SPEEDUP_TRAINING', true);
-
 if (!defined ('PREMIUM_SPEEDUP_TRAINING_PRICE'))
 	define ('PREMIUM_SPEEDUP_TRAINING_PRICE', 20);
 
 if (!defined ('PREMIUM_SPEEDUP_TRAINING_UNIT'))
 	define ('PREMIUM_SPEEDUP_TRAINING_UNIT', 1800);
-
-if (!defined ('PREMIUM_SPEEDUP_SCOUTING'))
-	define ('PREMIUM_SPEEDUP_SCOUTING', true);
 
 if (!defined ('PREMIUM_SPEEDUP_SCOUTING_PRICE'))
 	define ('PREMIUM_SPEEDUP_SCOUTING_PRICE', 100);
