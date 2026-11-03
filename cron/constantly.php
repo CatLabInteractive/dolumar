@@ -139,6 +139,21 @@ if ($lock->setLock ('cron_const', 0, $locktime))
 		}
 	}
 	
+	// Settle pending credit purchases (missed notifies). Only when credits are configured.
+	try
+	{
+		$creditsClient = Neuron_GameServer_Credits::getPureCreditsObject ();
+		if ($creditsClient)
+		{
+			$service = new Neuron_GameServer_Credits_PurchaseService ($creditsClient);
+			echo 'Reconciled credit purchases: ' . $service->reconcile () . "\n";
+		}
+	}
+	catch (\Throwable $e)
+	{
+		echo 'Credit reconcile failed: ' . get_class ($e) . "\n";
+	}
+
 	//customMail ('daedelson@gmail.com', 'debug cronjob', $profiler);
 	$lock->releaseLock ('cron_const', 0);
 }

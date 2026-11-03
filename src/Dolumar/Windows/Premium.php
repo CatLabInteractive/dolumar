@@ -23,6 +23,16 @@
 
 class Dolumar_Windows_Premium extends Neuron_GameServer_Windows_Premium
 {
+	public function getContent ($error = null)
+	{
+		if (!Dolumar_Premium_Prices::creditsEnabled ())
+		{
+			return '<p>Premium is not available right now.</p>';
+		}
+
+		return parent::getContent ($error);
+	}
+
 	protected function getBenefits ()
 	{
 		$page = new Neuron_Core_Template ();

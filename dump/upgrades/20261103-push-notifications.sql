@@ -1,5 +1,5 @@
 -- Browser (Web Push) notifications: subscribed browsers and the outbox the cron job sends.
--- Safe to run more than once (also by hand, before tools/migrate.php exists on the server).
+-- Runs on every deploy (tools/setup.php), so it must stay safe to run more than once.
 
 CREATE TABLE IF NOT EXISTS `n_push_subscriptions` (
   `ps_id` int(11) NOT NULL AUTO_INCREMENT,

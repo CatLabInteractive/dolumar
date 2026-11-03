@@ -169,6 +169,45 @@ database server is shared. Keep an eye on memory if many pull requests are open 
 ## OpenID Connect
 * Redirect URL: https://YOUR_DOMAIN/oauth2/login/next
 
-## CatLab Credits
-Paid features used to run on the CatLab Credits framework. That service is not currently available, so leave
-`CREDITS_*` unset.
+## Credits (CatLab Accounts)
+Paid features (premium, runes, resources, moving villages and buildings, bonus buildings, speed-ups) are bought with
+Dolumar credits on [CatLab Accounts](https://accounts.catlab.eu/). Credits are enabled only when
+`OPENID_CONNECT_CLIENT_ID`, `OPENID_CONNECT_SECRET` and `CATLAB_CREDITS_TYPE_ID` are all set; otherwise every
+purchase link is hidden. `OPENID_CONNECT_PROFILE_URL_PREFIX` is also required when credits are enabled: the credits
+code uses it to map players to their Accounts account. The old `CREDITS_*` settings stay unset.
+
+Setup:
+
+1. In the Accounts admin, create a "Dolumar" product.
+2. Create a "Dolumar Credits" credit type pointing at that product. The price is EUR 0.014 per credit including VAT
+   (500 credits = EUR 7.00). On the admin pricing page (`admin/credit-types/{id}/pricing`) enter **0.014** in the
+   `price_incl_vat` field (EUR per credit, including VAT). Accounts stores it excluding VAT (0.011570); the preview
+   should show 500 credits at about EUR 7.01 for EU buyers.
+3. Enter the discount tiers in the same form's textarea, one per line: `100=1.00`, `1000=0.95`, `2000=0.91`,
+   `3000=0.86`, `5000=0.83`.
+4. Link Dolumar's OIDC client to the product and allow the `credits` scope. Do this (steps 1-4) **before** setting
+   `CATLAB_CREDITS_TYPE_ID` in step 5: as soon as that is set the game asks for the `credits` scope at login, and
+   Accounts refuses the login while the client is not allowed that scope.
+   A newly created OIDC client also needs a signing key (a row in `oauth2_public_keys`); the existing production
+   client already has one.
+5. On the game server:
+
+   ```
+   dokku config:set dolumar CATLAB_CREDITS_TYPE_ID=<credit type id>
+   # optional, defaults to https://accounts.catlab.eu/
+   dokku config:set dolumar CATLAB_ACCOUNTS_URL=https://accounts.catlab.eu/
+   ```
+
+   `CATLAB_ACCOUNTS_URL` must be exactly Accounts' public URL (same scheme, host and path; a trailing slash is
+   optional): the game only redirects players to confirm URLs that start with it, so any other spelling (`http`
+   instead of `https`, `www.`, ...) makes every purchase fail with "temporarily unavailable".
+6. Players log in once more to grant the `credits` scope. Until then, purchase links send them through login.
+
+Pending purchases that missed their notification, and refunds that could not reach Accounts (`refund_pending`), are
+settled by the `cron/constantly.php` job; a player's own purchases are also settled when they open the premium shop.
+
+After the first real deploy, check the logs for `REFUND FAILED` and `marked failed`: both mean a purchase needs
+manual attention (a refund Accounts refused, or a request that could not be matched).
+
+Merge order: game PR #3, then the engine PR, then re-lock `composer.lock` to the merged engine commit, then this
+branch.

@@ -105,9 +105,16 @@ class Dolumar_Players_Village_Movevillage
 			}
 			
 			$profiler->stop ();
+			$moved = true;
+		}
+		else
+		{
+			$moved = false;
 		}
 		
 		$profiler->stop ();
+		
+		return $moved;
 	}
 	
 	/*
