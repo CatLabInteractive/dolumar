@@ -24,6 +24,10 @@ add a setting, add it there (with a comment) and to the README's configuration s
 Key variables: `DATABASE_URL`, `MEMCACHED_URL`, `ABSOLUTE_URL`, `PROTOCOL`, `EMAIL_SMTP_*`, `EMAIL_FROM*`,
 `OPENID_CONNECT_*`, `APP_DEBUG` (never set in production), `SIGNS_PATH`, `CACHE_DIR`, `AIRBRAKE_*`.
 
+Paid speed-ups (spend credits to finish a building, training or scouting queue sooner) are off unless
+`PREMIUM_SPEEDUP_BUILDINGS`, `PREMIUM_SPEEDUP_TRAINING` or `PREMIUM_SPEEDUP_SCOUTING` is set to `1`. When off,
+`Dolumar_Windows_Statusbar::canSpeedUp()` hides the link and the `Speedup` window refuses the request.
+
 `CREDITS_*` and `SERVERLIST_*` belong to dead CatLab services. They stay unset and the game must keep working
 without them: guard any code that would call them.
 
