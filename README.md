@@ -118,11 +118,11 @@ curl -fsSL "https://raw.githubusercontent.com/CatLabInteractive/dolumar/$REF/too
   -o /usr/local/bin/dolumar-preview.new
 chmod 755 /usr/local/bin/dolumar-preview.new && mv /usr/local/bin/dolumar-preview.new /usr/local/bin/dolumar-preview
 
-# 4. Optional settings, all commented out because the script's defaults fit this server. Only written when the file
-# does not exist yet, so re-running this keeps your edits.
+# 4. The settings. They live only on this server: written once, edited by hand afterwards. The [ -f ] guard means
+# re-running this never overwrites them.
 [ -f /etc/default/dolumar-preview ] || cat > /etc/default/dolumar-preview <<'CONF'
-# PREVIEW_DOMAIN=preview.dolumar.com
-# PREVIEW_LETSENCRYPT_EMAIL=support@catlab.eu
+PREVIEW_DOMAIN=preview.dolumar.com
+PREVIEW_LETSENCRYPT_EMAIL=you@example.com
 # PREVIEW_HTTPS=0       # plain http, skips Let's Encrypt
 # PREVIEW_MEMORY=512m   # memory limit per preview
 # PREVIEW_BRANCHES=develop  # branches with a standing preview
