@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bf356551ad857ca1241b7dd966d235d4",
+    "content-hash": "daedeed448ef846f4e3cc501d170b6f8",
     "packages": [
         {
             "name": "airbrake/phpbrake",
@@ -115,12 +115,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/CatLabInteractive/dolumar-engine.git",
-                "reference": "7a0fe561db8c5db99fcc50659c5648a5f7d5f0d2"
+                "reference": "0902ff90ca5728972723535805f52b51aacc98ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CatLabInteractive/dolumar-engine/zipball/7a0fe561db8c5db99fcc50659c5648a5f7d5f0d2",
-                "reference": "7a0fe561db8c5db99fcc50659c5648a5f7d5f0d2",
+                "url": "https://api.github.com/repos/CatLabInteractive/dolumar-engine/zipball/0902ff90ca5728972723535805f52b51aacc98ad",
+                "reference": "0902ff90ca5728972723535805f52b51aacc98ad",
                 "shasum": ""
             },
             "require": {
@@ -3547,7 +3547,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.4.27",
+        "php": "~8.4.27",
         "ext-memcached": "*",
         "ext-mysqli": "*",
         "ext-gd": "*",

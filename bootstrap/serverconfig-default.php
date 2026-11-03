@@ -111,6 +111,8 @@ defEnvOrDefault ('SERVERLIST_VISIBLE', true);
 
 defEnvOrDefault('AIRBRAKE_TOKEN', getenv('AIRBRAKE_API_KEY'));
 defEnvOrDefault('AIRBRAKE_HOST');
+defEnvOrDefault('AIRBRAKE_PROJECT_ID');
+defEnvOrDefault('AIRBRAKE_ENVIRONMENT');
 
 defEnvOrDefault('NOLOGIN_REDIRECT');
 defEnvOrDefault('WIKI_GUIDE_URL');

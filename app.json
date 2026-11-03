@@ -7,7 +7,7 @@
   "website": "https://www.dolumar.com/",
   "cron": [
     {"command": "php cron/run.php", "schedule": "* * * * *"},
-    {"command": "php cron/ai.php", "schedule": "*/5 * * * *"}
+    {"command": "php cron/ai.php", "schedule": "*/15 * * * *"}
   ],
   "scripts": {
     "dokku": {
