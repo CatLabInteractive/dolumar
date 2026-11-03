@@ -198,8 +198,10 @@ exposing `Game.mapObjects`:
   `Game.map.getOrthogonalCors(x * -1, y)` (same sign convention as `mapIsoJump`), and sets `left` / `top`. Before the
   first path it uses the first point, after the last path the last point. The facing class (`left`/`right`) is set
   from the sign of the pixel delta since the last tick.
-- **Route line.** For related objects, a dashed polyline of all path points is drawn on a single `<canvas>` in the
-  layer, redrawn when the object set changes. Unrelated objects get no line.
+- **Route line.** For related objects, a dashed `<polyline>` of all path points is drawn in one `<svg>` in the
+  layer (not a canvas: a bitmap sized to the bounding box of every route exceeds mobile canvas limits), redrawn
+  when the object set changes. Unrelated objects get no line. The response lists objects sorted by exported id, so
+  the order never reveals how the game grouped them.
 - **Tap.** A click or tap on a sprite with a `click` command shows a small label (name, kind, ETA = end of the
   current path) next to it and a "Open" button that evaluates the command with the same `Game.map.onObjectClick`
   path used by buildings. Sprites without a command do nothing.
