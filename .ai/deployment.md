@@ -24,6 +24,10 @@ add a setting, add it there (with a comment) and to the README's configuration s
 Key variables: `DATABASE_URL`, `MEMCACHED_URL`, `ABSOLUTE_URL`, `PROTOCOL`, `EMAIL_SMTP_*`, `EMAIL_FROM*`,
 `OPENID_CONNECT_*`, `APP_DEBUG` (never set in production), `SIGNS_PATH`, `CACHE_DIR`, `AIRBRAKE_*`.
 
+Error reporting (`AIRBRAKE_*`) goes through `Dolumar_ErrorReporting_Notifier`, a phpbrake subclass. phpbrake drops a
+failed delivery silently, so the subclass logs it (`Error tracker: ...` in `dokku logs`): check there first when
+errors do not show up in Errbit.
+
 Paid speed-ups (spend credits to finish a building, training or scouting queue sooner) are off unless
 `PREMIUM_SPEEDUP_BUILDINGS`, `PREMIUM_SPEEDUP_TRAINING` or `PREMIUM_SPEEDUP_SCOUTING` is set to `1`. When off,
 `Dolumar_Windows_Statusbar::canSpeedUp()` hides the link and the `Speedup` window refuses the request.
@@ -50,4 +54,7 @@ the security model are in the README section "Pull request previews". In short:
   It is copied to the server by hand, so a change to it needs the owner to reinstall it.
 - `PREVIEW_MODE=1` turns on `tools/seed.php` and `public/preview-login.php` (log in as any player, no OIDC). Both must
   keep refusing to act without it. Never set it in production.
+- Previews report errors to Errbit only when `PREVIEW_AIRBRAKE_TOKEN` (and `PREVIEW_AIRBRAKE_HOST`) are set in the
+  script's config file; the script copies them into every preview on each deploy, with
+  `AIRBRAKE_ENVIRONMENT=preview-<name>`. Without them a preview's errors only appear in `dokku logs <app>`.
 - When you open a PR that needs a manual check, point the owner at the preview link in the PR comment.

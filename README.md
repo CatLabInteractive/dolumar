@@ -33,7 +33,9 @@ the most important ones are:
 * `OPENID_CONNECT_*`: OpenID Connect login provider (authorize/token/profile URLs, client id and secret).
 * `APP_DEBUG`: enables debug output; leave unset in production.
 * `SIGNS_PATH`: where custom sign images are stored (defaults to `public/signs`). Must be persistent in production.
-* `AIRBRAKE_TOKEN`: optional error reporting.
+* `AIRBRAKE_TOKEN`, `AIRBRAKE_HOST`, `AIRBRAKE_PROJECT_ID`, `AIRBRAKE_ENVIRONMENT`: optional error reporting to Errbit
+  or Airbrake. A notice the tracker does not accept is written to the error log (`dokku logs`), starting with
+  `Error tracker:`.
 * `PREMIUM_SPEEDUP_BUILDINGS`, `PREMIUM_SPEEDUP_TRAINING`, `PREMIUM_SPEEDUP_SCOUTING`: set to `1` to let players pay
   credits to speed up that queue. Off by default.
 
@@ -108,15 +110,21 @@ Needs Dokku 0.24 or newer (for `git:from-archive`) with the mysql, memcached and
 dokku mysql:create dolumar-previews
 
 # 3. The script and its settings.
+# Download to a temporary file and move it into place: overwriting the file in place breaks a deploy that is running
+# it at that moment (bash reads scripts while executing them).
 curl -fsSL https://raw.githubusercontent.com/CatLabInteractive/dolumar/master/tools/preview/dolumar-preview \
-  -o /usr/local/bin/dolumar-preview
-chmod 755 /usr/local/bin/dolumar-preview
+  -o /usr/local/bin/dolumar-preview.new
+chmod 755 /usr/local/bin/dolumar-preview.new && mv /usr/local/bin/dolumar-preview.new /usr/local/bin/dolumar-preview
 cat > /etc/default/dolumar-preview <<'CONF'
 PREVIEW_DOMAIN=preview.dolumar.com
 PREVIEW_LETSENCRYPT_EMAIL=you@example.com
 # PREVIEW_HTTPS=0       # plain http, skips Let's Encrypt
 # PREVIEW_MEMORY=512m   # memory limit per preview
 # PREVIEW_BRANCHES=develop  # branches with a standing preview
+# Errbit for the previews (each preview reports as environment preview-pr-<n> / preview-<branch>):
+# PREVIEW_AIRBRAKE_HOST=https://errors.catlab.eu
+# PREVIEW_AIRBRAKE_TOKEN=<project API key>
+# PREVIEW_AIRBRAKE_PROJECT_ID=
 CONF
 
 # 4. A user that can only run that script, through sudo.
@@ -145,7 +153,8 @@ Once `PREVIEW_SSH_KEY` is saved, delete that private key from the server with `s
 GitHub holds the only copy. Keep `/root/dolumar-preview-key.pub` and the `authorized_keys` entry.
 
 Until `PREVIEW_SSH_HOST` is set the workflow does nothing. When `tools/preview/dolumar-preview` changes, copy it to the
-server again (step 3). To remove a preview by hand: `dolumar-preview destroy <number>`.
+server again (step 3). GitHub caches raw files for 5 minutes, so right after a merge use the commit URL
+(`…/dolumar/<commit-sha>/tools/preview/dolumar-preview`) and check with `grep` that you got the new version. To remove a preview by hand: `dolumar-preview destroy <number>`.
 
 Each preview uses roughly 150 to 300 MB (Apache/PHP plus a small memcached) and runs the game's cron jobs. The
 database server is shared. Keep an eye on memory if many pull requests are open at once.
