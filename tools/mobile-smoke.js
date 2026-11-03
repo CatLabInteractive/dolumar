@@ -527,6 +527,29 @@ check('tabbar', { viewport: { width: 390, height: 844 }, layout: 'mobile' }, asy
 		assert(await page.locator('.mobile-header-actions button .label', { hasText: label }).count() === 1, 'no labelled ' + label + ' button in the header');
 	}
 	assert(await page.locator('.status').first().isHidden(), 'the Statusbar panel is visible on mobile');
+
+	// Ticker: hidden while nothing is in progress, a row under the resources (and a sheet on tap) when something is.
+	assert(await page.locator('.mobile-ticker').isHidden(), 'the ticker row is shown with nothing in progress');
+	await page.evaluate(() => {
+		const list = document.querySelector('.panel.status ul.statusbar');
+		list.insert('<li class="construct">[<span class="counter">00:05:00</span>] Smoke farm <a class="speedup" href="javascript:void(0);">Hurry up!</a></li>');
+		Game.dolumar.mobile.syncHeader();
+	});
+	const tickerBox = await page.locator('.mobile-ticker').boundingBox();
+	assert(tickerBox && Math.round(tickerBox.y) === 72 && Math.round(tickerBox.height) === 22, '.mobile-ticker is ' + JSON.stringify(tickerBox) + ', expected 22px under the resources');
+	assert((await page.locator('.mobile-ticker li').textContent() || '').indexOf('Smoke farm') >= 0, 'the ticker row does not show the counter');
+	assert(await page.evaluate(() => getComputedStyle(Game.sheets.container()).top) === '94px', '#sheets top did not move under the ticker');
+	await page.locator('.mobile-ticker').click({ position: { x: 300, y: 11 } });
+	await page.locator('.sheet.mobile-ticker-sheet').waitFor({ state: 'visible', timeout: 5000 });
+	assert((await page.locator('.sheet.mobile-ticker-sheet .sheet-title').textContent() || '').trim() === 'In progress', 'the ticker sheet has the wrong title');
+	assert(await page.locator('.sheet.mobile-ticker-sheet a.speedup').count() === 1, 'the ticker sheet lost the speed-up link');
+	await page.evaluate(() => {
+		document.querySelector('.panel.status ul.statusbar li.construct').remove();
+		Game.dolumar.mobile.syncHeader();
+	});
+	await page.waitForFunction(() => document.querySelectorAll('.sheet.mobile-ticker-sheet').length === 0, null, { timeout: 5000 });
+	assert(await page.locator('.mobile-ticker').isHidden(), 'the ticker row stays shown after the counters are gone');
+	assert(await page.evaluate(() => getComputedStyle(Game.sheets.container()).top) === '72px', '#sheets top did not move back');
 	const sheets = await page.evaluate(() => {
 		const style = getComputedStyle(Game.sheets.container());
 		return { top: style.top, bottom: style.bottom };

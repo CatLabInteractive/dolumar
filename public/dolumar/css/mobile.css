@@ -27,6 +27,19 @@ body.layout-mobile #sheets
 	--sheet-bottom: calc(56px + env(safe-area-inset-bottom, 0px));
 }
 
+/* While something is being built, trained or scouted, the ticker row adds 22px under the resources. */
+body.layout-mobile.has-ticker
+{
+	--mobile-ticker-height: 22px;
+	--mobile-chrome-top: 94px;
+	--sheet-top: 94px;
+}
+
+body.layout-mobile.has-ticker #sheets
+{
+	--sheet-top: 94px;
+}
+
 /* The Statusbar panel (construction ticker) is not shown on a phone; the Build and Logbook sheets carry the queue. */
 body.layout-mobile .panel.status
 {
@@ -203,6 +216,107 @@ body.layout-mobile .mobile-resources span.resource a
 {
 	color: inherit;
 	text-decoration: none;
+}
+
+/* Ticker row: the Statusbar's countdowns (copied by Game.dolumar.mobile.syncTicker); hidden when empty. */
+body.layout-mobile .mobile-ticker
+{
+	display: none;
+	position: fixed;
+	top: calc(var(--mobile-header-height) + var(--mobile-resources-height));
+	left: 0;
+	right: 0;
+	height: 22px;
+	align-items: center;
+	padding: 0 8px;
+	box-sizing: border-box;
+	overflow-x: auto;
+	overflow-y: hidden;
+	white-space: nowrap;
+	scrollbar-width: none;
+	background: #211b14;
+	border-bottom: 1px solid #0e0c09;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+	color: #f0dfb0;
+	font-family: Verdana, Tahoma, Arial, sans-serif;
+	font-size: 11px;
+	line-height: 22px;
+	cursor: pointer;
+	z-index: 1000;
+}
+
+body.layout-mobile.has-ticker .mobile-ticker
+{
+	display: flex;
+}
+
+body.layout-mobile .mobile-ticker::-webkit-scrollbar
+{
+	display: none;
+}
+
+body.layout-mobile .mobile-ticker ul.statusbar
+{
+	display: inline-flex;
+	gap: 14px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+body.layout-mobile .mobile-ticker ul.statusbar li
+{
+	float: none;
+	margin: 0;
+	padding: 0;
+	white-space: nowrap;
+	color: #f0dfb0;
+	font-size: 11px;
+	line-height: 22px;
+}
+
+body.layout-mobile .mobile-ticker ul.statusbar span.counter
+{
+	color: #ffd766;
+	font-weight: bold;
+}
+
+body.layout-mobile .mobile-ticker ul.statusbar a
+{
+	color: #ffd766;
+}
+
+/* The ticker sheet: one row per countdown. */
+body.layout-mobile .sheet-content ul.statusbar
+{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+body.layout-mobile .sheet-content ul.statusbar li
+{
+	float: none;
+	margin: 0;
+	padding: 10px 0;
+	border-bottom: 1px solid rgba(90, 70, 40, 0.35);
+	color: #40331f;
+	line-height: 1.4;
+}
+
+body.layout-mobile .sheet-content ul.statusbar span.counter
+{
+	font-weight: bold;
+	color: #2c261d;
+}
+
+body.layout-mobile .sheet-content ul.statusbar li a
+{
+	display: inline-flex;
+	align-items: center;
+	min-height: 44px;
+	margin-left: 6px;
+	color: #a0121a;
 }
 
 /* Zoom: a small round pair at the bottom right of the map (pinch zooms too), faded out after a few seconds without a touch. */

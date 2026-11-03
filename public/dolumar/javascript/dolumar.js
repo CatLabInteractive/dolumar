@@ -453,6 +453,8 @@ Game.dolumar.mobile =
 	'startupChecked' : false,
 	'zoomTimer' : null,
 	'zoomWake' : null,
+	'tickerSheet' : null,
+	'TICKER_DIALOG_ID' : 'mobile-ticker',
 
 	'init' : function ()
 	{
@@ -747,7 +749,14 @@ Game.dolumar.mobile =
 		mobile.closeMore ();
 		mobile.hideTooltip ();
 
-		$$('.mobile-header, .mobile-resources, .mobile-map-zoom').invoke ('remove');
+		if (mobile.tickerSheet)
+		{
+			Game.sheets.close (mobile.tickerSheet);
+			mobile.tickerSheet = null;
+		}
+
+		$$('.mobile-header, .mobile-resources, .mobile-ticker, .mobile-map-zoom').invoke ('remove');
+		$(document.body).removeClassName ('has-ticker');
 		$$('#menu li.tab-more').invoke ('remove');
 		$$('#menu li.active-tab').invoke ('removeClassName', 'active-tab');
 		$$('.panel.mobile-visible').invoke ('removeClassName', 'mobile-visible');
@@ -831,6 +840,18 @@ Game.dolumar.mobile =
 
 		body.appendChild (header);
 		body.appendChild (new Element ('div', { 'class' : 'mobile-resources' }));
+
+		// Ticker: the Statusbar's countdowns in one row, shown only while something is in
+		// progress; a tap (not on a link inside) opens the full list as a sheet.
+		var ticker = new Element ('div', { 'class' : 'mobile-ticker' });
+		ticker.observe ('click', function (event)
+		{
+			if (!Event.findElement (event, 'a'))
+			{
+				mobile.openTicker ();
+			}
+		});
+		body.appendChild (ticker);
 
 		// Zoom as a floating pair on the map (pinch works too); sheets cover it.
 		var zoom = new Element ('div', { 'class' : 'mobile-map-zoom' });
@@ -937,6 +958,121 @@ Game.dolumar.mobile =
 		{
 			inbox.removeClassName ('has-messages');
 		}
+
+		mobile.syncTicker ();
+	},
+
+	/*
+		Copy the Statusbar's counters (hidden on a phone) into the ticker row and, when open,
+		the ticker sheet. The countdowns tick client-side (Game.gui.updateCounters keeps its
+		state on the span): each copy gets the state of its original.
+	*/
+	'syncTicker' : function ()
+	{
+		var mobile = Game.dolumar.mobile;
+		var ticker = $$('.mobile-ticker')[0];
+
+		if (!ticker)
+		{
+			return;
+		}
+
+		var source = $$('.panel.status ul.statusbar')[0];
+		var html = source && source.down ('li') ? source.outerHTML : '';
+
+		if (ticker.mobileHtml !== html)
+		{
+			ticker.mobileHtml = html;
+			ticker.update ('');
+
+			if (html)
+			{
+				ticker.appendChild (mobile.copyCounters (source));
+			}
+
+			if (mobile.tickerSheet)
+			{
+				mobile.tickerSheet.content.update ('');
+				if (html)
+				{
+					mobile.tickerSheet.content.appendChild (mobile.copyCounters (source));
+				}
+				else
+				{
+					Game.sheets.dismiss (mobile.tickerSheet);
+				}
+			}
+		}
+
+		if (html)
+		{
+			$(document.body).addClassName ('has-ticker');
+		}
+		else
+		{
+			$(document.body).removeClassName ('has-ticker');
+		}
+	},
+
+	'copyCounters' : function (source)
+	{
+		var copy = $(source.cloneNode (true));
+		var originals = source.select ('.counter');
+
+		copy.select ('.counter').each (function (el, i)
+		{
+			if (originals[i] && typeof (originals[i].counter) != 'undefined')
+			{
+				el.counter = originals[i].counter;
+				el.iStartDate = originals[i].iStartDate;
+			}
+		});
+
+		// The copies tick from the next poll on.
+		if (Game.gui.resetElementsCache)
+		{
+			Game.gui.resetElementsCache ();
+		}
+
+		return copy;
+	},
+
+	/*
+		The full list of countdowns (with their speed-up and cancel links) as a sheet.
+	*/
+	'openTicker' : function ()
+	{
+		var mobile = Game.dolumar.mobile;
+		var source = $$('.panel.status ul.statusbar')[0];
+
+		if (mobile.tickerSheet)
+		{
+			Game.sheets.focus (mobile.tickerSheet);
+			return;
+		}
+
+		if (!source || !source.down ('li'))
+		{
+			return;
+		}
+
+		var sheet = Game.sheets.open ({
+			'dialogId' : mobile.TICKER_DIALOG_ID,
+			'title' : mobile.label ('ticker', 'In progress'),
+			'closable' : true,
+			'modal' : false,
+			'className' : 'mobile-ticker-sheet',
+			'onClose' : function (closed)
+			{
+				if (mobile.tickerSheet === closed)
+				{
+					mobile.tickerSheet = null;
+				}
+			}
+		});
+
+		sheet.content.appendChild (mobile.copyCounters (source));
+		mobile.tickerSheet = sheet;
 	},
 
 	/*

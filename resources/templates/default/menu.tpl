@@ -5,6 +5,7 @@
 	data-label-minimap="<?=htmlspecialchars ($this->getText ('mobileMap'))?>"
 	data-label-chat="<?=htmlspecialchars ($this->getText ('mobileChat'))?>"
 	data-label-inbox="<?=htmlspecialchars ($this->getText ('mobileInbox'))?>"
+	data-label-ticker="<?=htmlspecialchars ($this->getText ('mobileTicker'))?>"
 	data-label-home="<?=htmlspecialchars ($this->getText ('home'))?>"
 	data-label-prevvillage="<?=htmlspecialchars ($this->getText ('mobilePrevVillage'))?>"
 	data-label-nextvillage="<?=htmlspecialchars ($this->getText ('mobileNextVillage'))?>"
