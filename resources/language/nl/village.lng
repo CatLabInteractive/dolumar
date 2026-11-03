@@ -28,6 +28,14 @@ challenge="Zend troepen uit @@0."
 networth="Score:"
 distance="@@distance van @@name."
 
+tribe="Stam:"
+hoard="Voorraad:"
+hoard_lean="mager: de wandeling nauwelijks waard"
+hoard_stocked="goed gevuld"
+hoard_overflowing="uitpuilend"
+request="De stam vraagt:"
+request_value="@@amount @@res, verzonden via de markt. Wie dit levert, verdient de dank van de stam."
+request_none="momenteel niets"
 [techview]
 noResearch="Je hebt nog geen onderzoeken gedaan."
 

@@ -27,10 +27,28 @@
 			<td><?=$score?></td>
 		</tr>
 
+		<?php if (isset ($tribe)) { ?>
+			<tr>
+				<td><?=$tribe?></td>
+				<td><?=$tribe_value?></td>
+			</tr>
+		<?php } ?>
+
 		<tr>
 			<td><?=$race?></td>
 			<td><?=$race_value?></td>
 		</tr>
+
+		<?php if (isset ($tribe)) { ?>
+			<tr>
+				<td><?=$hoard?></td>
+				<td><?=$hoard_value?></td>
+			</tr>
+			<tr>
+				<td><?=$request?></td>
+				<td><?=$request_value?></td>
+			</tr>
+		<?php } ?>
 	
 		<tr>
 			<td><?=$this->getText ('honour')?></td>

@@ -110,7 +110,7 @@ cron:
 
 - `cron/run.php`, every minute: runs `cron/constantly.php` (premium queues and periodic processing) and
   `cron/daily.php` under `Neuron_Core_Lock` locks so they never overlap.
-- `cron/ai.php`, every 5 minutes: computer-controlled players.
+- `cron/ai.php`, every 5 minutes: the NPC tribes (below).
 
 Cron and setup scripts refuse to run outside the CLI.
 
@@ -134,10 +134,31 @@ and `push/*` routes and the "Browser notifications" section of My Account. The g
 
 All of it is off until `VAPID_PUBLIC_KEY` and `VAPID_PRIVATE_KEY` are set.
 
+## NPC tribes
+
+Every player gets a goblin village (owned by `Dolumar_Players_NPCPlayer`, player id 0) within 50 tiles. The tribe
+code lives in `src/Dolumar/Npc/` and is driven by `Dolumar_Players_Village_Ai::run()` from `cron/ai.php`, under a
+`npc_ai` lock. One run per village is: `Dolumar_Npc_SnapshotBuilder` (reads the village, new `battle_report` and
+`villages_transfers` rows, the neighbours) → `Dolumar_Npc_StandingUpdater` (pure: events to standing rows and
+transitions) → the planners `Dolumar_Npc_Planner_Economy`, `_Army`, `_War` (pure: snapshot to
+`Dolumar_Npc_Action`s) → `Dolumar_Npc_Executor` (the only writer: build, train, squads, `attackVillage()`, log
+notifications) → `Dolumar_Npc_StandingRepository` saves the rows. The decision classes never touch the database or
+`NOW`, which is what the unit tests in `tests/Npc/` cover.
+
+Each tribe keeps a hidden standing per player (-100..100) that decays toward 0 and drives its behaviour: raided
+tribes send scouts, an envoy with a price, then war parties; gifts and delivered requests make them friendly
+enough to send support squads. Every number is a constant in `Dolumar_Npc_Config`; `NPC_AGGRESSION`
+(`off`/`counter`/`full`) and `NPC_PROTECTION_RUNES` come from the environment. Tables `npc_villages`,
+`npc_standings` and `npc_log` are created by `dump/upgrades/20261102-npc-tribes.sql`. Moderators see every tribe,
+its standings and its decision log (`npc_log`) on the admin page "NPC tribes" (`Dolumar_Pages_Admin_Npctribes`,
+`/admin/npctribes`, filters `?vid=` and `?plid=`). The full
+design is `.ai/superpowers/specs/2026-11-02-npc-standing-ai-design.md`.
+
 ## Storage
 
 - MySQL: the whole game state. The schema is `dump/dump.sql`; `tools/setup.php` installs it only into an empty
-  database. On an installed database it runs every `dump/upgrades/*.sql` on each deploy, so schema changes are an
-  idempotent SQL file there (see `dump/upgrades/README.md`) and must be added to `dump/dump.sql` as well.
+  database and otherwise runs every file in `dump/upgrades/` (`YYYYMMDD-name.sql`) on each deploy, so those files
+  must be idempotent (`CREATE TABLE IF NOT EXISTS`, guarded `ALTER`s). The same change goes into `dump/dump.sql`
+  in the same commit. See `dump/upgrades/README.md`.
 - Memcached: required. The map, sessions and many lookups depend on it.
 - Filesystem: custom sign images in `SIGNS_PATH` (persistent volume in production) and a cache in `CACHE_DIR`.

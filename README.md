@@ -19,6 +19,8 @@ docker compose exec web php tools/setup.php   # only needed for an empty databas
 * `public/signs` must exist and be writable by the web container (`mkdir -p public/signs && chmod 777 public/signs`).
 * Smoke test: `tools/smoke.sh http://localhost:8080`. If OpenID Connect is not configured, run it as
   `SMOKE_NO_OAUTH=1 tools/smoke.sh http://localhost:8080`.
+* Game tests: `docker compose exec web vendor/bin/phpunit`. The `unit` suite (NPC decision logic) needs no database;
+  the `integration` suite runs against the Docker database.
 * Engine tests: `docker compose exec -w /engine web vendor/bin/phpunit`.
 
 ## Configuration
@@ -43,8 +45,23 @@ the most important ones are:
   silently invalidates every player's subscription. Without them notifications are off.
 * `PREMIUM_SPEEDUP_BUILDINGS`, `PREMIUM_SPEEDUP_TRAINING`, `PREMIUM_SPEEDUP_SCOUTING`: set to `1` to let players pay
   credits to speed up that queue. Off by default.
+* `NPC_AGGRESSION`: how far the goblin tribes go when raided: `off` (they only build and defend), `counter`
+  (default: scouts, an envoy, then counter-attacks against raiders), or `full` (also strikes against players who
+  attack the tribe's allies). `NPC_PROTECTION_RUNES` (default 10): players with fewer runes are never attacked,
+  nor are accounts younger than seven days.
 
 `CREDITS_*` and `SERVERLIST_*` are optional and off by default; the game works without them.
+
+## NPC tribes
+Every player gets a goblin village nearby, run by `cron/ai.php` every five minutes. A tribe hoards resources,
+keeps a hidden standing per player and reacts to how it is treated: raid it and it sends scouts, then an envoy
+with a price, then war parties; pay the envoy or beat a war party at home and you get a truce. Gifts and
+delivering the request shown on its village profile make it friendly, and friends get goblin reinforcements
+when attacked. The design is in
+[`.ai/superpowers/specs/2026-11-02-npc-standing-ai-design.md`](.ai/superpowers/specs/2026-11-02-npc-standing-ai-design.md);
+the code lives in `src/Dolumar/Npc/` with every tunable number in `Dolumar_Npc_Config`. The three `npc_*`
+tables are created by `dump/upgrades/20261102-npc-tribes.sql`. Moderators can follow every tribe's standings
+and decisions on the admin page "NPC tribes" (`/admin/npctribes`).
 
 ## Deploying on Dokku
 On the server (Dokku with the `dokku-mysql`, `dokku-memcached` and `dokku-letsencrypt` plugins installed):
@@ -79,7 +96,9 @@ dokku letsencrypt:cron-job --add
 ```
 
 * The `postdeploy` script in [`app.json`](app.json) runs [`tools/postdeploy.sh`](tools/postdeploy.sh) on every deploy,
-  which runs `php tools/setup.php`. It is idempotent and only installs the schema into an empty database.
+  which runs `php tools/setup.php`. It installs the schema into an empty database and otherwise runs every file in
+  [`dump/upgrades/`](dump/upgrades/) (see its README), so a schema change is an idempotent upgrade file there plus
+  the same change in `dump/dump.sql`.
 * The cron jobs (`cron/run.php` every minute, `cron/ai.php` every 5 minutes) are also defined in `app.json`
   and are installed by Dokku automatically.
 * Check a deployment with `tools/smoke.sh https://YOUR_DOMAIN`.

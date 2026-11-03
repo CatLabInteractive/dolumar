@@ -10,7 +10,7 @@ This directory holds documentation written for AI coding agents (and useful to h
 | [conventions.md](conventions.md) | You are about to write or change code. |
 | [deployment.md](deployment.md) | You touch configuration, cron, `app.json`, `Procfile` or anything deploy-related. |
 | [repositories.md](repositories.md) | A change needs the engine, or you wonder what `dolumar-portal` is. |
-| [superpowers/](superpowers/) | Background on past large changes (the PHP 8 + Dokku migration). |
+| [superpowers/](superpowers/) | Background on past large changes (the PHP 8 + Dokku migration, the NPC tribes). |
 
 ## Keeping these docs current
 

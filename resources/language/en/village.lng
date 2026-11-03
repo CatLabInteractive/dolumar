@@ -27,6 +27,14 @@ challenge = "Send troops from @@0."
 networth = "Networth:"
 distance = "@@distance from @@name."
 
+tribe = "Tribe:"
+hoard = "Hoard:"
+hoard_lean = "lean: hardly worth the walk"
+hoard_stocked = "well stocked"
+hoard_overflowing = "overflowing"
+request = "The tribe asks:"
+request_value = "@@amount @@res, sent by market. Delivering it earns the tribe's gratitude."
+request_none = "nothing at the moment"
 [techview]
 noResearch = "You did not do any research yet."
 

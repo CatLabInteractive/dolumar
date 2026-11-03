@@ -1,4 +1,17 @@
 [mylogs]
+
+;; Tribes (NPC villages)
+npc_scouts = "Goblin scouts of the @@0 were seen around your village. The tribe is watching you."
+npc_envoy = "An envoy of the @@0 arrived: the tribe wants @@1 resources to forget your raids. Send them to the tribe by market before its war party marches."
+npc_warparty = "The @@0 have had enough: a war party is marching on your village."
+npc_strike = "The @@0 are marching on @@1 to avenge you."
+npc_peace = "The @@0 have made peace with you. A truce holds for three days."
+npc_request = "The @@0 are asking their neighbours for @@1 @@2."
+npc_thanks = "The @@0 thank you for the goods. A few goblins are on their way to guard your village for a day."
+npc_thanks_squad = "Goblins of the @@0 have come to guard your village."
+npc_support = "The @@0 have sent goblins to help defend your village."
+npc_pact = "The @@0 call you a friend of the tribe. Whoever raids you will hear from them."
+npc_pact_broken = "The @@0 no longer call you a friend of the tribe."
 build = "You have build a @@0."
 upgrade = "You have upgraded your @@0."
 destruct = "You have destructed your @@0."
@@ -90,6 +103,19 @@ invitegift_receive = "You have received a free gift of @@0 from @@1. Why not ret
 invitegift_received = "@@0 has received your gift."
 
 [hislogs]
+
+;; Tribes (NPC villages)
+npc_scouts = "Goblin scouts of the @@0 were seen around @@player's village."
+npc_envoy = "An envoy of the @@0 visited @@player asking @@1 resources."
+npc_warparty = "A war party of the @@0 is marching on @@player's village."
+npc_strike = "The @@0 are marching on @@1 to avenge @@player."
+npc_peace = "The @@0 have made peace with @@player."
+npc_request = "The @@0 are asking their neighbours for @@1 @@2."
+npc_thanks = "The @@0 thank @@player for the goods."
+npc_thanks_squad = "Goblins of the @@0 have come to guard @@player's village."
+npc_support = "The @@0 have sent goblins to help defend @@player's village."
+npc_pact = "The @@0 call @@player a friend of the tribe."
+npc_pact_broken = "The @@0 no longer call @@player a friend of the tribe."
 runes_send = "@@player has send @@0 to @@1."
 
 attack = "@@player has attacked @@defender_name. @@stolen_runes runes were stolen."
