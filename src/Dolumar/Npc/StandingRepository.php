@@ -202,6 +202,109 @@ class Dolumar_Npc_StandingRepository
 	}
 
 	/**
+	 * Tribes for the admin page, most recently run first, with how many standing rows each has.
+	 * @param int $offset
+	 * @param int $limit
+	 * @return array npc_villages rows plus `standings`
+	 */
+	public function tribesPage ($offset, $limit)
+	{
+		$out = [];
+		$rows = $this->db ()->query ("
+			SELECT t.*, (SELECT COUNT(*) FROM npc_standings s WHERE s.vid = t.vid) AS standings
+			FROM npc_villages t
+			ORDER BY t.last_run DESC, t.vid ASC
+			LIMIT " . max (0, (int) $offset) . ", " . max (1, (int) $limit)
+		);
+		foreach ($rows as $row) {
+			$row = $this->castTribe ($row);
+			$row['standings'] = (int) $row['standings'];
+			$out[] = $row;
+		}
+		return $out;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function countTribes ()
+	{
+		$rows = $this->db ()->query ("SELECT COUNT(*) AS c FROM npc_villages");
+		foreach ($rows as $row) {
+			return (int) $row['c'];
+		}
+		return 0;
+	}
+
+	/**
+	 * Standing rows for the admin page, most recently changed first.
+	 * @param int|null $vid only this tribe
+	 * @param int|null $plid only this player
+	 * @param int $limit
+	 * @return array standing rows
+	 */
+	public function standingsFiltered ($vid, $plid, $limit)
+	{
+		$out = [];
+		$rows = $this->db ()->query ("
+			SELECT * FROM npc_standings
+			WHERE " . $this->filter ($vid, $plid) . "
+			ORDER BY changed_at DESC
+			LIMIT " . max (1, (int) $limit)
+		);
+		foreach ($rows as $row) {
+			$out[] = Dolumar_Npc_Standing::fromDb ($row);
+		}
+		return $out;
+	}
+
+	/**
+	 * Decision log entries for the admin page, newest first.
+	 * @param int|null $vid only this tribe
+	 * @param int|null $plid only entries about this player
+	 * @param int $offset
+	 * @param int $limit
+	 * @return array rows with id, vid, plid (int or null), date, message
+	 */
+	public function logPage ($vid, $plid, $offset, $limit)
+	{
+		$out = [];
+		$rows = $this->db ()->query ("
+			SELECT * FROM npc_log
+			WHERE " . $this->filter ($vid, $plid) . "
+			ORDER BY id DESC
+			LIMIT " . max (0, (int) $offset) . ", " . max (1, (int) $limit)
+		);
+		foreach ($rows as $row) {
+			$out[] = [
+				'id' => (int) $row['id'],
+				'vid' => (int) $row['vid'],
+				'plid' => $row['plid'] === null ? null : (int) $row['plid'],
+				'date' => (int) $row['date'],
+				'message' => (string) $row['message'],
+			];
+		}
+		return $out;
+	}
+
+	/**
+	 * @param int|null $vid
+	 * @param int|null $plid
+	 * @return string a WHERE clause on vid and plid
+	 */
+	private function filter ($vid, $plid)
+	{
+		$where = ['1 = 1'];
+		if ($vid !== null) {
+			$where[] = 'vid = ' . (int) $vid;
+		}
+		if ($plid !== null) {
+			$where[] = 'plid = ' . (int) $plid;
+		}
+		return implode (' AND ', $where);
+	}
+
+	/**
 	 * @param array $row
 	 * @return array
 	 */

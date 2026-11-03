@@ -58,7 +58,8 @@ delivering the request shown on its village profile make it friendly, and friend
 when attacked. The design is in
 [`.ai/superpowers/specs/2026-11-02-npc-standing-ai-design.md`](.ai/superpowers/specs/2026-11-02-npc-standing-ai-design.md);
 the code lives in `src/Dolumar/Npc/` with every tunable number in `Dolumar_Npc_Config`. The three `npc_*`
-tables are created by `dump/upgrades/20261102-npc-tribes.sql`.
+tables are created by `dump/upgrades/20261102-npc-tribes.sql`. Moderators can follow every tribe's standings
+and decisions on the admin page "NPC tribes" (`/admin/npctribes`).
 
 ## Deploying on Dokku
 On the server (Dokku with the `dokku-mysql`, `dokku-memcached` and `dokku-letsencrypt` plugins installed):

@@ -23,6 +23,9 @@
 							<a href="<?=$multiaccounts?>">Check multi accounts</a>
 						</li>
 					<?php } ?>
+					<li>
+						<a href="<?=Neuron_GameServer_Pages_Admin_Page::getUrl ('npctribes')?>">NPC tribes</a>
+					</li>
 				</ul>
 			</div>
 		<?php } ?>

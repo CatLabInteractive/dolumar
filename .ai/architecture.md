@@ -115,7 +115,9 @@ Each tribe keeps a hidden standing per player (-100..100) that decays toward 0 a
 tribes send scouts, an envoy with a price, then war parties; gifts and delivered requests make them friendly
 enough to send support squads. Every number is a constant in `Dolumar_Npc_Config`; `NPC_AGGRESSION`
 (`off`/`counter`/`full`) and `NPC_PROTECTION_RUNES` come from the environment. Tables `npc_villages`,
-`npc_standings` and `npc_log` are created by `dump/upgrades/20261102-npc-tribes.sql`. The full
+`npc_standings` and `npc_log` are created by `dump/upgrades/20261102-npc-tribes.sql`. Moderators see every tribe,
+its standings and its decision log (`npc_log`) on the admin page "NPC tribes" (`Dolumar_Pages_Admin_Npctribes`,
+`/admin/npctribes`, filters `?vid=` and `?plid=`). The full
 design is `.ai/superpowers/specs/2026-11-02-npc-standing-ai-design.md`.
 
 ## Storage

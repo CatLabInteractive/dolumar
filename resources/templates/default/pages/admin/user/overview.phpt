@@ -109,6 +109,9 @@
 	<li><a href="<?=$contact_url?>">Contact player</a></li>
 	<?php if (isset ($logs_url)) { ?>
 		<li><a href="<?=$logs_url?>">Show player logs</a></li>
+		<?php if (preg_match ('/[?&]players=([0-9]+)/', $logs_url, $npcMatch)) { ?>
+			<li><a href="<?=Neuron_GameServer_Pages_Admin_Page::getUrl ('npctribes', array ('plid' => $npcMatch[1]))?>">Show NPC tribe standings</a></li>
+		<?php } ?>
 	<?php } ?>
 	
 	<?php if (isset ($reset_url)) { ?>
