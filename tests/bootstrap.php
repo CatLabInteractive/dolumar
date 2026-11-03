@@ -26,6 +26,7 @@ if (getenv ('DATABASE_URL')) {
 		'BASE_URL' => 'http://localhost/',
 		'STATIC_URL' => 'http://localhost/static/',
 		'IMAGE_URL' => 'http://localhost/static/images/',
+		'STATS_DIR' => dirname (__DIR__) . '/resources/stats/',
 	] as $name => $value) {
 		if (!defined ($name)) {
 			define ($name, $value);
