@@ -10,13 +10,11 @@ the servers unless the owner asks for that specific action.
 
 ## What happens on deploy
 
-- `app.json` `scripts.dokku.predeploy` runs `php tools/migrate.php` in the new image before it takes traffic: every
-  file in `dump/migrations/` not yet recorded in the `migrations` table is executed, in name order. A failure
-  aborts the deploy and the old release keeps serving. See [`dump/README.md`](../dump/README.md).
 - `app.json` `scripts.dokku.postdeploy` runs `tools/postdeploy.sh`, which runs `php tools/setup.php` (and, on preview
-  instances only, `tools/seed.php`). `setup.php` is idempotent and only installs the schema (`dump/dump.sql`) when
-  the `n_players` table does not exist, then records all migrations as applied.
-- `app.json` `cron` installs the cron jobs: `php cron/run.php` every minute and `php cron/ai.php` every 5 minutes.
+  instances only, `tools/seed.php`). `setup.php` installs the schema (`dump/dump.sql`) when the `n_players` table
+  does not exist; otherwise it runs every `dump/upgrades/*.sql` in name order. Those files are idempotent, and a
+  failure fails the deploy. See [`dump/upgrades/README.md`](../dump/upgrades/README.md).
+- `app.json` `cron` installs the cron jobs: `php cron/run.php` every minute and `php cron/ai.php` every 15 minutes.
 - Composer installs dependencies from `composer.lock`, so the engine version deployed is the commit pinned there.
 
 ## Configuration
@@ -26,6 +24,8 @@ add a setting, add it there (with a comment) and to the README's configuration s
 
 Key variables: `DATABASE_URL`, `MEMCACHED_URL`, `ABSOLUTE_URL`, `PROTOCOL`, `EMAIL_SMTP_*`, `EMAIL_FROM*`,
 `OPENID_CONNECT_*`, `APP_DEBUG` (never set in production), `SIGNS_PATH`, `CACHE_DIR`, `AIRBRAKE_*`,
+`VAPID_*` (browser notifications; generated once with `php tools/vapid-keys.php` and never rotated, since a new pair
+breaks every existing subscription).
 `NPC_AGGRESSION` and `NPC_PROTECTION_RUNES` (NPC tribes, see architecture.md).
 
 Error reporting (`AIRBRAKE_*`) goes through `Dolumar_ErrorReporting_Notifier`, a phpbrake subclass. phpbrake drops a

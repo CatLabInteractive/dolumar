@@ -19,7 +19,8 @@ docker compose exec web php tools/setup.php   # only needed for an empty databas
 * `public/signs` must exist and be writable by the web container (`mkdir -p public/signs && chmod 777 public/signs`).
 * Smoke test: `tools/smoke.sh http://localhost:8080`. If OpenID Connect is not configured, run it as
   `SMOKE_NO_OAUTH=1 tools/smoke.sh http://localhost:8080`.
-* Game tests (the NPC decision logic, no database needed): `docker compose exec web vendor/bin/phpunit`.
+* Game tests: `docker compose exec web vendor/bin/phpunit`. The `unit` suite (NPC decision logic) needs no database;
+  the `integration` suite runs against the Docker database.
 * Engine tests: `docker compose exec -w /engine web vendor/bin/phpunit`.
 
 ## Configuration
@@ -37,6 +38,9 @@ the most important ones are:
 * `AIRBRAKE_TOKEN`, `AIRBRAKE_HOST`, `AIRBRAKE_PROJECT_ID`, `AIRBRAKE_ENVIRONMENT`: optional error reporting to Errbit
   or Airbrake. A notice the tracker does not accept is written to the error log (`dokku logs`), starting with
   `Error tracker:`.
+* `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY` (and optionally `VAPID_SUBJECT`, a `mailto:` or `https:` contact): browser
+  notifications. Generate the pair once with `php tools/vapid-keys.php`, set both, and never change them: a new pair
+  silently invalidates every player's subscription. Without them notifications are off.
 * `PREMIUM_SPEEDUP_BUILDINGS`, `PREMIUM_SPEEDUP_TRAINING`, `PREMIUM_SPEEDUP_SCOUTING`: set to `1` to let players pay
   credits to speed up that queue. Off by default.
 * `NPC_AGGRESSION`: how far the goblin tribes go when raided: `off` (they only build and defend), `counter`
@@ -54,7 +58,7 @@ delivering the request shown on its village profile make it friendly, and friend
 when attacked. The design is in
 [`.ai/superpowers/specs/2026-11-02-npc-standing-ai-design.md`](.ai/superpowers/specs/2026-11-02-npc-standing-ai-design.md);
 the code lives in `src/Dolumar/Npc/` with every tunable number in `Dolumar_Npc_Config`. The three `npc_*`
-tables come from the migration `dump/migrations/upgrade-20261102-npc-tribes.sql`.
+tables are created by `dump/upgrades/20261102-npc-tribes.sql`.
 
 ## Deploying on Dokku
 On the server (Dokku with the `dokku-mysql`, `dokku-memcached` and `dokku-letsencrypt` plugins installed):
@@ -89,9 +93,9 @@ dokku letsencrypt:cron-job --add
 ```
 
 * The `postdeploy` script in [`app.json`](app.json) runs [`tools/postdeploy.sh`](tools/postdeploy.sh) on every deploy,
-  which runs `php tools/setup.php`. It is idempotent and only installs the schema into an empty database.
-* Schema changes are migration files in `dump/migrations/`, run by `php tools/migrate.php` as the Dokku predeploy
-  script (see [`dump/README.md`](dump/README.md)).
+  which runs `php tools/setup.php`. It installs the schema into an empty database and otherwise runs every file in
+  [`dump/upgrades/`](dump/upgrades/) (see its README), so a schema change is an idempotent upgrade file there plus
+  the same change in `dump/dump.sql`.
 * The cron jobs (`cron/run.php` every minute, `cron/ai.php` every 5 minutes) are also defined in `app.json`
   and are installed by Dokku automatically.
 * Check a deployment with `tools/smoke.sh https://YOUR_DOMAIN`.
@@ -183,6 +187,45 @@ database server is shared. Keep an eye on memory if many pull requests are open 
 ## OpenID Connect
 * Redirect URL: https://YOUR_DOMAIN/oauth2/login/next
 
-## CatLab Credits
-Paid features used to run on the CatLab Credits framework. That service is not currently available, so leave
-`CREDITS_*` unset.
+## Credits (CatLab Accounts)
+Paid features (premium, runes, resources, moving villages and buildings, bonus buildings, speed-ups) are bought with
+Dolumar credits on [CatLab Accounts](https://accounts.catlab.eu/). Credits are enabled only when
+`OPENID_CONNECT_CLIENT_ID`, `OPENID_CONNECT_SECRET` and `CATLAB_CREDITS_TYPE_ID` are all set; otherwise every
+purchase link is hidden. `OPENID_CONNECT_PROFILE_URL_PREFIX` is also required when credits are enabled: the credits
+code uses it to map players to their Accounts account. The old `CREDITS_*` settings stay unset.
+
+Setup:
+
+1. In the Accounts admin, create a "Dolumar" product.
+2. Create a "Dolumar Credits" credit type pointing at that product. The price is EUR 0.014 per credit including VAT
+   (500 credits = EUR 7.00). On the admin pricing page (`admin/credit-types/{id}/pricing`) enter **0.014** in the
+   `price_incl_vat` field (EUR per credit, including VAT). Accounts stores it excluding VAT (0.011570); the preview
+   should show 500 credits at about EUR 7.01 for EU buyers.
+3. Enter the discount tiers in the same form's textarea, one per line: `100=1.00`, `1000=0.95`, `2000=0.91`,
+   `3000=0.86`, `5000=0.83`.
+4. Link Dolumar's OIDC client to the product and allow the `credits` scope. Do this (steps 1-4) **before** setting
+   `CATLAB_CREDITS_TYPE_ID` in step 5: as soon as that is set the game asks for the `credits` scope at login, and
+   Accounts refuses the login while the client is not allowed that scope.
+   A newly created OIDC client also needs a signing key (a row in `oauth2_public_keys`); the existing production
+   client already has one.
+5. On the game server:
+
+   ```
+   dokku config:set dolumar CATLAB_CREDITS_TYPE_ID=<credit type id>
+   # optional, defaults to https://accounts.catlab.eu/
+   dokku config:set dolumar CATLAB_ACCOUNTS_URL=https://accounts.catlab.eu/
+   ```
+
+   `CATLAB_ACCOUNTS_URL` must be exactly Accounts' public URL (same scheme, host and path; a trailing slash is
+   optional): the game only redirects players to confirm URLs that start with it, so any other spelling (`http`
+   instead of `https`, `www.`, ...) makes every purchase fail with "temporarily unavailable".
+6. Players log in once more to grant the `credits` scope. Until then, purchase links send them through login.
+
+Pending purchases that missed their notification, and refunds that could not reach Accounts (`refund_pending`), are
+settled by the `cron/constantly.php` job; a player's own purchases are also settled when they open the premium shop.
+
+After the first real deploy, check the logs for `REFUND FAILED` and `marked failed`: both mean a purchase needs
+manual attention (a refund Accounts refused, or a request that could not be matched).
+
+Merge order: game PR #3, then the engine PR, then re-lock `composer.lock` to the merged engine commit, then this
+branch.

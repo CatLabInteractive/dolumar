@@ -21,33 +21,24 @@
  *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-/**
- * Splits a migration file into the statements to execute one by one.
- */
-class Dolumar_Db_SqlScript
-{
-	/**
-	 * Full-line `--` comments are dropped first, so a `;` inside a comment never splits a statement. The rest
-	 * is split on every `;`: a migration file therefore cannot contain a `;` inside a string literal or a
-	 * routine body. Empty chunks are skipped.
-	 *
-	 * @param string $sql
-	 * @return string[]
-	 */
-	public static function splitStatements ($sql)
-	{
-		$lines = array_filter (preg_split ('/\R/', $sql), function ($line) {
-			return !preg_match ('/^\s*--/', $line);
-		});
 
-		$statements = [];
-		foreach (explode (';', implode ("\n", $lines)) as $statement) {
-			$statement = trim ($statement);
-			if ($statement !== '') {
-				$statements[] = $statement;
-			}
-		}
+/*
+	Print a new VAPID key pair for browser notifications.
 
-		return $statements;
-	}
+	Run once, put both values in the environment (VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY)
+	and keep them: changing the pair later silently breaks every existing subscription.
+
+	php tools/vapid-keys.php
+*/
+
+if (PHP_SAPI !== 'cli') {
+	http_response_code(404);
+	exit;
 }
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+$keys = Minishlink\WebPush\VAPID::createVapidKeys ();
+
+echo 'VAPID_PUBLIC_KEY=' . $keys['publicKey'] . "\n";
+echo 'VAPID_PRIVATE_KEY=' . $keys['privateKey'] . "\n";

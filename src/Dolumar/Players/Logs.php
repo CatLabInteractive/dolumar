@@ -51,10 +51,17 @@ class Dolumar_Players_Logs
 	private $startdate;
 	private $enddate;
 	
+	/**
+	 * Reset the filters, including the time interval: this is a shared
+	 * instance, and an interval set by an earlier caller must not leak into
+	 * the next query.
+	 */
 	public function clearFilters ()
 	{
 		$this->filters = null;
 		$this->showonly = null;
+		$this->startdate = null;
+		$this->enddate = null;
 	}
 	
 	public function addMyVillage ($village)
@@ -123,6 +130,9 @@ class Dolumar_Players_Logs
 		);
 	}
 	
+	/**
+	 * Only logs between $start and $end (unix timestamps); null leaves that side open.
+	 */
 	public function setTimeInterval ($start = 0, $end = NOW)
 	{
 		$this->startdate = $start;

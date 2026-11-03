@@ -2,6 +2,8 @@
 # Smoke test: tools/smoke.sh BASE_URL [COOKIE]
 #   BASE_URL  e.g. http://localhost:8080 or https://dolumar.example.com
 #   COOKIE    optional Cookie header value, sent with every request
+# Env: SMOKE_PUSH=1 when VAPID keys are set (browser notifications on): the push
+# routes then answer 401 to anonymous requests instead of 404.
 # Env: SMOKE_NO_OAUTH=1 skips the /oauth2/login redirect check (use when no
 #      OpenID Connect provider is configured; the engine fatals in that case).
 # Requires only bash, curl and grep. Exits non-zero if any check fails.
@@ -112,6 +114,15 @@ check "GET gameserver asset traversal" 404 '/gameserver/assets/..%2f..%2fcompose
 
 # Apache's .htaccess rule forbids *.php under signs/ even if the file does not exist.
 check "GET /signs/x.php forbidden" 403 /signs/x.php
+
+# Browser notifications: the service worker is always served; storing a
+# subscription needs a logged-in player (401), or answers 404 when push is off.
+check "GET /sw.js service worker" 200 /sw.js
+if [ -n "${SMOKE_PUSH:-}" ]; then
+	check "POST push/subscribe anonymous" 401 /push/subscribe -X POST -H 'Content-Type: application/json' -d '{}'
+else
+	check "POST push/subscribe (push off)" 404 /push/subscribe -X POST -H 'Content-Type: application/json' -d '{}'
+fi
 
 echo
 if [ "$FAILED" -gt 0 ]; then

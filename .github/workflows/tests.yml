@@ -30,4 +30,4 @@ jobs:
         run: vendor/bin/phpcs -q -n
 
       - name: Unit tests
-        run: vendor/bin/phpunit
+        run: vendor/bin/phpunit --testsuite unit

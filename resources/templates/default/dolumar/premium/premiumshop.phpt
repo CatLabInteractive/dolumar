@@ -1,5 +1,11 @@
 <?php $this->setTextSection ('shop', 'premium'); ?>
 
+<?php if (isset ($credits_enabled) && !$credits_enabled) { ?>
+<div class="giantcrown">
+	<p>The premium shop is not available right now.</p>
+</div>
+<?php return; } ?>
+
 <div class="giantcrown">
 	<!--<h2><?=$this->getText ('shop'); ?></h2>-->
 	<!--<p><?=$this->getText ('about')?></p>-->
@@ -9,7 +15,7 @@
 		<p class="credits premium">
 			<span class="premium-icon">
 				You have <?=$premium?> credits.<br />
-				<a href="<?=$buy_url?>" target="_BLANK">Buy more credits</a>
+				<?php if (!empty ($buy_url)) { ?><a href="<?=$buy_url?>" target="_BLANK">Buy more credits</a><?php } ?>
 			</span>
 		</p>
 	<?php } ?>

@@ -10,8 +10,7 @@ Requires Docker. The engine must be checked out next to this repository as `../d
 cp .env.docker.example .env.docker
 docker compose up -d --build
 docker compose exec web composer install
-docker compose exec web php tools/setup.php     # installs dump/dump.sql into an empty database
-docker compose exec web php tools/migrate.php   # applies pending dump/migrations/ to an existing database
+docker compose exec web php tools/setup.php     # installs dump/dump.sql into an empty database, else runs dump/upgrades/
 mkdir -p public/signs && chmod 777 public/signs
 ```
 
@@ -33,9 +32,9 @@ tribes) and log in at http://localhost:8080/preview-login.php. Per-PR preview in
 |-------|---------|-------|
 | PHP 8.4 compatibility | `docker compose exec web vendor/bin/phpcs` | Uses `phpcs.xml.dist` (PHPCompatibility, `testVersion 8.4-`). |
 | Syntax | `docker compose exec web find src bootstrap cron tools public -name '*.php' -print0 \| xargs -0 -n1 php -l` | Quick and catches most breakage. |
-| Game unit tests | `docker compose exec web vendor/bin/phpunit` | `tests/` (PHPUnit 11, `phpunit.xml.dist`). No database or Memcached needed: they cover the pure NPC decision classes in `src/Dolumar/Npc/`. |
+| Game tests | `docker compose exec web vendor/bin/phpunit` | `tests/` (PHPUnit 11, `phpunit.xml`). Suite `unit` (`tests/Npc`) needs no database and is what CI runs; suite `integration` (`tests/Integration`) runs the full game against the Docker database. `--testsuite unit` or `integration` picks one. |
 | Engine tests | `docker compose exec -w /engine web vendor/bin/phpunit` | Only if the engine was touched. Needs the engine's own `composer install` in `/engine`. |
-| Smoke test | `tools/smoke.sh http://localhost:8080` | Add `SMOKE_NO_OAUTH=1` when OIDC is not configured. Fails on any PHP warning, notice or deprecation in the output. |
+| Smoke test | `tools/smoke.sh http://localhost:8080` | Add `SMOKE_NO_OAUTH=1` when OIDC is not configured and `SMOKE_PUSH=1` when the `VAPID_*` keys are set. Fails on any PHP warning, notice or deprecation in the output. |
 
 GitHub Actions (`.github/workflows/tests.yml`) runs the syntax check, phpcs and the game unit tests on every pull
 request and on pushes to `master`, on PHP 8.4. Only logic that is pure PHP over arrays can be unit-tested here;
@@ -44,9 +43,9 @@ flow locally. Say in the PR what you checked.
 
 ## Schema changes
 
-Add `dump/migrations/upgrade-YYYYMMDD-name.sql` and make the same change in `dump/dump.sql` in the same commit;
-`tools/migrate.php` runs each file once and records it in the `migrations` table. The rules (ordering, no `;` in
-comments, two deploys for destructive changes) are in [`dump/README.md`](../dump/README.md).
+Add `dump/upgrades/YYYYMMDD-name.sql` and make the same change in `dump/dump.sql` in the same commit. Every file
+in that directory runs on every deploy (`tools/setup.php`), so it must be safe to run again (`CREATE TABLE IF NOT
+EXISTS`, guarded `ALTER`s). See [`dump/upgrades/README.md`](../dump/upgrades/README.md).
 
 ## Debugging
 

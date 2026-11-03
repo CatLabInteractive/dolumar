@@ -1,8 +1,7 @@
--- NPC tribes: one row per NPC village (name, multipliers, processed-event watermarks, current request),
--- one standing row per NPC village and player, and a decision log.
--- (No semicolons in comments: tools/migrate.php splits on them.)
+-- NPC tribes: per-village tribe data, hidden standing per player and a decision log.
+-- Runs on every deploy (tools/setup.php), so it must stay safe to run more than once.
 
-CREATE TABLE `npc_villages` (
+CREATE TABLE IF NOT EXISTS `npc_villages` (
   `vid` int(11) NOT NULL,
   `tribe_name` varchar(60) NOT NULL DEFAULT '',
   `mul_threshold` float NOT NULL DEFAULT '1',
@@ -18,7 +17,7 @@ CREATE TABLE `npc_villages` (
   PRIMARY KEY (`vid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE `npc_standings` (
+CREATE TABLE IF NOT EXISTS `npc_standings` (
   `vid` int(11) NOT NULL,
   `plid` int(11) NOT NULL,
   `standing` float NOT NULL DEFAULT '0',
@@ -47,7 +46,7 @@ CREATE TABLE `npc_standings` (
   KEY `plid` (`plid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE `npc_log` (
+CREATE TABLE IF NOT EXISTS `npc_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `vid` int(11) NOT NULL,
   `plid` int(11) DEFAULT NULL,
