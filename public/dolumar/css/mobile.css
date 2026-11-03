@@ -43,7 +43,7 @@ body.layout-mobile .mobile-header
 	height: var(--mobile-header-height);
 	display: flex;
 	align-items: stretch;
-	padding-left: 84px;
+	padding-left: 120px;
 	box-sizing: border-box;
 	z-index: 1001;
 }
@@ -258,10 +258,11 @@ body.layout-mobile .panel.topmenu
 	height: var(--mobile-tabbar-height) !important;
 	margin: 0 !important;
 	padding-bottom: var(--mobile-safe-bottom);
-	/* The desktop top menu's stone, at native scale, with a sliver of the gold status bar on top. */
-	background: #1a1612 url('../images/topmenu.png') repeat-x left bottom;
+	/* The desktop top menu's stone as a seamless tile (images/mobile/stone.png, the middle band of
+	   topmenu.png mirrored both ways), a sliver of the gold status bar on top, a bevel from shadows. */
+	background: #6b5a3e url('../images/mobile/stone.png') repeat left top;
 	border-top: 0;
-	box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.5);
+	box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.5), inset 0 -8px 10px -6px rgba(0, 0, 0, 0.7), inset 0 8px 10px -6px rgba(0, 0, 0, 0.5);
 	box-sizing: border-box;
 	z-index: 1001 !important;
 }
@@ -274,7 +275,7 @@ body.layout-mobile .panel.topmenu::before
 	left: 0;
 	right: 0;
 	height: 5px;
-	background: url('../images/statusbar.png') repeat-x left top;
+	background: url('../images/mobile/goldstrip.png') repeat-x left top;
 }
 
 body.layout-mobile #menu
@@ -1018,7 +1019,7 @@ body.layout-mobile .sheet-content table.logbook td.actions a
 	slices in one image: 42 and 37 wide, 68 and 32 high), with the window parchment inside.
 */
 
-/* One continuous stone bar behind the header, with the logo and the same gold strip as the tab bar. */
+/* One continuous stone bar behind the header, with the logo (186 by 60, drawn at 112 by 36) and the same gold strip as the tab bar. */
 body.layout-mobile::before
 {
 	content: '';
@@ -1029,9 +1030,10 @@ body.layout-mobile::before
 	height: var(--mobile-header-height);
 	z-index: 1000;
 	background:
-		url('../images/topmenu_center.png') no-repeat 4px 3px / 78px 40px,
-		url('../images/statusbar.png') repeat-x left bottom,
-		#1a1612 url('../images/topmenu.png') repeat-x left top / auto var(--mobile-header-height);
+		url('../images/topmenu_center.png') no-repeat 4px 5px / 112px 36px,
+		url('../images/mobile/goldstrip.png') repeat-x left bottom,
+		#6b5a3e url('../images/mobile/stone.png') repeat left top;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6), inset 0 8px 10px -6px rgba(0, 0, 0, 0.7), inset 0 -8px 10px -6px rgba(0, 0, 0, 0.5);
 	box-sizing: border-box;
 	pointer-events: none;
 }
