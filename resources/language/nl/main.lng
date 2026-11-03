@@ -65,6 +65,7 @@ mobilePrevVillage="Vorig dorp"
 mobileNextVillage="Volgend dorp"
 placeCancel="Annuleren"
 placeConfirm="Plaatsen"
+placeHint="Sleep de kaart om het gebouw te verplaatsen en tik dan op Plaatsen."
 
 [directions]
 r="Willekeurig"
