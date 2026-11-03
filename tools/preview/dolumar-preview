@@ -34,6 +34,10 @@ PREVIEW_HTTPS="${PREVIEW_HTTPS:-1}"
 PREVIEW_LETSENCRYPT_EMAIL="${PREVIEW_LETSENCRYPT_EMAIL:-}"
 # Space-separated branches that may have a standing preview.
 PREVIEW_BRANCHES="${PREVIEW_BRANCHES:-develop}"
+# Optional error tracker (Errbit / Airbrake) for every preview; leave PREVIEW_AIRBRAKE_TOKEN empty to turn it off.
+PREVIEW_AIRBRAKE_HOST="${PREVIEW_AIRBRAKE_HOST:-}"
+PREVIEW_AIRBRAKE_TOKEN="${PREVIEW_AIRBRAKE_TOKEN:-}"
+PREVIEW_AIRBRAKE_PROJECT_ID="${PREVIEW_AIRBRAKE_PROJECT_ID:-}"
 
 # The command arrives from the forced SSH command (sudoers keeps SSH_ORIGINAL_COMMAND), or as arguments when an
 # admin runs the script by hand.
@@ -110,10 +114,18 @@ deploy() {
 			PREVIEW_MODE=1 \
 			APP_DEBUG=1 \
 			"PROTOCOL=$proto" \
-			"ABSOLUTE_URL=$proto://$HOST/"
+			"ABSOLUTE_URL=$proto://$HOST/" > /dev/null # its output echoes the values, and this runs in a public Actions log
 
 		dokku domains:set "$APP" "$HOST"
 		dokku resource:limit --memory "$PREVIEW_MEMORY" "$APP"
+	fi
+
+	# Set on every deploy, not only when the app is created, so existing previews pick up a change to $CONFIG.
+	if [ -n "$PREVIEW_AIRBRAKE_TOKEN" ]; then
+		local airbrake=("AIRBRAKE_TOKEN=$PREVIEW_AIRBRAKE_TOKEN" "AIRBRAKE_ENVIRONMENT=preview-${APP#dolumar-}")
+		[ -z "$PREVIEW_AIRBRAKE_HOST" ] || airbrake+=("AIRBRAKE_HOST=$PREVIEW_AIRBRAKE_HOST")
+		[ -z "$PREVIEW_AIRBRAKE_PROJECT_ID" ] || airbrake+=("AIRBRAKE_PROJECT_ID=$PREVIEW_AIRBRAKE_PROJECT_ID")
+		dokku config:set --no-restart "$APP" "${airbrake[@]}" > /dev/null
 	fi
 
 	echo "Deploying $PREVIEW_REPO@$SHA to $APP"

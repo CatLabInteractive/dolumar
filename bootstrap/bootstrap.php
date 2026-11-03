@@ -99,8 +99,13 @@ if (defined ('AIRBRAKE_TOKEN') && AIRBRAKE_TOKEN) {
         $options['host'] = AIRBRAKE_HOST;
     }
 
-    // Create new Notifier instance.
-    $notifier = new Airbrake\Notifier($options);
+    // Tells production and the preview instances apart in the tracker.
+    if (defined('AIRBRAKE_ENVIRONMENT')) {
+        $options['environment'] = AIRBRAKE_ENVIRONMENT;
+    }
+
+    // Logs failed deliveries instead of dropping them; see the class.
+    $notifier = new Dolumar_ErrorReporting_Notifier($options);
 
     // Set global notifier instance.
     Airbrake\Instance::set($notifier);

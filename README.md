@@ -33,7 +33,9 @@ the most important ones are:
 * `OPENID_CONNECT_*`: OpenID Connect login provider (authorize/token/profile URLs, client id and secret).
 * `APP_DEBUG`: enables debug output; leave unset in production.
 * `SIGNS_PATH`: where custom sign images are stored (defaults to `public/signs`). Must be persistent in production.
-* `AIRBRAKE_TOKEN`: optional error reporting.
+* `AIRBRAKE_TOKEN`, `AIRBRAKE_HOST`, `AIRBRAKE_PROJECT_ID`, `AIRBRAKE_ENVIRONMENT`: optional error reporting to Errbit
+  or Airbrake. A notice the tracker does not accept is written to the error log (`dokku logs`), starting with
+  `Error tracker:`.
 * `PREMIUM_SPEEDUP_BUILDINGS`, `PREMIUM_SPEEDUP_TRAINING`, `PREMIUM_SPEEDUP_SCOUTING`: set to `1` to let players pay
   credits to speed up that queue. Off by default.
 
@@ -119,6 +121,10 @@ PREVIEW_LETSENCRYPT_EMAIL=you@example.com
 # PREVIEW_HTTPS=0       # plain http, skips Let's Encrypt
 # PREVIEW_MEMORY=512m   # memory limit per preview
 # PREVIEW_BRANCHES=develop  # branches with a standing preview
+# Errbit for the previews (each preview reports as environment preview-pr-<n> / preview-<branch>):
+# PREVIEW_AIRBRAKE_HOST=https://errors.catlab.eu
+# PREVIEW_AIRBRAKE_TOKEN=<project API key>
+# PREVIEW_AIRBRAKE_PROJECT_ID=
 CONF
 
 # 4. A user that can only run that script, through sudo.
