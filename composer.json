@@ -4,7 +4,7 @@
 
   "require": {
     "php": "^8.4.27",
-    "catlabinteractive/dolumar-engine" : "dev-claude/project-thread-0sjhem",
+    "catlabinteractive/dolumar-engine" : "dev-master",
     "airbrake/phpbrake": "^0.8",
     "vlucas/phpdotenv": "^5.6",
 
