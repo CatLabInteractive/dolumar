@@ -69,11 +69,87 @@ dokku letsencrypt:enable dolumar
 dokku letsencrypt:cron-job --add
 ```
 
-* The `postdeploy` script in [`app.json`](app.json) runs `php tools/setup.php` on every deploy. It is idempotent and
-  only installs the schema into an empty database.
+* The `postdeploy` script in [`app.json`](app.json) runs [`tools/postdeploy.sh`](tools/postdeploy.sh) on every deploy,
+  which runs `php tools/setup.php`. It is idempotent and only installs the schema into an empty database.
 * The cron jobs (`cron/run.php` every minute, `cron/ai.php` every 5 minutes) are also defined in `app.json`
   and are installed by Dokku automatically.
 * Check a deployment with `tools/smoke.sh https://YOUR_DOMAIN`.
+
+## Pull request previews
+Every pull request from a branch in this repository can get its own instance at `https://pr-<number>.preview.dolumar.com/`,
+with test players already in it. It is created by [`.github/workflows/preview.yml`](.github/workflows/preview.yml)
+when the pull request opens, updated on every push, and removed (app, memcached and database) when the pull request
+closes. A daily run also removes previews whose pull request is no longer open.
+
+Pushes to `develop` deploy a standing preview at `https://develop.preview.dolumar.com/`. Unlike pull request previews it
+keeps its database between deploys (it is only seeded once, when empty) and is never removed automatically. To reset it,
+run `dolumar-preview destroy develop` on the server; the next push recreates it. Other branches can get one too: add
+them to `PREVIEW_BRANCHES` on the server and to `on.push.branches` in the workflow.
+
+The GitHub key cannot run Dokku commands. It logs in as a separate `dolumar-preview` user whose only allowed command is
+[`tools/preview/dolumar-preview`](tools/preview/dolumar-preview), which accepts `deploy <pr|branch> <sha>`, `destroy <pr|branch>` and
+`list`, and only touches `dolumar-pr-<n>` and `dolumar-<branch>` apps (branches from `PREVIEW_BRANCHES` only), their
+`-cache` memcached services and their `pr_<n>` / `branch_<name>` databases in a separate `dolumar-previews` MySQL
+service. Production apps and services are never named.
+
+A preview runs with `PREVIEW_MODE=1`, which makes `postdeploy.sh` run [`tools/seed.php`](tools/seed.php) (12 players
+`Tester1`..`Tester12` with villages, a clan and NPC tribes) and enables `/preview-login.php`, where you log in as any
+player without OpenID Connect. Both refuse to do anything without `PREVIEW_MODE=1`, so never set it in production.
+
+### One-time server setup
+Needs Dokku 0.24 or newer (for `git:from-archive`) with the mysql, memcached and letsencrypt plugins. As root:
+
+```
+# 1. DNS: point a wildcard record *.preview.dolumar.com at the server.
+
+# 2. A MySQL service shared by all previews (each preview gets its own database and user in it).
+dokku mysql:create dolumar-previews
+
+# 3. The script and its settings.
+# Download to a temporary file and move it into place: overwriting the file in place breaks a deploy that is running
+# it at that moment (bash reads scripts while executing them).
+curl -fsSL https://raw.githubusercontent.com/CatLabInteractive/dolumar/master/tools/preview/dolumar-preview \
+  -o /usr/local/bin/dolumar-preview.new
+chmod 755 /usr/local/bin/dolumar-preview.new && mv /usr/local/bin/dolumar-preview.new /usr/local/bin/dolumar-preview
+cat > /etc/default/dolumar-preview <<'CONF'
+PREVIEW_DOMAIN=preview.dolumar.com
+PREVIEW_LETSENCRYPT_EMAIL=you@example.com
+# PREVIEW_HTTPS=0       # plain http, skips Let's Encrypt
+# PREVIEW_MEMORY=512m   # memory limit per preview
+# PREVIEW_BRANCHES=develop  # branches with a standing preview
+CONF
+
+# 4. A user that can only run that script, through sudo.
+useradd --create-home --shell /bin/bash dolumar-preview
+cat > /etc/sudoers.d/dolumar-preview <<'SUDO'
+Defaults!/usr/local/bin/dolumar-preview env_keep += "SSH_ORIGINAL_COMMAND"
+dolumar-preview ALL=(root) NOPASSWD: /usr/local/bin/dolumar-preview
+SUDO
+chmod 440 /etc/sudoers.d/dolumar-preview && visudo -c
+
+# 5. A key pair for GitHub. The forced command means the key can run nothing else.
+ssh-keygen -t ed25519 -N '' -C github-dolumar-preview -f /root/dolumar-preview-key
+install -d -m 700 -o dolumar-preview -g dolumar-preview /home/dolumar-preview/.ssh
+echo "command=\"sudo /usr/local/bin/dolumar-preview\",restrict $(cat /root/dolumar-preview-key.pub)" \
+  > /home/dolumar-preview/.ssh/authorized_keys
+chown dolumar-preview: /home/dolumar-preview/.ssh/authorized_keys && chmod 600 /home/dolumar-preview/.ssh/authorized_keys
+```
+
+Then add three repository secrets (Settings → Secrets and variables → Actions):
+
+* `PREVIEW_SSH_HOST`: the server's host name.
+* `PREVIEW_SSH_KEY`: the contents of `/root/dolumar-preview-key` (the private key from step 5).
+* `PREVIEW_SSH_KNOWN_HOSTS`: the output of `ssh-keyscan <host>`.
+
+Once `PREVIEW_SSH_KEY` is saved, delete that private key from the server with `shred -u /root/dolumar-preview-key`, so
+GitHub holds the only copy. Keep `/root/dolumar-preview-key.pub` and the `authorized_keys` entry.
+
+Until `PREVIEW_SSH_HOST` is set the workflow does nothing. When `tools/preview/dolumar-preview` changes, copy it to the
+server again (step 3). GitHub caches raw files for 5 minutes, so right after a merge use the commit URL
+(`…/dolumar/<commit-sha>/tools/preview/dolumar-preview`) and check with `grep` that you got the new version. To remove a preview by hand: `dolumar-preview destroy <number>`.
+
+Each preview uses roughly 150 to 300 MB (Apache/PHP plus a small memcached) and runs the game's cron jobs. The
+database server is shared. Keep an eye on memory if many pull requests are open at once.
 
 ## OpenID Connect
 * Redirect URL: https://YOUR_DOMAIN/oauth2/login/next
