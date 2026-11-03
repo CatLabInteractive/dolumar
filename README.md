@@ -109,15 +109,10 @@ Needs Dokku 0.24 or newer (for `git:from-archive`) with the mysql, memcached and
 # 2. A MySQL service shared by all previews (each preview gets its own database and user in it).
 dokku mysql:create dolumar-previews
 
-# 3. The script and its settings.
-# Download to a temporary file and move it into place: overwriting the file in place breaks a deploy that is running
-# it at that moment (bash reads scripts while executing them).
-curl -fsSL https://raw.githubusercontent.com/CatLabInteractive/dolumar/master/tools/preview/dolumar-preview \
-  -o /usr/local/bin/dolumar-preview.new
-chmod 755 /usr/local/bin/dolumar-preview.new && mv /usr/local/bin/dolumar-preview.new /usr/local/bin/dolumar-preview
+# 3. The script's settings. Written once; they live only on the server, so updating the script never touches them.
 cat > /etc/default/dolumar-preview <<'CONF'
 PREVIEW_DOMAIN=preview.dolumar.com
-PREVIEW_LETSENCRYPT_EMAIL=support@catlab.eu
+PREVIEW_LETSENCRYPT_EMAIL=<your email>
 # PREVIEW_HTTPS=0       # plain http, skips Let's Encrypt
 # PREVIEW_MEMORY=512m   # memory limit per preview
 # PREVIEW_BRANCHES=develop  # branches with a standing preview
@@ -127,7 +122,9 @@ PREVIEW_LETSENCRYPT_EMAIL=support@catlab.eu
 # PREVIEW_AIRBRAKE_PROJECT_ID=
 CONF
 
-# 4. A user that can only run that script, through sudo.
+# 4. The script itself: see "Installing or updating the script" below.
+
+# 5. A user that can only run that script, through sudo.
 useradd --create-home --shell /bin/bash dolumar-preview
 cat > /etc/sudoers.d/dolumar-preview <<'SUDO'
 Defaults!/usr/local/bin/dolumar-preview env_keep += "SSH_ORIGINAL_COMMAND"
@@ -135,7 +132,7 @@ dolumar-preview ALL=(root) NOPASSWD: /usr/local/bin/dolumar-preview
 SUDO
 chmod 440 /etc/sudoers.d/dolumar-preview && visudo -c
 
-# 5. A key pair for GitHub. The forced command means the key can run nothing else.
+# 6. A key pair for GitHub. The forced command means the key can run nothing else.
 ssh-keygen -t ed25519 -N '' -C github-dolumar-preview -f /root/dolumar-preview-key
 install -d -m 700 -o dolumar-preview -g dolumar-preview /home/dolumar-preview/.ssh
 echo "command=\"sudo /usr/local/bin/dolumar-preview\",restrict $(cat /root/dolumar-preview-key.pub)" \
@@ -146,15 +143,28 @@ chown dolumar-preview: /home/dolumar-preview/.ssh/authorized_keys && chmod 600 /
 Then add three repository secrets (Settings → Secrets and variables → Actions):
 
 * `PREVIEW_SSH_HOST`: the server's host name.
-* `PREVIEW_SSH_KEY`: the contents of `/root/dolumar-preview-key` (the private key from step 5).
+* `PREVIEW_SSH_KEY`: the contents of `/root/dolumar-preview-key` (the private key from step 6).
 * `PREVIEW_SSH_KNOWN_HOSTS`: the output of `ssh-keyscan <host>`.
 
 Once `PREVIEW_SSH_KEY` is saved, delete that private key from the server with `shred -u /root/dolumar-preview-key`, so
 GitHub holds the only copy. Keep `/root/dolumar-preview-key.pub` and the `authorized_keys` entry.
 
-Until `PREVIEW_SSH_HOST` is set the workflow does nothing. When `tools/preview/dolumar-preview` changes, copy it to the
-server again (step 3). GitHub caches raw files for 5 minutes, so right after a merge use the commit URL
-(`…/dolumar/<commit-sha>/tools/preview/dolumar-preview`) and check with `grep` that you got the new version. To remove a preview by hand: `dolumar-preview destroy <number>`.
+Until `PREVIEW_SSH_HOST` is set the workflow does nothing. To remove a preview by hand: `dolumar-preview destroy <number>`.
+
+### Installing or updating the script
+Run this at setup and again whenever `tools/preview/dolumar-preview` changes. It only replaces the script; the
+settings in `/etc/default/dolumar-preview` stay as they are. As root:
+
+```
+REF=develop  # branch or commit sha; GitHub caches raw files for 5 minutes, so right after a merge use the commit
+# Download to a temporary file and move it into place: overwriting the file in place breaks a deploy that is running
+# it at that moment (bash reads scripts while executing them).
+curl -fsSL "https://raw.githubusercontent.com/CatLabInteractive/dolumar/$REF/tools/preview/dolumar-preview" \
+  -o /usr/local/bin/dolumar-preview.new
+chmod 755 /usr/local/bin/dolumar-preview.new && mv /usr/local/bin/dolumar-preview.new /usr/local/bin/dolumar-preview
+```
+
+Check with `grep` that you got the new version.
 
 Each preview uses roughly 150 to 300 MB (Apache/PHP plus a small memcached) and runs the game's cron jobs. The
 database server is shared. Keep an eye on memory if many pull requests are open at once.

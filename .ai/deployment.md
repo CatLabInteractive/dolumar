@@ -51,7 +51,9 @@ the security model are in the README section "Pull request previews". In short:
 - The GitHub key only reaches `tools/preview/dolumar-preview` (forced SSH command). That script is the only place that
   names preview apps, services and databases; keep it unable to touch anything other than `dolumar-pr-*` /
   `pr_*` and the `dolumar-<branch>` / `branch_*` previews of branches in its `PREVIEW_BRANCHES` setting.
-  It is copied to the server by hand, so a change to it needs the owner to reinstall it.
+  It is copied to the server by hand, so a change to it needs the owner to reinstall it (README, "Installing or
+  updating the script"). Its settings, such as the Let's Encrypt email, live only on the server in
+  `/etc/default/dolumar-preview`; keep real values out of the repository.
 - `PREVIEW_MODE=1` turns on `tools/seed.php` and `public/preview-login.php` (log in as any player, no OIDC). Both must
   keep refusing to act without it. Never set it in production.
 - Previews report errors to Errbit only when `PREVIEW_AIRBRAKE_TOKEN` (and `PREVIEW_AIRBRAKE_HOST`) are set in the
