@@ -3,7 +3,7 @@
   "license" : "GPL-3.0",
 
   "require": {
-    "php": "^8.4.27",
+    "php": "~8.4.27",
     "catlabinteractive/dolumar-engine" : "dev-php8",
     "airbrake/phpbrake": "^0.8",
     "vlucas/phpdotenv": "^5.6",

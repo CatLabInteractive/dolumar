@@ -17,6 +17,8 @@
 
 set -euo pipefail
 set -f
+# sudo keeps the caller's home as working directory, which root-run tools then cannot return to.
+cd /
 
 CONFIG=/etc/default/dolumar-preview
 if [ -f "$CONFIG" ]; then
@@ -83,9 +85,7 @@ deploy() {
 		proto=https
 	fi
 
-	local new=0
 	if ! dokku apps:exists "$APP" > /dev/null 2>&1; then
-		new=1
 		echo "Creating $APP"
 		dokku apps:create "$APP"
 
@@ -117,15 +117,23 @@ deploy() {
 	fi
 
 	echo "Deploying $PREVIEW_REPO@$SHA to $APP"
-	SRC="$(mktemp -d)"
-	trap 'rm -rf "$SRC"' EXIT
-	curl -fsSL "https://codeload.github.com/$PREVIEW_REPO/tar.gz/$SHA" | tar -xz --strip-components=1 -C "$SRC"
-	tar -C "$SRC" -cf - . | dokku git:from-archive "$APP" -- "Dolumar preview" "preview@dolumar.invalid"
+	WORK="$(mktemp -d)"
+	trap 'rm -rf "$WORK"' EXIT
+	mkdir "$WORK/src"
+	curl -fsSL "https://codeload.github.com/$PREVIEW_REPO/tar.gz/$SHA" | tar -xz --strip-components=1 -C "$WORK/src"
+	if ! tar -C "$WORK/src" -cf - . | dokku git:from-archive "$APP" -- "Dolumar preview" "preview@dolumar.invalid" 2>&1 | tee "$WORK/deploy.log"; then
+		# A re-run for a commit that is already deployed: git:from-archive refuses an unchanged tree. Rebuild instead,
+		# so the re-run still runs the build and postdeploy again.
+		grep -q 'No changes detected' "$WORK/deploy.log" || fail "deploy of $APP failed"
+		echo "Commit already deployed, rebuilding $APP"
+		dokku ps:rebuild "$APP"
+	fi
 
-	if [ "$new" = "1" ] && [ "$PREVIEW_HTTPS" = "1" ]; then
+	# Checked on every deploy, not only when the app is created, so a failed certificate request is retried.
+	if [ "$PREVIEW_HTTPS" = "1" ] && [ "$(dokku letsencrypt:active "$APP" 2> /dev/null)" != "true" ]; then
 		[ -n "$PREVIEW_LETSENCRYPT_EMAIL" ] || fail "set PREVIEW_LETSENCRYPT_EMAIL in $CONFIG or PREVIEW_HTTPS=0"
 		dokku letsencrypt:set "$APP" email "$PREVIEW_LETSENCRYPT_EMAIL"
-		dokku letsencrypt:enable "$APP"
+		dokku letsencrypt:enable "$APP" || fail "Let's Encrypt failed for $HOST; the app runs at http://$HOST/ meanwhile. Check that $HOST resolves to this server."
 	fi
 
 	echo "PREVIEW_URL=$proto://$HOST/preview-login.php"

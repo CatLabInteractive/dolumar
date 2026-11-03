@@ -494,7 +494,7 @@ class Dolumar_Players_Village
 		$rows = $db->getDataFromQuery ($db->customQuery
 		("
 			SELECT 
-				COUNT(*) AS rank
+				COUNT(*) AS `rank`
 			FROM
 				villages a 
 			INNER JOIN

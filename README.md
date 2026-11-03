@@ -108,9 +108,11 @@ Needs Dokku 0.24 or newer (for `git:from-archive`) with the mysql, memcached and
 dokku mysql:create dolumar-previews
 
 # 3. The script and its settings.
+# Download to a temporary file and move it into place: overwriting the file in place breaks a deploy that is running
+# it at that moment (bash reads scripts while executing them).
 curl -fsSL https://raw.githubusercontent.com/CatLabInteractive/dolumar/master/tools/preview/dolumar-preview \
-  -o /usr/local/bin/dolumar-preview
-chmod 755 /usr/local/bin/dolumar-preview
+  -o /usr/local/bin/dolumar-preview.new
+chmod 755 /usr/local/bin/dolumar-preview.new && mv /usr/local/bin/dolumar-preview.new /usr/local/bin/dolumar-preview
 cat > /etc/default/dolumar-preview <<'CONF'
 PREVIEW_DOMAIN=preview.dolumar.com
 PREVIEW_LETSENCRYPT_EMAIL=you@example.com
@@ -145,7 +147,8 @@ Once `PREVIEW_SSH_KEY` is saved, delete that private key from the server with `s
 GitHub holds the only copy. Keep `/root/dolumar-preview-key.pub` and the `authorized_keys` entry.
 
 Until `PREVIEW_SSH_HOST` is set the workflow does nothing. When `tools/preview/dolumar-preview` changes, copy it to the
-server again (step 3). To remove a preview by hand: `dolumar-preview destroy <number>`.
+server again (step 3). GitHub caches raw files for 5 minutes, so right after a merge use the commit URL
+(`…/dolumar/<commit-sha>/tools/preview/dolumar-preview`) and check with `grep` that you got the new version. To remove a preview by hand: `dolumar-preview destroy <number>`.
 
 Each preview uses roughly 150 to 300 MB (Apache/PHP plus a small memcached) and runs the game's cron jobs. The
 database server is shared. Keep an eye on memory if many pull requests are open at once.
