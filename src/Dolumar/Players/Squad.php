@@ -561,6 +561,10 @@ class Dolumar_Players_Squad
 		// For now: quick & dirty "instant arrival"
 		$db = Neuron_DB_Database::__getInstance ();
 		
+		// Waypoints for the map (armies layer); the distance is only used for new moves.
+		$routeData = Dolumar_Map_Map::getRouteBetweenVillages ($this->getCurrentLocation (), $target);
+		$route = $routeData === false ? 'NULL' : "'" . $db->escape (json_encode ($routeData['route'])) . "'";
+		
 		// Take a look: is this squad traveling at the moment?
 		$current = $db->query
 		("
@@ -598,7 +602,7 @@ class Dolumar_Players_Squad
 			// Calculate the distance & speed
 			$speed = $this->getSpeed ();
 			
-			$distance = Dolumar_Map_Map::getDistanceBetweenVillages ($this->getCurrentLocation (), $target);
+			$distance = $routeData === false ? false : $routeData['distance'];
 			
 			$duration = ($distance * 60 * 10) / ($speed * GAME_SPEED_MOVEMENT);
 		}
@@ -637,7 +641,8 @@ class Dolumar_Players_Squad
 				s_start = FROM_UNIXTIME(".NOW."),
 				s_end = FROM_UNIXTIME(".(NOW + $duration)."),
 				s_from = ".$this->getCurrentLocation()->getId().",
-				s_to = ".$target->getId()."
+				s_to = ".$target->getId().",
+				sc_route = ".$route."
 		");
 		
 		reloadStatusCounters ();

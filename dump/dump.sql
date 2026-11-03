@@ -37,6 +37,7 @@ CREATE TABLE `battle` (
   `bLogId` int(11) DEFAULT NULL,
   `iHonourLose` int(11) DEFAULT NULL,
   `iBattleSlots` int(11) NOT NULL,
+  `route` text DEFAULT NULL,
   PRIMARY KEY (`battleId`),
   KEY `vid` (`vid`),
   KEY `targetId` (`targetId`)
@@ -998,6 +999,7 @@ CREATE TABLE `squad_commands` (
   `s_end` datetime NOT NULL,
   `s_from` int(11) DEFAULT NULL,
   `s_to` int(11) DEFAULT NULL,
+  `sc_route` text DEFAULT NULL,
   PRIMARY KEY (`sc_id`),
   KEY `s_id` (`s_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=293 DEFAULT CHARSET=utf8;

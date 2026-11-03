@@ -80,6 +80,12 @@ EXPECT_BODY='"regions":\['
 check "POST map/region (client request)" 200 '/map/region/?tiles=8' \
 	-X POST --data 'regions[0][0]=0&regions[0][1]=0&regions[1][0]=1&regions[1][1]=0'
 
+# Moving armies: anonymous visitors get 403 and an empty list.
+EXPECT_HEADER='^content-type: application/json'
+EXPECT_BODY='"objects":\['
+check "POST map/objects (anonymous)" 403 '/map/objects/?tiles=10' \
+	-X POST --data 'regions[0][0]=0&regions[0][1]=0'
+
 EXPECT_HEADER='^content-type: image/png'
 check "GET image/minimap" 200 '/image/minimap/?x=0&y=0'
 

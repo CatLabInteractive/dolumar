@@ -101,6 +101,129 @@ class Dolumar_NewMap_MapObjectManager extends Neuron_GameServer_Map_Managers_Map
 		return $objects;		
 	}
 	
+	const MOVING_ROWS_CACHE_KEY = 'dolumar:movingrows';
+	const MOVING_ROWS_CACHE_TTL = 20;
+	const POLL_SECONDS = 30;
+
+	/**
+	*	Armies (attacks, returns, squad moves) touching any of $areas, for
+	*	the map/objects endpoint. $viewer is the player looking, or null.
+	*
+	*	@param Neuron_GameServer_Map_Area[] $areas
+	*	@return Dolumar_NewMap_Army[]
+	*/
+	public function getMovingObjects (array $areas, $viewer = null)
+	{
+		$now = NOW;
+		$rows = $this->loadMovingRows ($now);
+
+		$out = array ();
+
+		foreach ($rows['battles'] as $row)
+		{
+			if (!Dolumar_NewMap_MovingRows::touchesAreas (Dolumar_NewMap_MovingRows::pointsOfRow ($row, 'route'), $areas))
+			{
+				continue;
+			}
+
+			$army = Dolumar_NewMap_ArmyFactory::fromBattleRow ($row, $now, self::POLL_SECONDS);
+			if ($army)
+			{
+				$out[] = $army;
+			}
+		}
+
+		foreach ($rows['squads'] as $row)
+		{
+			if (!Dolumar_NewMap_MovingRows::touchesAreas (Dolumar_NewMap_MovingRows::pointsOfRow ($row, 'sc_route'), $areas))
+			{
+				continue;
+			}
+
+			$army = Dolumar_NewMap_ArmyFactory::fromSquadRow ($row, $now);
+			if ($army)
+			{
+				$out[] = $army;
+			}
+		}
+
+		$related = is_object ($viewer) ? self::relatedVillageIds ($viewer) : array ();
+
+		return self::filterForViewer ($out, $related, $areas, $now);
+	}
+
+	/**
+	*	Related armies are sent whenever their route touches the viewed areas
+	*	(the client draws the whole route). An unrelated army is only sent
+	*	while its current position is inside those areas, so a viewer cannot
+	*	learn from the response that an army is heading their way.
+	*
+	*	@param Dolumar_NewMap_Army[] $armies
+	*	@param int[] $relatedVillageIds
+	*	@param Neuron_GameServer_Map_Area[] $areas
+	*	@return Dolumar_NewMap_Army[]
+	*/
+	public static function filterForViewer (array $armies, array $relatedVillageIds, array $areas, $now)
+	{
+		$out = array ();
+		foreach ($armies as $army)
+		{
+			if (!$army->isRelatedTo ($relatedVillageIds))
+			{
+				$location = $army->getLocation ($now);
+				if (!Dolumar_NewMap_MovingRows::touchesAreas (array (array ($location->x (), $location->y ())), $areas))
+				{
+					continue;
+				}
+			}
+			$out[] = $army;
+		}
+		return $out;
+	}
+
+	/**
+	*	The in-flight battle and squad rows, shared by all viewers and cached
+	*	for a few seconds (the list is global; relatedness is applied later).
+	*/
+	private function loadMovingRows ($now)
+	{
+		$cache = Neuron_Core_Memcache::getInstance ();
+
+		return Dolumar_NewMap_MovingRows::cached
+		(
+			$cache,
+			self::MOVING_ROWS_CACHE_KEY,
+			self::MOVING_ROWS_CACHE_TTL,
+			$now,
+			function () use ($now)
+			{
+				$db = Neuron_DB_Database::getInstance ();
+				return array
+				(
+					'battles' => Dolumar_NewMap_MovingRows::battles ($db, $now),
+					'squads' => Dolumar_NewMap_MovingRows::squads ($db, $now)
+				);
+			}
+		);
+	}
+
+	/**
+	*	Village ids the player is related to (own + clan mates'), memoised per request.
+	*	@return int[]
+	*/
+	public static function relatedVillageIds ($player)
+	{
+		static $memo = array ();
+
+		$plid = intval ($player->getId ());
+		if (!isset ($memo[$plid]))
+		{
+			$memo[$plid] = Dolumar_NewMap_MovingRows::relatedVillageIds (Neuron_DB_Database::getInstance (), $plid);
+		}
+
+		return $memo[$plid];
+	}
+
 	/**
 		Move an object to another position
 	*/	
