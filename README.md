@@ -109,10 +109,20 @@ Needs Dokku 0.24 or newer (for `git:from-archive`) with the mysql, memcached and
 # 2. A MySQL service shared by all previews (each preview gets its own database and user in it).
 dokku mysql:create dolumar-previews
 
-# 3. The script's settings. Written once; they live only on the server, so updating the script never touches them.
-cat > /etc/default/dolumar-preview <<'CONF'
-PREVIEW_DOMAIN=preview.dolumar.com
-PREVIEW_LETSENCRYPT_EMAIL=<your email>
+# 3. The script. Safe to re-run: this is also how you update it, and it never touches the settings from step 4.
+# REF is a branch or commit sha; GitHub caches raw files for 5 minutes, so right after a merge use the commit.
+# Download to a temporary file and move it into place: overwriting the file in place breaks a deploy that is running
+# it at that moment (bash reads scripts while executing them).
+REF=develop
+curl -fsSL "https://raw.githubusercontent.com/CatLabInteractive/dolumar/$REF/tools/preview/dolumar-preview" \
+  -o /usr/local/bin/dolumar-preview.new
+chmod 755 /usr/local/bin/dolumar-preview.new && mv /usr/local/bin/dolumar-preview.new /usr/local/bin/dolumar-preview
+
+# 4. Optional settings, all commented out because the script's defaults fit this server. Only written when the file
+# does not exist yet, so re-running this keeps your edits.
+[ -f /etc/default/dolumar-preview ] || cat > /etc/default/dolumar-preview <<'CONF'
+# PREVIEW_DOMAIN=preview.dolumar.com
+# PREVIEW_LETSENCRYPT_EMAIL=support@catlab.eu
 # PREVIEW_HTTPS=0       # plain http, skips Let's Encrypt
 # PREVIEW_MEMORY=512m   # memory limit per preview
 # PREVIEW_BRANCHES=develop  # branches with a standing preview
@@ -121,8 +131,6 @@ PREVIEW_LETSENCRYPT_EMAIL=<your email>
 # PREVIEW_AIRBRAKE_TOKEN=<project API key>
 # PREVIEW_AIRBRAKE_PROJECT_ID=
 CONF
-
-# 4. The script itself: see "Installing or updating the script" below.
 
 # 5. A user that can only run that script, through sudo.
 useradd --create-home --shell /bin/bash dolumar-preview
@@ -149,22 +157,8 @@ Then add three repository secrets (Settings → Secrets and variables → Action
 Once `PREVIEW_SSH_KEY` is saved, delete that private key from the server with `shred -u /root/dolumar-preview-key`, so
 GitHub holds the only copy. Keep `/root/dolumar-preview-key.pub` and the `authorized_keys` entry.
 
-Until `PREVIEW_SSH_HOST` is set the workflow does nothing. To remove a preview by hand: `dolumar-preview destroy <number>`.
-
-### Installing or updating the script
-Run this at setup and again whenever `tools/preview/dolumar-preview` changes. It only replaces the script; the
-settings in `/etc/default/dolumar-preview` stay as they are. As root:
-
-```
-REF=develop  # branch or commit sha; GitHub caches raw files for 5 minutes, so right after a merge use the commit
-# Download to a temporary file and move it into place: overwriting the file in place breaks a deploy that is running
-# it at that moment (bash reads scripts while executing them).
-curl -fsSL "https://raw.githubusercontent.com/CatLabInteractive/dolumar/$REF/tools/preview/dolumar-preview" \
-  -o /usr/local/bin/dolumar-preview.new
-chmod 755 /usr/local/bin/dolumar-preview.new && mv /usr/local/bin/dolumar-preview.new /usr/local/bin/dolumar-preview
-```
-
-Check with `grep` that you got the new version.
+Until `PREVIEW_SSH_HOST` is set the workflow does nothing. When `tools/preview/dolumar-preview` changes, run step 3
+again and check with `grep` that you got the new version. To remove a preview by hand: `dolumar-preview destroy <number>`.
 
 Each preview uses roughly 150 to 300 MB (Apache/PHP plus a small memcached) and runs the game's cron jobs. The
 database server is shared. Keep an eye on memory if many pull requests are open at once.

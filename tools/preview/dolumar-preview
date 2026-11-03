@@ -26,12 +26,13 @@ if [ -f "$CONFIG" ]; then
 	. "$CONFIG"
 fi
 
-PREVIEW_DOMAIN="${PREVIEW_DOMAIN:?set PREVIEW_DOMAIN in $CONFIG, e.g. preview.dolumar.com}"
+# Defaults for the production server, so the script needs no settings there. $CONFIG overrides any of them.
+PREVIEW_DOMAIN="${PREVIEW_DOMAIN:-preview.dolumar.com}"
 PREVIEW_REPO="${PREVIEW_REPO:-CatLabInteractive/dolumar}"
 PREVIEW_MYSQL_SERVICE="${PREVIEW_MYSQL_SERVICE:-dolumar-previews}"
 PREVIEW_MEMORY="${PREVIEW_MEMORY:-512m}"
 PREVIEW_HTTPS="${PREVIEW_HTTPS:-1}"
-PREVIEW_LETSENCRYPT_EMAIL="${PREVIEW_LETSENCRYPT_EMAIL:-}"
+PREVIEW_LETSENCRYPT_EMAIL="${PREVIEW_LETSENCRYPT_EMAIL:-support@catlab.eu}"
 # Space-separated branches that may have a standing preview.
 PREVIEW_BRANCHES="${PREVIEW_BRANCHES:-develop}"
 # Optional error tracker (Errbit / Airbrake) for every preview; leave PREVIEW_AIRBRAKE_TOKEN empty to turn it off.
