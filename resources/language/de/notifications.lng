@@ -1,6 +1,9 @@
 [battle]
 attacking="@@actor schickte seine Truppen von @@village um @@defender (@@pl_defender) anzugreifen."
 defending="Deine Siedlung @@village wird durch @@attacker angegriffen (@@pl_attacker). "
+fought_attacker = "Deine Armee aus @@village hat bei @@target gekämpft. Sieh dir deine Kampfberichte an."
+fought_defender = "@@attacker hat deine Siedlung @@village angegriffen. Sieh dir deine Kampfberichte an."
+returned = "Deine Armee ist nach @@village zurückgekehrt."
 
 [messages]
 received="Du hast eine Nachricht von @@player erhalten."
@@ -22,3 +25,14 @@ leave="@@actor hat Clan @@clan verlassen."
 open="@@player hat ein magisches Portal zwischen @@village und @@target_village geöffnet. Es wird noch bis @@date offen bleiben und ist für alle Clanmitglieder zugänglich."
 opened="@@player hat ein magisches Portal zwischen @@village und @@target_village geöffnet. Es wird noch bis @@date offen bleiben und ist für alle Clanmitglieder zugänglich."
 
+[building]
+ready = "Dein Gebäude @@building in @@village ist fertig."
+upgraded = "Dein Gebäude @@building in @@village ist jetzt Stufe @@level."
+
+[categories]
+battle = "Angriffe und Kämpfe"
+building = "Fertige Gebäude"
+resources = "Erhaltene Rohstoffe"
+runes = "Erhaltene Runen"
+equipment = "Erhaltene Ausrüstung"
+portal = "Clanportale"

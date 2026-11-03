@@ -121,3 +121,13 @@ defEnvOrDefault('OPENID_CONNECT_PROFILE_URL');
 defEnvOrDefault('OPENID_CONNECT_CLIENT_ID');
 defEnvOrDefault('OPENID_CONNECT_SECRET');
 defEnvOrDefault('OPENID_CONNECT_PROFILE_URL_PREFIX');
+
+/*
+ * Browser (Web Push) notifications. Off unless both keys are set.
+ * Generate the pair once with `php tools/vapid-keys.php` and never change it:
+ * new keys silently invalidate every player's subscription.
+ */
+defEnvOrDefault('VAPID_PUBLIC_KEY');
+defEnvOrDefault('VAPID_PRIVATE_KEY');
+defEnvOrDefault('VAPID_SUBJECT', getenv('EMAIL_FROM') ? 'mailto:' . getenv('EMAIL_FROM') : null);
+defEnvOrDefault('PUSH_ICON_URL', ABSOLUTE_URL . 'icon-192.png');

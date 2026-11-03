@@ -34,6 +34,9 @@ the most important ones are:
 * `APP_DEBUG`: enables debug output; leave unset in production.
 * `SIGNS_PATH`: where custom sign images are stored (defaults to `public/signs`). Must be persistent in production.
 * `AIRBRAKE_TOKEN`: optional error reporting.
+* `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY` (and optionally `VAPID_SUBJECT`, a `mailto:` or `https:` contact): browser
+  notifications. Generate the pair once with `php tools/vapid-keys.php`, set both, and never change them: a new pair
+  silently invalidates every player's subscription. Without them notifications are off.
 
 `CREDITS_*` and `SERVERLIST_*` are optional and off by default; the game works without them.
 

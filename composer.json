@@ -4,7 +4,7 @@
 
   "require": {
     "php": "^8.4.27",
-    "catlabinteractive/dolumar-engine" : "dev-php8",
+    "catlabinteractive/dolumar-engine" : "dev-claude/project-thread-0sjhem",
     "airbrake/phpbrake": "^0.8",
     "vlucas/phpdotenv": "^5.6",
 
@@ -39,7 +39,8 @@
 
   "config": {
     "allow-plugins": {
-      "dealerdirect/phpcodesniffer-composer-installer": true
+      "dealerdirect/phpcodesniffer-composer-installer": true,
+      "php-http/discovery": false
     }
   }
 }

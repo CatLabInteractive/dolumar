@@ -22,7 +22,9 @@ All configuration is environment variables. [`.env.example`](../.env.example) is
 add a setting, add it there (with a comment) and to the README's configuration section.
 
 Key variables: `DATABASE_URL`, `MEMCACHED_URL`, `ABSOLUTE_URL`, `PROTOCOL`, `EMAIL_SMTP_*`, `EMAIL_FROM*`,
-`OPENID_CONNECT_*`, `APP_DEBUG` (never set in production), `SIGNS_PATH`, `CACHE_DIR`, `AIRBRAKE_*`.
+`OPENID_CONNECT_*`, `APP_DEBUG` (never set in production), `SIGNS_PATH`, `CACHE_DIR`, `AIRBRAKE_*`,
+`VAPID_*` (browser notifications; generated once with `php tools/vapid-keys.php` and never rotated, since a new pair
+breaks every existing subscription).
 
 `CREDITS_*` and `SERVERLIST_*` belong to dead CatLab services. They stay unset and the game must keep working
 without them: guard any code that would call them.
