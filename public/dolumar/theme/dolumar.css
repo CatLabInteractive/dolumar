@@ -74,6 +74,38 @@
 	overflow: auto;
 }
 
+/*
+	At a fractional display scale (125%, 150%, browser zoom), the edge where the frame
+	image ends and the parchment starts lands on a partial device pixel. Both backgrounds
+	are anti-aliased there and the map shows through as a thin vertical line. Let the
+	parchment and the title/bottom bar overlap their neighbours by 1px so that pixel is
+	always fully covered. The padding cancels the margin, so the content does not move.
+*/
+.dolumar_content_inner2
+{
+	margin: 0 -1px;
+	padding: 0 1px;
+}
+
+.dolumar_n,
+.dolumar_s
+{
+	position: relative;
+}
+
+.dolumar_n::before,
+.dolumar_s::before
+{
+	content: "";
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: -1px;
+	right: -1px;
+	background: inherit;
+	z-index: -1;
+}
+
 .dolumar_w {
 	width: 42px;
 	background: url(dolumar/center_left.png) repeat-y top left;			
