@@ -257,7 +257,9 @@ class Dolumar_Players_Village_Battle
 			
 			else
 			{
-				$afstand = Dolumar_Map_Map::getDistanceBetweenVillages ($this->objProfile, $oTarget);
+				$routeData = Dolumar_Map_Map::getRouteBetweenVillages ($this->objProfile, $oTarget);
+				$afstand = $routeData === false ? false : $routeData['distance'];
+				$route = $routeData === false ? null : json_encode ($routeData['route']);
 				
 				$naarVillage = $this->getMoveDuration ($oUnits, $afstand, true  );
 				$naarHuis    = $this->getMoveDuration ($oUnits, $afstand, false );
@@ -283,7 +285,8 @@ class Dolumar_Players_Village_Battle
 						'endDate' => $fightDate + $naarHuis + 1,
 						'goHomeDuration' => $naarHuis,
 						'iHonourLose' => $honour,
-						'iBattleSlots' => $slotsamount
+						'iBattleSlots' => $slotsamount,
+						'route' => $route
 					)
 				);
 			

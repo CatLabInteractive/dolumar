@@ -1,0 +1,7 @@
+[armies]
+attack = "Attacking army"
+waiting = "Army at the gates"
+returning = "Returning army"
+squad = "Regiment on the move"
+neutral = "An army"
+open = "Open"

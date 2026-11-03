@@ -4,9 +4,11 @@
          bootstrap="tests/bootstrap.php"
          colors="true">
 	<testsuites>
-		<!-- No database needed: the pure NPC decision classes. This is what CI runs. -->
+		<!-- No database needed (pure classes, or a fake database). This is what CI runs. -->
 		<testsuite name="unit">
 			<directory>tests/Npc</directory>
+			<directory>tests/Map</directory>
+			<directory>tests/NewMap</directory>
 			<file>tests/BootstrapTest.php</file>
 		</testsuite>
 		<!-- Needs the Docker database (production snapshot) and DATABASE_URL. -->

@@ -25,11 +25,29 @@ class Dolumar_Map_Distance
 {
 	const DEBUG = false;
 
+	/*
+		Distance only; see getDistanceAndRoute for the waypoints.
+	*/
 	public static function getDistance ($loc1, $loc2, $portals, $ignoreImpassable = true)
+	{
+		$result = self::getDistanceAndRoute ($loc1, $loc2, $portals, $ignoreImpassable);
+		if ($result === false)
+		{
+			return false;
+		}
+		return $result['distance'];
+	}
+
+	/*
+		Returns array ('distance' => float, 'route' => array of array (x, y))
+		from $loc1 to $loc2 inclusive, with portal jumps as consecutive
+		waypoints, or false when no route exists.
+	*/
+	public static function getDistanceAndRoute ($loc1, $loc2, $portals, $ignoreImpassable = true)
 	{
 		if ($loc1[0] == $loc2[0] && $loc1[1] == $loc2[1])
 		{
-			return 0;
+			return array ('distance' => 0, 'route' => array (array ($loc1[0], $loc1[1])));
 		}
 	
 		// Show the route
@@ -75,7 +93,14 @@ class Dolumar_Map_Distance
 		
 		$profiler->stop ();
 		
-		return $distance[0];
+		// getRoute() builds the route destination-first with cost keys; flip it.
+		$route = array ();
+		foreach (array_reverse ($distance[1]) as $v)
+		{
+			$route[] = array ($v[0], $v[1]);
+		}
+		
+		return array ('distance' => $distance[0], 'route' => $route);
 	}
 
 	/*
