@@ -1,6 +1,6 @@
 <script type="text/javascript" src="<?=STATIC_ABSOLUTE_URL?>dolumar/javascript/dolumar.js?version=<?=$application_version?>"></script>
 <?php
-	// Texts for the moving-armies layer (engine javascript/armies.js reads CONFIG_ARMY_TEXT)
+	// Kind texts for the engine map-objects layer (javascript/mapobjects.js reads CONFIG_MAPOBJECT_TEXT)
 	$armyText = Neuron_Core_Text::__getInstance ();
 	$armyTexts = array ();
 	foreach (array ('attack', 'waiting', 'returning', 'squad', 'neutral', 'open') as $armyKind)
@@ -8,7 +8,7 @@
 		$armyTexts[$armyKind] = $armyText->get ($armyKind, 'armies', 'map');
 	}
 ?>
-<script type="text/javascript">var CONFIG_ARMY_TEXT = <?=json_encode ($armyTexts)?>;</script>
+<script type="text/javascript">var CONFIG_MAPOBJECT_TEXT = <?=json_encode ($armyTexts)?>;</script>
 
 <!-- dolumar css -->
 <link href="<?=STATIC_ABSOLUTE_URL?>dolumar/css/fancybox.css?version=<?=$application_version?>" rel="stylesheet" type="text/css" />

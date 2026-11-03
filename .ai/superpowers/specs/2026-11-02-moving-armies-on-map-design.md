@@ -180,14 +180,14 @@ region list (`Neuron_Core_Memcache::getInstance()`, like `Dolumar_Map_CacheMemca
 request after the cache, because it depends on the viewer. The cache is an optimisation only; with memcached down
 the endpoint still answers.
 
-### 5. Client: an animated army layer
+### 5. Client: an animated moving-objects layer
 
-New engine file `assets/javascript/armies.js`, loaded from `templates/gameserver/index.phpt` after `gamemap.js`,
-exposing `Game.armies`:
+New engine file `assets/javascript/mapobjects.js` (generic: the engine knows moving objects, not armies), loaded from `templates/gameserver/index.phpt` after `gamemap.js`,
+exposing `Game.mapObjects`:
 
-- **Layer.** `Game.armies.init()` is called from `Game.map.onLoadImagesDone` after the `TiledImageViewer` exists. It
-  appends one `div.armies` to `Game.map.oScrollMap.div` (the element that pans), `position: absolute; left: 0;
-  top: 0; z-index: 20; pointer-events: none`. Sprites are child `div.army` elements with `pointer-events: auto`,
+- **Layer.** `Game.mapObjects.init()` is called from `Game.map.onLoadImagesDone` after the `TiledImageViewer` exists. It
+  appends one `div.mapobjects` to `Game.map.oScrollMap.div` (the element that pans), `position: absolute; left: 0;
+  top: 0; z-index: 20; pointer-events: none`. Sprites are child `div.mapobject` elements with `pointer-events: auto`,
   a background image from `sprite.url`, a `title`, and a 40 × 40 px hit area centred on the sprite.
 - **Polling.** After every `Game.map.drawMapRegionCommit` and every `poll` seconds, POST the list of loaded regions
   (`Game.map.oScrollMap.loadedMapTiles` keys) to `CONFIG_DISPATCH_URL + 'map/objects/'`. The response replaces the
@@ -247,7 +247,7 @@ Game (no PHPUnit suite exists; `.ai/development.md` says tests live in the engin
 ## Rollout
 
 1. Engine PR (branch `claude/project-thread-ped4we`): manager method, endpoint rewrite, `Movement::truncate()`,
-   `armies.js`, template include, tests.
+   `mapobjects.js`, template include, tests.
 2. Game PR (same branch name): route columns and setup step, `getRouteBetweenVillages()`, army factory and map object,
    `getMovingObjects()`, sprites, language keys, `.ai/architecture.md` update (map section mentions the army layer and
    `map/objects`), composer.lock bump to the engine commit.

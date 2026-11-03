@@ -69,7 +69,7 @@ Under `src/Dolumar/`:
   dispatch time in `battle.route` and `squad_commands.sc_route` (JSON waypoints from `Dolumar_Map_Distance`).
   Related viewers (own or clan villages involved) get the full path and a tap action; everyone else sees a neutral
   sprite with only the next 30 s of movement. The kind texts come from `resources/language/*/map.lng` through
-  `CONFIG_ARMY_TEXT` in `gameserver/index/header.phpt`.
+  `CONFIG_MAPOBJECT_TEXT` in `gameserver/index/header.phpt`; the engine layer itself is generic (`Game.mapObjects`, `mapobjects.js`).
 - `Underworld/`: a separate, turn-based mini-game with its own models, mappers and windows.
 - `Mappers/` and `Underworld/Mappers/`: the few classes that follow a mapper pattern. Most models query the database
   directly.
