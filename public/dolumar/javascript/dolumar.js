@@ -735,7 +735,7 @@ Game.dolumar.mobile =
 		mobile.closeMore ();
 		mobile.hideTooltip ();
 
-		$$('.mobile-header-actions').invoke ('remove');
+		$$('.mobile-header-actions, .mobile-map-zoom').invoke ('remove');
 		$$('#menu li.tab-more').invoke ('remove');
 		$$('.panel.mobile-visible').invoke ('removeClassName', 'mobile-visible');
 	},
@@ -751,6 +751,15 @@ Game.dolumar.mobile =
 		return value ? value : fallback;
 	},
 
+	/*
+		Inline icons for the header buttons (cream strokes, like the header text).
+	*/
+	'icons' : {
+		'minimap' : '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z"/><path d="M9 4v14M15 6v14"/></svg>',
+		'chat' : '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/></svg>',
+		'news' : '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M5 4h15v15a1.5 1.5 0 0 1-3 0V6"/><path d="M5 4v15a1.5 1.5 0 0 0 1.5 1.5H18"/><path d="M8 8h6M8 11h6M8 14h6"/></svg>'
+	},
+
 	'buildHeader' : function ()
 	{
 		var mobile = Game.dolumar.mobile;
@@ -761,39 +770,37 @@ Game.dolumar.mobile =
 			return;
 		}
 
-		var actions = new Element ('div', { 'class' : 'mobile-header-actions' });
-
-		var buttons = [
-			[ 'zoom-out', '&#8722;', mobile.label ('zoomout', 'Zoom out'), function () { Game.map.zoomOut (); } ],
-			[ 'zoom-in', '+', mobile.label ('zoomin', 'Zoom in'), function () { Game.map.zoomIn (); } ],
-			[ 'minimap', null, mobile.label ('minimap', 'Map'), function () { mobile.togglePanel ('minimap', 'MiniMap'); } ],
-			[ 'chat', null, mobile.label ('chat', 'Chat'), function () { openWindow ('Chat'); } ],
-			[ 'news', null, mobile.label ('news', 'News'), function () { mobile.togglePanel ('newsbar', 'Newsbar'); } ]
-		];
-
-		for (var i = 0; i < buttons.length; i ++)
+		var makeButton = function (cls, html, label, onclick)
 		{
 			var button = new Element ('button', {
 				'type' : 'button',
-				'class' : buttons[i][0],
-				'title' : buttons[i][2],
-				'aria-label' : buttons[i][2]
+				'class' : cls,
+				'title' : label,
+				'aria-label' : label
 			});
 
-			if (buttons[i][1] !== null)
-			{
-				button.update (buttons[i][1]);
-			}
-			else
-			{
-				button.appendChild (document.createTextNode (buttons[i][2]));
-			}
+			button.update (html);
+			button.observe ('click', onclick);
 
-			button.observe ('click', buttons[i][3]);
-			actions.appendChild (button);
-		}
+			return button;
+		};
+
+		// Panel and window toggles, as icons, at the right of the header.
+		var actions = new Element ('div', { 'class' : 'mobile-header-actions' });
+
+		actions.appendChild (makeButton ('minimap', mobile.icons.minimap, mobile.label ('minimap', 'Map'), function () { mobile.togglePanel ('minimap', 'MiniMap'); }));
+		actions.appendChild (makeButton ('chat', mobile.icons.chat, mobile.label ('chat', 'Chat'), function () { openWindow ('Chat'); }));
+		actions.appendChild (makeButton ('news', mobile.icons.news, mobile.label ('news', 'News'), function () { mobile.togglePanel ('newsbar', 'Newsbar'); }));
 
 		body.appendChild (actions);
+
+		// Zoom as a floating pair on the map (pinch works too); sheets cover it.
+		var zoom = new Element ('div', { 'class' : 'mobile-map-zoom' });
+
+		zoom.appendChild (makeButton ('zoom-in', '+', mobile.label ('zoomin', 'Zoom in'), function () { Game.map.zoomIn (); }));
+		zoom.appendChild (makeButton ('zoom-out', '&#8722;', mobile.label ('zoomout', 'Zoom out'), function () { Game.map.zoomOut (); }));
+
+		body.appendChild (zoom);
 	},
 
 	/*
