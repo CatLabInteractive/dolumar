@@ -33,7 +33,7 @@ tribes) and log in at http://localhost:8080/preview-login.php. Per-PR preview in
 | PHP 8.4 compatibility | `docker compose exec web vendor/bin/phpcs` | Uses `phpcs.xml.dist` (PHPCompatibility, `testVersion 8.4-`). |
 | Syntax | `docker compose exec web find src bootstrap cron tools public -name '*.php' -print0 \| xargs -0 -n1 php -l` | Quick and catches most breakage. |
 | Engine tests | `docker compose exec -w /engine web vendor/bin/phpunit` | Only if the engine was touched. Needs the engine's own `composer install` in `/engine`. |
-| Smoke test | `tools/smoke.sh http://localhost:8080` | Add `SMOKE_NO_OAUTH=1` when OIDC is not configured. Fails on any PHP warning, notice or deprecation in the output. |
+| Smoke test | `tools/smoke.sh http://localhost:8080` | Add `SMOKE_NO_OAUTH=1` when OIDC is not configured and `SMOKE_PUSH=1` when the `VAPID_*` keys are set. Fails on any PHP warning, notice or deprecation in the output. |
 
 This repository has no unit tests of its own. For game logic changes, verify by playing the affected flow locally
 and say in the PR what you checked.

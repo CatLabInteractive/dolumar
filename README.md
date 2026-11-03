@@ -36,6 +36,9 @@ the most important ones are:
 * `AIRBRAKE_TOKEN`, `AIRBRAKE_HOST`, `AIRBRAKE_PROJECT_ID`, `AIRBRAKE_ENVIRONMENT`: optional error reporting to Errbit
   or Airbrake. A notice the tracker does not accept is written to the error log (`dokku logs`), starting with
   `Error tracker:`.
+* `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY` (and optionally `VAPID_SUBJECT`, a `mailto:` or `https:` contact): browser
+  notifications. Generate the pair once with `php tools/vapid-keys.php`, set both, and never change them: a new pair
+  silently invalidates every player's subscription. Without them notifications are off.
 * `PREMIUM_SPEEDUP_BUILDINGS`, `PREMIUM_SPEEDUP_TRAINING`, `PREMIUM_SPEEDUP_SCOUTING`: set to `1` to let players pay
   credits to speed up that queue. Off by default.
 

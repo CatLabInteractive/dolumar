@@ -56,6 +56,7 @@ function runCronjobFile($file) {
 
 if ($lock->setLock('cronjobs', 60, 60)) {
 	runCronjobFile(__DIR__ . '/constantly.php');
+	runCronjobFile(__DIR__ . '/push.php');
 } elseif (CRONJOB_OUTPUT) {
 	echo 'Not running cron/constantly.php: too soon.' . "\n";
 }

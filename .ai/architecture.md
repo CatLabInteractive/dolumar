@@ -80,6 +80,26 @@ cron:
 
 Cron and setup scripts refuse to run outside the CLI.
 
+## Browser notifications
+
+Web Push is built into the engine (see the engine's `.ai/architecture.md`): subscriptions, the queue, the `sw.js`
+and `push/*` routes and the "Browser notifications" section of My Account. The game supplies:
+
+- Messages: the `notifications` language file. Every non-public `sendNotification()` (incoming attack, resources,
+  runes or equipment received, clan portals) also becomes a push.
+- Timed events: `Dolumar_Push_Events::scan()` runs every minute from `cron/push.php` (called by `cron/run.php`) and
+  notifies about buildings finished or upgraded (`map_buildings.readyDate` / `lastUpgradeDate`), battles fought
+  (`battle.fightDate`, withdrawn attacks excluded) and armies home (`battle.endDate`) since the watermark
+  `push_scan` in `n_server_data`. Because `removeBattle()` deletes the row, it also calls
+  `Dolumar_Push_Events::onBattleRemoved()` for armies that come home before the next scan. `cron/push.php` then
+  delivers the queue.
+- Categories: `Dolumar_Players_Player::getPushCategories()` (sections of `notifications.lng`, labels in its
+  `[categories]` section) and `getPushDefaultMuted()` (`portal`).
+- `public/manifest.webmanifest` and the icons, linked from `gameserver/index/header.phpt`. iOS only allows push for
+  a site added to the home screen.
+
+All of it is off until `VAPID_PUBLIC_KEY` and `VAPID_PRIVATE_KEY` are set.
+
 ## Storage
 
 - MySQL: the whole game state. The schema is `dump/dump.sql`; `tools/setup.php` installs it only into an empty
