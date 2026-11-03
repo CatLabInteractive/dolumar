@@ -7,11 +7,12 @@ if (isset ($error))
 	echo '<p class="' . ($errorV == 'done' ? 'true' : 'false') . '">'.$error.'</p>';
 }
 else {
-	echo '<p>'.$click.'</p>';
+	echo '<p class="hint-desktop">'.$click.'</p>';
+	echo '<p class="hint-mobile">'.$clickMobile.'</p>';
 }
 ?>
 
-<p><a href="javascript:void(0);" onclick="openWindow('bonusbuildings', {'village':<?=$village?>});">Bonus Buildings</a></p>
+<p><a href="javascript:void(0);" class="action-button" onclick="openWindow('bonusbuildings', {'village':<?=$village?>});">Bonus Buildings</a></p>
 
 <div>
 <?php if (isset ($list_buildings)) { ?>
@@ -28,7 +29,7 @@ else {
 
 	<?php foreach ($list_buildings as $v) { ?>
 	
-	<div <?=$v['canBuild'] ? null : 'class="shaded"'?>>
+	<div class="building-card<?=$v['canBuild'] ? '' : ' shaded'?>">
 		<table>
 			<tr>
 				<td colspan="2">
@@ -60,7 +61,7 @@ else {
 						<?php if ($v['canBuild']) { ?>
 							<!--<a href="javascript:void(0);" onclick="selectBuildLocation (this, <?=$v[4]?>, 'building_<?=$v[4]?>', '<?=$v[6]?>', '<?=$selectRune?>');"><?=$construct?></a>-->
 							
-							<a href="javascript:void(0);" onclick="<?=$v['action']->getAction()?>"><?=$construct?></a>
+							<a href="javascript:void(0);" class="action-button primary" onclick="<?=$v['action']->getAction()?>"><?=$construct?></a>
 							
 						<?php } else { ?>
 							<?=Neuron_Core_Tools::putIntoText ($this->getText ('upgradeFirst', 'build', 'building'), array ('buildings' => $v['myBuildingsName']));?>

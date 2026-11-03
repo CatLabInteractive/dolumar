@@ -30,6 +30,11 @@ Error reporting (`AIRBRAKE_*`) goes through `Dolumar_ErrorReporting_Notifier`, a
 failed delivery silently, so the subclass logs it (`Error tracker: ...` in `dokku logs`): check there first when
 errors do not show up in Errbit.
 
+Scripts and stylesheets are loaded with `?version=APP_VERSION`. The bootstrap takes that from `APP_VERSION` or,
+by default, from `GIT_REV`, which Dokku sets to the deployed commit, so every deploy busts the browser cache. The
+engine's fallback is the repo's SVN-era `version.txt`, which never changes; a deployment without either variable
+serves stale assets after an update.
+
 Paid speed-ups (spend credits to finish a building, training or scouting queue sooner) are off unless
 `PREMIUM_SPEEDUP_BUILDINGS`, `PREMIUM_SPEEDUP_TRAINING` or `PREMIUM_SPEEDUP_SCOUTING` is set to `1`. When off,
 `Dolumar_Windows_Statusbar::canSpeedUp()` hides the link and the `Speedup` window refuses the request.

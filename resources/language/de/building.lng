@@ -66,6 +66,7 @@ noRunes="Du verfügst nicht über die passenden Runen om dieses Gebäude auszuba
 intro="Um neue Gebäude errichten zu können, musst du die richtige Rune besitzen und über ausreichende Rohstoffe verfügen. Du kannst Runen finden, indem du die Umgebung untersuchst oder andere Spieler angreifst. Während für manche Gebäude bestimmte Runen nötig sind, kannst du für andere selbst eine Rune auswählen. Wähle erst eine Rune und errichte dann dein Gebäude."
 construct="Errichte Gebäude"
 click="Klicke erst auf den Errichtungsbutton und wähle dann einen Ort auf der Karte. Mit einem rechten Mausklick kannst du die Bauarbeiten abbrechen."
+clickMobile="Tippe auf Errichten, ziehe die Karte, bis das Gebäude an der gewünschten Stelle steht, und tippe auf Platzieren."
 selectRune="Du musst erst eine Rune auswählen bevor du dieses Gebäude errichten kannst."
 upgradeFirst="Baue erst deine anderen @@buildings aus."
 requires="Erfordert @@0."

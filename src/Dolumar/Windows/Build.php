@@ -78,6 +78,7 @@ class Dolumar_Windows_Build extends Neuron_GameServer_Windows_Window
 			$page->set ('intro', $text->get ('intro', 'build', 'building'));
 			$page->set ('construct', $text->get ('construct', 'build', 'building'));
 			$page->set ('click', $text->get ('click', 'build', 'building'));
+			$page->set ('clickMobile', $text->get ('clickMobile', 'build', 'building'));
 			
 			$selectrunewarning = addslashes ($text->get ('selectRune', 'build', 'building'));
 			

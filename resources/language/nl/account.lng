@@ -139,6 +139,10 @@ changePass="Wachtwoord aanpassen"
 account="Account opties"
 resetAccount="Account resetten"
 vacationMode="Vakantiemodus"
+layout="Indeling van de interface"
+layoutAuto="Automatisch"
+layoutDesktop="Desktop"
+layoutMobile="Mobiel"
 
 [changepass]
 changePass="Wachtwoord aanpassen"

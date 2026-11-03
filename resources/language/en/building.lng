@@ -38,6 +38,7 @@ intro = "To build new buildings you need the right rune and sufficient resources
 requires = "Requires @@0."
 construct = "Construct Building"
 click = "First click the Construct button, then choose a location on the map. Right-click to cancel construction."
+clickMobile = "Tap Construct, then drag the map until the building sits where you want it and tap Place."
 selectRune = "You have to select a rune before you can build this building."
 upgradeFirst = "Upgrade your other @@buildings first."
 
