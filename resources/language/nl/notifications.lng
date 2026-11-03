@@ -1,6 +1,9 @@
 [battle]
 attacking="@@actor zendt zijn troepen van @@village om @@defender (@@pl_defender) aan te vallen."
 defending="Jouw dorp @@village wordt aangevallen door @@attacker (@@pl_attacker)."
+fought_attacker = "Je leger uit @@village heeft gevochten bij @@target. Bekijk je gevechtsrapporten."
+fought_defender = "@@attacker heeft je dorp @@village aangevallen. Bekijk je gevechtsrapporten."
+returned = "Je leger is terug thuis in @@village."
 
 [messages]
 received="Je hebt een bericht ontvangen van @@player."
@@ -25,3 +28,14 @@ opened="@@player heeft een magische poort geöpend tussen @@village en @@target_
 [bonusbuilding]
 build="@@actor heeft een @@building gekocht voor @@village."
 
+[building]
+ready = "Je @@building in @@village is klaar."
+upgraded = "Je @@building in @@village is nu niveau @@level."
+
+[categories]
+battle = "Aanvallen en gevechten"
+building = "Afgewerkte gebouwen"
+resources = "Ontvangen grondstoffen"
+runes = "Ontvangen runen"
+equipment = "Ontvangen uitrusting"
+portal = "Clanportalen"

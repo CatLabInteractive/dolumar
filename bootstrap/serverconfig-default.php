@@ -112,6 +112,7 @@ defEnvOrDefault ('SERVERLIST_VISIBLE', true);
 defEnvOrDefault('AIRBRAKE_TOKEN', getenv('AIRBRAKE_API_KEY'));
 defEnvOrDefault('AIRBRAKE_HOST');
 defEnvOrDefault('AIRBRAKE_PROJECT_ID');
+defEnvOrDefault('AIRBRAKE_ENVIRONMENT');
 
 defEnvOrDefault('NOLOGIN_REDIRECT');
 defEnvOrDefault('WIKI_GUIDE_URL');
@@ -126,3 +127,13 @@ defEnvOrDefault('OPENID_CONNECT_PROFILE_URL_PREFIX');
 // CatLab Accounts credits (credits are on only when the client id, secret and type id are set)
 defEnvOrDefault('CATLAB_ACCOUNTS_URL', 'https://accounts.catlab.eu/');
 defEnvOrDefault('CATLAB_CREDITS_TYPE_ID');
+
+/*
+ * Browser (Web Push) notifications. Off unless both keys are set.
+ * Generate the pair once with `php tools/vapid-keys.php` and never change it:
+ * new keys silently invalidate every player's subscription.
+ */
+defEnvOrDefault('VAPID_PUBLIC_KEY');
+defEnvOrDefault('VAPID_PRIVATE_KEY');
+defEnvOrDefault('VAPID_SUBJECT', getenv('EMAIL_FROM') ? 'mailto:' . getenv('EMAIL_FROM') : null);
+defEnvOrDefault('PUSH_ICON_URL', ABSOLUTE_URL . 'icon-192.png');

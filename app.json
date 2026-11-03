@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "dokku": {
-      "postdeploy": "php tools/setup.php"
+      "postdeploy": "bash tools/postdeploy.sh"
     }
   }
 }
