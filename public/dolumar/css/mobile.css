@@ -1019,7 +1019,7 @@ body.layout-mobile .sheet-content table.logbook td.actions a
 	slices in one image: 42 and 37 wide, 68 and 32 high), with the window parchment inside.
 */
 
-/* One continuous stone bar behind the header, with the logo (186 by 60, drawn at 112 by 36) and the same gold strip as the tab bar. */
+/* One continuous stone bar behind the header, with the logo (186 by 60, drawn at 112 by 36) and the same 5px gold strip as the tab bar (the top rows of statusbar.png, flipped so the dark edge meets the resource strip). */
 body.layout-mobile::before
 {
 	content: '';
@@ -1031,7 +1031,7 @@ body.layout-mobile::before
 	z-index: 1000;
 	background:
 		url('../images/topmenu_center.png') no-repeat 4px 5px / 112px 36px,
-		url('../images/mobile/goldstrip.png') repeat-x left bottom,
+		url('../images/mobile/goldstrip-bottom.png') repeat-x left bottom,
 		#6b5a3e url('../images/mobile/stone.png') repeat left top;
 	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6), inset 0 8px 10px -6px rgba(0, 0, 0, 0.7), inset 0 -8px 10px -6px rgba(0, 0, 0, 0.5);
 	box-sizing: border-box;
