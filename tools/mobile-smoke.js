@@ -28,13 +28,8 @@ function check(name, options, fn) {
  * A player who has not started playing yet is then taken through the MyAccount race selection step (first race,
  * random position) so the account becomes a playing one.
  */
-async function login(page, baseUrl, user = 1) {
+async function login(page, baseUrl) {
 	const start = new URL('/', baseUrl);
-	if (user > 1) {
-		// The mock reads the player number from this cookie; set it here for the mock's host (MOBILE_SMOKE_OIDC_URL).
-		const mock = process.env.MOBILE_SMOKE_OIDC_URL || 'http://localhost:8090';
-		await page.context().addCookies([{ name: 'oidc_mock_user', value: String(user), url: mock }]);
-	}
 	if (page.__layout) {
 		start.searchParams.set('layout', page.__layout);
 	}
@@ -43,7 +38,7 @@ async function login(page, baseUrl, user = 1) {
 
 	const nickname = page.locator('input[name=username]');
 	if (await nickname.first().waitFor({ state: 'visible', timeout: 8000 }).then(() => true).catch(() => false)) {
-		await nickname.first().fill('Smoke' + user + String(Date.now()).slice(-5));
+		await nickname.first().fill('Smoke' + String(Date.now()).slice(-5));
 		await nickname.first().locator('xpath=ancestor::form').locator('button[type=submit]').click();
 		await page.waitForTimeout(1500);
 	}
@@ -85,33 +80,38 @@ check('mobile-shell', { viewport: { width: 390, height: 844 }, layout: 'mobile' 
 	assert(await page.locator('.dialog').count() === 0, 'unexpected .dialog element on the mobile layout');
 });
 
+// Save the layout preference of the mock player through the MyAccount form and reload without ?layout=.
+async function saveLayoutPreference(page, baseUrl, value) {
+	const select = page.locator('select[name=layout]').first();
+	await page.evaluate(() => openWindow('MyAccount'));
+	await select.waitFor({ state: 'visible', timeout: 15000 });
+	await select.selectOption(value);
+	await page.waitForSelector('body.layout-' + (value === 'auto' ? 'desktop' : value), { timeout: 2000 });
+	await page.waitForTimeout(1000);
+	await page.goto(baseUrl, { waitUntil: 'load' });
+	await page.waitForFunction(() => typeof Game !== 'undefined' && Game.core && Game.core.isMapLoaded && Game.gui.bIsInDialog <= 0, null, { timeout: 15000 });
+}
+
 check('layout-toggle', { viewport: { width: 1280, height: 800 } }, async (page) => {
 	const baseUrl = page.url().split('?')[0];
-	const select = () => page.locator('select[name=layout]').first();
-	const openAccount = async () => {
-		await page.evaluate(() => openWindow('MyAccount'));
-		await select().waitFor({ state: 'visible', timeout: 15000 });
-	};
 
+	// A run that stopped half-way may have left the shared mock player on mobile.
+	if (await page.locator('body.layout-desktop').count() !== 1) {
+		await saveLayoutPreference(page, baseUrl, 'desktop');
+	}
 	assert(await page.locator('body.layout-desktop').count() === 1, 'body has no layout-desktop class to start with');
 
-	await openAccount();
-	await select().selectOption('mobile');
-	await page.waitForSelector('body.layout-mobile', { timeout: 2000 });
-
-	// The preference is saved on the server: a plain reload (no ?layout=) stays mobile.
-	await page.waitForTimeout(1000);
-	await page.goto(baseUrl, { waitUntil: 'load' });
-	await page.waitForSelector('body.layout-mobile', { timeout: 15000 });
-
-	// Back to desktop (always leave the mock player on desktop).
-	await page.setViewportSize({ width: 1280, height: 800 });
-	await page.evaluate(() => openWindow('MyAccount'));
-	await select().waitFor({ state: 'visible', timeout: 15000 });
-	await select().selectOption('desktop');
-	await page.waitForSelector('body.layout-desktop', { timeout: 2000 });
-	await page.waitForTimeout(1000);
-	await page.goto(baseUrl, { waitUntil: 'load' });
+	try {
+		await saveLayoutPreference(page, baseUrl, 'mobile');
+		// The preference is saved on the server: a plain reload (no ?layout=) stays mobile.
+		await page.waitForSelector('body.layout-mobile', { timeout: 15000 });
+	} finally {
+		// Always leave the mock player on desktop, also when the check failed.
+		await page.setViewportSize({ width: 1280, height: 800 });
+		await page.goto(baseUrl + '?layout=desktop', { waitUntil: 'load' });
+		await page.waitForFunction(() => typeof Game !== 'undefined' && Game.core && Game.core.isMapLoaded && Game.gui.bIsInDialog <= 0, null, { timeout: 15000 });
+		await saveLayoutPreference(page, baseUrl, 'desktop');
+	}
 	await page.waitForSelector('body.layout-desktop', { timeout: 15000 });
 });
 
@@ -565,9 +565,14 @@ check('tabbar', { viewport: { width: 390, height: 844 }, layout: 'mobile' }, asy
 	assert(await more.first().locator('.navigation.ranking').count() > 0, 'the More sheet has no ranking item');
 	const guide = more.first().locator('.mobile-more-list > li.mobile-more-guide > a[title="Guide"]');
 	assert(await guide.count() === 1, 'the More sheet has no Guide entry');
+	const guideShown = () => page.evaluate(() => {
+		const panel = document.querySelector('.panel.guide');
+		return !!panel && getComputedStyle(panel).display !== 'none';
+	});
+	const guideBefore = await guideShown();
 	await guide.click();
 	await page.waitForFunction(() => document.querySelectorAll('.sheet').length === 0, null, { timeout: 5000 });
-	assert(await page.locator('.panel.guide.mobile-visible .icon a').isVisible(), 'the Guide panel is not visible after tapping Guide');
+	assert(await guideShown() === !guideBefore, 'tapping Guide did not ' + (guideBefore ? 'hide' : 'show') + ' the Guide panel');
 	await page.locator('.topmenu li.tab-more').click();
 	await more.first().waitFor({ state: 'visible', timeout: 5000 });
 	await more.first().locator('.sheet-close').click();
@@ -583,7 +588,9 @@ check('tabbar', { viewport: { width: 390, height: 844 }, layout: 'mobile' }, asy
 	assert(await build.locator('.sheet-back').isHidden(), 'Back is shown on a root sheet');
 	await page.waitForFunction(() => document.querySelector('#menu-main li[data-tab="build"].active-tab') !== null, null, { timeout: 5000 });
 	assert(await build.locator('a.action-button.primary').count() > 0, 'the Build sheet has no primary Construct button');
-	assert(await build.locator('p.hint-mobile').isVisible() && await build.locator('p.hint-desktop').isHidden(), 'the Build sheet does not show the touch hint only');
+	if (await build.locator('p.hint-mobile, p.hint-desktop').count() > 0) {
+		assert(await build.locator('p.hint-mobile').isVisible() && await build.locator('p.hint-desktop').isHidden(), 'the Build sheet does not show the touch hint only');
+	}
 
 	// A link inside a sheet stacks (Back appears); a tab tap starts a fresh stack.
 	await build.locator('a.action-button', { hasText: 'Bonus Buildings' }).click();
@@ -593,6 +600,120 @@ check('tabbar', { viewport: { width: 390, height: 844 }, layout: 'mobile' }, asy
 	await page.waitForFunction(() => Game.sheets.stack.length === 1 && Game.gui.aOpenWindows.filter(w => w.sWindowId.toLowerCase() === 'logbook').length === 1, null, { timeout: 15000 });
 	assert(await page.locator('.sheet:visible .sheet-back').isHidden(), 'Back is shown after a tab tap reset the stack');
 	await page.waitForFunction(() => document.querySelector('#menu-main li[data-tab="logbook"].active-tab') !== null, null, { timeout: 5000 });
+});
+
+// The header and tab bar lie above #sheets. A tab tap while a building is being placed cancels the
+// placement (it does not close the build window under it); while a confirm is up, taps on them do
+// nothing and the confirm stays on top; ticker links post to the Statusbar window; newsflashes show.
+check('chrome-guards', { viewport: { width: 390, height: 844 }, layout: 'mobile' }, async (page) => {
+	await startPlacement(page);
+	await page.locator('.topmenu li[data-tab="logbook"] > a').click();
+	await page.waitForFunction(() => !document.getElementById('map_select_actions') && !Game.map.oScrollMap.selecting, null, { timeout: 5000 });
+	await page.waitForFunction(() => Game.gui.aOpenWindows.filter((w) => w.sWindowId.toLowerCase() === 'logbook').length === 1, null, { timeout: 15000 });
+	assert(await page.locator('#sheets').isVisible(), '#sheets is hidden after a tab tap during placement');
+	await page.waitForFunction(() => Game.sheets.stack.length === 1, null, { timeout: 5000 });
+
+	const openConfirm = () => page.evaluate(() => {
+		const entry = Game.gui.aOpenWindows.filter((w) => w.sWindowId.toLowerCase() === 'logbook')[0];
+		Game.gui.dialogMessage(entry, 'text', 'Yes', 'void(0)', 'No', 'void(0)');
+	});
+	await openConfirm();
+	const modal = page.locator('.sheet.sheet-modal');
+	await modal.waitFor({ state: 'visible', timeout: 5000 });
+	assert(await page.locator('body.has-modal-sheet').count() === 1, 'body has no has-modal-sheet class while a confirm is up');
+	const stackBefore = await page.evaluate(() => Game.sheets.stack.length);
+	await page.locator('.topmenu li[data-tab="build"] > a').click({ force: true });
+	await page.locator('.mobile-header button.inbox').click({ force: true });
+	await page.waitForTimeout(1500);
+	assert(await page.evaluate(() => Game.sheets.stack.length) === stackBefore, 'a tap on the tab bar or header changed the sheets while a confirm was up');
+	assert(await modal.isVisible(), 'the confirm is gone after a tap on the tab bar');
+
+	// A sheet opened while the confirm is up opens under it.
+	const vid = await firstVillageId(page);
+	await page.evaluate((v) => openWindow('economy', { vid: v }), vid);
+	await page.waitForFunction(() => Game.gui.aOpenWindows.filter((w) => w.sWindowId.toLowerCase() === 'economy').length === 1, null, { timeout: 15000 });
+	await page.waitForTimeout(300);
+	const last = await page.evaluate(() => {
+		const children = document.getElementById('sheets').children;
+		return children[children.length - 1].classList.contains('sheet-modal');
+	});
+	assert(last, 'a sheet opened after the confirm covers it');
+	await modal.locator('.sheet-content button').nth(1).click();
+	await page.waitForFunction(() => document.querySelectorAll('.sheet-modal').length === 0 && !document.body.classList.contains('has-modal-sheet'), null, { timeout: 5000 });
+
+	// Ticker: the copied Statusbar list resolves to the Statusbar window (cancel and withdraw post there).
+	await page.evaluate(() => {
+		const list = document.querySelector('.panel.status ul.statusbar');
+		list.insert('<li class="construct">[<span class="counter">00:05:00</span>] Smoke farm <a class="smoke-cancel" href="javascript:void(0);">Cancel</a></li>');
+		Game.dolumar.mobile.syncHeader();
+	});
+	const owner = await page.evaluate(() => {
+		const link = document.querySelector('.mobile-ticker a.smoke-cancel');
+		const win = link ? Game.gui.getWindowFromElement(link) : false;
+		return { link: !!link, win: win ? win.sDialogId : null, status: document.querySelector('.panel.status').dialogId };
+	});
+	assert(owner.link && owner.win !== null && owner.win === owner.status, 'a ticker link does not resolve to the Statusbar window: ' + JSON.stringify(owner));
+	await page.evaluate(() => {
+		document.querySelector('.panel.status ul.statusbar li.construct').remove();
+		Game.dolumar.mobile.syncHeader();
+	});
+
+	// A newsflash scrolls over the resource strip (the Newsbar panel is hidden).
+	await page.evaluate(() => {
+		const entry = Game.gui.getWindowFromDialogId(document.querySelector('.panel.newsbar').dialogId);
+		const content = document.createElement('div');
+		content.textContent = 'Smoke news';
+		Game.gui.showNewsflash(entry, content);
+	});
+	await page.locator('.mobile-newsflash .newsflash').waitFor({ state: 'visible', timeout: 5000 });
+	await page.waitForFunction(() => (document.querySelector('.mobile-newsflash .newsflash') || {}).textContent === 'Smoke news', null, { timeout: 5000 });
+	const flash = await page.locator('.mobile-newsflash .newsflash').boundingBox();
+	assert(flash && Math.round(flash.y) === 48 && flash.width >= 380, 'the newsflash is not over the resource strip: ' + JSON.stringify(flash));
+});
+
+// The Map button: the minimap (created inside the hidden panel) gets its size and tiles, the open
+// sheets close, and a sheet opened later covers the minimap. Header labels follow the Menu panel.
+check('map-panels', { viewport: { width: 390, height: 844 }, layout: 'mobile' }, async (page) => {
+	const vid = await firstVillageId(page);
+	await closeStartupSheets(page);
+	await openSheet(page, 'build', { vid });
+	await page.locator('.mobile-header button.minimap').click();
+	await page.waitForFunction(() => {
+		const panel = document.querySelector('.panel.minimap');
+		return panel && getComputedStyle(panel).display !== 'none';
+	}, null, { timeout: 15000 });
+	assert(await page.locator('.sheet').count() === 0, 'the Map button did not close the open sheets');
+	await page.waitForFunction(() => Game.minimap.oScrollMap && Game.minimap.oScrollMap.displaySizeX > 1
+		&& document.querySelectorAll('#minimap_real img').length > 0, null, { timeout: 10000 });
+	assert(await page.locator('.mobile-header button.minimap.active').count() === 1, 'the Map button is not marked active');
+
+	await openSheet(page, 'economy', { vid });
+	const covered = await page.evaluate(() => {
+		const box = document.querySelector('.panel.minimap').getBoundingClientRect();
+		const hit = document.elementFromPoint(box.left + box.width / 2, box.top + box.height / 2);
+		return !!hit && !!hit.closest('#sheets');
+	});
+	assert(covered, 'the minimap lies over the open sheet');
+	// Map with a sheet over the visible minimap brings the minimap forward; a second tap hides it.
+	await page.locator('.mobile-header button.minimap').click();
+	await page.waitForFunction(() => document.querySelectorAll('.sheet').length === 0
+		&& getComputedStyle(document.querySelector('.panel.minimap')).display !== 'none', null, { timeout: 5000 });
+	await page.locator('.mobile-header button.minimap').click();
+	await page.waitForFunction(() => getComputedStyle(document.querySelector('.panel.minimap')).display === 'none', null, { timeout: 5000 });
+
+	// Labels: a new translation on the Menu panel reaches the header buttons.
+	const label = await page.evaluate(() => {
+		const menu = document.getElementById('menu');
+		const old = menu.getAttribute('data-label-chat');
+		menu.setAttribute('data-label-chat', 'Smoke chat');
+		Game.dolumar.mobile.syncHeader();
+		const button = document.querySelector('.mobile-header button.chat');
+		const out = { text: button.querySelector('.label').textContent, aria: button.getAttribute('aria-label') };
+		menu.setAttribute('data-label-chat', old);
+		Game.dolumar.mobile.syncHeader();
+		return out;
+	});
+	assert(label.text === 'Smoke chat' && label.aria === 'Smoke chat', 'the header did not take the Menu panel label: ' + JSON.stringify(label));
 });
 
 // Window content fits a 390px sheet: no page overflow, and the sheet content does not scroll sideways

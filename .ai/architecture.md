@@ -59,16 +59,24 @@ The client runs in one of two layout modes, `desktop` or `mobile`, shown as `bod
 stored as the player preference `layout`, and `?layout=desktop|mobile|auto` on the shell URL overrides it for one
 page load. `auto` means mobile below a viewport width of 800 CSS pixels. In mobile mode every `window`-type dialog
 opens as a full-screen sheet in a stack (`#sheets`, back and close buttons) instead of a draggable window; the PHP
-windows and the dialog XML are the same in both modes. `panel` windows (Menu, Statusbar, Newsbar, MiniMap) stay
-panels and are restyled by CSS. Switching mode moves open windows between the two forms.
+windows and the dialog XML are the same in both modes. `panel` windows (Menu, Statusbar, Newsbar, MiniMap, Guide)
+stay panels and are restyled by CSS. Switching mode moves open windows between the two forms.
+
+On a phone the Statusbar, Newsbar, MiniMap and Guide panels are hidden; their content still has to reach the player:
+the Newsbar feeds the header (village, resources, inbox) and newsflashes scroll over the resource strip
+(`Game.gui.newsflashHost`), the Statusbar's counters and links are copied into the ticker row and its sheet (the copy
+keeps the Statusbar's `dialogId`, so cancel and withdraw post to that window), the Guide shows itself when it renders
+new advice (the server marks advice read when it renders it), and the Map button shows the MiniMap. The header and
+tab bar lie above `#sheets`: while a confirm is up they do nothing, and while a building is being placed a tap on them
+cancels the placement first.
 
 - Engine: `assets/javascript/layout.js` (`Game.layout`: mode, preference, breakpoint, `onChange`, the `meta#viewport`
   of the shell), `assets/javascript/sheets.js` and `assets/css/sheets.css` (`Game.sheets`), the sheet branch in
   `gui.js`, map scale, pinch zoom and touch placement in `scrollmap.js`/`gamemap.js`, and the preference toggle in
   MyAccount (`templates/gameserver/account/myAccount.tpl`).
 - Game: `public/dolumar/css/mobile.css` (everything scoped under `body.layout-mobile`) and `Game.dolumar.mobile` in
-  `public/dolumar/javascript/dolumar.js`, which builds the mobile header actions and the bottom tab bar from the
-  Statusbar and Menu panels. `tools/mobile-smoke.js` is the browser smoke test for both modes.
+  `public/dolumar/javascript/dolumar.js`, which builds the mobile header, the ticker and the bottom tab bar from the
+  Newsbar, Statusbar and Menu panels. `tools/mobile-smoke.js` is the browser smoke test for both modes.
 
 ## Domain model (game)
 

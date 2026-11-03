@@ -1,25 +1,25 @@
 <div id="menu"
-	data-label-more="<?=htmlspecialchars ($this->getText ('more'))?>"
-	data-label-zoomin="<?=htmlspecialchars ($this->getText ('zoomIn'))?>"
-	data-label-zoomout="<?=htmlspecialchars ($this->getText ('zoomOut'))?>"
-	data-label-minimap="<?=htmlspecialchars ($this->getText ('mobileMap'))?>"
-	data-label-chat="<?=htmlspecialchars ($this->getText ('mobileChat'))?>"
-	data-label-inbox="<?=htmlspecialchars ($this->getText ('mobileInbox'))?>"
-	data-label-ticker="<?=htmlspecialchars ($this->getText ('mobileTicker'))?>"
-	data-label-home="<?=htmlspecialchars ($this->getText ('home'))?>"
-	data-label-prevvillage="<?=htmlspecialchars ($this->getText ('mobilePrevVillage'))?>"
-	data-label-nextvillage="<?=htmlspecialchars ($this->getText ('mobileNextVillage'))?>"
-	data-label-guide="<?=htmlspecialchars ($this->getText ('mobileGuide'))?>"
-	data-label-selectcancel="<?=htmlspecialchars ($this->getText ('placeCancel'))?>"
-	data-label-selectplace="<?=htmlspecialchars ($this->getText ('placeConfirm'))?>">
+	data-label-more="<?=$this->getText ('more')?>"
+	data-label-zoomin="<?=$this->getText ('zoomIn')?>"
+	data-label-zoomout="<?=$this->getText ('zoomOut')?>"
+	data-label-minimap="<?=$this->getText ('mobileMap')?>"
+	data-label-chat="<?=$this->getText ('mobileChat')?>"
+	data-label-inbox="<?=$this->getText ('mobileInbox')?>"
+	data-label-ticker="<?=$this->getText ('mobileTicker')?>"
+	data-label-home="<?=$this->getText ('home')?>"
+	data-label-prevvillage="<?=$this->getText ('mobilePrevVillage')?>"
+	data-label-nextvillage="<?=$this->getText ('mobileNextVillage')?>"
+	data-label-guide="<?=$this->getText ('mobileGuide')?>"
+	data-label-selectcancel="<?=$this->getText ('placeCancel')?>"
+	data-label-selectplace="<?=$this->getText ('placeConfirm')?>">
 	<ul class="left" id="menu-main">
-		<li data-tab="myAccount" onmouseover="this.className+=' over';" onmouseout="this.className='';">
+		<li data-tab="myAccount" onmouseover="this.className+=' over';" onmouseout="this.className=this.className.replace(/(^|\s)over(?=\s|$)/g,'');">
 			<a onclick="openWindow('myAccount');" href="javascript:void(0);" title="<?=$myAccount;?>" >
 				<span class="navigation account"><span><?=$myAccount;?></span></span>
 			</a>
 		</li>
 		
-		<li data-tab="logbook" onmouseover="this.className+=' over';" onmouseout="this.className='';">
+		<li data-tab="logbook" onmouseover="this.className+=' over';" onmouseout="this.className=this.className.replace(/(^|\s)over(?=\s|$)/g,'');">
 			<a href="javascript:void(0);" onClick="openWindow('logbook', {'village':<?=$vid?>});" title="<?=$this->getText ('logbook');?>" >
 				<span class="navigation logbook"><span><?=$this->getText ('logbook');?></span></span>
 			</a>
@@ -35,7 +35,7 @@
 			<?php } ?>
 		</li>
 		
-		<li data-tab="build" onmouseover="this.className+=' over';" onmouseout="this.className='';">
+		<li data-tab="build" onmouseover="this.className+=' over';" onmouseout="this.className=this.className.replace(/(^|\s)over(?=\s|$)/g,'');">
 			<a href="javascript:void(0);" onclick="openWindow('build', {'vid':'<?=$vid?>'});" title="<?=$build;?>" id="build">
 				<span class="navigation build"><span><?=$build;?></span></span>
 			</a>
@@ -52,7 +52,7 @@
 			
 		</li>
 		
-		<li data-tab="economy" onmouseover="this.className+=' over';" onmouseout="this.className='';">
+		<li data-tab="economy" onmouseover="this.className+=' over';" onmouseout="this.className=this.className.replace(/(^|\s)over(?=\s|$)/g,'');">
 			<a href="javascript:void(0);" onclick="openWindow('economy', {'vid':'<?=$vid?>'});" title="<?=$economy;?>" id="economics">
 				<span class="navigation economy"><span><?=$economy;?></span></span>
 			</a>
@@ -67,7 +67,7 @@
 			</div>
 			<?php } ?>
 		</li>
-		<li data-tab="squads" onmouseover="this.className+=' over';" onmouseout="this.className='';">
+		<li data-tab="squads" onmouseover="this.className+=' over';" onmouseout="this.className=this.className.replace(/(^|\s)over(?=\s|$)/g,'');">
 			<a href="javascript:void(0);" onClick="openWindow('squads', {'vid':'<?=$vid?>'});" title="<?=$units;?>" >
 				<span class="navigation units"><span><?=$units;?></span></span>
 			</a>
@@ -84,7 +84,7 @@
 		</li>
 
 		<?php if (isset ($equipment)) { ?>
-			<li data-tab="equipment" onmouseover="this.className+=' over';" onmouseout="this.className='';">
+			<li data-tab="equipment" onmouseover="this.className+=' over';" onmouseout="this.className=this.className.replace(/(^|\s)over(?=\s|$)/g,'');">
 				<a href="javascript:void(0);" onClick="openWindow('equipment', {'vid':'<?=$vid?>'});" title="<?=$equipment;?>" >
 					<span class="navigation equipment"><span><?=$equipment;?></span></span>
 				</a>
@@ -101,7 +101,7 @@
 			</li>
 		<?php } ?>
 		
-		<li data-tab="battle" onmouseover="this.className+=' over';" onmouseout="this.className='';">
+		<li data-tab="battle" onmouseover="this.className+=' over';" onmouseout="this.className=this.className.replace(/(^|\s)over(?=\s|$)/g,'');">
 			<a href="javascript:void(0);" onClick="openWindow('battle', {'vid':'<?=$vid?>'});" title="<?=$battle;?>" >
 				<span class="navigation battle"><span><?=$battle;?></span></span>
 			</a>
@@ -126,7 +126,7 @@
 		</li>
 
 		<!--
-		<li onmouseover="this.className+=' over';" onmouseout="this.className='';">
+		<li onmouseover="this.className+=' over';" onmouseout="this.className=this.className.replace(/(^|\s)over(?=\s|$)/g,'');">
 			<a href="javascript:void(0);" onClick="openWindow('gifts');" title="<?=$this->getText ('gifts');?>" >
 				<span class="navigation gifts"><span><?=$this->getText ('gifts');?></span></span>
 			</a>
@@ -150,7 +150,7 @@
 		</li>
 
 		<!--
-		<li onmouseover="this.className+=' over';" onmouseout="this.className='';">
+		<li onmouseover="this.className+=' over';" onmouseout="this.className=this.className.replace(/(^|\s)over(?=\s|$)/g,'');">
 			<a href="javascript:void(0);" onclick="openWindow('Bonusbuildings', {'vid':'<?=$vid?>'});" title="<?=$bonusbuild;?>" id="bonusbuild">
 				<span class="navigation bonusbuild"><span><?=$build;?></span></span>
 			</a>
@@ -174,7 +174,7 @@
 			</a>
 		</li>
 		
-		<li data-tab="clan" onmouseover="this.className+=' over';" onmouseout="this.className='';">
+		<li data-tab="clan" onmouseover="this.className+=' over';" onmouseout="this.className=this.className.replace(/(^|\s)over(?=\s|$)/g,'');">
 			<a href="javascript:void(0);" onClick="openWindow('clan');" title="<?=$this->getText ('clan');?>">
 				<span class="navigation clan"><span><?=$this->getText ('clan');?></span></span>
 			</a>
@@ -205,7 +205,7 @@
 			<?php } ?>
 		</li>
 
-		<li data-tab="ranking" onmouseover="this.className+=' over';" onmouseout="this.className='';">
+		<li data-tab="ranking" onmouseover="this.className+=' over';" onmouseout="this.className=this.className.replace(/(^|\s)over(?=\s|$)/g,'');">
 			<a href="javascript:void(0);" onClick="openWindow('ranking', {'vid':'<?=$vid?>'});" title="<?=$ranking;?>" >
 				<span class="navigation ranking"><span><?=$ranking;?></span></span>
 			</a>
@@ -221,7 +221,7 @@
 			<?php } ?>
 		</li>
 
-		<li data-tab="help" onmouseover="this.className+=' over';" onmouseout="this.className='';">
+		<li data-tab="help" onmouseover="this.className+=' over';" onmouseout="this.className=this.className.replace(/(^|\s)over(?=\s|$)/g,'');">
 
 			<a href="javascript:void(0);" onClick="openWindow('help');" title="<?=$help;?>" >
 				<span class="navigation help"><span><?=$help;?></span></span>

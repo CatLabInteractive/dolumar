@@ -455,6 +455,12 @@ Game.dolumar.mobile =
 	'zoomWake' : null,
 	'tickerSheet' : null,
 	'TICKER_DIALOG_ID' : 'mobile-ticker',
+	// Tabs shown in the tab bar; the other menu items are in the More sheet (css: nth-child(n+6)).
+	'TAB_COUNT' : 5,
+	// A panel to show as soon as it arrives (the Map button opened its window).
+	'pendingPanel' : null,
+	// The Guide bubble last seen, to show the panel only for new advice.
+	'guideHtml' : undefined,
 
 	'init' : function ()
 	{
@@ -498,8 +504,24 @@ Game.dolumar.mobile =
 		// right after its sheet opens, hence the timeout).
 		if (Game.sheets.observe)
 		{
-			Game.sheets.observe (function () { setTimeout (mobile.syncActiveTab, 0); });
+			Game.sheets.observe (function ()
+			{
+				mobile.syncModalState ();
+				setTimeout (mobile.syncActiveTab, 0);
+			});
 		}
+
+		// The header and tab bar sit above #sheets (and so above a modal's backdrop) and stay
+		// tappable while a building is being placed: guard them (capture phase, before the
+		// tabs' own handlers).
+		document.addEventListener ('click', mobile.guardChrome, true);
+
+		// Newsflashes scroll over the Newsbar panel, which is hidden on a phone: show them
+		// over the resource strip instead.
+		Game.gui.newsflashHost = function ()
+		{
+			return mobile.isMobile () ? ($$('.mobile-newsflash')[0] || null) : null;
+		};
 
 		// Tap tooltips: one delegated listener on the sheets container (not on document:
 		// iOS Safari only delivers a tap as a click to an ancestor below body).
@@ -584,7 +606,7 @@ Game.dolumar.mobile =
 		var titled = (mobile.isMobile () && target && target.closest) ? target.closest ('.sheet-content.guiwindow [title]') : null;
 		var text = titled ? titled.getAttribute ('title') : '';
 
-		if (!titled || !text || mobile.tooltipFor === titled)
+		if (!titled || !text || text === 'null' || mobile.tooltipFor === titled)
 		{
 			// A second tap on the same element closes its tooltip.
 			mobile.hideTooltip ();
@@ -656,15 +678,18 @@ Game.dolumar.mobile =
 		tip.textContent = text;
 		sheet.appendChild (tip);
 
-		// Below the element (above it when there is no room), inside the sheet.
+		// Below the element (above it when there is no room), inside the sheet. An absolutely
+		// positioned child is placed from the padding edge, inside the sheet's frame (border).
 		var box = sheet.getBoundingClientRect ();
+		var originLeft = box.left + sheet.clientLeft;
+		var originTop = box.top + sheet.clientTop;
 		var rect = element.getBoundingClientRect ();
-		var left = Math.max (4, Math.min (rect.left - box.left, box.width - tip.offsetWidth - 4));
-		var top = rect.bottom - box.top + 4;
+		var left = Math.max (4, Math.min (rect.left - originLeft, sheet.clientWidth - tip.offsetWidth - 4));
+		var top = rect.bottom - originTop + 4;
 
-		if (top + tip.offsetHeight > box.height - 4)
+		if (top + tip.offsetHeight > sheet.clientHeight - 4)
 		{
-			top = Math.max (4, rect.top - box.top - tip.offsetHeight - 4);
+			top = Math.max (4, rect.top - originTop - tip.offsetHeight - 4);
 		}
 
 		tip.style.left = left + 'px';
@@ -735,6 +760,14 @@ Game.dolumar.mobile =
 			mobile.syncHeader ();
 			mobile.buildTabBar ();
 			mobile.syncActiveTab ();
+			mobile.syncGuide ();
+
+			if (mobile.pendingPanel && $$('.panel.' + mobile.pendingPanel).length > 0)
+			{
+				var pending = mobile.pendingPanel;
+				mobile.pendingPanel = null;
+				mobile.setPanelVisible (pending, true);
+			}
 		}
 		else
 		{
@@ -749,14 +782,26 @@ Game.dolumar.mobile =
 		mobile.closeMore ();
 		mobile.hideTooltip ();
 
+		// A long press in progress must not open More after the switch to desktop.
+		if (mobile.pressTimer)
+		{
+			clearTimeout (mobile.pressTimer);
+			mobile.pressTimer = null;
+		}
+		mobile.suppressClick = false;
+		mobile.pendingPanel = null;
+		mobile.guideHtml = undefined;
+
 		if (mobile.tickerSheet)
 		{
 			Game.sheets.close (mobile.tickerSheet);
 			mobile.tickerSheet = null;
 		}
 
-		$$('.mobile-header, .mobile-resources, .mobile-ticker, .mobile-map-zoom').invoke ('remove');
+		$$('.mobile-header, .mobile-resources, .mobile-newsflash, .mobile-ticker, .mobile-map-zoom').invoke ('remove');
 		$(document.body).removeClassName ('has-ticker');
+		$(document.body).removeClassName ('has-modal-sheet');
+		$$('.mobile-header-actions button.active').invoke ('removeClassName', 'active');
 		$$('#menu li.tab-more').invoke ('remove');
 		$$('#menu li.active-tab').invoke ('removeClassName', 'active-tab');
 		$$('.panel.mobile-visible').invoke ('removeClassName', 'mobile-visible');
@@ -805,19 +850,26 @@ Game.dolumar.mobile =
 			return;
 		}
 
-		var makeButton = function (cls, html, label, onclick, showLabel)
+		// The label comes from the Menu panel, which usually arrives after the header is built:
+		// relabel () sets it again from the data-label-key (see syncHeader).
+		var makeButton = function (cls, html, key, fallback, onclick, showLabel)
 		{
+			var label = mobile.label (key, fallback);
 			var button = new Element ('button', {
 				'type' : 'button',
 				'class' : cls,
 				'title' : label,
-				'aria-label' : label
+				'aria-label' : label,
+				'data-label-key' : key,
+				'data-label-fallback' : fallback
 			});
 
 			button.update (html);
 			if (showLabel)
 			{
-				button.appendChild (new Element ('span', { 'class' : 'label' }).update (label));
+				var span = new Element ('span', { 'class' : 'label' });
+				span.textContent = label;
+				button.appendChild (span);
 			}
 			button.observe ('click', onclick);
 
@@ -827,19 +879,22 @@ Game.dolumar.mobile =
 		var header = new Element ('div', { 'class' : 'mobile-header' });
 
 		var village = new Element ('div', { 'class' : 'mobile-village' });
-		village.appendChild (makeButton ('prev', '&#8249;', mobile.label ('prevvillage', 'Previous village'), function () { mobile.newsbarClick ('div.newsbar-line .goLeft a'); }));
-		village.appendChild (makeButton ('name', '', mobile.label ('home', 'Home'), function () { mobile.newsbarClick ('span.footer-navigation.home'); }));
-		village.appendChild (makeButton ('next', '&#8250;', mobile.label ('nextvillage', 'Next village'), function () { mobile.newsbarClick ('div.newsbar-line .goRight a'); }));
+		village.appendChild (makeButton ('prev', '&#8249;', 'prevvillage', 'Previous village', function () { mobile.newsbarClick ('div.newsbar-line .goLeft a'); }));
+		village.appendChild (makeButton ('name', '', 'home', 'Home', function () { mobile.newsbarClick ('span.footer-navigation.home'); }));
+		village.appendChild (makeButton ('next', '&#8250;', 'nextvillage', 'Next village', function () { mobile.newsbarClick ('div.newsbar-line .goRight a'); }));
 		header.appendChild (village);
 
 		var actions = new Element ('div', { 'class' : 'mobile-header-actions' });
-		actions.appendChild (makeButton ('minimap', mobile.icons.minimap, mobile.label ('minimap', 'Map'), function () { mobile.togglePanel ('minimap', 'MiniMap'); }, true));
-		actions.appendChild (makeButton ('chat', mobile.icons.chat, mobile.label ('chat', 'Chat'), function () { openWindow ('Chat'); }, true));
-		actions.appendChild (makeButton ('inbox', mobile.icons.inbox, mobile.label ('inbox', 'Inbox'), function () { openWindow ('messages'); }, true));
+		actions.appendChild (makeButton ('minimap', mobile.icons.minimap, 'minimap', 'Map', function () { mobile.togglePanel ('minimap', 'MiniMap'); }, true));
+		actions.appendChild (makeButton ('chat', mobile.icons.chat, 'chat', 'Chat', function () { openWindow ('Chat'); }, true));
+		actions.appendChild (makeButton ('inbox', mobile.icons.inbox, 'inbox', 'Inbox', function () { openWindow ('messages'); }, true));
 		header.appendChild (actions);
 
 		body.appendChild (header);
 		body.appendChild (new Element ('div', { 'class' : 'mobile-resources' }));
+
+		// Where newsflashes scroll (Game.gui.newsflashHost): over the resource strip.
+		body.appendChild (new Element ('div', { 'class' : 'mobile-newsflash' }));
 
 		// Ticker: the Statusbar's countdowns in one row, shown only while something is in
 		// progress; a tap (not on a link inside) opens the full list as a sheet.
@@ -856,8 +911,8 @@ Game.dolumar.mobile =
 		// Zoom as a floating pair on the map (pinch works too); sheets cover it.
 		var zoom = new Element ('div', { 'class' : 'mobile-map-zoom' });
 
-		zoom.appendChild (makeButton ('zoom-in', '+', mobile.label ('zoomin', 'Zoom in'), function () { Game.map.zoomIn (); }));
-		zoom.appendChild (makeButton ('zoom-out', '&#8722;', mobile.label ('zoomout', 'Zoom out'), function () { Game.map.zoomOut (); }));
+		zoom.appendChild (makeButton ('zoom-in', '+', 'zoomin', 'Zoom in', function () { Game.map.zoomIn (); }));
+		zoom.appendChild (makeButton ('zoom-out', '&#8722;', 'zoomout', 'Zoom out', function () { Game.map.zoomOut (); }));
 
 		body.appendChild (zoom);
 
@@ -898,6 +953,8 @@ Game.dolumar.mobile =
 		{
 			return;
 		}
+
+		mobile.relabel ();
 
 		var panel = $$('.panel.newsbar')[0];
 		var village = header.down ('.mobile-village');
@@ -1019,6 +1076,15 @@ Game.dolumar.mobile =
 		var copy = $(source.cloneNode (true));
 		var originals = source.select ('.counter');
 
+		// The links in the list (cancel, withdraw) post to the window they are in
+		// (getWindowFromElement looks for a .guiwindow with a dialogId): the Statusbar's.
+		var owner = source.up ('.guiwindow');
+		if (owner && owner.dialogId)
+		{
+			copy.addClassName ('guiwindow');
+			copy.dialogId = owner.dialogId;
+		}
+
 		copy.select ('.counter').each (function (el, i)
 		{
 			if (originals[i] && typeof (originals[i].counter) != 'undefined')
@@ -1101,24 +1167,60 @@ Game.dolumar.mobile =
 
 	/*
 		MiniMap and Guide are panels (not sheets): show or hide them over the map.
-		Opens the window if it is not on the page at all.
+		Opens the window if it is not on the page at all; it is shown when it arrives.
 	*/
 	'togglePanel' : function (className, windowId)
 	{
+		var mobile = Game.dolumar.mobile;
 		var panel = $$('.panel.' + className)[0];
 
 		if (!panel)
 		{
+			mobile.pendingPanel = className;
 			openWindow (windowId);
 			return;
 		}
 
-		panel.toggleClassName ('mobile-visible');
+		// A visible panel under an open sheet cannot be seen: then the tap brings it forward.
+		var covered = Game.sheets.top () !== null;
+		mobile.setPanelVisible (className, covered || !panel.hasClassName ('mobile-visible'));
+	},
 
+	/*
+		Show or hide a panel. The panels lie over the map, under the sheets: showing one
+		closes the open sheets, so the map and the panel are what the player sees.
+	*/
+	'setPanelVisible' : function (className, visible)
+	{
+		var mobile = Game.dolumar.mobile;
+		var panel = $$('.panel.' + className)[0];
 		var button = $$('.mobile-header-actions button.' + className)[0];
+
+		if (!panel)
+		{
+			return;
+		}
+
+		if (visible)
+		{
+			panel.addClassName ('mobile-visible');
+			mobile.closeMore ();
+			Game.sheets.dismissAll ();
+
+			// The minimap was created inside the hidden panel (0 by 0): size it now.
+			if (className == 'minimap' && Game.minimap && Game.minimap.refreshSize)
+			{
+				setTimeout (Game.minimap.refreshSize, 0);
+			}
+		}
+		else
+		{
+			panel.removeClassName ('mobile-visible');
+		}
+
 		if (button)
 		{
-			if (panel.hasClassName ('mobile-visible'))
+			if (visible)
 			{
 				button.addClassName ('active');
 			}
@@ -1127,6 +1229,147 @@ Game.dolumar.mobile =
 				button.removeClassName ('active');
 			}
 		}
+	},
+
+	/*
+		The Guide panel is hidden on a phone, but the server marks advice as read when it
+		renders it. Show the panel when it renders new advice (a speech bubble) and hide it
+		again when the player hides the advice (back to the icon).
+	*/
+	'syncGuide' : function ()
+	{
+		var mobile = Game.dolumar.mobile;
+		var panel = $$('.panel.guide')[0];
+
+		if (!panel)
+		{
+			return;
+		}
+
+		var bubble = panel.down ('blockquote.bubble');
+		var html = bubble ? bubble.innerHTML : null;
+
+		if (html === mobile.guideHtml)
+		{
+			return;
+		}
+		mobile.guideHtml = html;
+
+		if (html)
+		{
+			panel.addClassName ('mobile-visible');
+		}
+		else
+		{
+			panel.removeClassName ('mobile-visible');
+		}
+	},
+
+	/*
+		Header button labels from the Menu panel's translated data-label-* attributes.
+	*/
+	'relabel' : function ()
+	{
+		var mobile = Game.dolumar.mobile;
+
+		$$('.mobile-header button[data-label-key], .mobile-map-zoom button[data-label-key]').each (function (button)
+		{
+			var label = mobile.label (button.getAttribute ('data-label-key'), button.getAttribute ('data-label-fallback'));
+
+			if (button.getAttribute ('aria-label') === label)
+			{
+				return;
+			}
+
+			button.setAttribute ('title', label);
+			button.setAttribute ('aria-label', label);
+
+			var span = button.down ('span.label');
+			if (span)
+			{
+				span.textContent = label;
+			}
+		});
+	},
+
+	'hasModalSheet' : function ()
+	{
+		var stack = Game.sheets.stack;
+
+		for (var i = 0; i < stack.length; i ++)
+		{
+			if (stack[i].modal)
+			{
+				return true;
+			}
+		}
+
+		return false;
+	},
+
+	'syncModalState' : function ()
+	{
+		var mobile = Game.dolumar.mobile;
+
+		if (mobile.isMobile () && mobile.hasModalSheet ())
+		{
+			$(document.body).addClassName ('has-modal-sheet');
+		}
+		else
+		{
+			$(document.body).removeClassName ('has-modal-sheet');
+		}
+	},
+
+	/*
+		Stop choosing a building location (Place/Cancel on the map), as Cancel does.
+	*/
+	'cancelPlacement' : function ()
+	{
+		var viewer = (typeof (Game.map) != 'undefined') ? Game.map.oScrollMap : null;
+
+		if (viewer && viewer.selecting)
+		{
+			viewer.cancelLocationClick ();
+		}
+	},
+
+	/*
+		Capture-phase click on the page, mobile mode. The header, resource strip, ticker and
+		tab bar lie above #sheets, so they stay tappable when they should not be:
+		- while a modal sheet (a confirm) is up, a tap on them does nothing: answer it first;
+		- while a building is being placed, a tap on them cancels the placement first, so the
+		  hidden window that waits for the location is not closed under it (a tab tap closes
+		  the open sheets) and the build is never silently dropped.
+	*/
+	'guardChrome' : function (event)
+	{
+		var mobile = Game.dolumar.mobile;
+		var target = event.target;
+
+		if (!mobile.isMobile ())
+		{
+			return;
+		}
+
+		if (target && target.nodeType != 1)
+		{
+			target = target.parentNode;
+		}
+
+		if (!target || !target.closest || !target.closest ('.mobile-header, .mobile-resources, .mobile-ticker, .panel.topmenu'))
+		{
+			return;
+		}
+
+		if (mobile.hasModalSheet ())
+		{
+			event.preventDefault ();
+			event.stopPropagation ();
+			return;
+		}
+
+		mobile.cancelPlacement ();
 	},
 
 	/*
@@ -1233,7 +1476,7 @@ Game.dolumar.mobile =
 			cancel ();
 			mobile.suppressClick = false;
 
-			var tab = mobile.isMobile () ? tabFromEvent (event) : null;
+			var tab = (mobile.isMobile () && !mobile.hasModalSheet ()) ? tabFromEvent (event) : null;
 			if (!tab)
 			{
 				return;
@@ -1243,9 +1486,20 @@ Game.dolumar.mobile =
 			{
 				mobile.pressTimer = null;
 				mobile.suppressClick = true;
+				mobile.cancelPlacement ();
 				mobile.openMore (tab);
 			}, mobile.LONG_PRESS_MS);
 		}, { 'passive' : true });
+
+		// The long press opens More; on Android it would also open the browser's own link
+		// menu (the tabs are links), which can cancel the touch before More opens.
+		menu.addEventListener ('contextmenu', function (event)
+		{
+			if (mobile.isMobile () && tabFromEvent (event))
+			{
+				event.preventDefault ();
+			}
+		}, false);
 
 		menu.addEventListener ('touchmove', cancel, { 'passive' : true });
 		menu.addEventListener ('touchcancel', cancel, false);
@@ -1293,9 +1547,8 @@ Game.dolumar.mobile =
 	'toggleMore' : function ()
 	{
 		var mobile = Game.dolumar.mobile;
-		var stack = Game.sheets.stack;
 
-		if (mobile.moreSheet && stack.length > 0 && stack[stack.length - 1] === mobile.moreSheet)
+		if (mobile.moreSheet && Game.sheets.top () === mobile.moreSheet)
 		{
 			mobile.closeMore ();
 		}
@@ -1352,11 +1605,21 @@ Game.dolumar.mobile =
 		}
 
 		var items = main.childElements ();
-		for (var i = 5; i < items.length; i ++)
+		for (var i = mobile.TAB_COUNT; i < items.length; i ++)
 		{
 			if (!items[i].hasClassName ('tab-more') && items[i] !== tab)
 			{
 				list.appendChild (mobile.moreItem (items[i]));
+			}
+		}
+
+		// With more than one village, the tabs with a village list are listed too (with the
+		// list), so it is reachable without the long press.
+		for (var t = 0; t < mobile.TAB_COUNT && t < items.length; t ++)
+		{
+			if (items[t] !== tab && items[t].select ('div ul li').length > 1)
+			{
+				list.appendChild (mobile.moreItem (items[t]));
 			}
 		}
 

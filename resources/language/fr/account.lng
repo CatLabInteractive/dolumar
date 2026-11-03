@@ -142,9 +142,9 @@ todo="Choses à faire :"
 toPremium="pour prolonger votre compte Premium."
 vacationMode="Mode vacances"
 welcome="Bienvenue, @@0."
-layout="Interface layout"
-layoutAuto="Automatic"
-layoutDesktop="Desktop"
+layout="Disposition de l'interface"
+layoutAuto="Automatique"
+layoutDesktop="Ordinateur"
 layoutMobile="Mobile"
 
 [nickname]

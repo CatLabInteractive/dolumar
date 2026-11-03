@@ -15,16 +15,13 @@ body.layout-mobile
 	/* The tab bar grows by the iPhone home-indicator inset (viewport-fit=cover, set by the engine). */
 	--mobile-safe-bottom: env(safe-area-inset-bottom, 0px);
 	--mobile-tabbar-height: calc(56px + var(--mobile-safe-bottom));
+	/* The notch and rounded corners of a phone in landscape. */
+	--mobile-safe-left: env(safe-area-inset-left, 0px);
+	--mobile-safe-right: env(safe-area-inset-right, 0px);
 
 	/* Read by the engine: #sheets and the map's placement bar sit between header and tab bar. */
-	--sheet-top: 72px;
-	--sheet-bottom: calc(56px + env(safe-area-inset-bottom, 0px));
-}
-
-body.layout-mobile #sheets
-{
-	--sheet-top: 72px;
-	--sheet-bottom: calc(56px + env(safe-area-inset-bottom, 0px));
+	--sheet-top: var(--mobile-chrome-top);
+	--sheet-bottom: var(--mobile-tabbar-height);
 }
 
 /* While something is being built, trained or scouted, the ticker row adds 22px under the resources. */
@@ -32,15 +29,9 @@ body.layout-mobile.has-ticker
 {
 	--mobile-ticker-height: 22px;
 	--mobile-chrome-top: 94px;
-	--sheet-top: 94px;
 }
 
-body.layout-mobile.has-ticker #sheets
-{
-	--sheet-top: 94px;
-}
-
-/* The Statusbar panel (construction ticker) is not shown on a phone; the Build and Logbook sheets carry the queue. */
+/* The Statusbar panel is not shown on a phone: the ticker row (Game.dolumar.mobile.syncTicker) carries its counters and links. */
 body.layout-mobile .panel.status
 {
 	display: none !important;
@@ -56,7 +47,8 @@ body.layout-mobile .mobile-header
 	height: var(--mobile-header-height);
 	display: flex;
 	align-items: stretch;
-	padding-left: 120px;
+	padding-left: calc(120px + var(--mobile-safe-left));
+	padding-right: var(--mobile-safe-right);
 	box-sizing: border-box;
 	z-index: 1001;
 }
@@ -514,7 +506,8 @@ body.layout-mobile .mobile-more-list > li
 	border-bottom: 1px solid rgba(90, 70, 40, 0.35);
 }
 
-body.layout-mobile .mobile-more-list a
+body.layout-mobile .mobile-more-list a,
+body.layout-mobile .sheet-content .mobile-more-list a
 {
 	display: flex;
 	align-items: center;
@@ -573,10 +566,10 @@ body.layout-mobile .panel.minimap.mobile-visible
 	bottom: auto !important;
 	left: 0 !important;
 	margin: 0 !important;
-	z-index: 1001 !important;
+	z-index: 999 !important;
 }
 
-/* Guide: shown from the "Guide" entry in the More sheet (a second tap hides it). */
+/* Guide: shown when it has new advice (Game.dolumar.mobile.syncGuide) or from the "Guide" entry in the More sheet. */
 body.layout-mobile .panel.guide.mobile-visible
 {
 	display: block !important;
@@ -586,7 +579,7 @@ body.layout-mobile .panel.guide.mobile-visible
 	right: 0 !important;
 	bottom: var(--mobile-tabbar-height) !important;
 	margin: 0 !important;
-	z-index: 1001 !important;
+	z-index: 999 !important;
 }
 
 body.layout-mobile .mobile-more-list span.guide-icon
@@ -1144,7 +1137,7 @@ body.layout-mobile::before
 	height: var(--mobile-header-height);
 	z-index: 1000;
 	background:
-		url('../images/topmenu_center.png') no-repeat 4px 5px / 112px 36px,
+		url('../images/topmenu_center.png') no-repeat calc(4px + var(--mobile-safe-left)) 5px / 112px 36px,
 		url('../images/mobile/goldstrip-bottom.png') repeat-x left bottom,
 		#6b5a3e url('../images/mobile/stone.png') repeat left top;
 	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6), inset 0 8px 10px -6px rgba(0, 0, 0, 0.7), inset 0 -8px 10px -6px rgba(0, 0, 0, 0.5);
@@ -1275,4 +1268,55 @@ body.layout-mobile .sheet-content input[type=search]
 	color: #40331f;
 	border: 1px solid #a08c5a;
 	border-radius: 4px;
+}
+
+/* Newsflash (Game.gui.newsflashHost): scrolls over the resource strip, as it did over the Newsbar. */
+body.layout-mobile .mobile-newsflash
+{
+	position: fixed;
+	top: var(--mobile-header-height);
+	left: 0;
+	right: 0;
+	height: var(--mobile-resources-height);
+	overflow: hidden;
+	pointer-events: none;
+	z-index: 1002;
+}
+
+body.layout-mobile .mobile-newsflash div.newsflash
+{
+	pointer-events: auto;
+	color: #2c261d;
+	font-size: 12px;
+	line-height: var(--mobile-resources-height);
+}
+
+/* While a confirm (modal sheet) is up, the header and tab bar are dimmed and do not react (Game.dolumar.mobile.guardChrome). */
+body.layout-mobile.has-modal-sheet .mobile-header,
+body.layout-mobile.has-modal-sheet .mobile-resources,
+body.layout-mobile.has-modal-sheet .mobile-ticker,
+body.layout-mobile.has-modal-sheet .panel.topmenu,
+body.layout-mobile.has-modal-sheet::before
+{
+	filter: brightness(0.4);
+}
+
+/* Landscape on a phone with a notch: keep the bars' content and the sheets clear of it. */
+body.layout-mobile .mobile-resources,
+body.layout-mobile .mobile-ticker
+{
+	padding-left: calc(8px + var(--mobile-safe-left));
+	padding-right: calc(8px + var(--mobile-safe-right));
+}
+
+body.layout-mobile .panel.topmenu
+{
+	padding-left: var(--mobile-safe-left);
+	padding-right: var(--mobile-safe-right);
+}
+
+body.layout-mobile #sheets
+{
+	left: var(--mobile-safe-left);
+	right: var(--mobile-safe-right);
 }
