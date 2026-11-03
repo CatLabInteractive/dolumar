@@ -95,10 +95,11 @@ dokku letsencrypt:enable dolumar
 dokku letsencrypt:cron-job --add
 ```
 
-* The `postdeploy` script in [`app.json`](app.json) runs [`tools/postdeploy.sh`](tools/postdeploy.sh) on every deploy,
-  which runs `php tools/setup.php`. It installs the schema into an empty database and otherwise runs every file in
+* The `predeploy` script in [`app.json`](app.json) runs [`tools/predeploy.sh`](tools/predeploy.sh) on every deploy,
+  before the new release goes live, which runs `php tools/setup.php`. It installs the schema into an empty database and otherwise runs every file in
   [`dump/upgrades/`](dump/upgrades/) (see its README), so a schema change is an idempotent upgrade file there plus
-  the same change in `dump/dump.sql`.
+  the same change in `dump/dump.sql`. A failing upgrade aborts the deploy and the previous release keeps running.
+  To run it by hand: `dokku run <app> php tools/setup.php`.
 * The cron jobs (`cron/run.php` every minute, `cron/ai.php` every 5 minutes) are also defined in `app.json`
   and are installed by Dokku automatically.
 * Check a deployment with `tools/smoke.sh https://YOUR_DOMAIN`.

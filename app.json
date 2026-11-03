@@ -11,6 +11,7 @@
   ],
   "scripts": {
     "dokku": {
+      "predeploy": "bash tools/predeploy.sh",
       "postdeploy": "bash tools/postdeploy.sh"
     }
   }
