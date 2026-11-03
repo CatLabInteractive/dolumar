@@ -45,6 +45,7 @@ upgradeAll="Die Ausbaukosten decken nur den Ausbau von diesem Gebäude."
 startUpgrade="Ausbau starten"
 
 [buildError]
+townCenterNotFound="Dein Siedlungszentrum wurde nicht gefunden, deshalb kannst du hier nicht bauen."
 noResources="Du hast nicht genügend Rohstoffe."
 techlevel="Du hast leider nicht die erforderliche Technologiestufe. "
 buildingOverlap="Es steht bereits ein Gebäude an diesem Ort. Wähle eine (grössere),leere Fläche."

@@ -52,6 +52,7 @@ clickMobile="Dotknij Buduj, przesuń mapę tak, aby budynek znalazł się w wybr
 intro="Aby wybudować nowe budynki potrzebujesz odpowiedniej runy i odpowiedniej ilości surowców. Możesz znaleźć runy przeszukując otoczenie lub zabrać je innym graczom. Niektóre budyki wymagają określonej runy, w pozostałych to ty możesz wybrać runę."
 
 [buildError]
+townCenterNotFound="Nie znaleziono Centrum Miasta, więc nie możesz tutaj budować."
 techlevel="Przepraszamy, nie masz wymaganego poziomu technologii."
 stillConstructing="Twoi ludzie są teraz zajęci. Musisz poczekać aż budynek zostanie wybudowany."
 done="Właśnie wybudowałeś nowy budynek"
