@@ -21,4 +21,11 @@
 <!-- dolumar theme -->
 <link href="<?=STATIC_ABSOLUTE_URL?>dolumar/theme/dolumar.css?version=<?=$application_version?>" rel="stylesheet" type="text/css" />
 
-<meta name="viewport" content="user-scalable=no, initial-scale=0.5, maximum-scale=0.5, minimum-scale=0.5, width=device-width, height=device-height" />
+<!-- mobile layout (rules apply under body.layout-mobile only) -->
+<link href="<?=STATIC_ABSOLUTE_URL?>dolumar/css/mobile.css?version=<?=$application_version?>" rel="stylesheet" type="text/css" />
+
+<!-- web app manifest: "Add to Home Screen", needed for browser notifications on iOS -->
+<link rel="manifest" href="<?=ABSOLUTE_URL?>manifest.webmanifest" />
+<link rel="apple-touch-icon" href="<?=ABSOLUTE_URL?>icon-192.png" />
+<meta name="theme-color" content="#3b2a1a" />
+<meta name="apple-mobile-web-app-capable" content="yes" />

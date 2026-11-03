@@ -18,7 +18,14 @@ mkdir -p public/signs && chmod 777 public/signs
 - Mailpit (caught outgoing mail): http://localhost:8025
 - Services: `web` (php:8.4-apache, built from `docker/Dockerfile`), `mysql` (8.0), `memcached`, `mailpit`.
 
-Login goes through OpenID Connect (`OPENID_CONNECT_*`). Without a configured provider the home page works but you
+Login goes through OpenID Connect (`OPENID_CONNECT_*`). `.env.docker.example` points it at `oidc-mock`, a dev-only
+provider (`docker/oidc-mock/index.php`, service `oidc-mock`, http://localhost:8090 from the browser and
+`http://oidc-mock:8090` from `web`). It accepts everyone: click login on http://localhost:8080 and you come back as
+`Mock`. Add `?user=2` to the `/authorize` URL (for example http://localhost:8090/authorize?user=2&redirect_uri=x) to
+be remembered as a second player (`Mock2`), so several kingdoms can be created; `?user=1` switches back. The mock
+refuses to start without `OIDC_MOCK=1` and must never be deployed. `OPENID_CONNECT_PROFILE_URL_PREFIX` must be non-empty
+(an empty value leaves the constant undefined and login dies with a fatal error), and a fresh database needs one
+`docker compose exec web php cron/daily.php` run, otherwise login fails with `server_not_online`. Without any provider the home page works but you
 cannot log in.
 
 To play locally without a provider, add `PREVIEW_MODE=1` to `.env.docker`, run
@@ -32,13 +39,18 @@ tribes) and log in at http://localhost:8080/preview-login.php. Per-PR preview in
 |-------|---------|-------|
 | PHP 8.4 compatibility | `docker compose exec web vendor/bin/phpcs` | Uses `phpcs.xml.dist` (PHPCompatibility, `testVersion 8.4-`). |
 | Syntax | `docker compose exec web find src bootstrap cron tools public -name '*.php' -print0 \| xargs -0 -n1 php -l` | Quick and catches most breakage. |
-| Game tests | `docker compose exec web vendor/bin/phpunit` | Pure-logic tests in `tests/` (routes, army movements); no database needed. |
+| Game tests | `docker compose exec web vendor/bin/phpunit` | Loads the full game against the Docker database (`tests/bootstrap.php`). The route and army tests (`tests/Map`, `tests/NewMap`) use a fake database and need none. |
 | Engine tests | `docker compose exec -w /engine web vendor/bin/phpunit` | Only if the engine was touched. Needs the engine's own `composer install` in `/engine`. |
-| Smoke test | `tools/smoke.sh http://localhost:8080` | Add `SMOKE_NO_OAUTH=1` when OIDC is not configured. Fails on any PHP warning, notice or deprecation in the output. |
+| Smoke test | `tools/smoke.sh http://localhost:8080` | Add `SMOKE_NO_OAUTH=1` when OIDC is not configured and `SMOKE_PUSH=1` when the `VAPID_*` keys are set. Fails on any PHP warning, notice or deprecation in the output. |
+| Mobile smoke setup | `npm install --no-save playwright && npx playwright install chromium` | Once per machine. |
+| Mobile smoke | `node tools/mobile-smoke.js http://localhost:8080 [--only=mobile-shell]` | Browser checks of the desktop and mobile UI. Needs the dev OIDC mock. |
 
-The game's own PHPUnit suite in `tests/` only covers pure logic that needs no database (`tests/bootstrap.php` loads
-Composer and a few constants). For everything else, verify by playing the affected flow locally and say in the PR what
-you checked.
+The mobile smoke test needs Node 18+ and Chromium on the host. Nothing is committed under `node_modules/`;
+`--no-save` keeps `package.json` out of the repository. Set `MOBILE_SMOKE_OIDC_URL` (default
+`http://localhost:8090`) if the OIDC mock runs elsewhere; it is only used for players other than 1.
+
+The game's PHPUnit suite in `tests/` boots the whole game against the Docker database. For anything it does not cover,
+verify by playing the affected flow locally and say in the PR what you checked.
 
 ## Debugging
 

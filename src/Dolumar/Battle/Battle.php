@@ -759,6 +759,16 @@ class Dolumar_Battle_Battle
 			throw new Neuron_Core_Error ('Battle report not found!');
 		}
 		*/
+
+		// Browser notification: the army is home.
+		try
+		{
+			Dolumar_Push_Events::onBattleRemoved ($this);
+		}
+		catch (Throwable $e)
+		{
+			Neuron_ErrorHandler_Handler::getInstance ()->notify ($e);
+		}
 		
 		$this->doRemoveBattle ();
 		

@@ -620,178 +620,552 @@ class Dolumar_Players_Player extends Neuron_GameServer_Player
 		}
 	}
 	
+	/**
+	 * Runes this player may still buy this month.
+	 */
+	public function getBuyableRunesLeft ()
+	{
+		$maximum = Dolumar_Premium_Prices::MAX_BUY_RUNES * GAME_SPEED_RESOURCES;
+
+		$logs = Dolumar_Players_Logs::getInstance ();
+
+		$maxdate = mktime (0, 0, 0, date ('n', NOW), 1, date ('Y', NOW));
+
+		// Set the window explicitly (the logs instance is shared): this month,
+		// including runes bought earlier in this same request (cron reconcile).
+		$logs->clearFilters ();
+		$logs->addShowOnly ('premium_runes_bought');
+		$logs->setTimeInterval ($maxdate, null);
+
+		$amount = 0;
+		foreach ($logs->getLogs ($this->getVillages (), 0, $maximum, 'DESC') as $v)
+		{
+			if ($v['unixtime'] < $maxdate)
+			{
+				break;
+			}
+
+			if ($v['action'] == 'premium_runes_bought')
+			{
+				foreach ($v['data'][0]->getLogArray () as $n)
+				{
+					$amount += $n;
+				}
+			}
+		}
+
+		return max (0, $maximum - $amount);
+	}
+
+	/**
+	 * End of the free building-move period after a village move (or false).
+	 */
+	public function getFreeBuildingMoveEndDate ($village)
+	{
+		$objLogs = Dolumar_Players_Logs::getInstance ();
+
+		$objLogs->clearFilters ();
+		$objLogs->addShowOnly ('premium_movevillage');
+		$objLogs->setTimeInterval (null, null);
+
+		foreach ($objLogs->getLogs ($village, 0, 1, 'DESC') as $v)
+		{
+			return $v['timestamp'] + Dolumar_Premium_Prices::FREE_MOVEBUILDING_DURATION;
+		}
+
+		return false;
+	}
+
+	public function isBuildingMoveFree ($village)
+	{
+		return $this->getFreeBuildingMoveEndDate ($village) > NOW;
+	}
+
+	/**
+	 * Parse the rune amounts of a buyrunes request: [rune => count], only counts > 0.
+	 */
+	private function parseRuneAmounts ($data)
+	{
+		$main = $this->getMainVillage ();
+		if (!$main)
+		{
+			return array ();
+		}
+
+		$out = array ();
+		foreach (array_keys ($main->resources->getInitialRunes ()) as $v)
+		{
+			if (isset ($data[$v]))
+			{
+				$amount = $this->strictInt ($data[$v]);
+				if ($amount === null || $amount < 0)
+				{
+					return null;
+				}
+				if ($amount > 0)
+				{
+					$out[$v] = $amount;
+				}
+			}
+		}
+		return $out;
+	}
+
+	private function getVillageFromData ($data)
+	{
+		$id = isset ($data['village']) ? $this->strictInt ($data['village']) : null;
+		return $id === null ? false : $this->getMyVillage ($id);
+	}
+
+	/**
+	 * May this village be moved again? (Behaviour kept as in the shop window.)
+	 */
+	public function canMoveVillage ($village)
+	{
+		$objLogs = Dolumar_Players_Logs::getInstance ();
+
+		$objLogs->clearFilters ();
+		$objLogs->addShowOnly ('premium_movevillage');
+		// No upper bound: a move applied earlier in this request (cron reconcile) counts too.
+		$objLogs->setTimeInterval (time () - 60 * 60 * Dolumar_Premium_Prices::MIN_MOVEVILLAGE_INTERVAL_DAYS, null);
+
+		return count ($objLogs->getLogs ($village, 0, 5, 'DESC')) == 0;
+	}
+
+	/**
+	 * Is this a bonus tile that may be used with a bonus building? Public tiles
+	 * inside their date range (as listed by the bonus building window) or this
+	 * player's own uploaded tiles.
+	 */
+	public function isValidBonusTile ($tile)
+	{
+		$tile = $this->strictInt ($tile);
+		if ($tile === null || $tile < 1)
+		{
+			return false;
+		}
+
+		$db = Neuron_DB_Database::getInstance ();
+		$rows = $db->query
+		("
+			SELECT
+				t_id, t_imagename
+			FROM
+				players_tiles
+			WHERE
+				t_id = {$tile} AND
+				(
+					(
+						t_isPublic = 1 AND
+						(t_startDate IS NULL OR t_startDate < FROM_UNIXTIME(".NOW.")) AND
+						(t_endDate IS NULL OR t_endDate > FROM_UNIXTIME(".NOW."))
+					)
+					OR t_userid = " . intval ($this->getId ()) . "
+				)
+		");
+
+		return count ($rows) == 1 && file_exists (PUBLIC_PATH . $rows[0]['t_imagename']);
+	}
+
+	private function strictInt ($value)
+	{
+		if (is_int ($value))
+		{
+			return $value;
+		}
+		if (is_string ($value) && preg_match ('/^-?[0-9]{1,9}$/', $value))
+		{
+			return (int) $value;
+		}
+		return null;
+	}
+
+	/**
+	 * Remaining time (seconds) of a speed-up target owned by this player, or null.
+	 */
+	private function getSpeedupTarget ($type, $data)
+	{
+		switch ($type)
+		{
+			case 'building':
+				$id = isset ($data['building']) ? $this->strictInt ($data['building']) : null;
+				if (!$id)
+				{
+					return null;
+				}
+				$building = Dolumar_Buildings_Building::getFromId ($id);
+				if (!$building)
+				{
+					return null;
+				}
+				$village = $building->getVillageForced ();
+				if (!$village || !$this->getMyVillage ($village->getId ()))
+				{
+					return null;
+				}
+				return array ('left' => $building->getTimeLeft (), 'object' => $building);
+
+			case 'training':
+				$id = isset ($data['order']) ? $this->strictInt ($data['order']) : null;
+				$village = $this->getVillageFromData ($data);
+				if (!$village || !$id)
+				{
+					return null;
+				}
+				$order = $village->units->getTrainingStatus ($id);
+				if (!$order || $order['village'] != $village->getId ())
+				{
+					return null;
+				}
+				return array ('left' => $order['timeLeft'], 'village' => $village);
+
+			case 'scouting':
+				$id = isset ($data['scoutid']) ? $this->strictInt ($data['scoutid']) : null;
+				$village = $this->getVillageFromData ($data);
+				if (!$village || $id === null)
+				{
+					return null;
+				}
+				$scout = $village->getScoutData ($id);
+				if (!$scout)
+				{
+					return null;
+				}
+				return array ('left' => $scout['finishDate'] - NOW, 'village' => $village);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Units (of the type's unit size) of a validated speed-up request, or null.
+	 */
+	private function getSpeedupUnits ($type, $data, $target)
+	{
+		$speedup = Dolumar_Premium_Prices::getSpeedup ($type);
+		if (!$speedup || !$target || $speedup['unit'] < 1)
+		{
+			return null;
+		}
+
+		$duration = isset ($data['duration']) ? $this->strictInt ($data['duration']) : null;
+		if ($duration === null || $duration < 1 || $duration % $speedup['unit'] !== 0)
+		{
+			return null;
+		}
+
+		$units = intdiv ($duration, $speedup['unit']);
+		$needed = (int) ceil ($target['left'] / $speedup['unit']);
+
+		if ($units < 1 || $units > $needed)
+		{
+			return null;
+		}
+
+		return $units;
+	}
+
+	/**
+	 * Authoritative price of a credit action. Null when the request is invalid,
+	 * not owned by this player, or does not use credits.
+	 */
+	public function quoteCreditAction (array $data): ?array
+	{
+		$action = isset ($data['action']) ? $data['action'] : '';
+
+		switch ($action)
+		{
+			case 'buyrunes':
+				$village = $this->getVillageFromData ($data);
+				$runes = $this->parseRuneAmounts ($data);
+				if (!$village || !$runes)
+				{
+					return null;
+				}
+				$sum = array_sum ($runes);
+				if ($sum < 1 || $sum > $this->getBuyableRunesLeft ())
+				{
+					return null;
+				}
+				return array ('credits' => $sum * Dolumar_Premium_Prices::RUNE, 'description' => $sum . ' runes');
+
+			case 'buyresources':
+				$village = $this->getVillageFromData ($data);
+				$resource = isset ($data['resource']) ? $data['resource'] : null;
+				if (!$village || !is_string ($resource))
+				{
+					return null;
+				}
+				if ($resource === 'all')
+				{
+					return array ('credits' => Dolumar_Premium_Prices::RESOURCES_ALL, 'description' => 'Fill all resources');
+				}
+				if (!array_key_exists ($resource, $village->resources->getResources ()))
+				{
+					return null;
+				}
+				return array ('credits' => Dolumar_Premium_Prices::RESOURCES_ONE, 'description' => 'Fill resources');
+
+			case 'movevillage':
+				$village = $this->getVillageFromData ($data);
+				if (!$village || !isset ($data['x']) || !isset ($data['y'])
+					|| $this->strictInt ($data['x']) === null || $this->strictInt ($data['y']) === null
+					|| !$this->canMoveVillage ($village))
+				{
+					return null;
+				}
+				return array
+				(
+					'credits' => Dolumar_Premium_Prices::MOVE_VILLAGE,
+					'description' => 'Move village ' . $village->getName () . ' to ' . $this->strictInt ($data['x']) . ',' . $this->strictInt ($data['y'])
+				);
+
+			case 'movebuilding':
+				$village = $this->getVillageFromData ($data);
+				if (!$village || !isset ($data['building']) || !isset ($data['x']) || !isset ($data['y'])
+					|| $this->strictInt ($data['x']) === null || $this->strictInt ($data['y']) === null)
+				{
+					return null;
+				}
+				$bid = $this->strictInt ($data['building']);
+				$building = $bid === null ? null : $village->buildings->getBuilding ($bid);
+				if (!$building || !$building->isMoveable ())
+				{
+					return null;
+				}
+				if ($this->isBuildingMoveFree ($village))
+				{
+					return null;
+				}
+				return array ('credits' => Dolumar_Premium_Prices::MOVE_BUILDING, 'description' => 'Move building');
+
+			case 'bonusbuilding':
+				$village = $this->getVillageFromData ($data);
+				if (!$village || !isset ($data['building']) || !isset ($data['x']) || !isset ($data['y'])
+					|| $this->strictInt ($data['building']) !== 100
+					|| $this->strictInt ($data['x']) === null || $this->strictInt ($data['y']) === null
+					|| !isset ($data['tile']) || !$this->isValidBonusTile ($data['tile']))
+				{
+					return null;
+				}
+				return array ('credits' => Dolumar_Premium_Prices::BONUS_BUILDING, 'description' => 'Bonus building');
+
+			case 'speedup':
+				$type = isset ($data['type']) ? $data['type'] : null;
+				if (!is_string ($type))
+				{
+					return null;
+				}
+				$target = $this->getSpeedupTarget ($type, $data);
+				$units = $this->getSpeedupUnits ($type, $data, $target);
+				if ($units === null)
+				{
+					return null;
+				}
+				return array
+				(
+					'credits' => Dolumar_Premium_Prices::getSpeedupCredits ($type, $units),
+					'description' => 'Speed-up (' . $type . ')'
+				);
+		}
+
+		return parent::quoteCreditAction ($data);
+	}
+
+	/**
+	 * Apply a purchased action. Returns true only when it was actually applied.
+	 */
 	public function useCredit ($amount, $data)
 	{
 		$action = isset ($data['action']) ? $data['action'] : null;
 		$logs = Dolumar_Players_Logs::getInstance ();
-		
+
 		switch ($action)
 		{
 			case 'buyrunes':
-			
-				$runes = array_keys ($this->getMainVillage ()->resources->getInitialRunes ());
-				
-				$out = array ();
-				foreach ($runes as $v)
+
+				$village = $this->getVillageFromData ($data);
+				$out = $this->parseRuneAmounts ($data);
+
+				if (!$village || !$out)
 				{
-					if (isset ($data[$v]))
-					{
-						$out[$v] = intval ($data[$v]);
-					}
+					return false;
 				}
-				
-				$village = isset ($data['village']) ? $data['village'] : null;
-				
-				$village = $this->getMyVillage ($village);
-				
-				if ($village)
+
+				if (array_sum ($out) > $this->getBuyableRunesLeft ())
 				{
-					$village->resources->giveRunes ($out);
-					$logs->addPremiumRunesBoughtLog ($village, $out);
+					return false;
 				}
-				
-			break;
-			
+
+				$village->resources->giveRunes ($out);
+				$logs->addPremiumRunesBoughtLog ($village, $out);
+
+				return true;
+
 			case 'movevillage':
-			
-				$village = isset ($data['village']) ? $data['village'] : null;
-				$village = $this->getMyVillage ($village);
-				
+
+				$village = $this->getVillageFromData ($data);
+				$x = isset ($data['x']) ? $this->strictInt ($data['x']) : null;
+				$y = isset ($data['y']) ? $this->strictInt ($data['y']) : null;
+
+				if (!$village || !isset ($x) || !isset ($y) || !$this->canMoveVillage ($village))
+				{
+					return false;
+				}
+
 				list ($ox, $oy) = $village->buildings->getTownCenterLocation ();
-				
-				$x = isset ($data['x']) ? $data['x'] : null;
-				$y = isset ($data['y']) ? $data['y'] : null;
-				
-				if ($village && isset ($x) && isset ($y))
+
+				if (!$village->movevillage->moveVillage ($x, $y))
 				{
-					$village->movevillage->moveVillage ($x, $y);
-					$logs->addPremiumMoveVillage ($village, $x, $y, $ox, $oy);
+					return false;
 				}
-			
-			break;
-			
+
+				$logs->addPremiumMoveVillage ($village, $x, $y, $ox, $oy);
+				return true;
+
 			case 'movebuilding':
-			
-				$building = isset ($data['building']) ? $data['building'] : null;
-			
-				$village = isset ($data['village']) ? $data['village'] : null;
-				$village = $this->getMyVillage ($village);
-				
-				$x = isset ($data['x']) ? intval ($data['x']) : null;
-				$y = isset ($data['y']) ? intval ($data['y']) : null;
-				
-				if ($village && isset ($x) && isset ($y) && isset ($building))
+
+				$village = $this->getVillageFromData ($data);
+				$building = isset ($data['building']) ? $this->strictInt ($data['building']) : null;
+				$x = isset ($data['x']) ? $this->strictInt ($data['x']) : null;
+				$y = isset ($data['y']) ? $this->strictInt ($data['y']) : null;
+
+				if (!$village || !isset ($x) || !isset ($y) || !isset ($building))
 				{
-					$building = $village->buildings->getBuilding ($building);
-					
-					if ($building && $building->checkBuildLocation ($village, $x, $y))
-					{
-						list ($ox, $oy) = $building->getLocation ();
-						
-						$building->setLocation ($x, $y);
-						$logs->addPremiumMoveBuilding ($building, $x, $y, $ox, $oy);
-					}
+					return false;
 				}
-			
-			break;
-			
-			case 'bonusbuilding':
-			
-				$village = isset ($data['village']) ? $data['village'] : null;
-				$village = $this->getMyVillage ($village);
-				
-				$x = isset ($data['x']) ? intval ($data['x']) : null;
-				$y = isset ($data['y']) ? intval ($data['y']) : null;
-				
-				$building = isset ($data['building']) ? intval ($data['building']) : null;
-				$building = Dolumar_Buildings_Building::getBuilding ($building, $village->getRace ());
-				
-				$extra = isset ($data['tile']) ? intval ($data['tile']) : null;
-				
+
+				$building = $village->buildings->getBuilding ($building);
+
+				if (!$building || !$building->isMoveable ())
+				{
+					return false;
+				}
+
 				$chk = $building->checkBuildLocation ($village, $x, $y);
-				
-				if ($chk[0])
-				{					
-					$building = $building->build ($village, $x, $y, $extra);
-					
-					$logs->addPremiumBonusBuilding ($building, $x, $y);
+				if (!$chk || !$chk[0])
+				{
+					return false;
 				}
-				
-			break;
+
+				list ($ox, $oy) = $building->getLocation ();
+
+				$building->setLocation ($x, $y);
+				$logs->addPremiumMoveBuilding ($building, $x, $y, $ox, $oy);
+
+				return true;
+
+			case 'bonusbuilding':
+
+				$village = $this->getVillageFromData ($data);
+				if (!$village)
+				{
+					return false;
+				}
+
+				$x = isset ($data['x']) ? $this->strictInt ($data['x']) : null;
+				$y = isset ($data['y']) ? $this->strictInt ($data['y']) : null;
+
+				if ($x === null || $y === null || !isset ($data['building']) || $this->strictInt ($data['building']) !== 100
+					|| !isset ($data['tile']) || !$this->isValidBonusTile ($data['tile']))
+				{
+					return false;
+				}
+
+				$building = Dolumar_Buildings_Building::getBuilding (100, $village->getRace ());
+
+				if (!$building)
+				{
+					return false;
+				}
+
+				$extra = $this->strictInt ($data['tile']);
+
+				$chk = $building->checkBuildLocation ($village, $x, $y);
+
+				if (!$chk || !$chk[0])
+				{
+					return false;
+				}
+
+				$building = $building->build ($village, $x, $y, $extra);
+				if (!$building)
+				{
+					return false;
+				}
+
+				$logs->addPremiumBonusBuilding ($building, $x, $y);
+				return true;
 
 			case 'speedup':
 
 				$type = isset ($data['type']) ? $data['type'] : null;
-				$duration = isset ($data['duration']) ? $data['duration'] : null;
+				if (!is_string ($type))
+				{
+					return false;
+				}
+
+				$target = $this->getSpeedupTarget ($type, $data);
+				if (!$target || $target['left'] <= 0)
+				{
+					return false;
+				}
+
+				$duration = isset ($data['duration']) ? $this->strictInt ($data['duration']) : null;
+				if ($duration === null || $duration < 1)
+				{
+					return false;
+				}
 
 				switch ($type)
 				{
 					case 'building':
-
-						$id = isset ($data['building']) ? $data['building'] : null;
-
-						$building = Dolumar_Buildings_Building::getFromId ($id);
-						$building->speedupBuild ($duration);
-
-						// Reload the status bar
-						$player = $building->getVillageForced ()->getOwner ();
-						$player->updates->setFlag ('refresh-statusbar');
-
+						$target['object']->speedupBuild ($duration);
 					break;
 
 					case 'training':
-
-						$id = isset ($data['order']) ? $data['order'] : null;
-						$village = isset ($data['village']) ? $data['village'] : null;
-
-						$village = Dolumar_Players_Village::getFromId ($village);
-						$village->units->speedupBuild ($id, $data['duration']);
-
-						$player = $village->getOwner ();
-						$player->updates->setFlag ('refresh-statusbar');
-
+						$target['village']->units->speedupBuild (intval ($data['order']), $duration);
 					break;
 
 					case 'scouting':
-
-						$id = isset ($data['scoutid']) ? $data['scoutid'] : null;
-						$village = isset ($data['village']) ? $data['village'] : null;
-
-						$village = Dolumar_Players_Village::getFromId ($village);
-						$village->speedupScouting ($id, $data['duration']);
-
-						$player = $village->getOwner ();
-						$player->updates->setFlag ('refresh-statusbar');
-
+						$target['village']->speedupScouting (intval ($data['scoutid']), $duration);
 					break;
+
+					default:
+						return false;
 				}
 
-			break;
+				// Reload the status bar
+				$this->updates->setFlag ('refresh-statusbar');
+				return true;
 
 			case 'buyresources':
 
-				$village = isset ($data['village']) ? $data['village'] : null;
+				$village = $this->getVillageFromData ($data);
 				$resource = isset ($data['resource']) ? $data['resource'] : null;
 
-				$village = $this->getMyVillage ($village);
-
-				if ($village)
+				if (!$village || !is_string ($resource))
 				{
-					if ($resource === 'all')
-					{
-						$village->resources->fillAll ();
-					}
-					else
-					{
-						$village->resources->fill ($resource);
-					}
+					return false;
 				}
 
-			break;
-		
-			default: 
+				if ($resource === 'all')
+				{
+					$village->resources->fillAll ();
+					return true;
+				}
+
+				if (!array_key_exists ($resource, $village->resources->getResources ()))
+				{
+					return false;
+				}
+
+				$village->resources->fill ($resource);
+				return true;
+
+			default:
 				$this->extendPremiumAccount (60*60*24*15);
-			break;
+				return true;
 		}
 	}
 	
@@ -1083,5 +1457,26 @@ class Dolumar_Players_Player extends Neuron_GameServer_Player
 		unset ($this->villages);
 		
 		parent::__destruct ();
+	}
+
+	/*
+		Browser notification categories a player can switch off in My Account.
+		Each is a section of the "notifications" language file.
+	*/
+	public function getPushCategories ()
+	{
+		$text = $this->getRightLanguage ();
+
+		$out = array ();
+		foreach (array ('battle', 'building', 'resources', 'runes', 'equipment', 'portal') as $category)
+		{
+			$out[$category] = $text->get ($category, 'categories', 'notifications', $category);
+		}
+		return $out;
+	}
+
+	public function getPushDefaultMuted ()
+	{
+		return array ('portal');
 	}
 }

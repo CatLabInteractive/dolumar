@@ -52,6 +52,32 @@ an isometric map. Each window is a PHP class:
   `$this->getRequestData()` and `$this->getInputData()`.
 - `getContent()` usually fills a `Neuron_Core_Template` and returns `$page->parse('name.tpl')`.
 
+### Layout modes
+
+The client runs in one of two layout modes, `desktop` or `mobile`, shown as `body.layout-desktop` or
+`body.layout-mobile`. The player picks a preference (`desktop`, the default, `mobile` or `auto`) in MyAccount; it is
+stored as the player preference `layout`, and `?layout=desktop|mobile|auto` on the shell URL overrides it for one
+page load. `auto` means mobile below a viewport width of 800 CSS pixels. In mobile mode every `window`-type dialog
+opens as a full-screen sheet in a stack (`#sheets`, back and close buttons) instead of a draggable window; the PHP
+windows and the dialog XML are the same in both modes. `panel` windows (Menu, Statusbar, Newsbar, MiniMap, Guide)
+stay panels and are restyled by CSS. Switching mode moves open windows between the two forms.
+
+On a phone the Statusbar, Newsbar, MiniMap and Guide panels are hidden; their content still has to reach the player:
+the Newsbar feeds the header (village, resources, inbox) and newsflashes scroll over the resource strip
+(`Game.gui.newsflashHost`), the Statusbar's counters and links are copied into the ticker row and its sheet (the copy
+keeps the Statusbar's `dialogId`, so cancel and withdraw post to that window), the Guide shows itself when it renders
+new advice (the server marks advice read when it renders it), and the Map button shows the MiniMap. The header and
+tab bar lie above `#sheets`: while a confirm is up they do nothing, and while a building is being placed a tap on them
+cancels the placement first.
+
+- Engine: `assets/javascript/layout.js` (`Game.layout`: mode, preference, breakpoint, `onChange`, the `meta#viewport`
+  of the shell), `assets/javascript/sheets.js` and `assets/css/sheets.css` (`Game.sheets`), the sheet branch in
+  `gui.js`, map scale, pinch zoom and touch placement in `scrollmap.js`/`gamemap.js`, and the preference toggle in
+  MyAccount (`templates/gameserver/account/myAccount.tpl`).
+- Game: `public/dolumar/css/mobile.css` (everything scoped under `body.layout-mobile`) and `Game.dolumar.mobile` in
+  `public/dolumar/javascript/dolumar.js`, which builds the mobile header, the ticker and the bottom tab bar from the
+  Newsbar, Statusbar and Menu panels. `tools/mobile-smoke.js` is the browser smoke test for both modes.
+
 ## Domain model (game)
 
 Under `src/Dolumar/`:
@@ -88,10 +114,30 @@ cron:
 
 Cron and setup scripts refuse to run outside the CLI.
 
+## Browser notifications
+
+Web Push is built into the engine (see the engine's `.ai/architecture.md`): subscriptions, the queue, the `sw.js`
+and `push/*` routes and the "Browser notifications" section of My Account. The game supplies:
+
+- Messages: the `notifications` language file. Every non-public `sendNotification()` (incoming attack, resources,
+  runes or equipment received, clan portals) also becomes a push.
+- Timed events: `Dolumar_Push_Events::scan()` runs every minute from `cron/push.php` (called by `cron/run.php`) and
+  notifies about buildings finished or upgraded (`map_buildings.readyDate` / `lastUpgradeDate`), battles fought
+  (`battle.fightDate`, withdrawn attacks excluded) and armies home (`battle.endDate`) since the watermark
+  `push_scan` in `n_server_data`. Because `removeBattle()` deletes the row, it also calls
+  `Dolumar_Push_Events::onBattleRemoved()` for armies that come home before the next scan. `cron/push.php` then
+  delivers the queue.
+- Categories: `Dolumar_Players_Player::getPushCategories()` (sections of `notifications.lng`, labels in its
+  `[categories]` section) and `getPushDefaultMuted()` (`portal`).
+- `public/manifest.webmanifest` and the icons, linked from `gameserver/index/header.phpt`. iOS only allows push for
+  a site added to the home screen.
+
+All of it is off until `VAPID_PUBLIC_KEY` and `VAPID_PRIVATE_KEY` are set.
+
 ## Storage
 
 - MySQL: the whole game state. The schema is `dump/dump.sql`; `tools/setup.php` installs it only into an empty
-  database. There is no migration framework: schema changes need a hand-written, idempotent SQL step and must be
-  added to `dump/dump.sql` as well.
+  database. On an installed database it runs every `dump/upgrades/*.sql` on each deploy, so schema changes are an
+  idempotent SQL file there (see `dump/upgrades/README.md`) and must be added to `dump/dump.sql` as well.
 - Memcached: required. The map, sessions and many lookups depend on it.
 - Filesystem: custom sign images in `SIGNS_PATH` (persistent volume in production) and a cache in `CACHE_DIR`.
