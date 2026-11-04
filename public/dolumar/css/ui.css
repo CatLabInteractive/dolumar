@@ -1,0 +1,352 @@
+/*
+	Dolumar UI kit: the components of the visual style guide (.ai/style-guide.md).
+	Classic Dolumar look (Verdana, blue links, parchment, .true/.false boxes) with a little more spacing and a light
+	modern touch (3px corners, one 1px button shadow). Desktop and mobile share these rules; on mobile only the
+	sizes change (see the body.layout-mobile block at the end).
+*/
+
+.ui-btn,
+.ui-tabs,
+.ui-tab-panel,
+.ui-card,
+.ui-box,
+.ui-field
+{
+	--ui-ink: #40331f;
+	--ui-line: #c9b58a;
+	--ui-line-strong: #8a7550;
+	--ui-fill: #f3e7c4;
+	--ui-fill-hi: #fbf3dc;
+	--ui-card: rgba(255, 250, 232, 0.5);
+	--ui-good: #2f7a1f;
+	--ui-bad: #b3261e;
+	--ui-r: 3px;
+	--ui-gap: 8px;
+	--ui-tap: auto;
+}
+
+/* Button: the main action of a window and form submits. Secondary actions stay links. */
+a.ui-btn,
+button.ui-btn,
+input.ui-btn
+{
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	float: none;
+	clear: none;
+	min-height: var(--ui-tap);
+	margin: 0;
+	padding: 6px 14px;
+	box-sizing: border-box;
+	border: 1px solid var(--ui-line-strong);
+	border-radius: var(--ui-r);
+	background: var(--ui-fill);
+	box-shadow: 0 1px 0 rgba(64, 51, 31, 0.2);
+	color: #000;
+	font-family: Verdana, sans-serif;
+	font-size: inherit;
+	font-weight: normal;
+	line-height: 1.2;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+a.ui-btn:hover,
+button.ui-btn:hover,
+input.ui-btn:hover
+{
+	background: var(--ui-fill-hi);
+	color: #000;
+}
+
+.ui-btn.primary
+{
+	border-color: var(--ui-ink);
+	font-weight: bold;
+}
+
+.ui-btn[disabled],
+.ui-btn.disabled
+{
+	opacity: 0.5;
+	cursor: default;
+}
+
+/* A row of buttons that share the width (Attack / Support / Formation). Add .left to keep natural widths. */
+.ui-btn-row
+{
+	display: flex;
+	gap: 8px;
+	margin: 8px 0;
+}
+
+.ui-btn-row .ui-btn
+{
+	flex: 1;
+}
+
+.ui-btn-row.left .ui-btn
+{
+	flex: none;
+}
+
+/* Card: one linked row with a 40px portrait, a title, detail lines and a chevron. */
+.ui-card
+{
+	display: flex;
+	gap: 10px;
+	align-items: center;
+	margin: var(--ui-gap) 0;
+	padding: 8px 10px;
+	border: 1px solid var(--ui-line);
+	border-radius: var(--ui-r);
+	background: var(--ui-card);
+	color: inherit;
+	text-decoration: none;
+}
+
+a.ui-card:hover
+{
+	background: var(--ui-fill-hi);
+	color: inherit;
+}
+
+.ui-card img
+{
+	width: 40px;
+	height: 40px;
+	margin: 0;
+	border: 1px solid var(--ui-line-strong);
+	flex: none;
+}
+
+.ui-card .ui-card-title
+{
+	font-weight: bold;
+	color: #000097;
+	text-decoration: underline;
+}
+
+.ui-card .ui-card-go
+{
+	margin-left: auto;
+	color: var(--ui-line-strong);
+	font-size: 120%;
+}
+
+/* Tabs and their panel: the active tab and the panel read as one piece. Tabs touch, or the baseline breaks. */
+.ui-tabs
+{
+	display: flex;
+	gap: 0;
+	margin: 12px 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ui-tabs a
+{
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: var(--ui-tap);
+	padding: 6px 8px;
+	box-sizing: border-box;
+	border: 1px solid var(--ui-line);
+	border-bottom: 1px solid var(--ui-ink);
+	border-radius: var(--ui-r) var(--ui-r) 0 0;
+	background: var(--ui-card);
+	text-align: center;
+	text-decoration: none;
+}
+
+.ui-tabs a.active
+{
+	border-color: var(--ui-ink);
+	border-bottom-color: transparent;
+	background: transparent;
+	color: #000;
+	font-weight: bold;
+}
+
+.ui-tab-panel
+{
+	margin: 0 0 var(--ui-gap);
+	padding: var(--ui-gap);
+	border: 1px solid var(--ui-ink);
+	border-top: 0;
+	border-radius: 0 0 var(--ui-r) var(--ui-r);
+	background: transparent;
+}
+
+/* Box: a bordered group, for example one side of a battle. */
+.ui-box
+{
+	padding: 8px;
+	border: 1px solid var(--ui-line);
+	border-radius: var(--ui-r);
+	background: var(--ui-card);
+	min-width: 0;
+}
+
+.ui-columns
+{
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 8px;
+}
+
+/* Health or progress bar: green part is the inner element, the rest shows red. */
+.ui-bar
+{
+	display: flex;
+	height: 6px;
+	margin: 3px 0;
+	border-radius: 3px;
+	overflow: hidden;
+	background: #b3261e;
+}
+
+.ui-bar i
+{
+	display: block;
+	background: #2f7a1f;
+}
+
+.ui-bar.neutral
+{
+	background: #c9b58a;
+}
+
+/* Form field: bold label above its input. */
+.ui-field
+{
+	margin: var(--ui-gap) 0;
+}
+
+.ui-field label
+{
+	display: block;
+	float: none;
+	width: auto;
+	padding: 0 0 3px;
+	text-align: left;
+	font-weight: bold;
+}
+
+.ui-field input,
+.ui-field select,
+.ui-field textarea
+{
+	display: block;
+	float: none;
+	min-height: var(--ui-tap);
+	margin: 0;
+	padding: 5px 6px;
+	box-sizing: border-box;
+	border: 1px solid var(--ui-line-strong);
+	border-radius: var(--ui-r);
+	background: #fffdf5;
+	font: inherit;
+}
+
+/* Text helpers. */
+.ui-muted { color: #7a6a4c; }
+.ui-good { color: #2f7a1f; }
+.ui-bad { color: #b3261e; }
+
+/* Status boxes keep the classic p.true / p.false / .maybe / .information; they only get more padding. */
+p.true.ui-msg,
+p.false.ui-msg,
+p.maybe.ui-msg,
+p.information.ui-msg,
+div.information.ui-msg
+{
+	padding: 8px 10px;
+	border-radius: 3px;
+}
+
+.ui-msg strong.ui-msg-title
+{
+	display: block;
+	margin-bottom: 2px;
+	font-size: 135%;
+}
+
+/* Mobile: same look, bigger targets and a little more room. */
+body.layout-mobile .sheet-content .ui-btn,
+body.layout-mobile .sheet-content .ui-tabs,
+body.layout-mobile .sheet-content .ui-tab-panel,
+body.layout-mobile .sheet-content .ui-card,
+body.layout-mobile .sheet-content .ui-box,
+body.layout-mobile .sheet-content .ui-field
+{
+	--ui-gap: 10px;
+	--ui-tap: 44px;
+}
+
+body.layout-mobile .sheet-content .ui-btn-row
+{
+	gap: 10px;
+	margin: 10px 0;
+}
+
+/* mobile.css styles every button in a sheet (body.layout-mobile .sheet-content button); keep the kit look there. */
+body.layout-mobile .sheet-content a.ui-btn,
+body.layout-mobile .sheet-content button.ui-btn,
+body.layout-mobile .sheet-content input.ui-btn
+{
+	margin: 0;
+	padding: 0 14px;
+	border: 1px solid #8a7550;
+	border-radius: 3px;
+	background: #f3e7c4;
+	box-shadow: 0 1px 0 rgba(64, 51, 31, 0.2);
+	color: #000;
+	font-weight: normal;
+	text-shadow: none;
+}
+
+body.layout-mobile .sheet-content .ui-btn.primary
+{
+	border-color: #40331f;
+	font-weight: bold;
+}
+
+/* mobile.css underlines every sheet link in brown; kit components keep their own link styling. */
+body.layout-mobile .sheet-content a.ui-btn,
+body.layout-mobile .sheet-content a.ui-card,
+body.layout-mobile .sheet-content .ui-tabs a
+{
+	text-decoration: none;
+}
+
+body.layout-mobile .sheet-content a.ui-btn,
+body.layout-mobile .sheet-content a.ui-card
+{
+	color: #000;
+}
+
+body.layout-mobile .sheet-content a.ui-card
+{
+	color: #40331f;
+}
+
+body.layout-mobile .sheet-content .ui-tabs a
+{
+	color: #000097;
+}
+
+body.layout-mobile .sheet-content .ui-tabs a.active
+{
+	color: #000;
+}
+
+body.layout-mobile .sheet-content .ui-card .ui-card-title
+{
+	color: #000097;
+	text-decoration: underline;
+}
