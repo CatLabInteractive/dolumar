@@ -10,3 +10,4 @@ composer.phar
 /node_modules/
 /package-lock.json
 .phpunit.result.cache
+tools/deploy.env

@@ -33,6 +33,13 @@ breaks every existing subscription).
 `NEVERENDING=1` turns off the endgame for that server (no Dor Daedeloth spell, no winner, no reset); see
 `Dolumar_Players_Server::isNeverending()` for every place that checks it.
 
+`SPEED_FACTOR` (default 1) is the world's game speed; `GAME_SPEED_*` override one part each (movement defaults to
+x1 regardless) and `ROUND_DAYS` (default 180) is how long a round runs before the endgame. All are read through
+`dolumar_env_number()` in `bootstrap/env.php`, which falls back to the default for empty or invalid values.
+
+Several worlds run side by side, one Dokku app each, all on the same commit; they differ only in config. The README
+section "Running several worlds" has the setup, and `tools/deploy.sh` deploys a commit to every app in turn.
+
 Error reporting (`AIRBRAKE_*`) goes through `Dolumar_ErrorReporting_Notifier`, a phpbrake subclass. phpbrake drops a
 failed delivery silently, so the subclass logs it (`Error tracker: ...` in `dokku logs`): check there first when
 errors do not show up in Errbit.

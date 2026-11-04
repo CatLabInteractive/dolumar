@@ -134,8 +134,11 @@ if (defined ('AIRBRAKE_TOKEN') && AIRBRAKE_TOKEN) {
     register_shutdown_function([$handler, 'onShutdown']);
 }
 
+require_once __DIR__ . '/env.php';
+
+// Game speed of this world. SPEED_FACTOR=3 makes a x3 speed world; see the GAME_SPEED_* defaults further down.
 if (!defined ('SPEED_FACTOR'))
-	define ('SPEED_FACTOR', 1);
+	define ('SPEED_FACTOR', dolumar_env_number ('SPEED_FACTOR', 1));
 
 if (!defined ('STATIC_ABSOLUTE_URL'))
 	define ('STATIC_ABSOLUTE_URL', ABSOLUTE_URL);
@@ -213,20 +216,22 @@ if (!defined ('LANGUAGE_DIR'))
 if (!defined ('STATS_DIR'))
 	define ('STATS_DIR', BASE_PATH.'resources/stats/');
 
+// Each part of the game speed can be set on its own; by default they follow SPEED_FACTOR, except troop movement,
+// which stays at x1 on every world unless GAME_SPEED_MOVEMENT is set.
 if (!defined ('GAME_SPEED_RESOURCES'))
-	define ('GAME_SPEED_RESOURCES', SPEED_FACTOR);
+	define ('GAME_SPEED_RESOURCES', dolumar_env_number ('GAME_SPEED_RESOURCES', SPEED_FACTOR));
 
 if (!defined ('GAME_SPEED_TRAINING'))
-    define ('GAME_SPEED_TRAINING', SPEED_FACTOR * 2);
+    define ('GAME_SPEED_TRAINING', dolumar_env_number ('GAME_SPEED_TRAINING', SPEED_FACTOR * 2));
 
 if (!defined ('GAME_SPEED_BUILDINGS'))
-	define ('GAME_SPEED_BUILDINGS', SPEED_FACTOR);
+	define ('GAME_SPEED_BUILDINGS', dolumar_env_number ('GAME_SPEED_BUILDINGS', SPEED_FACTOR));
 
 if (!defined ('GAME_SPEED_MOVEMENT'))
-	define ('GAME_SPEED_MOVEMENT', 1);
+	define ('GAME_SPEED_MOVEMENT', dolumar_env_number ('GAME_SPEED_MOVEMENT', 1));
 
 if (!defined ('GAME_SPEED_EFFECTS'))
-	define ('GAME_SPEED_EFFECTS', SPEED_FACTOR);
+	define ('GAME_SPEED_EFFECTS', dolumar_env_number ('GAME_SPEED_EFFECTS', SPEED_FACTOR));
 
 // Game settings
 if (!defined ('MAXMAPSTRAAL'))
@@ -330,9 +335,9 @@ if (!defined ('PREMIUM_SPEEDUP_SCOUTING_UNIT'))
 if (!defined ('NEVERENDING'))
 	define ('NEVERENDING', filter_var (getenv ('NEVERENDING'), FILTER_VALIDATE_BOOLEAN));
 
-// Default: 6 months
+// How long a round runs before the endgame starts. Default: 6 months (180 days); set ROUND_DAYS to change it.
 if (!defined ('GAME_RUNNING_DURATION'))
-	define ('GAME_RUNNING_DURATION', 60 * 60 * 24 * 30 * 6);
+	define ('GAME_RUNNING_DURATION', (int) round (60 * 60 * 24 * dolumar_env_number ('ROUND_DAYS', 30 * 6)));
 
 // And allowing clan portals
 if (!defined ('ALLOW_CLANPORTALS'))

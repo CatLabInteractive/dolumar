@@ -107,6 +107,62 @@ dokku letsencrypt:cron-job --add
   and are installed by Dokku automatically.
 * Check a deployment with `tools/smoke.sh https://YOUR_DOMAIN`.
 
+## Running several worlds
+Each world (game server) is its own Dokku app with its own database, memcached service, sign storage, domain and
+cron jobs, all built from the same commit. What makes worlds different is only their Dokku config:
+
+| Setting | Long-running world | Regular world | Speed world |
+|---------|--------------------|---------------|-------------|
+| `NEVERENDING` | `1` | unset | unset |
+| `SPEED_FACTOR` | unset (x1) | unset (x1) | `3` |
+| `ROUND_DAYS` | ignored | your choice (default 180) | your choice (default 180) |
+| `AIRBRAKE_ENVIRONMENT` | `production` | `production-classic` | `production-speed` |
+
+`SPEED_FACTOR` sets resources, buildings and effects to that speed and training to twice that; troop movement stays
+x1 unless `GAME_SPEED_MOVEMENT` is set (the `GAME_SPEED_*` settings each override one part). Players see the
+speeds in the server settings window. Set the speed before a world opens: changing it on a running world changes
+live timers and balance.
+
+A new world, with `dolumar-speed` as the example (as root on the server):
+
+```
+dokku apps:create dolumar-speed
+dokku mysql:create dolumar-speed-db
+dokku mysql:link dolumar-speed-db dolumar-speed
+dokku memcached:create dolumar-speed-cache
+dokku memcached:link dolumar-speed-cache dolumar-speed
+dokku storage:ensure-directory dolumar-speed-signs
+dokku storage:mount dolumar-speed /var/lib/dokku/data/storage/dolumar-speed-signs:/app/public/signs
+dokku domains:set dolumar-speed speed.dolumar.com
+
+# the same settings as the existing world (SMTP, OpenID Connect, credits, VAPID keys, Errbit), see below,
+# plus what is specific to this world:
+dokku config:set --no-restart dolumar-speed PROTOCOL=https ABSOLUTE_URL=https://speed.dolumar.com/ \
+  SPEED_FACTOR=3 AIRBRAKE_ENVIRONMENT=production-speed
+```
+
+Copying the shared settings: `dokku config:export --format envfile dolumar` prints the existing world's settings.
+Leave out `DATABASE_URL`, `MEMCACHED_URL`, `ABSOLUTE_URL`, `NEVERENDING`, `GIT_REV` and the `DOKKU_*` keys (they
+belong to that app) and set the rest on the new app. The VAPID keys can be the same pair on every world.
+
+Then deploy it (below), which installs the schema into the empty database, and enable HTTPS with
+`dokku letsencrypt:enable dolumar-speed`. Add `https://speed.dolumar.com/oauth2/login/next` as a redirect URL of the
+OpenID Connect client in CatLab Accounts, or login fails on the new world.
+
+### Deploying every world
+[`tools/deploy.sh`](tools/deploy.sh) pushes one commit (default `origin/master`) to every world, one app after the
+other, and stops at the first failure. Run it from a checkout on a machine whose SSH key can push to Dokku:
+
+```
+DOLUMAR_DOKKU_HOST=dokku@YOUR_SERVER tools/deploy.sh            # origin/master to every world
+tools/deploy.sh origin/develop --only dolumar-speed            # one world, another ref
+```
+
+It shows the commit and what each app runs now, asks for confirmation (`-y` skips that), skips apps that already run
+that commit and checks that each world answers over HTTP before going on. The apps and their order come from
+`DOLUMAR_APPS` (default `dolumar-speed dolumar-classic dolumar`); keep the long-running world last, so a broken
+schema upgrade fails on a young world first. Both settings can go in `tools/deploy.env` (not committed).
+
 ## Pull request previews
 Every pull request from a branch in this repository can get its own instance at `https://pr-<number>.preview.dolumar.com/`,
 with test players already in it. It is created by [`.github/workflows/preview.yml`](.github/workflows/preview.yml)
