@@ -63,6 +63,14 @@ class ReportAnalysisTest extends TestCase
 		$this->assertSame (Dolumar_Battle_ReportAnalysis::TEAM_DEFENDER, $moments[1]['event']['team']);
 	}
 
+	public function testEmptySlots (): void
+	{
+		$analysis = $this->analyse (7298);
+		$this->assertSame (0, $analysis->countEmptySlots (Dolumar_Battle_ReportAnalysis::TEAM_ATTACKER));
+		$this->assertSame (2, $analysis->countEmptySlots (Dolumar_Battle_ReportAnalysis::TEAM_DEFENDER));
+		$this->assertCount (3, $analysis->getSlots ());
+	}
+
 	public function testHeroIsTheUnitWithMostKills (): void
 	{
 		$hero = $this->analyse (7301)->getHero (Dolumar_Battle_ReportAnalysis::TEAM_ATTACKER);

@@ -473,6 +473,12 @@ Game.dolumar =
 	'initBattleWindow' : function (oWindow)
 	{
 		var div = $(oWindow.div);
+
+		// Battle report replay (javascript/battlereport.js).
+		if (typeof (DolumarBattleReplay) != 'undefined')
+		{
+			DolumarBattleReplay.init (oWindow.div);
+		}
 		
 		var fieldset = div.select('fieldset.chooseUnits');
 		var battlefield = div.select ('div.battlefield');

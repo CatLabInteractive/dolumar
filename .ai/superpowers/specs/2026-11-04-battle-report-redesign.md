@@ -33,8 +33,8 @@ input maps to `replay` and `log` to the starting event.
 
 - **Header (all views)**: verdict from the reader's side (Victory / Repelled for the attacker, Held off / Raided for
   the defender; a victory of 0.01 or more counts as a win for the attacker, as today), victory meter, opponent, date,
-  fight length. Spoils (resources and runes, + for the attacker, − for the defender) and honour lost when it is above 0
-  (`battle.iHonourLose`, attacker only).
+  fight length. Spoils (resources and runes, + for the attacker, − for the defender). Honour is not shown: the stored
+  `battle.iHonourLose` is not guaranteed to be the honour that was applied.
 - **A, Summary**: the two armies face to face (portrait, survivors bar, "103 of 120", HELD / FLED / WIPED), three or four
   key moments, the action buttons (Attack again or Strike back, Formation), and the full log in a folded `<details>`
   grouped by phase, with kill chips and plain-text rows.
@@ -64,10 +64,14 @@ order in `Dolumar_Battle_Fight::fight()` (morale check, moves, attacker melee, d
   No database access; unit identity is the tuple (unit id, village id, race id, squad index).
 - `Dolumar_Battle_ReportView` (new): resolves names and images, picks the reader's side, builds the template data and
   the replay JSON.
-- `Dolumar_Battle_Report`: small public getters for the raw data.
+- `Dolumar_Battle_Report`: small public getters for the raw data, and the village list queries (all, attacks,
+  defences, live). A finished-report filter leaves out fights that are still playing; those only show under "Fighting
+  now".
+- `Dolumar_Windows_Battle`: a report is only opened for the window's own village (`setVillageFilter`). Before, any
+  report id could be opened from this window.
 - `public/dolumar/javascript/battlereport.js` and `public/dolumar/css/battlereport.css` (new), loaded from the game
   header; `initBattleWindow` starts the replay player.
-- Texts: `battle.lng` section `report2`, `battlereport.lng` sections `moment_*`, `replay_*` and `chronicle_*`, in en, nl,
+- Texts: `battle.lng` section `report2`, `battlereport.lng` sections `log_*`, `moment_*` and `chronicle_*`, plus `overview2` for the list, in en, nl,
   de, fr and pl. The melee log line no longer shows the internal frontage number; `@@atacker` typo fixed.
 - Mobile: the fight log is no longer a 115px scroll box.
 

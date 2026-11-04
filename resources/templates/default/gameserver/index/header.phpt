@@ -1,4 +1,5 @@
 <script type="text/javascript" src="<?=STATIC_ABSOLUTE_URL?>dolumar/javascript/dolumar.js?version=<?=$application_version?>"></script>
+<script type="text/javascript" src="<?=STATIC_ABSOLUTE_URL?>dolumar/javascript/battlereport.js?version=<?=$application_version?>"></script>
 <?php
 	// Kind texts for the engine map-objects layer (javascript/mapobjects.js reads CONFIG_MAPOBJECT_TEXT)
 	$armyText = Neuron_Core_Text::__getInstance ();
@@ -15,6 +16,7 @@
 <link href="<?=STATIC_ABSOLUTE_URL?>dolumar/css/guide.css?version=<?=$application_version?>" rel="stylesheet" type="text/css" />
 <link href="<?=STATIC_ABSOLUTE_URL?>dolumar/css/icons.css?version=<?=$application_version?>" rel="stylesheet" type="text/css" />
 <link href="<?=STATIC_ABSOLUTE_URL?>dolumar/css/windows.css?version=<?=$application_version?>" rel="stylesheet" type="text/css" />
+<link href="<?=STATIC_ABSOLUTE_URL?>dolumar/css/battlereport.css?version=<?=$application_version?>" rel="stylesheet" type="text/css" />
 <link href="<?=STATIC_ABSOLUTE_URL?>dolumar/css/menu.css?version=<?=$application_version?>" rel="stylesheet" type="text/css" />
 <link href="<?=STATIC_ABSOLUTE_URL?>dolumar/css/main.css?version=<?=$application_version?>" rel="stylesheet" type="text/css" />
 

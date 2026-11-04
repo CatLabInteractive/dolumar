@@ -17,7 +17,7 @@
 2="@@attacker wartet nicht und tötet @@amount Einheiten von @@defender."
 
 [casualties_error]
-1="@@amount Einheiten von @@defender sind in einem Angriff von @@atacker getötet worden. FEHLER!!!"
+1="@@amount Einheiten von @@defender sind in einem Angriff von @@attacker getötet worden. FEHLER!!!"
 
 [specialunitdied]
 1="Eine Stufe @@level @@unit ist gestorben."
@@ -40,3 +40,98 @@
 [whipe]
 1="Die Körper der @@unit liegen zerschmettert, in einer Blutlache, auf dem Schlachtfeld."
 
+
+[log_move]
+1 = "@@unit beziehen Stellung (@@terrain)."
+2 = "@@unit marschieren auf ein neues Feld (@@terrain)."
+
+[log_stunned]
+1 = "@@unit können nicht handeln."
+
+[log_shooting]
+1 = "@@attacker schießen auf @@defender."
+2 = "Eine Salve von @@attacker trifft @@defender."
+
+[log_melee]
+1 = "@@attacker kämpfen gegen @@defender."
+2 = "@@attacker stürmen auf @@defender los."
+3 = "@@attacker prallen auf @@defender."
+
+[log_fled]
+1 = "@@unit brechen ein und fliehen."
+2 = "@@unit verlassen das Schlachtfeld."
+
+[log_wiped]
+1 = "@@unit werden vernichtet."
+2 = "Die Letzten von @@unit fallen."
+
+[log_magedied]
+1 = "@@unit (Stufe @@level) ist gestorben."
+
+[moment_volley]
+1 = "@@attacker schossen @@amount von @@defender nieder."
+
+[moment_fled]
+1 = "@@unit brachen ein und flohen. Ihre Linie fiel zusammen."
+
+[moment_wiped]
+1 = "@@unit wurden bis auf den letzten Mann vernichtet."
+
+[moment_loss]
+1 = "@@attacker töteten @@amount von @@defender."
+
+[chronicle_intro]
+1 = "Der Boden bebte, als die Armee von @@attacker gegen @@defender zog."
+2 = "Staub stieg über den Feldern von @@defender auf, als die Armee von @@attacker in Sicht kam."
+3 = "In @@defender erklangen die Hörner: die Armee von @@attacker war eingetroffen."
+
+[chronicle_magic]
+1 = "Noch bevor ein Pfeil flog, wirkte @@unit @@spell."
+
+[chronicle_magicfailed]
+1 = "@@unit versuchte @@spell zu wirken, doch der Zauber verpuffte."
+
+[chronicle_volley]
+1 = "@@unit schossen zuerst, und @@amount Feinde fielen, bevor sie ihre Schilde heben konnten."
+2 = "Eine Wolke von Pfeilen aus den Reihen von @@unit verdunkelte den Himmel; @@amount Feinde fielen."
+
+[chronicle_volley_total]
+1 = "Insgesamt kostete die Salve @@attacker @@attlost und @@defender @@deflost."
+
+[chronicle_novolley]
+1 = "Kein Pfeil flog. Beide Armeen gingen sofort aufeinander los."
+
+[chronicle_melee]
+1 = "Dann prallten die Linien aufeinander. @@unit kämpften am härtesten und töteten @@amount Feinde."
+2 = "Stahl traf auf Stahl. Niemand kämpfte härter als @@unit, die @@amount Feinde töteten."
+
+[chronicle_broke_fled]
+1 = "@@unit brachen ein und flohen."
+2 = "@@unit verloren den Mut und rannten davon."
+
+[chronicle_broke_wiped]
+1 = "@@unit wurden bis auf den letzten Mann vernichtet."
+2 = "Keiner von @@unit verließ das Feld lebend."
+
+[chronicle_end_win]
+1 = "Am Ende konnten die Verteidiger von @@defender nicht länger standhalten."
+2 = "Als sich der Staub legte, war @@defender @@attacker ausgeliefert."
+
+[chronicle_end_loss]
+1 = "Am Ende kehrte die Armee von @@attacker geschlagen um."
+2 = "Die Mauern von @@defender hielten, und die Armee von @@attacker zog ab."
+
+[chronicle_spoils]
+1 = "Die Karren fuhren schwer beladen heim: @@resources Rohstoffe und @@runes Runen."
+
+[chronicle_nospoils]
+1 = "Es wurde nichts erbeutet."
+
+[chronicle_verdict_win]
+1 = "Ein Sieg mit @@percent%. @@hero entschied den Tag."
+
+[chronicle_verdict_loss]
+1 = "Der Angriff wurde zurückgeschlagen. @@hero hielt die Linie."
+
+[chronicle_verdict_plain]
+1 = "Ein Sieg mit @@percent%."

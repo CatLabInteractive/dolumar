@@ -65,6 +65,7 @@ class Dolumar_Battle_ReportAnalysis
 	private $totals = array (self::TEAM_ATTACKER => array (), self::TEAM_DEFENDER => array ());
 	private $complete = true;
 	private $rounds = 0;
+	private $emptySlots = array (self::TEAM_ATTACKER => 0, self::TEAM_DEFENDER => 0);
 
 	/**
 	 * @param string $battleLog the battle_report.battleLog column
@@ -149,6 +150,10 @@ class Dolumar_Battle_ReportAnalysis
 				{
 					$unit = $this->registerUnit ($unit, $team);
 					$this->units[$unit]['initialSlot'] = $id;
+				}
+				else
+				{
+					$this->emptySlots[$team] ++;
 				}
 			}
 		}
@@ -421,6 +426,14 @@ class Dolumar_Battle_ReportAnalysis
 	public function getSlots ()
 	{
 		return $this->slots;
+	}
+
+	/**
+	 * How many slots a side left empty at the start of the fight.
+	 */
+	public function countEmptySlots ($team)
+	{
+		return $this->emptySlots[$team];
 	}
 
 	public function isComplete ()
