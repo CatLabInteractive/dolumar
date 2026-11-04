@@ -80,14 +80,19 @@ check('mobile-shell', { viewport: { width: 390, height: 844 }, layout: 'mobile' 
 	assert(await page.locator('.dialog').count() === 0, 'unexpected .dialog element on the mobile layout');
 });
 
-// Save the layout preference of the mock player through the MyAccount form and reload without ?layout=.
+// Save the layout preference of the mock player through the MyAccount form (the layout switches
+// live, the page must not reload), then reload without ?layout= to check it was stored.
 async function saveLayoutPreference(page, baseUrl, value) {
 	const select = page.locator('select[name=layout]').first();
 	await page.evaluate(() => openWindow('MyAccount'));
 	await select.waitFor({ state: 'visible', timeout: 15000 });
+	// Marker that a full page reload would wipe: the layout switches live, without one.
+	await page.evaluate(() => { window.__layoutNoReload = true; });
 	await select.selectOption(value);
 	await page.waitForSelector('body.layout-' + (value === 'auto' ? 'desktop' : value), { timeout: 2000 });
 	await page.waitForTimeout(1000);
+	assert(await page.evaluate(() => window.__layoutNoReload === true), 'changing the layout reloaded the page');
+	assert(await page.locator('select[name=layout]').first().inputValue() === value, 'the redrawn account window does not show ' + value);
 	await page.goto(baseUrl, { waitUntil: 'load' });
 	await page.waitForFunction(() => typeof Game !== 'undefined' && Game.core && Game.core.isMapLoaded && Game.gui.bIsInDialog <= 0, null, { timeout: 15000 });
 }
