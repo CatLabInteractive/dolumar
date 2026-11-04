@@ -5,9 +5,9 @@
 	{
 		$neverending_text = Neuron_Core_Text::getInstance ();
 ?>
-	<div class="information neverending-notice">
+	<div class="information ui-msg neverending-notice">
 		<span class="info-icon">
-			<strong><?=$neverending_text->get ('title', 'neverending', 'neverending')?></strong><br />
+			<strong class="ui-msg-title"><?=$neverending_text->get ('title', 'neverending', 'neverending')?></strong>
 			<?=$neverending_text->get ($neverending_key, 'neverending', 'neverending')?>
 		</span>
 	</div>
