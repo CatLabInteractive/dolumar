@@ -47,6 +47,10 @@
 									$status .= '</td>';
 									$status .= '</tr>';
 								break;
+
+								case 'underworld':
+									$status = '<tr><td colspan="2"><em>'.$this->getText ('underworld').'</em></td></tr>';
+								break;
 							}
 						?>
 						
@@ -80,7 +84,7 @@
 						
 							<tr>
 								<td colspan="2">
-									<?php if ($v['isMine']) { ?>
+									<?php if ($v['isMine'] && $v['status'] != 'underworld') { ?>
 										<a href="javascript:void(0);" onclick="windowAction (this, {'page':'addUnits', 'id' : <?=$v['id']?>});"><?=$this->getText ('addUnits')?></a> - 
 										<a href="javascript:void(0);" onclick="windowAction (this, {'page':'removeUnits', 'id':<?=$v['id']?>});"><?=$this->getText ('removeUnits')?></a><?php  
 									}

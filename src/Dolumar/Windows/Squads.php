@@ -172,6 +172,11 @@ class Dolumar_Windows_Squads extends Neuron_GameServer_Windows_Window
 				$status = 'rent';
 			}
 			
+			elseif ($v->isInUnderworld ())
+			{
+				$status = 'underworld';
+			}
+
 			else
 			{
 				$status = 'home';
@@ -226,6 +231,11 @@ class Dolumar_Windows_Squads extends Neuron_GameServer_Windows_Window
 		$page->set ('toRemove', $text->getClickTo ($text->get ('toRemove')));
 		$page->set ('toReturn', $text->getClickTo ($text->get ('toReturn')));
 		$page->set ('name', Neuron_Core_Tools::output_varchar ($objSquad->getName ()));
+
+		if ($objSquad->isInUnderworld ())
+		{
+			$page->set ('underworld', $text->get ('underworld'));
+		}
 
 		$input = $this->getInputData ();
 		if (isset ($input['remove']))
