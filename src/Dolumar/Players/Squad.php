@@ -24,6 +24,7 @@
 class Dolumar_Players_Squad
 {
 	private $id, $data = null, $items = array (), $error = null, $isIdle = null;
+	private $unequippedItems = array ();
 	private $aUnits = false;
 	private $effects = array ();
 	
@@ -69,6 +70,24 @@ class Dolumar_Players_Squad
 		return $this->data['s_name'];
 	}
 	
+	/*
+		Rename the regiment. The caller validates the name ('unitname' rule).
+	*/
+	public function rename ($sName)
+	{
+		$this->loadData ();
+
+		$db = Neuron_Core_Database::__getInstance ();
+		$db->update
+		(
+			'villages_squads',
+			array ('s_name' => $sName),
+			"s_id = '".$this->getId ()."'"
+		);
+
+		$this->data['s_name'] = $sName;
+	}
+
 	public function getDisplayName ()
 	{
 		return Neuron_Core_Tools::output_varchar ($this->getName ());
@@ -263,8 +282,10 @@ class Dolumar_Players_Squad
 
 			else
 			{
-				$this->unequipItems ($objUnit);
-				
+				// Keep each equipped item when the village has one for every new soldier;
+				// only the slots it can't cover are taken off.
+				$this->unequipShortItems ($objUnit, $amount);
+
 				$db->update
 				(
 					'squad_units',
@@ -462,6 +483,55 @@ class Dolumar_Players_Squad
 		{
 			return true;
 		}
+	}
+
+	/*
+		Before $extra soldiers join $objUnit's stack: take off every equipped
+		item the village has fewer than $extra spare of. The names of the items
+		taken off are kept for getUnequippedItems ().
+	*/
+	private function unequipShortItems ($objUnit, $extra)
+	{
+		$this->unequippedItems = array ();
+
+		$squadUnit = $this->getUnit ($objUnit->getUnitId ());
+		if (!$squadUnit)
+		{
+			return;
+		}
+
+		$stock = $this->getVillage ()->getEquipment ();
+
+		foreach ($squadUnit->getEquipment () as $item)
+		{
+			$type = $item->getItemType ();
+			$spare = 0;
+
+			if (isset ($stock[$type]))
+			{
+				foreach ($stock[$type] as $owned)
+				{
+					if ($owned->getId () == $item->getId ())
+					{
+						$spare = $owned->getAvailableAmount ();
+					}
+				}
+			}
+
+			if ($spare < $extra)
+			{
+				$this->unequipItem ($objUnit, $item->getItemTypeId ());
+				$this->unequippedItems[] = $item;
+			}
+		}
+	}
+
+	/*
+		Items (Dolumar_Players_Equipment) the last addUnits () took off because there weren't enough.
+	*/
+	public function getUnequippedItems ()
+	{
+		return $this->unequippedItems;
 	}
 
 	public function unequipItems ($objUnit)

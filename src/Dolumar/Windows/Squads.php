@@ -34,7 +34,7 @@ class Dolumar_Windows_Squads extends Neuron_GameServer_Windows_Window
 		$this->village = Dolumar_Players_Village::getVillage ($data['vid']);
 	
 		// Window settings
-		$this->setSize ('450px', '350px');
+		$this->setSize ('680px', '460px');
 		
 		$this->setAllowOnlyOnce ();
 
@@ -57,50 +57,32 @@ class Dolumar_Windows_Squads extends Neuron_GameServer_Windows_Window
 		$input = $this->getInputData ();
 
 		$login = Neuron_Core_Login::__getInstance ();
-		
+
 		$page = isset ($input['page']) ? $input['page'] : (isset ($input['action']) ? $input['action'] : 'overview');
-		$id = isset ($input['id']) ? $input['id'] : 0;
-	
+		$id = isset ($input['id']) ? (int)$input['id'] : 0;
+
 		$text = Neuron_Core_Text::__getInstance ();
-		if (
+		if
+		(
 			$this->village &&
 			$this->village->isActive () &&
 			$this->village->getOwner()->getId () == $login->getUserId ()
 		)
 		{
-			if ($id > 0)
+			if ($id > 0 && $page != 'overview')
 			{
 				$squad = $this->village->getSquads ($id);
 				if (count ($squad) == 1)
 				{
-					switch ($page)
-					{
-						case 'squad':
-							return $this->getSquadOverview ($squad[0]);
-						break;
-
-						case 'addUnits':
-							return $this->getAddUnits ($squad[0]);
-						break;
-						
-						case 'removeUnits':
-							return $this->getRemoveUnits ($squad[0]);
-						break;
-
-						default:
-							return $this->getOverview ();
-						break;
-					}
+					// 'squad', 'addUnits' and 'removeUnits' were separate pages; they all open the editor now.
+					return $this->getEditor ($squad[0]);
 				}
-				else
-				{
-					return $this->getOverview ();
-				}
+
+				return $this->getOverview ();
 			}
 			elseif ($page == 'add')
 			{
-				// Add a squad
-				return $this->getAddSquad ();
+				return $this->getEditor (null);
 			}
 			else
 			{
@@ -118,14 +100,99 @@ class Dolumar_Windows_Squads extends Neuron_GameServer_Windows_Window
 		$this->updateContent ();
 	}
 
+	/*
+		The status of a regiment as seen from this village: home, away (supporting
+		elsewhere), rent (support sent here by someone else) or underworld.
+	*/
+	private function getStatus ($objSquad)
+	{
+		$village = $objSquad->getVillage ();
+		$location = $objSquad->getCurrentLocation ();
+
+		if ($this->village->getId () != $location->getId ())
+		{
+			return 'away';
+		}
+		elseif ($village->getId () != $this->village->getId ())
+		{
+			return 'rent';
+		}
+		elseif ($objSquad->isInUnderworld ())
+		{
+			return 'underworld';
+		}
+
+		return 'home';
+	}
+
+	private function getStatusText ($objSquad, $status)
+	{
+		$text = Neuron_Core_Text::__getInstance ();
+
+		switch ($status)
+		{
+			case 'away':
+			case 'rent':
+				$village = $objSquad->getVillage ();
+				$location = $objSquad->getCurrentLocation ();
+
+				return Neuron_Core_Tools::putIntoText
+				(
+					$text->get ($status, 'overview', 'squads'),
+					array
+					(
+						'village' => '<a href="javascript:void(0);" onclick="openWindow (\'villageProfile\', {\'village\':'.$village->getId ().'});">'.Neuron_Core_Tools::output_varchar ($village->getName ()).'</a>',
+						'location' => '<a href="javascript:void(0);" onclick="openWindow (\'villageProfile\', {\'village\':'.$location->getId ().'});">'.Neuron_Core_Tools::output_varchar ($location->getName ()).'</a>'
+					)
+				);
+
+			case 'underworld':
+				return $text->get ('underworld', 'overview', 'squads');
+		}
+
+		return $text->get ('home', 'overview', 'squads');
+	}
+
+	/*
+		Village units that are not in any regiment, by unit id.
+	*/
+	private function getFreeUnits ()
+	{
+		$out = array ();
+		foreach ($this->village->getMyUnits () as $unit)
+		{
+			if ($unit->getSquadlessAmount () > 0)
+			{
+				$out[$unit->getUnitId ()] = $unit;
+			}
+		}
+		return $out;
+	}
+
+	/*
+		Equipped items of a regiment unit, by item type.
+	*/
+	private static function getEquipped ($objUnit)
+	{
+		$out = array ();
+		if ($objUnit)
+		{
+			foreach ($objUnit->getEquipment () as $item)
+			{
+				$out[$item->getItemType ()] = $item;
+			}
+		}
+		return $out;
+	}
+
 	private function getOverview ()
 	{
 		$text = Neuron_Core_Text::__getInstance ();
 		$text->setFile ('squads');
 		$text->setSection ('overview');
-		
+
 		$page = new Neuron_Core_Template ();
-		
+
 		$page->set ('vid', $this->village->getId ());
 
 		$input = $this->getInputData ();
@@ -141,7 +208,7 @@ class Dolumar_Windows_Squads extends Neuron_GameServer_Windows_Window
 				$this->alert ($text->get ('notIdle'));
 			}
 		}
-		
+
 		// Check for recalls
 		if (isset ($input['recall']))
 		{
@@ -152,437 +219,451 @@ class Dolumar_Windows_Squads extends Neuron_GameServer_Windows_Window
 			}
 		}
 
-		// Show a list of squads
-		$squads = $this->village->getSquads (false, false, false);
-		
-		foreach ($squads as $v)
+		if (isset ($input['created']))
 		{
-			// Check if this squad is "home" or "supporting"
-			$village = $v->getVillage ();
-			$location = $v->getCurrentLocation ();
-			
-			// Check for supporting
-			if ($this->village->getId () != $location->getId ())
+			$page->set ('notice', Neuron_Core_Tools::putIntoText ($text->get ('created'), array (Neuron_Core_Tools::output_varchar ($input['created']))));
+		}
+
+		foreach ($this->village->getSquads (false, false, false) as $v)
+		{
+			$status = $this->getStatus ($v);
+			$units = $v->getUnits ();
+			$unit = count ($units) > 0 ? reset ($units) : null;
+
+			$equipped = array ();
+			foreach (self::getEquipped ($unit) as $type => $item)
 			{
-				$status = 'away';
-			}
-			
-			elseif ($village->getId () != $this->village->getId ())
-			{
-				$status = 'rent';
-			}
-			
-			elseif ($v->isInUnderworld ())
-			{
-				$status = 'underworld';
+				$equipped[$type] = Neuron_Core_Tools::output_varchar ($item->getName (true));
 			}
 
-			else
-			{
-				$status = 'home';
-			}
-		
 			$page->addListValue
 			(
 				'squads',
 				array
 				(
-					'name' => Neuron_Core_Tools::output_varchar ($v->getName ()),
-					'units' => $v->getUnits (),
 					'id' => $v->getId (),
+					'name' => Neuron_Core_Tools::output_varchar ($v->getName ()),
+					'amount' => $v->getUnitsAmount (),
+					'unit' => $unit ? Neuron_Core_Tools::output_varchar ($unit->getName ()) : null,
+					'image' => $unit ? $unit->getImageUrl () : null,
+					'equipment' => $equipped,
 					'status' => $status,
-					'village' => Neuron_Core_Tools::putIntoText ($village->getName ()),
-					'village_id' => $village->getId (),
-					'location' => Neuron_Core_Tools::putIntoText ($location->getName ()),
-					'location_id' => $location->getId (),
-					'isMine' => $v->getCurrentLocation()->getId() == $v->getVillage()->getId()
+					'statusText' => $status == 'home' ? null : $this->getStatusText ($v, $status),
+					'isMine' => $v->getCurrentLocation()->getId() == $v->getVillage()->getId(),
+					'canRecall' => $status == 'away' || $status == 'rent'
 				)
 			);
 		}
 
-		$page->set ('squads', $text->get ('squads'));
-		$page->set ('noSquads', $text->get ('noSquads'));
-		$page->set ('toAdd', $text->getClickTo ($text->get ('toAdd')));
-		$page->set ('toAll', $text->getClickTo ($text->get ('toAll')));
-		$page->set ('edit', $text->get ('edit'));
-		$page->set ('remove', $text->get ('remove'));
-		$page->set ('confirm', $text->get ('conRemove'));
-		$page->set ('noUnits', $text->get ('noUnits'));
+		foreach ($this->getFreeUnits () as $unit)
+		{
+			$page->addListValue
+			(
+				'free',
+				array
+				(
+					'amount' => $unit->getSquadlessAmount (),
+					'name' => Neuron_Core_Tools::output_varchar ($unit->getName ())
+				)
+			);
+		}
+
+		foreach (Dolumar_Players_Equipment::getItemTypes () as $type)
+		{
+			$page->addListValue ('itemTypes', array ('type' => $type, 'name' => Dolumar_Players_Equipment::getEquipmentName ($type)));
+		}
 
 		return $page->parse ('squads/squads.tpl');
 	}
 
-	private function getSquadOverview ($objSquad)
+	/*
+		Create ($objSquad = null) or edit a regiment on one screen:
+		unit type (create only), name, number of soldiers, weapon and armour.
+	*/
+	private function getEditor ($objSquad)
 	{
 		$text = Neuron_Core_Text::__getInstance ();
 		$text->setFile ('squads');
-		$text->setSection ('squad');
-		
-		$page = new Neuron_Core_Template ();
-
-		$page->set ('squadId', $objSquad->getId ());
-		
-		$page->set ('squads', $text->get ('squads'));
-		$page->set ('remove', $text->get ('remove'));
-		$page->set ('confirm', addslashes ($text->get ('conRemove')));
-		$page->set ('noUnits', $text->get ('noUnits'));
-		$page->set ('noItem', $text->get ('noItem'));
-		$page->set ('toAdd', $text->getClickTo ($text->get ('toAdd')));
-		$page->set ('toRemove', $text->getClickTo ($text->get ('toRemove')));
-		$page->set ('toReturn', $text->getClickTo ($text->get ('toReturn')));
-		$page->set ('name', Neuron_Core_Tools::output_varchar ($objSquad->getName ()));
-
-		if ($objSquad->isInUnderworld ())
-		{
-			$page->set ('underworld', $text->get ('underworld'));
-		}
+		$text->setSection ('editor');
 
 		$input = $this->getInputData ();
-		if (isset ($input['remove']))
+		$errors = array ();
+		$notices = array ();
+
+		$isNew = $objSquad === null;
+
+		if ($isNew && isset ($input['action']) && $input['action'] == 'create')
 		{
-			if ($objSquad->isIdle ())
+			$objSquad = $this->createSquad ($input, $errors, $notices);
+			if ($objSquad)
 			{
-				if ($objSquad->removeUnit ((int)$input['remove']))
+				$this->setInputData (array ('page' => 'overview', 'created' => $objSquad->getName ()));
+				return $this->getOverview ();
+			}
+		}
+		elseif (!$isNew && isset ($input['action']) && $input['action'] == 'save')
+		{
+			if ($this->saveSquad ($objSquad, $input, $errors, $notices) && count ($errors) == 0)
+			{
+				array_unshift ($notices, $text->get ('saved'));
+			}
+		}
+
+		$page = new Neuron_Core_Template ();
+		$page->set ('vid', $this->village->getId ());
+		$page->set ('isNew', $isNew);
+
+		$free = $this->getFreeUnits ();
+		$suggester = $this->getNameSuggester ();
+		$takenNames = $this->getTakenNames ();
+
+		if ($isNew)
+		{
+			// Unit tiles: every unit type with soldiers outside a regiment.
+			$selected = isset ($input['squadUnit']) && isset ($free[(int)$input['squadUnit']]) ? (int)$input['squadUnit'] : null;
+
+			foreach ($free as $unitId => $unit)
+			{
+				if ($selected === null)
 				{
-					$this->setInputData ('{}');
-					return $this->getOverview ();
+					$selected = $unitId;
 				}
-			}
-			else
-			{
-				$this->alert ($text->get ('notIdle'));
-			}
-		}
 
-		// Handle equipment input
-		$equipment = $this->village->getEquipment();
-
-		$reloadEquipment = false;
-		foreach ($objSquad->getUnits () as $unit)
-		{
-			// Loop trough equipment to seek input
-			foreach ($equipment as $type => $items)
-			{
-				$inputKey = $unit->getUnitId () . '_' . $type;
-				if (isset ($input[$inputKey]))
-				{				
-					if ($input[$inputKey] == "0")
-					{
-						$itemid = Dolumar_Players_Equipment::getItemTypeId_static ($type);
-						$objSquad->unequipItem ($unit, $itemid);
-					}
-					else
-					{
-						// Loop trough your equipment and search for selected item
-						foreach ($items as $name => $item)
-						{
-							if ($input[$inputKey] == $item->getId ())
-							{
-								if (!$objSquad->addEquipment ($unit, $item))
-								{
-									//$this->alert ($text->get ($objSquad->getError ()));
-									$page->set ('error', $text->get ($objSquad->getError ()));
-								}
-								
-								break 1;
-							}
-						}
-					}
-
-					$reloadEquipment = true;
-				}
-			}
-		}
-
-		//return '<pre>'.print_r ($equipment, true).'</pre>';
-
-		//return $input[$inputKey];
-		//return $inputKey . '<pre>'.print_r ($input, true).'</pre>';
-
-		if ($reloadEquipment)
-		{
-			reloadEverything ();
-			$objSquad->reloadUnits ();
-		}
-		
-		foreach ($objSquad->getUnits () as $v)
-		{
-			// And do the actual output
-			$items = array ();
-			foreach ($v->getEquipment () as $eq)
-			{
-				$items[$eq->getItemType ()] = $eq->getId ();
-			}
-			
-			$page->addListValue
-			(
-				'units',
-				array
+				$page->addListValue
 				(
-					Neuron_Core_Tools::output_varchar ($v->getName ()),
-					$v->getSquadlessAmount (),
-					$v->getImageUrl (),
-					$v->getUnitId (),
-					$items,
-					'stats' => Dolumar_Windows_Units::getUnitStatsHTML ($v)
-				)
-			);
+					'unitTypes',
+					array
+					(
+						'id' => $unitId,
+						'name' => Neuron_Core_Tools::output_varchar ($unit->getName ()),
+						'image' => $unit->getImageUrl (),
+						'free' => $unit->getSquadlessAmount (),
+						'suggestion' => $suggester->suggest ($unit->getName (), $takenNames),
+						'selected' => $unitId == $selected
+					)
+				);
+			}
+
+			if ($selected === null)
+			{
+				$page->set ('noUnits', $text->get ('noUnits', 'addSquad'));
+				return $page->parse ('squads/editor.tpl');
+			}
+
+			$unit = $free[$selected];
+			$current = 0;
+			$max = $unit->getSquadlessAmount ();
+			$size = isset ($input['size']) ? max (0, min ($max, (int)$input['size'])) : $max;
+			$name = isset ($input['squadName']) ? $input['squadName'] : $suggester->suggest ($unit->getName (), $takenNames);
+			$equipped = array ();
+			$canEdit = true;
+		}
+		else
+		{
+			$objSquad->reloadUnits ();
+			$unitId = $objSquad->getUnitType ();
+			$unit = $objSquad->getUnit ($unitId);
+			$current = $objSquad->getUnitsAmount ();
+
+			$villageUnit = null;
+			foreach ($this->village->getMyUnits () as $v)
+			{
+				if ($v->getUnitId () == $unitId)
+				{
+					$villageUnit = $v;
+				}
+			}
+
+			$max = $current + ($villageUnit ? max (0, $villageUnit->getSquadlessAmount ()) : 0);
+			$size = $current;
+			$name = $objSquad->getName ();
+			$equipped = self::getEquipped ($unit);
+
+			$displayUnit = $unit ? $unit : $villageUnit;
+
+			$status = $this->getStatus ($objSquad);
+			$canEdit = $status == 'home' && $objSquad->isIdle ();
+
+			if ($status == 'underworld')
+			{
+				$errors[] = $text->get ('underworld', 'squad');
+			}
+			elseif (!$canEdit && $status == 'home')
+			{
+				$errors[] = $text->get ('notIdle', 'squad');
+			}
+
+			$page->set ('squadId', $objSquad->getId ());
+			$page->set ('statusText', $this->getStatusText ($objSquad, $status));
+			$page->set ('canDisband', $objSquad->isIdle () && $status == 'home');
+			$page->set ('confirm', addslashes ($text->get ('conRemove', 'squad')));
+
+			if ($unit)
+			{
+				$page->set ('stats', Dolumar_Windows_Units::getUnitStatsHTML ($unit));
+			}
+
+			$unit = $displayUnit;
 		}
 
-		$o = array ();
-		$e = $this->village->getEquipment();
-		
-		foreach ($e as $k => $v)
+		$page->set ('name', Neuron_Core_Tools::output_varchar ($name));
+		$page->set ('unitName', $unit ? Neuron_Core_Tools::output_varchar ($unit->getName ()) : '');
+		$page->set ('image', $unit ? $unit->getImageUrl () : null);
+		$page->set ('size', $size);
+		$page->set ('max', $max);
+		$page->set ('current', $current);
+		$page->set ('canEdit', $canEdit);
+
+		// Equipment: one picker per item type, with the stock for this regiment.
+		foreach ($this->village->getEquipment () as $type => $items)
 		{
+			$options = array ();
+			foreach ($items as $item)
+			{
+				$isEquipped = isset ($equipped[$type]) && $equipped[$type]->getId () == $item->getId ();
+				$left = $item->getAvailableAmount () + ($isEquipped ? $current : 0);
+
+				if ($left <= 0 && !$isEquipped)
+				{
+					continue;
+				}
+
+				$options[] = array
+				(
+					'id' => $item->getId (),
+					'name' => Neuron_Core_Tools::output_varchar ($item->getName (true)),
+					'left' => $left,
+					'selected' => $isEquipped
+				);
+			}
+
 			$page->addListValue
 			(
 				'equipment',
 				array
 				(
-					Neuron_Core_Tools::output_varchar (Dolumar_Players_Equipment::getEquipmentName ($k)),
-					$v,
-					$k
+					'type' => $type,
+					'name' => Neuron_Core_Tools::output_varchar (Dolumar_Players_Equipment::getEquipmentName ($type)),
+					'items' => $options
 				)
 			);
 		}
 
-		return $page->parse ('squads/view.tpl');
-	}
-
-	private function getAddSquad ()
-	{
-		$input = $this->getInputData ();
-		if 
-		(
-			isset ($input['squadName']) 
-			&& Neuron_Core_Tools::checkInput ($input['squadName'], 'unitname')
-			&& isset ($input['squadUnit'])
-		)
+		foreach ($errors as $v)
 		{
-			// Check if unit type exists
-			$unit = Dolumar_Units_Unit::getUnitFromId ($input['squadUnit'], $this->village->getRace (), $this->village);
-		
-			if ($unit)
-			{
-				// Add the squad
-				$objSquad = $this->village->addSquad ($input['squadName'], $input['squadUnit']);
-
-				if ($objSquad)
-				{
-					return $this->getAddUnits ($objSquad);
-				}
-				else
-				{
-					return $this->getOverview ();
-				}
-			}
-			else
-			{
-				$this->alert ('Invalid unit type: '.$input['squadUnit']);
-			}
+			$page->addListValue ('errors', $v);
 		}
-		else
-		{		
-			$text = Neuron_Core_Text::__getInstance ();
-			$text->setFile ('squads');
-			$text->setSection ('addSquad');
 
-			$page = new Neuron_Core_Template ();
-
-			if (isset ($input['squadName']))
-			{
-				$page->set ('warning', $text->get ('squadNameSyntax'));
-			}
-
-			$page->set ('title', $text->get ('title'));
-			$page->set ('name', $text->get ('name'));
-			$page->set ('submit', $text->get ('submit'));
-			$page->set ('toReturn', $text->getClickTo ($text->get ('toReturn')));
-			
-			// Load all units
-			$units = $this->village->getMyUnits ();
-			
-			foreach ($units as $unit)
-			{
-				if ($unit->getSquadlessAmount () > 0)
-				{
-					$page->addListValue
-					(
-						'units',
-						array
-						(
-							'name' => $unit->getName (),
-							'id' => $unit->getUnitId ()
-						)
-					);
-				}
-			}
-
-			return $page->parse ('squads/add.tpl');
+		foreach ($notices as $v)
+		{
+			$page->addListValue ('notices', $v);
 		}
+
+		return $page->parse ('squads/editor.tpl');
 	}
 
-	private function getAddUnits ($objSquad)
+	private function getNameSuggester ()
 	{
 		$text = Neuron_Core_Text::__getInstance ();
-		$text->setFile ('squads');
-		$text->setSection ('addUnits');
-		
-		$units = $this->village->getMyUnits ();
-		$input = $this->getInputData ();
-		
-		//return print_r ($units, true);
 
-		$selectedUnits = array ();
-		$iCount = 0;
-		foreach ($units as $v)
-		{
-			$key = 'unit_'.$v->getUnitId ();
-			if (isset ($input[$key]) && ((int)$input[$key]) > 0)
-			{
-				$objSquad->addUnits ($v, ((int)$input[$key]));
-				$iCount ++;
-			}
-		}
-
-		if ($iCount > 0)
-		{
-			$error = $objSquad->getError ();
-			
-			if (!empty ($error))
-			{
-				$tError = $text->get ($error);
-			}
-			else
-			{
-				return $this->getSquadOverview ($objSquad);
-			}
-
-			$units = $this->village->getMyUnits ();
-		}
-		
-		$page = new Neuron_Core_Template ();
-		
-		$page->set ('title', $text->get ('title'));
-		$page->set ('toReturn', $text->getClickTo ($text->get ('toReturn')));
-
-		$page->set ('noUnits', $text->get ('noUnits'));
-		$page->set ('squadId', $objSquad->getId ());
-		$page->set
+		return new Dolumar_Squads_NameSuggester
 		(
-			'about',
-			Neuron_Core_Tools::putIntoText
-			(
-				$text->get ('about'),
-				array (Neuron_Core_Tools::output_varchar ($objSquad->getName ()))
-			)
+			$text->get ('suggestedName', 'editor', 'squads', '@@ordinal @@unit'),
+			$text->getCurrentLanguage (),
+			$text->get ('regiment', 'editor', 'squads', 'Regiment')
 		);
-
-		if (isset ($tError))
-		{
-			$page->set ('error', $tError);
-		}
-
-		foreach ($units as $v)
-		{			
-			if ($v->getSquadlessAmount () > 0 && $objSquad->getUnitType () == $v->getUnitId ())
-			{
-				$page->addListValue
-				(
-					'units',
-					array
-					(
-						Neuron_Core_Tools::output_varchar ($v->getName ()),
-						$v->getSquadlessAmount (),
-						$v->getUnitId ()
-					)
-				);
-			}
-		}
-
-		return $page->parse ('squads/units.tpl');
 	}
-	
-	private function getRemoveUnits ($objSquad)
+
+	private function getTakenNames ()
+	{
+		$out = array ();
+		foreach ($this->village->getSquads (false, false, true) as $v)
+		{
+			$out[] = $v->getName ();
+		}
+		return $out;
+	}
+
+	private function createSquad ($input, &$errors, &$notices)
 	{
 		$text = Neuron_Core_Text::__getInstance ();
-		$text->setFile ('squads');
-		$text->setSection ('removeUnits');
-		
-		$units = $objSquad->getUnits ();
-		$input = $this->getInputData ();
-		
-		//return print_r ($units, true);
 
-		$selectedUnits = array ();
-		$iCount = 0;
-		foreach ($units as $v)
+		$free = $this->getFreeUnits ();
+		$unitId = isset ($input['squadUnit']) ? (int)$input['squadUnit'] : 0;
+		$size = isset ($input['size']) ? (int)$input['size'] : 0;
+		$name = isset ($input['squadName']) ? trim ($input['squadName']) : '';
+
+		if (!isset ($free[$unitId]))
 		{
-			$key = 'unit_'.$v->getUnitId ();
-			if (isset ($input[$key]) && ((int)$input[$key]) > 0)
-			{
-				$objSquad->removeUnits ($v, ((int)$input[$key]), false);
-				$iCount ++;
-			}
+			$errors[] = $text->get ('noUnits', 'addSquad');
+			return null;
 		}
 
-		if ($iCount > 0)
+		if (!Neuron_Core_Tools::checkInput ($name, 'unitname'))
 		{
-			$error = $objSquad->getError ();
-			
-			if (!empty ($error))
+			$errors[] = $text->get ('squadNameSyntax', 'addSquad');
+			return null;
+		}
+
+		$size = min ($size, $free[$unitId]->getSquadlessAmount ());
+		if ($size < 1)
+		{
+			$errors[] = $text->get ('noSoldiers', 'editor');
+			return null;
+		}
+
+		$objSquad = $this->village->addSquad ($name, $unitId);
+		$objSquad->addUnits ($free[$unitId], $size);
+
+		$error = $objSquad->getError ();
+		if (!empty ($error))
+		{
+			$errors[] = $text->get ($error, 'addUnits');
+		}
+
+		$objSquad->reloadUnits ();
+		$this->applyEquipment ($objSquad, $input, $errors);
+
+		reloadEverything ();
+		$this->village->reloadUnits ();
+
+		return $objSquad;
+	}
+
+	/*
+		Apply the editor form to an existing regiment. Returns false when nothing could be changed.
+	*/
+	private function saveSquad ($objSquad, $input, &$errors, &$notices)
+	{
+		$text = Neuron_Core_Text::__getInstance ();
+
+		if (!$objSquad->isIdle () || $this->getStatus ($objSquad) != 'home')
+		{
+			$errors[] = $text->get ('notIdle', 'squad');
+			return false;
+		}
+
+		// Name
+		if (isset ($input['squadName']) && trim ($input['squadName']) != $objSquad->getName ())
+		{
+			$name = trim ($input['squadName']);
+			if (Neuron_Core_Tools::checkInput ($name, 'unitname'))
 			{
-				$tError = $text->get ($error);
+				$objSquad->rename ($name);
 			}
 			else
 			{
-				$objSquad->reloadUnits ();
-				return $this->getSquadOverview ($objSquad);
+				$errors[] = $text->get ('squadNameSyntax', 'addSquad');
 			}
-
-			$units = $objSquad->getUnits ();
 		}
-		
-		$page = new Neuron_Core_Template ();
-		
-		$page->set ('title', $text->get ('title'));
-		$page->set ('toReturn', $text->getClickTo ($text->get ('toReturn')));
 
-		$page->set ('noUnits', $text->get ('noUnits'));
-		$page->set ('squadId', $objSquad->getId ());
-		$page->set
-		(
-			'about',
-			Neuron_Core_Tools::putIntoText
-			(
-				$text->get ('about'),
-				array (Neuron_Core_Tools::output_varchar ($objSquad->getName ()))
-			)
-		);
+		// Items taken off because there weren't enough for the new soldiers: don't try them again.
+		$skip = array ();
 
-		if (isset ($tError))
+		// Soldiers: the form holds the size the player wants, not a difference.
+		if (isset ($input['size']))
 		{
-			$page->set ('error', $tError);
+			$unitId = $objSquad->getUnitType ();
+			$current = $objSquad->getUnitsAmount ();
+			$target = max (0, (int)$input['size']);
+
+			if ($target > $current)
+			{
+				foreach ($this->village->getMyUnits () as $v)
+				{
+					if ($v->getUnitId () == $unitId)
+					{
+						$add = min ($target - $current, $v->getSquadlessAmount ());
+						if ($add > 0)
+						{
+							$objSquad->addUnits ($v, $add);
+
+							$error = $objSquad->getError ();
+							if (!empty ($error))
+							{
+								$errors[] = $text->get ($error, 'addUnits');
+							}
+
+							foreach ($objSquad->getUnequippedItems () as $item)
+							{
+								$skip[] = $item->getId ();
+								$notices[] = Neuron_Core_Tools::putIntoText ($text->get ('unequipped'), array (Neuron_Core_Tools::output_varchar ($item->getName (true))));
+							}
+						}
+					}
+				}
+			}
+			elseif ($target < $current)
+			{
+				$unit = $objSquad->getUnit ($unitId);
+				if ($unit)
+				{
+					$objSquad->removeUnits ($unit, $current - $target);
+				}
+			}
+
+			$objSquad->reloadUnits ();
 		}
 
-		foreach ($units as $v)
-		{			
-			if ($v->getAmount () > 0 && $objSquad->getUnitType () == $v->getUnitId ())
+		$this->applyEquipment ($objSquad, $input, $errors, $skip);
+
+		reloadEverything ();
+		$objSquad->reloadUnits ();
+		$this->village->reloadUnits ();
+
+		return true;
+	}
+
+	/*
+		Form fields equip_<type> hold an item id, or 0 for none.
+	*/
+	private function applyEquipment ($objSquad, $input, &$errors, $skip = array ())
+	{
+		$text = Neuron_Core_Text::__getInstance ();
+
+		$unit = $objSquad->getUnit ($objSquad->getUnitType ());
+		if (!$unit)
+		{
+			return;
+		}
+
+		$equipped = self::getEquipped ($unit);
+
+		foreach ($this->village->getEquipment () as $type => $items)
+		{
+			$key = 'equip_' . $type;
+			if (!isset ($input[$key]))
 			{
-				$page->addListValue
-				(
-					'units',
-					array
-					(
-						Neuron_Core_Tools::output_varchar ($v->getName ()),
-						$v->getAmount (),
-						$v->getUnitId ()
-					)
-				);
+				continue;
+			}
+
+			if ($input[$key] == '0')
+			{
+				if (isset ($equipped[$type]))
+				{
+					$objSquad->unequipItem ($unit, Dolumar_Players_Equipment::getItemTypeId_static ($type));
+				}
+				continue;
+			}
+
+			if (in_array ($input[$key], $skip))
+			{
+				continue;
+			}
+
+			foreach ($items as $item)
+			{
+				if ($input[$key] == $item->getId ())
+				{
+					if (!$objSquad->addEquipment ($unit, $item))
+					{
+						$errors[] = $text->get ($objSquad->getError (), 'squad') .
+							' (' . Neuron_Core_Tools::output_varchar ($item->getName (true)) . ')';
+					}
+					break;
+				}
 			}
 		}
-
-		return $page->parse ('squads/removeunits.tpl');
 	}
 }
 ?>

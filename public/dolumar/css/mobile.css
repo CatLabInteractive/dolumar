@@ -1310,15 +1310,50 @@ body.layout-mobile .sheet-content table.resources th
 	vertical-align: middle;
 }
 
-/* Squads: unit image, equipment and stats one under the other. */
-body.layout-mobile .sheet.squads div.equipment
+/* Regiments: one unit tile per row and full-width inputs (the kit sets the 44px tap height).
+   The style guide's Verdana and blue links, until the general sheet rules are aligned. */
+body.layout-mobile .sheet.squads .sheet-content,
+body.layout-mobile .sheet.squads .sheet-content h2,
+body.layout-mobile .sheet.squads .sheet-content strong,
+body.layout-mobile .sheet.squads .sheet-content label
 {
-	float: none;
+	font-family: Verdana, sans-serif;
 }
 
-body.layout-mobile .sheet.squads div.equipment select
+body.layout-mobile .sheet.squads .sheet-content p a,
+body.layout-mobile .sheet.squads .sheet-content .ui-muted a
+{
+	color: #000097;
+}
+
+body.layout-mobile .sheet.squads .squad-unit-tiles,
+body.layout-mobile .sheet.squads .ui-columns
+{
+	display: block;
+}
+
+body.layout-mobile .sheet.squads .ui-field input.squad-name-input
 {
 	width: 100%;
+	font-size: 16px;
+}
+
+body.layout-mobile .sheet.squads .ui-field .squad-size input
+{
+	font-size: 16px;
+}
+
+body.layout-mobile .sheet.squads .squad-step
+{
+	min-width: 44px;
+}
+
+body.layout-mobile .sheet.squads .squad-quick a,
+body.layout-mobile .sheet.squads .squad-back a
+{
+	display: inline-flex;
+	align-items: center;
+	min-height: 44px;
 }
 
 /* Logbook: date above the text, the action link on its own line. */
