@@ -208,6 +208,26 @@ class Dolumar_NewMap_MapObjectManager extends Neuron_GameServer_Map_Managers_Map
 	}
 
 	/**
+	*	Call after an army was sent, recalled or withdrawn: drops the cached
+	*	rows so the next map/objects request sees the change, and asks the
+	*	client handling this request to poll map/objects at once.
+	*/
+	public static function armiesChanged ()
+	{
+		$cache = Neuron_Core_Memcache::getInstance ();
+		if ($cache)
+		{
+			$cache->removeCache (self::MOVING_ROWS_CACHE_KEY);
+		}
+
+		// Engine with map-object refresh (dolumar-engine #28); older engines poll as before
+		if (class_exists ('Neuron_GameServer_Map_MapObjectRefresh'))
+		{
+			Neuron_GameServer_Map_MapObjectRefresh::request ();
+		}
+	}
+
+		/**
 	*	Village ids the player is related to (own + clan mates'), memoised per request.
 	*	@return int[]
 	*/

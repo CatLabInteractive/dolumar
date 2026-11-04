@@ -226,6 +226,84 @@ class Dolumar_NewMap_ArmyFactory
 	/**
 	*	Decode a stored route; fall back to the straight line when missing or broken.
 	*/
+	/**
+	*	Route of a squad move recalled at $now: from where it is on its way
+	*	(the move from $from to $to along $json, between $start and $end)
+	*	back along the walked part to where it left. Returned as walked pairs
+	*	(an even number of points), so portal jumps are taken back too.
+	*	Timing follows addPhase(): time is spread over the legs by length.
+	*
+	*	@return array list of array (x, y)
+	*/
+	public static function recallRoute ($json, array $from, array $to, $start, $end, $now)
+	{
+		$from = array ((float) $from[0], (float) $from[1]);
+		$to = array ((float) $to[0], (float) $to[1]);
+		$segments = self::segments (self::routeFromJson ($json, $from, $to));
+
+		$start = intval ($start);
+		$end = intval ($end);
+
+		$total = 0;
+		foreach ($segments as $seg)
+		{
+			$total += self::length ($seg);
+		}
+
+		$back = array ();
+		$t = $start;
+		$count = count ($segments);
+		foreach ($segments as $i => $seg)
+		{
+			if ($i == $count - 1)
+			{
+				$te = $end;
+			}
+			elseif ($total > 0)
+			{
+				$te = $t + (int) round (($end - $start) * self::length ($seg) / $total);
+			}
+			else
+			{
+				$te = $t;
+			}
+
+			$a = array ((float) $seg[0][0], (float) $seg[0][1]);
+			$b = array ((float) $seg[1][0], (float) $seg[1][1]);
+
+			if ($now >= $te)
+			{
+				array_unshift ($back, array ($b, $a));
+			}
+			elseif ($now > $t)
+			{
+				$f = ($now - $t) / ($te - $t);
+				$here = array ($a[0] + ($b[0] - $a[0]) * $f, $a[1] + ($b[1] - $a[1]) * $f);
+				array_unshift ($back, array ($here, $a));
+				break;
+			}
+			else
+			{
+				break;
+			}
+
+			$t = $te;
+		}
+
+		if (count ($back) == 0)
+		{
+			return array ($from, $from);
+		}
+
+		$out = array ();
+		foreach ($back as $pair)
+		{
+			$out[] = $pair[0];
+			$out[] = $pair[1];
+		}
+		return $out;
+	}
+
 	private static function routeFromJson ($json, array $from, array $to)
 	{
 		$fallback = array ($from, $to);

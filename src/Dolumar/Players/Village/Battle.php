@@ -323,6 +323,9 @@ class Dolumar_Players_Village_Battle
 					);
 				}
 		
+				// Show the new army on the map now
+				Dolumar_NewMap_MapObjectManager::armiesChanged ();
+
 				// Notify players
 				$pl_attacker = $this->objProfile->getOwner ();
 				$pl_defender = $oTarget->getOwner ();
