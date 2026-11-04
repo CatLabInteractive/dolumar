@@ -71,4 +71,8 @@ the security model are in the README section "Pull request previews". In short:
 - Previews report errors to Errbit only when `PREVIEW_AIRBRAKE_TOKEN` (and `PREVIEW_AIRBRAKE_HOST`) are set in the
   script's config file; the script copies them into every preview on each deploy, with
   `AIRBRAKE_ENVIRONMENT=preview-<name>`. Without them a preview's errors only appear in `dokku logs <app>`.
+- Deploy and destroy of one preview never overlap: the workflow puts them in one concurrency group (queued, never
+  cancelled), and the server script takes a per-preview `flock` so the daily cleanup and manual runs wait too. The
+  daily `cleanup` job destroys every PR number that `list` reports (apps, `-cache` services, `pr_*` databases) whose PR
+  is not open.
 - When you open a PR that needs a manual check, point the owner at the preview link in the PR comment.
