@@ -46,7 +46,11 @@ class Dolumar_Windows_Underworld extends Neuron_GameServer_Windows_Window
 
 		if ($mission)
 		{
-			return '<iframe src="'.$mission->getUrl ().'" style="width: 100%; height: 100%; border: 0px none black;" border="0"></iframe>';
+			// The window is narrower than the layout breakpoint, so 'auto' would put the mobile
+			// shell (header, tab bar) inside the iframe. The window itself already is the frame.
+			$url = $mission->getUrl () . '&amp;layout=desktop';
+
+			return '<iframe src="'.$url.'" style="width: 100%; height: 100%; border: 0px none black;" border="0"></iframe>';
 		}
 		else
 		{
