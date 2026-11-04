@@ -1,1 +1,3 @@
-Your resources are stored in warehouses. Your castle can store some resources, but not enough to get your economy going. So let's build a warehouse next.
+Good. Every building costs a [b]rune[/b] as well as resources, and your castle started with a few of each kind.
+
+Your castle can only store a little, and production stops when your storage is full. Build a [b]warehouse[/b] next.

@@ -200,6 +200,10 @@ class Dolumar_Windows_Statusbar
 			foreach ($villages as $v)
 			{
 				$v->processBattles ();
+
+				// A counter just ran out (or the list is stale): start whatever
+				// the player queued instead of waiting for the next cron run.
+				$v->premium->processQueue ();
 			
 				$vils .= "village = ".$v->getId ()." OR ";
 				$vilsId .= "vid = ".$v->getId ()." OR ";

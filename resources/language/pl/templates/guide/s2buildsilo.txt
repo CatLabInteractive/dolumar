@@ -1,0 +1,3 @@
+Dobrze. Każdy budynek kosztuje oprócz surowców także [b]runę[/b], a twój zamek zaczął z kilkoma runami każdego rodzaju.
+
+Zamek mieści niewiele, a gdy magazyny są pełne, produkcja staje. Zbuduj teraz [b]magazyn[/b].

@@ -1,3 +1,3 @@
-Premièrement, nous devons construire une ferme, cliquez sur l'icône de construction en haut et [b]construisez une ferme[/b]. Les fermes produisent de la nourriture, dont vous aurez besoin pour recruter des troupes.
+Votre village produit des [b]ressources[/b] en permanence (vous les voyez dans la barre des ressources). Produisons-en davantage : construisez une [b]ferme[/b]. Les fermes produisent du grain, qui nourrit vos troupes.
 
-Cliquez sur l'icône de construction ([span class="navigation build"][span]the hammer at the top[/span][/span]) et construisez une ferme.
+Ouvrez le menu [b]Construire[/b], choisissez la ferme et placez-la près de votre château. [b]Montrez-moi[/b] ouvre le menu pour vous.
