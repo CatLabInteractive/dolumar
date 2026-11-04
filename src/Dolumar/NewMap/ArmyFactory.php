@@ -33,6 +33,33 @@ class Dolumar_NewMap_ArmyFactory
 	const KIND_RETURNING = 'returning';
 	const KIND_SQUAD = 'squad';
 
+	/** Map object id of a battle (attack, wait, return) */
+	public static function battleId ($battleId)
+	{
+		return 'b:' . intval ($battleId);
+	}
+
+	/** Map object id of a squad move */
+	public static function squadId ($scId)
+	{
+		return 's:' . intval ($scId);
+	}
+
+	/**
+	*	Onclick script that centres the map on an army. $fallback (x, y) is where
+	*	to look when the army is not loaded on the map yet (a town centre it
+	*	passes); the map then follows the army once it is loaded.
+	*	Safe inside a double-quoted HTML attribute.
+	*/
+	public static function focusScript ($id, array $fallback)
+	{
+		$id = preg_replace ('/[^a-z0-9:]/i', '', $id);
+		$x = is_numeric ($fallback[0]) ? floatval ($fallback[0]) : 0;
+		$y = is_numeric ($fallback[1]) ? floatval ($fallback[1]) : 0;
+
+		return "Game.dolumar.focusArmy(event, '" . $id . "', " . $x . ", " . $y . ");";
+	}
+
 	/**
 	*	@param array $row battle columns plus fromX, fromY, toX, toY, fromName, toName
 	*	@param int $now
@@ -88,7 +115,7 @@ class Dolumar_NewMap_ArmyFactory
 		$vid = intval ($row['vid']);
 		$army = new Dolumar_NewMap_Army
 		(
-			'b:' . intval ($row['battleId']),
+			self::battleId ($row['battleId']),
 			$kind,
 			array ($vid, intval ($row['targetId'])),
 			$row['fromName'] . ' → ' . $row['toName'],
@@ -128,7 +155,7 @@ class Dolumar_NewMap_ArmyFactory
 		$homeVid = intval ($row['homeVid']);
 		$army = new Dolumar_NewMap_Army
 		(
-			's:' . intval ($row['sc_id']),
+			self::squadId ($row['sc_id']),
 			self::KIND_SQUAD,
 			array (intval ($row['s_from']), intval ($row['s_to']), $homeVid),
 			$row['squadName'] . ' → ' . $row['toName'],

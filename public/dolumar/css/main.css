@@ -216,6 +216,13 @@ ul.statusbar a
 	padding: 0px;
 }
 
+/* Counter lines of moving armies jump to the army on the map */
+ul.statusbar li.mapobject-link
+{
+	cursor: pointer;
+}
+
+
 ul.statusbar li.construct,
 ul.statusbar li.construct a
 {

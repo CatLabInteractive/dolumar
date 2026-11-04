@@ -94,4 +94,23 @@ class ArmyFactoryTest extends TestCase
 		$this->assertSame([[[0, 0], [3, 4]]], Dolumar_NewMap_ArmyFactory::segments([[0, 0], [3, 4]]));
 		$this->assertSame([[[0, 0], [1, 0]], [[5, 0], [9, 0]]], Dolumar_NewMap_ArmyFactory::segments([[0, 0], [1, 0], [5, 0], [9, 0]]));
 	}
+
+	public function testFocusScriptCentresTheMapOnTheArmy(): void
+	{
+		$this->assertSame("Game.dolumar.focusArmy(event, 'b:7', 10, -3);", Dolumar_NewMap_ArmyFactory::focusScript(Dolumar_NewMap_ArmyFactory::battleId(7), [10, -3]));
+		$this->assertSame("Game.dolumar.focusArmy(event, 's:12', 0, 0);", Dolumar_NewMap_ArmyFactory::focusScript(Dolumar_NewMap_ArmyFactory::squadId('12'), [0, 0]));
+	}
+
+	public function testFocusScriptIsSafeInAnHtmlAttribute(): void
+	{
+		$js = Dolumar_NewMap_ArmyFactory::focusScript("b:1'\"<x>", ['1.5', 'y']);
+		$this->assertStringNotContainsString('"', $js);
+		$this->assertStringNotContainsString('<', $js);
+		$this->assertStringContainsString(', 1.5, 0);', $js);
+	}
+
+	public function testIdsMatchTheExportedObjects(): void
+	{
+		$this->assertSame(Dolumar_NewMap_ArmyFactory::battleId(7), Dolumar_NewMap_ArmyFactory::fromBattleRow($this->row(), 1050)->getUOID());
+	}
 }
