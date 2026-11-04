@@ -114,6 +114,10 @@ defEnvOrDefault('AIRBRAKE_HOST');
 defEnvOrDefault('AIRBRAKE_PROJECT_ID');
 defEnvOrDefault('AIRBRAKE_ENVIRONMENT');
 
+// Reverse proxies allowed to report the visitor's address in X-Forwarded-For / X-Real-IP
+// (comma separated CIDR ranges). Unset: loopback and the Docker bridge (172.16.0.0/12).
+defEnvOrDefault('TRUSTED_PROXIES');
+
 defEnvOrDefault('NOLOGIN_REDIRECT');
 defEnvOrDefault('WIKI_GUIDE_URL');
 

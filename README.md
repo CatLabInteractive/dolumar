@@ -37,6 +37,8 @@ the most important ones are:
 * `APP_VERSION`: cache-busting version appended to script and stylesheet URLs. Defaults to the deployed git commit
   (`GIT_REV`, set by Dokku on every deploy); only set it when deploying without git.
 * `SIGNS_PATH`: where custom sign images are stored (defaults to `public/signs`). Must be persistent in production.
+* `TRUSTED_PROXIES`: comma separated CIDR ranges of reverse proxies whose `X-Forwarded-For` / `X-Real-IP` is
+  trusted for the visitor's IP (multi-account check, login log). Defaults to loopback and `172.16.0.0/12`.
 * `AIRBRAKE_TOKEN`, `AIRBRAKE_HOST`, `AIRBRAKE_PROJECT_ID`, `AIRBRAKE_ENVIRONMENT`: optional error reporting to Errbit
   or Airbrake. A notice the tracker does not accept is written to the error log (`dokku logs`), starting with
   `Error tracker:`.

@@ -33,6 +33,11 @@ breaks every existing subscription).
 `NEVERENDING=1` turns off the endgame for that server (no Dor Daedeloth spell, no winner, no reset); see
 `Dolumar_Players_Server::isNeverending()` for every place that checks it.
 
+The app sits behind Dokku's nginx, so `REMOTE_ADDR` is the proxy (`172.17.0.1`). Read the visitor's address with
+`Neuron_Core_Tools::getClientIp()`, never `$_SERVER['REMOTE_ADDR']`. It trusts `X-Forwarded-For` / `X-Real-IP` only
+when the request comes from `TRUSTED_PROXIES` (comma separated CIDR ranges; default loopback and `172.16.0.0/12`).
+If a CDN or another proxy is put in front of nginx, add its ranges there, or every visitor gets the CDN's address.
+
 Error reporting (`AIRBRAKE_*`) goes through `Dolumar_ErrorReporting_Notifier`, a phpbrake subclass. phpbrake drops a
 failed delivery silently, so the subclass logs it (`Error tracker: ...` in `dokku logs`): check there first when
 errors do not show up in Errbit.
