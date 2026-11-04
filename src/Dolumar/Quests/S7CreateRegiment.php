@@ -1,0 +1,54 @@
+<?php
+/**
+ *  Dolumar, browser based strategy game
+ *  Copyright (C) 2009 Thijs Van der Schaeghe
+ *  CatLab Interactive bvba, Gent, Belgium
+ *  http://www.catlab.eu/
+ *  http://www.dolumar.com/
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License along
+ *  with this program; if not, write to the Free Software Foundation, Inc.,
+ *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ */
+
+class Dolumar_Quests_S7CreateRegiment extends Dolumar_Quests_Quest
+{
+	public function onStart (Neuron_GameServer_Player $player)
+	{
+		$this->say ($player, 's7regiment', 'neutral');
+	}
+
+	public function getObjective (Neuron_GameServer_Player $player)
+	{
+		return 'regiment';
+	}
+
+	public function getAction (Neuron_GameServer_Player $player)
+	{
+		$village = $this->getVillage ($player);
+		return $village ? "openWindow('squads', {'vid':" . intval ($village->getId ()) . "});" : null;
+	}
+
+	/*
+		Done when a regiment has soldiers in it: an empty regiment cannot attack.
+	*/
+	public function isFinished (Neuron_GameServer_Player $player)
+	{
+		return $this->countVillageRows ($player, 'squad_units', 'v_id', 'AND s_amount > 0') > 0;
+	}
+
+	public function onComplete (Neuron_GameServer_Player $player)
+	{
+		$player->quests->addQuest (new Dolumar_Quests_S8AttackGoblins ());
+	}
+}

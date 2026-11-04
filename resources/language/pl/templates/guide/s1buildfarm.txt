@@ -1,3 +1,3 @@
-Z początku musisz wybudować farmę, kliknij na ikonę budowania na górze i [b]wybuduj farmę[/b]. Farmy produkują jedzenie, które jest niezbędne do zdobycia wojska.
+Twoja wioska cały czas produkuje [b]surowce[/b] (widzisz je na pasku surowców). Zdobądźmy ich więcej: zbuduj [b]farmę[/b]. Farmy produkują zboże, które żywi twoje wojska.
 
-Kliknij na ikonę budowania ([span class="navigation build"][span]młotek[/span][/span]) i wybuduj farmę.
+Otwórz menu [b]Budowa[/b], wybierz farmę i postaw ją obok zamku. [b]Pokaż mi[/b] otworzy menu za ciebie.

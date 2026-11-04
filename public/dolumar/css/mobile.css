@@ -586,17 +586,153 @@ body.layout-mobile .panel.minimap .resize-corner
 	display: none !important;
 }
 
-/* Guide: shown when it has new advice (Game.dolumar.mobile.syncGuide) or from the "Guide" entry in the More sheet. */
+/*
+	Guide: a card along the bottom of the map, above the tab bar. Shown when it has advice
+	(Game.dolumar.mobile.syncGuide) or from the "Guide" entry in the More sheet; when the
+	advice is folded away it shrinks to the current task (div.objective, mobile-chip).
+	It never covers the middle of the map, where the village and a building being placed are.
+*/
 body.layout-mobile .panel.guide.mobile-visible
 {
 	display: block !important;
 	position: fixed !important;
 	top: auto !important;
-	left: auto !important;
-	right: 0 !important;
-	bottom: var(--mobile-tabbar-height) !important;
+	left: 8px !important;
+	right: 8px !important;
+	bottom: calc(var(--mobile-tabbar-height) + 8px) !important;
+	width: auto !important;
+	height: auto !important;
 	margin: 0 !important;
 	z-index: 999 !important;
+}
+
+/* While a building is being placed the map needs every pixel. */
+body.layout-mobile:has(#map_select_actions) .panel.guide
+{
+	display: none !important;
+}
+
+body.layout-mobile .panel.guide div.avatar
+{
+	position: absolute;
+	left: 0;
+	right: auto;
+	bottom: 0;
+	width: 64px;
+	height: 80px;
+	background-size: 192px 160px;
+	background-position: -128px -80px;
+	pointer-events: none;
+}
+
+body.layout-mobile .panel.guide div.avatar.happy { background-position: 0 0; }
+body.layout-mobile .panel.guide div.avatar.sad { background-position: -64px 0; }
+body.layout-mobile .panel.guide div.avatar.proud { background-position: -128px 0; }
+body.layout-mobile .panel.guide div.avatar.angry { background-position: 0 -80px; }
+body.layout-mobile .panel.guide div.avatar.surprised { background-position: -64px -80px; }
+body.layout-mobile .panel.guide div.avatar.neutral { background-position: -128px -80px; }
+
+body.layout-mobile .panel.guide blockquote.bubble
+{
+	position: relative;
+	right: auto;
+	bottom: auto;
+	width: auto;
+	max-height: 38vh;
+	overflow-y: auto;
+	margin: 0 0 0 56px;
+	padding: 10px 12px;
+	font-size: 15px;
+	line-height: 1.4;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+	-webkit-overflow-scrolling: touch;
+}
+
+/* The tail points left, at the small portrait. */
+body.layout-mobile .panel.guide blockquote.bubble:after
+{
+	display: none;
+}
+
+body.layout-mobile .panel.guide .bubble ul.navigation
+{
+	float: none;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	gap: 6px;
+	margin: 8px 0 0 0;
+	padding: 0;
+}
+
+body.layout-mobile .panel.guide .bubble ul.navigation li
+{
+	display: block;
+	padding: 0;
+}
+
+body.layout-mobile .panel.guide .bubble ul.navigation a,
+body.layout-mobile .panel.guide div.objective a.guide-showme
+{
+	display: inline-block;
+	min-height: 36px;
+	line-height: 36px;
+	padding: 0 12px;
+	border-radius: 18px;
+	background: rgba(64, 51, 31, 0.12);
+	color: #40331f;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+body.layout-mobile .panel.guide div.objective a.guide-showme,
+body.layout-mobile .panel.guide .bubble ul.navigation a.guide-showme
+{
+	background: #8c1d1d;
+	color: #fff;
+}
+
+/* Folded away: only the current task, one line, and the portrait as its icon. */
+body.layout-mobile .panel.guide div.objective
+{
+	display: none;
+}
+
+body.layout-mobile .panel.guide.mobile-chip div.objective
+{
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	min-height: 44px;
+	margin-left: 56px;
+	padding: 4px 6px 4px 12px;
+	border-radius: 22px;
+	background: #f5e494;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+	font-size: 15px;
+	color: #40331f;
+}
+
+body.layout-mobile .panel.guide.mobile-chip div.objective > a:first-of-type
+{
+	flex: 1;
+	min-width: 0;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	color: #40331f;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+body.layout-mobile .panel.guide.mobile-chip div.icon a
+{
+	left: 0;
+	right: auto;
+	bottom: -2px;
+	width: 48px;
+	height: 48px;
+	background-size: contain;
 }
 
 body.layout-mobile .mobile-more-list span.guide-icon
@@ -619,19 +755,18 @@ body.layout-mobile .mobile-more-list span.guide-icon
 */
 body.layout-mobile .sheet-content
 {
-	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+	font-family: Verdana, Tahoma, Arial, sans-serif;
 	font-size: 15px;
 	line-height: 1.4;
 	overflow-wrap: break-word;
 }
 
-/* Three sizes: serif titles, 15px body, 13px meta. */
+/* Three sizes: 19px titles, 15px body, 13px meta. One typeface (Verdana, see .ai/style-guide.md). */
 body.layout-mobile .sheet-content h1,
 body.layout-mobile .sheet-content h2,
 body.layout-mobile .sheet-content h3
 {
 	margin: 0 0 4px;
-	font-family: Georgia, 'Times New Roman', serif;
 	color: #2c261d;
 }
 
@@ -724,10 +859,10 @@ body.layout-mobile .sheet-content .table-scroll > table
 	max-width: none;
 }
 
-/* Links: the desktop's dark brown on the parchment sheet; actions are buttons (below). */
+/* Links: the classic blue of the desktop windows; main actions are buttons (below). */
 body.layout-mobile .sheet-content a
 {
-	color: #40331f;
+	color: #000097;
 	text-decoration: underline;
 }
 
@@ -773,13 +908,13 @@ body.layout-mobile .sheet-content input[type=button]
 	padding: 0 18px;
 	box-sizing: border-box;
 	border: 1px solid #8a7550;
-	border-radius: 6px;
-	background: linear-gradient(#f9efd6, #e2d0a2);
-	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 1px 2px rgba(0, 0, 0, 0.25);
-	color: #2c261d;
+	border-radius: 3px;
+	background: #f3e7c4;
+	box-shadow: 0 1px 0 rgba(64, 51, 31, 0.2);
+	color: #000;
 	font-family: inherit;
 	font-size: 15px;
-	font-weight: bold;
+	font-weight: normal;
 	line-height: 1.2;
 	text-decoration: none;
 	text-shadow: none;
@@ -787,13 +922,12 @@ body.layout-mobile .sheet-content input[type=button]
 	-webkit-tap-highlight-color: transparent;
 }
 
-body.layout-mobile .sheet-content a.action-button.primary
+/* Same look as .ui-btn in ui.css: flat parchment, the main action bold with a dark border (never red). */
+body.layout-mobile .sheet-content a.action-button.primary,
+body.layout-mobile .sheet-content button.primary
 {
-	border-color: #5a0a0e;
-	background: linear-gradient(#b8262e, #8c0f16);
-	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 2px rgba(0, 0, 0, 0.35);
-	color: #fff2d6;
-	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.6);
+	border-color: #40331f;
+	font-weight: bold;
 }
 
 body.layout-mobile .sheet-content select
@@ -1016,10 +1150,9 @@ body.layout-mobile .sheet-content .building-card
 {
 	margin: 0 0 10px;
 	padding: 10px;
-	border: 1px solid rgba(90, 70, 40, 0.35);
-	border-radius: 8px;
-	background: rgba(255, 255, 255, 0.22);
-	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+	border: 1px solid #c9b58a;
+	border-radius: 3px;
+	background: rgba(255, 250, 232, 0.5);
 }
 
 body.layout-mobile .sheet-content .building-card.shaded
@@ -1090,8 +1223,8 @@ body.layout-mobile .sheet-content .building-card p.resources-cost
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
-	gap: 6px;
-	margin: 6px 0 0;
+	gap: 8px;
+	margin: 8px 0 0;
 	font-size: 13px;
 }
 
@@ -1112,8 +1245,8 @@ body.layout-mobile .sheet-content .building-card span.resource
 	align-items: center;
 	min-height: 24px;
 	padding: 0 9px 0 30px;
-	border-radius: 12px;
-	background-color: rgba(90, 70, 40, 0.12);
+	border-radius: 3px;
+	background-color: rgba(90, 70, 40, 0.08);
 	background-position: 2px center;
 	font-size: 13px;
 	color: #2c261d;
@@ -1122,7 +1255,7 @@ body.layout-mobile .sheet-content .building-card span.resource
 body.layout-mobile .sheet-content .building-card tr + tr
 {
 	gap: 10px;
-	margin-top: 8px;
+	margin-top: 12px;
 }
 
 body.layout-mobile .sheet-content .building-card tr + tr td:first-child
@@ -1137,9 +1270,8 @@ body.layout-mobile .sheet-content .building-card img.icon-building
 	width: 80px;
 	height: auto;
 	box-sizing: border-box;
-	border: 1px solid #5a4a30;
-	border-radius: 4px;
-	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+	border: 1px solid #8a7550;
+	border-radius: 0;
 }
 
 body.layout-mobile .sheet-content .building-card tr + tr td + td
@@ -1283,7 +1415,7 @@ body.layout-mobile #sheets .sheet-bar
 body.layout-mobile #sheets .sheet-title
 {
 	color: #2c261d;
-	font-family: Georgia, 'Times New Roman', serif;
+	font-family: Verdana, Tahoma, Arial, sans-serif;
 	font-size: 17px;
 	line-height: 1.2;
 }
@@ -1365,8 +1497,8 @@ body.layout-mobile .sheet-content input[type=search]
 {
 	background: #fff8e4;
 	color: #40331f;
-	border: 1px solid #a08c5a;
-	border-radius: 4px;
+	border: 1px solid #8a7550;
+	border-radius: 3px;
 }
 
 /* Newsflash (Game.gui.newsflashHost): scrolls over the resource strip, as it did over the Newsbar. */
@@ -1418,4 +1550,34 @@ body.layout-mobile #sheets
 {
 	left: var(--mobile-safe-left);
 	right: var(--mobile-safe-right);
+}
+
+/* Race selection: the start position and clan are folded into a <details>. */
+body.layout-mobile details.select-location summary
+{
+	min-height: 44px;
+	line-height: 44px;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+/* The zoom pair sits above the guide card instead of on top of it. */
+body.layout-mobile:has(.panel.guide.mobile-chip) .mobile-map-zoom
+{
+	bottom: calc(var(--mobile-tabbar-height) + 68px);
+}
+
+body.layout-mobile:has(.panel.guide.mobile-visible:not(.mobile-chip)) .mobile-map-zoom
+{
+	display: none;
+}
+
+/* Tracker iframes (registration, login) the guide may carry. */
+body.layout-mobile .panel.guide iframe
+{
+	position: absolute;
+	width: 0;
+	height: 0;
+	border: 0;
+	visibility: hidden;
 }

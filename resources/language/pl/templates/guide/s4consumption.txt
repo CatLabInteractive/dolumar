@@ -1,5 +1,5 @@
-Wspaniale! Wybudowałeś barak. Teraz możesz wytrenować trochę wojska.
+Świetnie! Masz koszary. Czas wyszkolić wojsko.
 
-Całe twoje wojska  [b]spożywa jedzenie[/b], a niektórzy żołnierze używają także inne surowce. Możesz sprawdzić aktualne zużycie surowców w oknie jednostek.
+Wszystkie twoje wojska [b]jedzą zboże[/b], a niektóre specjalne jednostki zużywają także inne surowce. Zużycie armii widzisz w oknie [b]Jednostki[/b].
 
-Kliknij na barak i wytrenuj kilku żołnierzy.
+Otwórz koszary i wyszkol trochę wojska.

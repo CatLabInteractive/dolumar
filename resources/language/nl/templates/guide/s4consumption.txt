@@ -1,0 +1,5 @@
+Prima! Je hebt een kazerne. Tijd om troepen te trainen.
+
+Al je troepen [b]eten graan[/b], en sommige speciale troepen gebruiken ook andere grondstoffen. Wat je leger verbruikt, zie je in het venster [b]Eenheden[/b].
+
+Open je kazerne en train wat troepen.

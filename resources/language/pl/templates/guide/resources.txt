@@ -1,4 +1,1 @@
-W grze najważniejsze jest [b]gromadzenie surowców[/b], [b]zdobywanie run[/b] i [b]prowadzenie wojny[/b] z twoimi wrogami.
-
-Twoja wioska produkuje surowce cały czas. Możesz sprawdzić ilość surowców na [b]dolnym pasku[/b] lub w [b]oknie gospodarki[/b] ([span class="navigation economy"][span]ikona złotych monet[/span][/span]).
-
+Twoja wioska cały czas produkuje surowce. Widzisz je na pasku surowców, a swoje dochody w oknie [b]Ekonomia[/b].

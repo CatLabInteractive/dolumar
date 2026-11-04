@@ -1,0 +1,3 @@
+De grondstoffenbalk toont wat je dorp in voorraad heeft, en via het menu ga je naar je gebouwen, je leger en je berichten.
+
+Sleep de kaart om rond te kijken.
