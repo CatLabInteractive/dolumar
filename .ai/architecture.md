@@ -55,8 +55,9 @@ an isometric map. Each window is a PHP class:
 ### Layout modes
 
 The client runs in one of two layout modes, `desktop` or `mobile`, shown as `body.layout-desktop` or
-`body.layout-mobile`. The player picks a preference (`desktop`, the default, `mobile` or `auto`) in MyAccount; it is
-stored as the player preference `layout`, and `?layout=desktop|mobile|auto` on the shell URL overrides it for one
+`body.layout-mobile`. The player picks a preference (`auto`, the default, `desktop` or `mobile`) in MyAccount; it is
+stored as the player preference `layoutMode` (the older key `layout` was saved while the default was `desktop`, so
+only a `mobile` stored there is still honoured), and `?layout=desktop|mobile|auto` on the shell URL overrides it for one
 page load. `auto` means mobile below a viewport width of 800 CSS pixels. In mobile mode every `window`-type dialog
 opens as a full-screen sheet in a stack (`#sheets`, back and close buttons) instead of a draggable window; the PHP
 windows and the dialog XML are the same in both modes. `panel` windows (Menu, Statusbar, Newsbar, MiniMap, Guide)
@@ -94,7 +95,13 @@ Under `src/Dolumar/`:
   quests, so steps that are not buildings advance without a page load. While a new player (under 7 days) has an open
   quest the game skips the Welcome window, and race selection closes My Account instead of showing it.
 - `Map/` (old map logic, still the source of truth for locations) and `NewMap/` (adapter to the engine's map
-  renderer). `Dolumar_Game::getMap()` wraps the old map in the new one. `NewMap/` also holds the moving armies shown
+  renderer). `Dolumar_Game::getMap()` wraps the old map in the new one. The terrain is generated, not stored:
+  `Map_Map::getFreshTileData()` derives each tile from `PerlinGenerator` (height, in 25x25 squares) and
+  `Map_Map::getRandom()` (md5 of the coordinates and `RANDMAPFACTOR`); `Map_CacheMemcached` keeps the result per
+  25x25 area in memcache, without expiry. Generation is the slow part of a map request for an area nobody has
+  visited yet. The output must never change (every kingdom sits on it): `tests/Map/MapGenerationTest.php` pins it,
+  and the generator's per-square caches are cleared together with `randCache` because the off-map test in
+  `getNoise()` depends on which octave reads a lattice point first. `NewMap/` also holds the moving armies shown
   on the map: `MovingRows` (SQL for in-flight `battle` and `squad_commands` rows, the viewer's related villages, a
   20 s memcache of the rows), `ArmyFactory` (turns a row into a `Dolumar_NewMap_Army` with one engine `Movement` per
   phase: march out, wait at the target, march home; portal routes jump), and

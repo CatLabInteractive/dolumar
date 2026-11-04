@@ -25,7 +25,7 @@ class Dolumar_Quests_S10JoinClan extends Dolumar_Quests_Quest
 {
 	public function onStart (Neuron_GameServer_Player $player)
 	{
-		$this->say ($player, 's10clan', 'proud');
+		$this->say ($player, Dolumar_Players_Server::isNeverending () ? 's10clan_neverending' : 's10clan', 'proud');
 	}
 
 	public function getObjective (Neuron_GameServer_Player $player)
@@ -45,6 +45,6 @@ class Dolumar_Quests_S10JoinClan extends Dolumar_Quests_Quest
 
 	public function onComplete (Neuron_GameServer_Player $player)
 	{
-		$this->say ($player, 's10finished', 'proud');
+		$this->say ($player, Dolumar_Players_Server::isNeverending () ? 's10finished_neverending' : 's10finished', 'proud');
 	}
 }

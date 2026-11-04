@@ -45,6 +45,9 @@ the most important ones are:
   silently invalidates every player's subscription. Without them notifications are off.
 * `PREMIUM_SPEEDUP_BUILDINGS`, `PREMIUM_SPEEDUP_TRAINING`, `PREMIUM_SPEEDUP_SCOUTING`: set to `1` to let players pay
   credits to speed up that queue. Off by default.
+* `NEVERENDING`: set to `1` for a world without an endgame. The Dor Daedeloth spell is never offered, no clan can
+  win and the server is never reset. Players see a notice on the welcome screen, the ranking, the race selection
+  and the server settings. Off by default.
 * `NPC_AGGRESSION`: how far the goblin tribes go when raided: `off` (they only build and defend), `counter`
   (default: scouts, an envoy, then counter-attacks against raiders), or `full` (also strikes against players who
   attack the tribe's allies). `NPC_PROTECTION_RUNES` (default 10): players with fewer runes are never attacked,
@@ -108,7 +111,11 @@ dokku letsencrypt:cron-job --add
 Every pull request from a branch in this repository can get its own instance at `https://pr-<number>.preview.dolumar.com/`,
 with test players already in it. It is created by [`.github/workflows/preview.yml`](.github/workflows/preview.yml)
 when the pull request opens, updated on every push, and removed (app, memcached and database) when the pull request
-closes. A daily run also removes previews whose pull request is no longer open.
+closes. A daily run (or a manual run of the Preview workflow) also removes previews whose pull request is no longer open,
+including the memcached service or database a failed destroy left behind; its log lists what it kept and removed.
+Closing or merging a pull request while its preview is still deploying is safe: the destroy waits for the deploy to
+finish (same concurrency group in the workflow, and a per-preview lock in the server script for the daily cleanup and
+manual runs), then removes it and marks the preview comment as removed.
 
 Pushes to `develop` deploy a standing preview at `https://develop.preview.dolumar.com/`. Unlike pull request previews it
 keeps its database between deploys (it is only seeded once, when empty) and is never removed automatically. To reset it,

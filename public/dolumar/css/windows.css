@@ -100,6 +100,43 @@ div.battle img
 	margin-left: 2px;
 }
 
+/* Tap-to-place (touch screens can't drag): the tapped unit and the slots it can go to. */
+img.tap-unit
+{
+	cursor: pointer;
+	/* A finger on a unit drags it instead of scrolling the page. */
+	touch-action: none;
+	-webkit-user-select: none;
+	-webkit-touch-callout: none;
+}
+
+img.tap-selected
+{
+	outline: 2px solid #f0c040;
+	outline-offset: 1px;
+}
+
+img.touch-drag-ghost
+{
+	position: fixed;
+	z-index: 100000;
+	margin: 0;
+	opacity: 0.8;
+	pointer-events: none;
+}
+
+.tap-placing div.battlefield-slot
+{
+	cursor: pointer;
+	box-shadow: inset 0 0 0 2px rgba(240, 192, 64, 0.8);
+}
+
+/* The slot under a finger-dragged unit. */
+div.battlefield-slot.touch-over
+{
+	box-shadow: inset 0 0 0 3px #f0c040;
+}
+
 div.battle img.unit-selected
 {
 	position: absolute;

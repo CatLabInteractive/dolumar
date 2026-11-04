@@ -8,6 +8,7 @@
 ?>
 
 <?php if (isset ($error)) { echo '<p class="false">'.$error.'</p>'; } ?>
+<?php if (isset ($underworld)) { echo '<p class="false">'.$underworld.'</p>'; } ?>
 
 <form onsubmit="return submitForm(this);">
 

@@ -373,7 +373,8 @@ class Dolumar_Buildings_Building
 	
 	public function getLevel ()
 	{
-		return $this->data['bLevel'];
+		// A building that is not built yet (build window, NPC planner) has no row.
+		return $this->data['bLevel'] ?? null;
 		//return $this->getVillage()->buildings->getBuildingLevel ($this);
 	}
 	
@@ -1138,7 +1139,8 @@ class Dolumar_Buildings_Building
 	
 	protected function calcUsedAssets ($includeUpgradeRunes = false)
 	{
-		$data = $this->data['usedResources'];
+		// Not built yet: nothing used. '' parses to the same empty result as before.
+		$data = $this->data['usedResources'] ?? '';
 	
 		if (substr ($data, 0, 1) == '[')
 		{

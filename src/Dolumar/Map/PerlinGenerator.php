@@ -55,12 +55,27 @@ class Dolumar_Map_PerlinGenerator
 	private $cache;
 	private $maxmapstraal;
 	private $randCache;
+
+	/*
+		Smoothed noise per lattice point. Every value is computed from
+		randCache values that are fixed once read, so it is cleared
+		together with randCache to keep the results identical.
+	*/
+	private $smoothCache;
+
+	/*
+		Cosine factor per fraction. Fractions are always multiples of
+		1 / (ZOOM * 2^octave), so there are only a handful of them.
+	*/
+	private $cosineCache;
 	
 	public function __construct ()
 	{
 		$this->maxmapstraal = (MAXMAPSTRAAL / self::ZOOM) * (MAXMAPSTRAAL / self::ZOOM);
 		$this->cache = array ();
 		$this->randCache = array ();
+		$this->smoothCache = array ();
+		$this->cosineCache = array ();
 	}
 	
 	public function getLocalNoise ($x, $y)
@@ -72,6 +87,7 @@ class Dolumar_Map_PerlinGenerator
 			{
 				$this->cache = array ();
 				$this->randCache = array ();
+				$this->smoothCache = array ();
 			}
 		
 			// Generate a new square
@@ -85,10 +101,7 @@ class Dolumar_Map_PerlinGenerator
 	{
 		// Clear some space:
 		$this->randCache = array ();
-	
-		$profiler = Neuron_Profiler_Profiler::__getInstance ();
-		
-		$profiler->start ('Generating perlin noise square ('.$x.','.$y.')');
+		$this->smoothCache = array ();
 	
 		$lx = ($x + 1) * self::PAR_FILE;
 		$ly = ($y + 1) * self::PAR_FILE;
@@ -97,11 +110,9 @@ class Dolumar_Map_PerlinGenerator
 		{
 			for ($j = $y * self::PAR_FILE; $j < $ly; $j ++)
 			{
-				self::getOneSingleLocation ($i, $j);
+				$this->getOneSingleLocation ($i, $j);
 			}
 		}
-		
-		$profiler->stop ();
 	}
 
 	private function getOneSingleLocation ($i, $j)
@@ -174,23 +185,28 @@ class Dolumar_Map_PerlinGenerator
 
 	private function getSmoothNoise ($x, $y, $freq)
 	{
+		if (isset ($this->smoothCache[$x][$y]))
+		{
+			return $this->smoothCache[$x][$y];
+		}
+
 		$corners = (
-			self::getNoise ($x-1, $y-1, $freq)
-			+ self::getNoise ($x+1, $y-1, $freq)
-			+ self::getNoise ($x-1, $y+1, $freq)
-			+ self::getNoise ($x+1, $y+1, $freq)
+			$this->getNoise ($x-1, $y-1, $freq)
+			+ $this->getNoise ($x+1, $y-1, $freq)
+			+ $this->getNoise ($x-1, $y+1, $freq)
+			+ $this->getNoise ($x+1, $y+1, $freq)
 			) / 16;
 			
 		$sides = (
-			self::getNoise ($x-1, $y, $freq)
-			+ self::getNoise ($x+1, $y, $freq)
-			+ self::getNoise ($x, $y-1, $freq)
-			+ self::getNoise ($x, $y+1, $freq)
+			$this->getNoise ($x-1, $y, $freq)
+			+ $this->getNoise ($x+1, $y, $freq)
+			+ $this->getNoise ($x, $y-1, $freq)
+			+ $this->getNoise ($x, $y+1, $freq)
 			) / 8;
 			
-		$center = self::getNoise ($x, $y, $freq) / 4;
+		$center = $this->getNoise ($x, $y, $freq) / 4;
 		
-		return $corners + $sides + $center;
+		return $this->smoothCache[$x][$y] = $corners + $sides + $center;
 	}
 
 	private function getInterpolatedNoise ($x, $y, $freq)
@@ -201,23 +217,47 @@ class Dolumar_Map_PerlinGenerator
 		$inY = floor ($y);
 		$faY = $y - $inY;
 		
-		$v1 = self::getSmoothNoise ($inX, $inY, $freq);
-		$v2 = self::getSmoothNoise ($inX + 1, $inY, $freq);
-		$v3 = self::getSmoothNoise ($inX, $inY + 1, $freq);
-		$v4 = self::getSmoothNoise ($inX + 1, $inY + 1, $freq);
+		$v1 = $this->getSmoothNoise ($inX, $inY, $freq);
+		$v2 = $this->getSmoothNoise ($inX + 1, $inY, $freq);
+		$v3 = $this->getSmoothNoise ($inX, $inY + 1, $freq);
+		$v4 = $this->getSmoothNoise ($inX + 1, $inY + 1, $freq);
 		
 		// Interpolate
-		$i1 = self::getInterpolation ($v1, $v2, $faX);
-		$i2 = self::getInterpolation ($v3, $v4, $faX);
-		
-		return self::getInterpolation ($i1, $i2, $faY);
+		$fX = $this->getCosineFactor ($faX);
+		$i1 = round ($v1 * (1-$fX) + $v2*$fX, 8);
+		$i2 = round ($v3 * (1-$fX) + $v4*$fX, 8);
+
+		$fY = $this->getCosineFactor ($faY);
+		return round ($i1 * (1-$fY) + $i2*$fY, 8);
 	}
 
-	/* Standard consine interpolation */
-	private function getInterpolation ($a, $b, $x)
+	/*
+		The weight of the cosine interpolation for fraction $x.
+		Cached by the exact fraction; a fraction that is not a multiple
+		of 1/65536 is computed every time.
+	*/
+	private function getCosineFactor ($x)
+	{
+		$key = $x * 65536;
+
+		if ($key == (int) $key)
+		{
+			$key = (int) $key;
+
+			if (!isset ($this->cosineCache[$key]))
+			{
+				$this->cosineCache[$key] = self::calculateCosineFactor ($x);
+			}
+
+			return $this->cosineCache[$key];
+		}
+
+		return self::calculateCosineFactor ($x);
+	}
+
+	private static function calculateCosineFactor ($x)
 	{
 		$ft = $x * 3.14;
-		$f = round ((1 - round (cos($ft), 8)) / 2, 8);
-		return round ($a * (1-$f) + $b*$f, 8);
+		return round ((1 - round (cos($ft), 8)) / 2, 8);
 	}
 }

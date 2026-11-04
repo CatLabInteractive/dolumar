@@ -6,6 +6,8 @@
 	<li class="active"><a href="javascript:void(0);" onclick="windowAction(this,{'ranking':'clans'});"><?=$this->getText ('clanRanking')?></a></li>
 </ul>
 
+<?php $neverending_key = 'ranking'; include (TEMPLATE_DIR.'blocks/neverending.phpt'); ?>
+
 <?php $pagelist_loc = 'top'; include (TEMPLATE_DIR.'blocks/pagelist.tpl'); ?>
 
 <table class="tlist" style="margin-top: 5px;">

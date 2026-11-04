@@ -415,9 +415,13 @@ class Dolumar_Windows_Build extends Neuron_GameServer_Windows_Window
                     $this->updateContent ($this->getContent ($this->village->resources->getError ()));
                     break;
 
-                case 'notowncenter':
-                    $chk = $building->checkBuildLocation ($this->village, $x, $y);
-                    $this->updateContent ($this->getContent ($chk[1], isset ($chk[2]) ? $chk[2] : array ()));
+                case 'notreadytobuild':
+                    $this->updateContent ($this->getContent ('stillConstructing'));
+                    break;
+
+                default:
+                    // techlevel, buildinglevel, outOfRange, buildingOverlap, townCenterNotFound
+                    $this->updateContent ($this->getContent ($error, $this->village->buildings->getErrorParams ()));
                     break;
             }
 

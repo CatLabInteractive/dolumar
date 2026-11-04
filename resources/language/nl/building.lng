@@ -43,6 +43,7 @@ selectRune="Je moet een rune kiezen voor je dit gebouw kan bouwen."
 upgradeFirst="Bouw je andere @@buildings eerst uit."
 
 [buildError]
+townCenterNotFound="Je kasteel werd niet gevonden, dus je kan hier niet bouwen."
 noResources="Je hebt niet genoeg grondstoffen."
 techlevel="Je hebt niet de benodigde technologieën."
 outOfRange="Je bouwradius is @@0 rond je kasteel. Je kan niet bouwen buiten je bouwradius."

@@ -27,8 +27,12 @@ class Dolumar_Quests_S1BuildFarm extends Dolumar_Quests_Quest
 	{
 		$player->guide->setAllRead ();
 
-		// The goal first, then the first move.
-		$player->guide->addMessage ('welcome', array (), 'guide', 'proud');
+		// The goal first (a never-ending world has none to win), then the first move.
+		$player->guide->addMessage
+		(
+			Dolumar_Players_Server::isNeverending () ? 'welcome_neverending' : 'welcome',
+			array (), 'guide', 'proud'
+		);
 		$player->guide->addMessage ('s1buildfarm', array (), 'guide', 'happy');
 	}
 

@@ -65,6 +65,7 @@ mobilePrevVillage="Vorheriges Dorf"
 mobileNextVillage="Nächstes Dorf"
 placeCancel="Abbrechen"
 placeConfirm="Platzieren"
+placeHint="Ziehe die Karte, um das Gebäude zu verschieben, und tippe dann auf Platzieren."
 
 [directions]
 r="willkürlich"

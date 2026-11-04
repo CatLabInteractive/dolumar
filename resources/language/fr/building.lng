@@ -8,6 +8,7 @@ selectRune="Vous devez d'abord choisir une rune avant de lancer la construction.
 upgradeFirst="Améliorez votre autre @@buildings d'abord."
 
 [buildError]
+townCenterNotFound="Votre château est introuvable, vous ne pouvez donc pas construire ici."
 buildinglevel="Avant de pouvoir construire un nouveau @@building, vous devez d'abord améliorer tous vos autres @@buildings au niveau @@level."
 buildingOverlap="Il y a déjà un batîment à cette position. Choisissez un endroit plus dégagé."
 done="Vous avez construit un nouveau bâtiment avec succès !"

@@ -5,7 +5,8 @@
 #
 #   deploy <target> <commit-sha>   create or update the preview for that commit
 #   destroy <target>               remove the preview's app, memcached service and database
-#   list                           print the PR numbers that have a preview app (branch previews are not listed)
+#   list                           print the PR numbers that have a preview app, memcached service or database
+#                                  (branch previews are not listed)
 #
 # <target> is a pull request number (app dolumar-pr-<n> at pr-<n>.<domain>, database pr_<n>) or a branch named in
 # PREVIEW_BRANCHES (app dolumar-<branch> at <branch>.<domain>, database branch_<branch>). Branch previews are long-lived:
@@ -80,8 +81,19 @@ check_target() {
 	HOST="$name.$PREVIEW_DOMAIN"
 }
 
+# Deploys and destroys of the same preview wait for each other, whoever starts them (a pull request run, the daily
+# cleanup or an admin by hand), so a destroy never runs halfway through a deploy and leaves half an app behind.
+lock_target() {
+	exec 9> "/run/lock/dolumar-preview-$APP.lock"
+	if ! flock -n 9; then
+		echo "Waiting for another deploy or destroy of $APP to finish"
+		flock -w 3600 9 || fail "timed out waiting for the lock on $APP"
+	fi
+}
+
 deploy() {
 	check_target
+	lock_target
 	[[ "$SHA" =~ ^[0-9a-f]{40}$ ]] || fail "invalid commit sha"
 
 	local proto=http
@@ -156,6 +168,7 @@ deploy() {
 
 destroy() {
 	check_target
+	lock_target
 	echo "Destroying $APP"
 
 	if dokku apps:exists "$APP" > /dev/null 2>&1; then
@@ -177,7 +190,12 @@ destroy() {
 }
 
 list() {
-	dokku apps:list 2> /dev/null | sed -n 's/^dolumar-pr-\([0-9]\{1,6\}\)$/\1/p'
+	# Also the services and databases, so leftovers of a destroy that failed halfway are found and removed too.
+	{
+		dokku apps:list 2> /dev/null | sed -n 's/^dolumar-pr-\([0-9]\{1,6\}\)$/\1/p'
+		[ ! -d /var/lib/dokku/services/memcached ] || ls /var/lib/dokku/services/memcached | sed -n 's/^dolumar-pr-\([0-9]\{1,6\}\)-cache$/\1/p'
+		echo 'SHOW DATABASES;' | mysql_root | sed -n 's/^pr_\([0-9]\{1,6\}\)$/\1/p'
+	} | sort -nu
 }
 
 case "$ACTION" in

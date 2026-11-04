@@ -97,7 +97,7 @@ check('layout-toggle', { viewport: { width: 1280, height: 800 } }, async (page) 
 
 	// A run that stopped half-way may have left the shared mock player on mobile.
 	if (await page.locator('body.layout-desktop').count() !== 1) {
-		await saveLayoutPreference(page, baseUrl, 'desktop');
+		await saveLayoutPreference(page, baseUrl, 'auto');
 	}
 	assert(await page.locator('body.layout-desktop').count() === 1, 'body has no layout-desktop class to start with');
 
@@ -106,13 +106,19 @@ check('layout-toggle', { viewport: { width: 1280, height: 800 } }, async (page) 
 		// The preference is saved on the server: a plain reload (no ?layout=) stays mobile.
 		await page.waitForSelector('body.layout-mobile', { timeout: 15000 });
 	} finally {
-		// Always leave the mock player on desktop, also when the check failed.
+		// Always leave the mock player on the default (auto), also when the check failed.
 		await page.setViewportSize({ width: 1280, height: 800 });
 		await page.goto(baseUrl + '?layout=desktop', { waitUntil: 'load' });
 		await page.waitForFunction(() => typeof Game !== 'undefined' && Game.core && Game.core.isMapLoaded && Game.gui.bIsInDialog <= 0, null, { timeout: 15000 });
-		await saveLayoutPreference(page, baseUrl, 'desktop');
+		await saveLayoutPreference(page, baseUrl, 'auto');
 	}
 	await page.waitForSelector('body.layout-desktop', { timeout: 15000 });
+});
+
+// The default preference (auto) gives a phone the mobile layout without ?layout=.
+check('phone-default', { viewport: { width: 390, height: 844 } }, async (page) => {
+	assert(await page.evaluate(() => Game.layout.preference) === 'auto', 'default layout preference is not auto');
+	assert(await page.locator('body.layout-mobile').count() === 1, 'a phone without a saved preference does not get the mobile layout');
 });
 
 // Desktop layout on a phone: the 0.5-scale viewport is set while the head is parsed (before
@@ -686,6 +692,17 @@ check('map-panels', { viewport: { width: 390, height: 844 }, layout: 'mobile' },
 	await page.waitForFunction(() => Game.minimap.oScrollMap && Game.minimap.oScrollMap.displaySizeX > 1
 		&& document.querySelectorAll('#minimap_real img').length > 0, null, { timeout: 10000 });
 	assert(await page.locator('.mobile-header button.minimap.active').count() === 1, 'the Map button is not marked active');
+	// The premium minimap's drag-to-resize corner is a mouse control: hidden on mobile.
+	const cornerHidden = await page.evaluate(() => {
+		let corner = document.querySelector('.panel.minimap .resize-corner');
+		if (!corner) {
+			corner = document.createElement('div');
+			corner.className = 'resize-corner';
+			document.getElementById('minimap').appendChild(corner);
+		}
+		return getComputedStyle(corner).display === 'none';
+	});
+	assert(cornerHidden, 'the minimap resize corner is shown on mobile');
 
 	await openSheet(page, 'economy', { vid });
 	const covered = await page.evaluate(() => {
