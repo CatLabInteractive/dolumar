@@ -108,7 +108,11 @@ dokku letsencrypt:cron-job --add
 Every pull request from a branch in this repository can get its own instance at `https://pr-<number>.preview.dolumar.com/`,
 with test players already in it. It is created by [`.github/workflows/preview.yml`](.github/workflows/preview.yml)
 when the pull request opens, updated on every push, and removed (app, memcached and database) when the pull request
-closes. A daily run also removes previews whose pull request is no longer open.
+closes. A daily run (or a manual run of the Preview workflow) also removes previews whose pull request is no longer open,
+including the memcached service or database a failed destroy left behind; its log lists what it kept and removed.
+Closing or merging a pull request while its preview is still deploying is safe: the destroy waits for the deploy to
+finish (same concurrency group in the workflow, and a per-preview lock in the server script for the daily cleanup and
+manual runs), then removes it and marks the preview comment as removed.
 
 Pushes to `develop` deploy a standing preview at `https://develop.preview.dolumar.com/`. Unlike pull request previews it
 keeps its database between deploys (it is only seeded once, when empty) and is never removed automatically. To reset it,
