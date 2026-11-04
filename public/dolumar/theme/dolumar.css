@@ -152,7 +152,9 @@
 
 .dolumar_title 
 {
-	float:left;
+	position: absolute;
+	top: 0;
+	left: 0;
 	font-size:120%;
 	color: black;
 	width: 100%;
@@ -163,6 +165,18 @@
 	vertical-align: middle;
 	margin-top: 16px;
 	line-height: 30px;
+
+	/*
+		The title bar image is 68px high. A title that wraps (a narrow window such as
+		Build Buildings, or a wider fallback font where Verdana is missing) pushes the
+		cell past the image and the map shows through under the title. Keep it on one
+		line and cut it off with an ellipsis before the minimize and close buttons.
+		It is positioned absolutely in the (relative) .dolumar_n cell, so the unwrapped
+		text cannot widen the cell and squeeze the corner images either.
+	*/
+	box-sizing: border-box;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 
 
