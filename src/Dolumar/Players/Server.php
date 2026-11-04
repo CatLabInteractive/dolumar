@@ -75,6 +75,7 @@ class Dolumar_Players_Server
 		// A never-ending world never moves towards the endgame, never finishes and is never reset.
 		if (self::isNeverending ())
 		{
+			$this->closeEndgameMissions ();
 			return;
 		}
 
@@ -188,6 +189,34 @@ class Dolumar_Players_Server
 
 			break;
 		}
+	}
+
+	/**
+	 * On a never-ending world, end a Dor Daedeloth mission that was started before the flag was set. It is removed
+	 * the same way a won mission is (Objectives::onWin), which releases the regiments that were sent into it.
+	 */
+	protected function closeEndgameMissions ()
+	{
+		foreach ($this->getEndgameMissions () as $mission)
+		{
+			$mission->destroy ();
+		}
+	}
+
+	/**
+	 * @return Dolumar_Underworld_Models_Mission[]
+	 */
+	protected function getEndgameMissions ()
+	{
+		$out = array ();
+		foreach (Dolumar_Underworld_Mappers_MissionMapper::getGlobalMissions () as $mission)
+		{
+			if ($mission->getObjectiveName () === 'DorDaedeloth')
+			{
+				$out[] = $mission;
+			}
+		}
+		return $out;
 	}
 
 	public function reset ()

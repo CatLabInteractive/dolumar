@@ -28,13 +28,38 @@ class NeverendingTest extends TestCase
 
 		$server = $this->getMockBuilder (Dolumar_Players_Server::class)
 			->disableOriginalConstructor ()
-			->onlyMethods (['getData', 'setData', 'getStartDate'])
+			->onlyMethods (['getData', 'setData', 'getStartDate', 'getEndgameMissions'])
 			->getMock ();
+		$server->method ('getEndgameMissions')->willReturn (array ());
 
 		// Not even the current state is read: no endgame scroll, no winner, no reset newsletter.
 		$server->expects ($this->never ())->method ('getData');
 		$server->expects ($this->never ())->method ('setData');
 		$server->expects ($this->never ())->method ('getStartDate');
+
+		$server->updateStatus ();
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testUpdateStatusClosesARunningDorDaedelothMission (): void
+	{
+		define ('NEVERENDING', true);
+
+		$mission = $this->getMockBuilder (Dolumar_Underworld_Models_Mission::class)
+			->disableOriginalConstructor ()
+			->onlyMethods (['destroy'])
+			->getMock ();
+		$mission->expects ($this->once ())->method ('destroy');
+
+		$server = $this->getMockBuilder (Dolumar_Players_Server::class)
+			->disableOriginalConstructor ()
+			->onlyMethods (['getData', 'setData', 'getEndgameMissions'])
+			->getMock ();
+		$server->method ('getEndgameMissions')->willReturn (array ($mission));
+		$server->expects ($this->never ())->method ('setData');
 
 		$server->updateStatus ();
 	}

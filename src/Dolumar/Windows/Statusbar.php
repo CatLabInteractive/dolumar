@@ -422,6 +422,12 @@ class Dolumar_Windows_Statusbar
 		foreach ($globalMissions as $mission) {
 
 			/** @var Dolumar_Underworld_Models_Mission $mission */
+
+			// No countdown to an endgame that does not exist (the daily cron closes this mission).
+			if (Dolumar_Players_Server::isNeverending () && $mission->getObjectiveName () === 'DorDaedeloth') {
+				continue;
+			}
+
 			$objective = $mission->getObjective ();
 
 			if ($objective instanceof Dolumar_Underworld_Models_Objectives_TakeAndHold) {
