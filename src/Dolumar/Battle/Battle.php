@@ -966,6 +966,8 @@ class Dolumar_Battle_Battle
 			);
 			
 			$this->reloadData ();
+
+			Dolumar_NewMap_MapObjectManager::armiesChanged ();
 			
 			// Removal
 			//$this->doRemoveBattle ();

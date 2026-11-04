@@ -7,6 +7,40 @@ Game.dolumar =
 	{
 		Game.dolumar.mobile.init ();
 	},
+
+	/*
+		A click on a counter line of a moving army (outside the links in it) centres the
+		map on that army. x, y: a town centre on its way, used while the army is not
+		loaded on the map yet. On a phone the ticker sheet closes so the map shows.
+	*/
+	'focusArmy' : function (event, id, x, y)
+	{
+		if (event && Event.findElement (event, 'a'))
+		{
+			return;
+		}
+
+		if (event)
+		{
+			Event.stop (event);
+		}
+
+		var mobile = Game.dolumar.mobile;
+		if (mobile.tickerSheet && typeof (Game.sheets) != 'undefined')
+		{
+			Game.sheets.close (mobile.tickerSheet);
+			mobile.tickerSheet = null;
+		}
+
+		if (typeof (Game.mapObjects) != 'undefined' && Game.mapObjects.focus)
+		{
+			Game.mapObjects.focus (id, x, y);
+		}
+		else
+		{
+			Game.map.mapIsoJump (x, y);
+		}
+	},
 	
 	/*
 		Tap-to-place for the battle and simulator unit pickers. Script.aculo.us only listens to

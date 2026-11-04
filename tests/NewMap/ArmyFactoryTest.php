@@ -94,4 +94,49 @@ class ArmyFactoryTest extends TestCase
 		$this->assertSame([[[0, 0], [3, 4]]], Dolumar_NewMap_ArmyFactory::segments([[0, 0], [3, 4]]));
 		$this->assertSame([[[0, 0], [1, 0]], [[5, 0], [9, 0]]], Dolumar_NewMap_ArmyFactory::segments([[0, 0], [1, 0], [5, 0], [9, 0]]));
 	}
+
+	public function testFocusScriptCentresTheMapOnTheArmy(): void
+	{
+		$this->assertSame("Game.dolumar.focusArmy(event, 'b:7', 10, -3);", Dolumar_NewMap_ArmyFactory::focusScript(Dolumar_NewMap_ArmyFactory::battleId(7), [10, -3]));
+		$this->assertSame("Game.dolumar.focusArmy(event, 's:12', 0, 0);", Dolumar_NewMap_ArmyFactory::focusScript(Dolumar_NewMap_ArmyFactory::squadId('12'), [0, 0]));
+	}
+
+	public function testFocusScriptIsSafeInAnHtmlAttribute(): void
+	{
+		$js = Dolumar_NewMap_ArmyFactory::focusScript("b:1'\"<x>", ['1.5', 'y']);
+		$this->assertStringNotContainsString('"', $js);
+		$this->assertStringNotContainsString('<', $js);
+		$this->assertStringContainsString(', 1.5, 0);', $js);
+	}
+
+	public function testIdsMatchTheExportedObjects(): void
+	{
+		$this->assertSame(Dolumar_NewMap_ArmyFactory::battleId(7), Dolumar_NewMap_ArmyFactory::fromBattleRow($this->row(), 1050)->getUOID());
+	}
+
+	public function testRecallRouteStartsWhereTheRegimentTurnedAround(): void
+	{
+		// 0,0 -> 10,0 between 1000 and 1100; recalled at 1030: back from 3,0 to 0,0
+		$route = Dolumar_NewMap_ArmyFactory::recallRoute(null, [0, 0], [10, 0], 1000, 1100, 1030);
+		$this->assertEqualsWithDelta([[3, 0], [0, 0]], $route, 0.0001);
+	}
+
+	public function testRecallRouteWalksBackAlongTheWaypoints(): void
+	{
+		// two equal legs 0,0 -> 10,0 -> 10,10 (odd point count = walked point to point); at 3/4 of the time
+		$route = Dolumar_NewMap_ArmyFactory::recallRoute('[[0,0],[10,0],[10,10]]', [0, 0], [10, 10], 1000, 1200, 1150);
+		$this->assertEqualsWithDelta([[10, 5], [10, 0], [10, 0], [0, 0]], $route, 0.0001);
+	}
+
+	public function testRecallRouteJumpsBackThroughAPortal(): void
+	{
+		// portal pairs: walk 0,0->10,0, jump to 100,0, walk to 110,0; recalled on the second leg
+		$route = Dolumar_NewMap_ArmyFactory::recallRoute('[[0,0],[10,0],[100,0],[110,0]]', [0, 0], [110, 0], 1000, 1100, 1075);
+		$this->assertEqualsWithDelta([[105, 0], [100, 0], [10, 0], [0, 0]], $route, 0.0001);
+	}
+
+	public function testRecallRouteBeforeLeavingStaysHome(): void
+	{
+		$this->assertEqualsWithDelta([[0, 0], [0, 0]], Dolumar_NewMap_ArmyFactory::recallRoute(null, [0, 0], [10, 0], 1000, 1100, 1000), 0.0001);
+	}
 }

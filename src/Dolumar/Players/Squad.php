@@ -591,7 +591,10 @@ class Dolumar_Players_Squad
 		("
 			SELECT
 				UNIX_TIMESTAMP(s_start) AS vertrek,
-				UNIX_TIMESTAMP(s_end) AS aankomst
+				UNIX_TIMESTAMP(s_end) AS aankomst,
+				s_from,
+				s_to,
+				sc_route
 			FROM
 				squad_commands
 			WHERE
@@ -607,6 +610,10 @@ class Dolumar_Players_Squad
 			// This squad is currently travelling, this is a recall.
 			// Moveing back takes as long as moving overthere.
 			$duration = NOW - $current[0]['vertrek'];
+
+			// The map route goes back from where the regiment turned around, not from
+			// its old destination (which getCurrentLocation () already returns).
+			$route = $this->getRecallRoute ($current[0], $db);
 			
 			// Remove all others
 			$db->query
@@ -665,11 +672,39 @@ class Dolumar_Players_Squad
 				s_to = ".$target->getId().",
 				sc_route = ".$route."
 		");
+
+		Dolumar_NewMap_MapObjectManager::armiesChanged ();
 		
 		reloadStatusCounters ();
 		reloadEverything ();
 	}
 	
+	/**
+	*	Route (SQL literal) for a recall of the move in $command: back along the
+	*	walked part of its way. See Dolumar_NewMap_ArmyFactory::recallRoute ().
+	*/
+	private function getRecallRoute ($command, $db)
+	{
+		$from = Dolumar_Players_Village::getVillage ($command['s_from']);
+		$to = Dolumar_Players_Village::getVillage ($command['s_to']);
+		if (!$from || !$to)
+		{
+			return 'NULL';
+		}
+
+		$points = Dolumar_NewMap_ArmyFactory::recallRoute
+		(
+			$command['sc_route'],
+			$from->buildings->getTownCenterLocation (),
+			$to->buildings->getTownCenterLocation (),
+			$command['vertrek'],
+			$command['aankomst'],
+			NOW
+		);
+
+		return "'" . $db->escape (json_encode ($points)) . "'";
+	}
+
 	/*
 		Move squad home
 	*/
