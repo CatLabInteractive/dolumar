@@ -12,6 +12,7 @@
 			<directory>tests/Buildings</directory>
 			<directory>tests/Server</directory>
 			<directory>tests/Players</directory>
+			<directory>tests/Battle</directory>
 			<file>tests/BootstrapTest.php</file>
 		</testsuite>
 		<!-- Needs the Docker database (production snapshot) and DATABASE_URL. -->
