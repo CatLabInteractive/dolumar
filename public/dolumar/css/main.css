@@ -446,3 +446,102 @@ p.resources
     background-position: top left;
     padding-left: 18px;
 }
+
+/*
+	Page list: always one line. The template ranks the page numbers by distance to the current page (rank-0 is the
+	current page) and the container queries hide the farthest ones when the list is too narrow. The breakpoints allow
+	96px for the arrows and 10px plus 10px per digit for each number, about 1.5 times the measured size, so a larger
+	font still fits. mobile.css has its own sizes and breakpoints.
+*/
+div.pagelist
+{
+	container: pagelist / inline-size;
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: center;
+	align-items: center;
+	gap: 3px;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+div.pagelist span
+{
+	flex: 0 0 auto;
+}
+
+/* 1 digit(s): 20px per number */
+@container pagelist (max-width: 135px) { div.pagelist.digits-1 span.rank-1 { display: none; } }
+@container pagelist (max-width: 155px) { div.pagelist.digits-1 span.rank-2 { display: none; } }
+@container pagelist (max-width: 175px) { div.pagelist.digits-1 span.rank-3 { display: none; } }
+@container pagelist (max-width: 195px) { div.pagelist.digits-1 span.rank-4 { display: none; } }
+@container pagelist (max-width: 215px) { div.pagelist.digits-1 span.rank-5 { display: none; } }
+@container pagelist (max-width: 235px) { div.pagelist.digits-1 span.rank-6 { display: none; } }
+@container pagelist (max-width: 255px) { div.pagelist.digits-1 span.rank-7 { display: none; } }
+@container pagelist (max-width: 275px) { div.pagelist.digits-1 span.rank-8 { display: none; } }
+@container pagelist (max-width: 295px) { div.pagelist.digits-1 span.rank-9 { display: none; } }
+@container pagelist (max-width: 315px) { div.pagelist.digits-1 span.rank-10 { display: none; } }
+@container pagelist (max-width: 335px) { div.pagelist.digits-1 span.rank-11 { display: none; } }
+@container pagelist (max-width: 355px) { div.pagelist.digits-1 span.rank-12 { display: none; } }
+@container pagelist (max-width: 375px) { div.pagelist.digits-1 span.rank-13 { display: none; } }
+@container pagelist (max-width: 395px) { div.pagelist.digits-1 span.rank-14 { display: none; } }
+/* 2 digit(s): 30px per number */
+@container pagelist (max-width: 155px) { div.pagelist.digits-2 span.rank-1 { display: none; } }
+@container pagelist (max-width: 185px) { div.pagelist.digits-2 span.rank-2 { display: none; } }
+@container pagelist (max-width: 215px) { div.pagelist.digits-2 span.rank-3 { display: none; } }
+@container pagelist (max-width: 245px) { div.pagelist.digits-2 span.rank-4 { display: none; } }
+@container pagelist (max-width: 275px) { div.pagelist.digits-2 span.rank-5 { display: none; } }
+@container pagelist (max-width: 305px) { div.pagelist.digits-2 span.rank-6 { display: none; } }
+@container pagelist (max-width: 335px) { div.pagelist.digits-2 span.rank-7 { display: none; } }
+@container pagelist (max-width: 365px) { div.pagelist.digits-2 span.rank-8 { display: none; } }
+@container pagelist (max-width: 395px) { div.pagelist.digits-2 span.rank-9 { display: none; } }
+@container pagelist (max-width: 425px) { div.pagelist.digits-2 span.rank-10 { display: none; } }
+@container pagelist (max-width: 455px) { div.pagelist.digits-2 span.rank-11 { display: none; } }
+@container pagelist (max-width: 485px) { div.pagelist.digits-2 span.rank-12 { display: none; } }
+@container pagelist (max-width: 515px) { div.pagelist.digits-2 span.rank-13 { display: none; } }
+@container pagelist (max-width: 545px) { div.pagelist.digits-2 span.rank-14 { display: none; } }
+/* 3 digit(s): 40px per number */
+@container pagelist (max-width: 175px) { div.pagelist.digits-3 span.rank-1 { display: none; } }
+@container pagelist (max-width: 215px) { div.pagelist.digits-3 span.rank-2 { display: none; } }
+@container pagelist (max-width: 255px) { div.pagelist.digits-3 span.rank-3 { display: none; } }
+@container pagelist (max-width: 295px) { div.pagelist.digits-3 span.rank-4 { display: none; } }
+@container pagelist (max-width: 335px) { div.pagelist.digits-3 span.rank-5 { display: none; } }
+@container pagelist (max-width: 375px) { div.pagelist.digits-3 span.rank-6 { display: none; } }
+@container pagelist (max-width: 415px) { div.pagelist.digits-3 span.rank-7 { display: none; } }
+@container pagelist (max-width: 455px) { div.pagelist.digits-3 span.rank-8 { display: none; } }
+@container pagelist (max-width: 495px) { div.pagelist.digits-3 span.rank-9 { display: none; } }
+@container pagelist (max-width: 535px) { div.pagelist.digits-3 span.rank-10 { display: none; } }
+@container pagelist (max-width: 575px) { div.pagelist.digits-3 span.rank-11 { display: none; } }
+@container pagelist (max-width: 615px) { div.pagelist.digits-3 span.rank-12 { display: none; } }
+@container pagelist (max-width: 655px) { div.pagelist.digits-3 span.rank-13 { display: none; } }
+@container pagelist (max-width: 695px) { div.pagelist.digits-3 span.rank-14 { display: none; } }
+/* 4 digit(s): 50px per number */
+@container pagelist (max-width: 195px) { div.pagelist.digits-4 span.rank-1 { display: none; } }
+@container pagelist (max-width: 245px) { div.pagelist.digits-4 span.rank-2 { display: none; } }
+@container pagelist (max-width: 295px) { div.pagelist.digits-4 span.rank-3 { display: none; } }
+@container pagelist (max-width: 345px) { div.pagelist.digits-4 span.rank-4 { display: none; } }
+@container pagelist (max-width: 395px) { div.pagelist.digits-4 span.rank-5 { display: none; } }
+@container pagelist (max-width: 445px) { div.pagelist.digits-4 span.rank-6 { display: none; } }
+@container pagelist (max-width: 495px) { div.pagelist.digits-4 span.rank-7 { display: none; } }
+@container pagelist (max-width: 545px) { div.pagelist.digits-4 span.rank-8 { display: none; } }
+@container pagelist (max-width: 595px) { div.pagelist.digits-4 span.rank-9 { display: none; } }
+@container pagelist (max-width: 645px) { div.pagelist.digits-4 span.rank-10 { display: none; } }
+@container pagelist (max-width: 695px) { div.pagelist.digits-4 span.rank-11 { display: none; } }
+@container pagelist (max-width: 745px) { div.pagelist.digits-4 span.rank-12 { display: none; } }
+@container pagelist (max-width: 795px) { div.pagelist.digits-4 span.rank-13 { display: none; } }
+@container pagelist (max-width: 845px) { div.pagelist.digits-4 span.rank-14 { display: none; } }
+/* 5 digit(s): 60px per number */
+@container pagelist (max-width: 215px) { div.pagelist.digits-5 span.rank-1 { display: none; } }
+@container pagelist (max-width: 275px) { div.pagelist.digits-5 span.rank-2 { display: none; } }
+@container pagelist (max-width: 335px) { div.pagelist.digits-5 span.rank-3 { display: none; } }
+@container pagelist (max-width: 395px) { div.pagelist.digits-5 span.rank-4 { display: none; } }
+@container pagelist (max-width: 455px) { div.pagelist.digits-5 span.rank-5 { display: none; } }
+@container pagelist (max-width: 515px) { div.pagelist.digits-5 span.rank-6 { display: none; } }
+@container pagelist (max-width: 575px) { div.pagelist.digits-5 span.rank-7 { display: none; } }
+@container pagelist (max-width: 635px) { div.pagelist.digits-5 span.rank-8 { display: none; } }
+@container pagelist (max-width: 695px) { div.pagelist.digits-5 span.rank-9 { display: none; } }
+@container pagelist (max-width: 755px) { div.pagelist.digits-5 span.rank-10 { display: none; } }
+@container pagelist (max-width: 815px) { div.pagelist.digits-5 span.rank-11 { display: none; } }
+@container pagelist (max-width: 875px) { div.pagelist.digits-5 span.rank-12 { display: none; } }
+@container pagelist (max-width: 935px) { div.pagelist.digits-5 span.rank-13 { display: none; } }
+@container pagelist (max-width: 995px) { div.pagelist.digits-5 span.rank-14 { display: none; } }
