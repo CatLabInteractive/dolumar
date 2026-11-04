@@ -31,6 +31,7 @@ class Dolumar_Map_CacheMemcached
 	private $iServer;
 	private $sTable;
 	private $objMemcache;
+	private $aTiles = array ();
 	
 	const AREA_SIDE = 25;
 
@@ -91,14 +92,15 @@ class Dolumar_Map_CacheMemcached
 			{
 				$c = $this->unpack ($c, $startX, $startY);
 			
-				foreach ($c as $x => $v)
+				// Own loop variables: $x and $y are still needed for the return below.
+				foreach ($c as $cx => $v)
 				{
-					if (!isset ($this->aTiles[$x]))
-						$this->aTiles[$x] = array ();
+					if (!isset ($this->aTiles[$cx]))
+						$this->aTiles[$cx] = array ();
 					
-					foreach ($v as $y => $vv)
+					foreach ($v as $cy => $vv)
 					{
-						$this->aTiles[$x][$y] = $vv;
+						$this->aTiles[$cx][$cy] = $vv;
 					}
 				}
 			}
