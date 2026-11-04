@@ -62,6 +62,26 @@ Game.dolumar =
 			});
 		});
 
+		// Run what a real drag-and-drop runs: the draggable's start, the slot's drop, the draggable's end.
+		var placeOn = function (img, entry, event)
+		{
+			var drag = img.dragable ? img.dragable.options : null;
+
+			if (drag && drag.onStart)
+			{
+				drag.onStart.call (drag, img.dragable, event);
+			}
+
+			entry.options.onDrop.call (entry.options, img, entry.slot, event);
+
+			if (drag && drag.onEnd)
+			{
+				drag.onEnd.call (drag, img.dragable, event);
+			}
+
+			setSelected (null);
+		};
+
 		slots.each (function (entry)
 		{
 			entry.slot.observe ('click', function (event)
@@ -71,23 +91,209 @@ Game.dolumar =
 					return;
 				}
 
-				var img = selected;
-				var drag = img.dragable ? img.dragable.options : null;
-
-				if (drag && drag.onStart)
-				{
-					drag.onStart.call (drag, img.dragable, event);
-				}
-
-				entry.options.onDrop.call (entry.options, img, entry.slot, event);
-
-				if (drag && drag.onEnd)
-				{
-					drag.onEnd.call (drag, img.dragable, event);
-				}
-
-				setSelected (null);
+				placeOn (selected, entry, event);
 			});
+		});
+
+		Game.dolumar.enableTouchDrag (images, slots, placeOn);
+	},
+
+	/*
+		Finger dragging for the battle unit pickers (script.aculo.us only drags with a mouse).
+		A unit follows the finger as a ghost image; letting go over a slot places it there through
+		placeOn. Near the left or right edge of a slot row, the row scrolls. A touch that doesn't
+		move stays a tap, so tap-to-place keeps working.
+	*/
+	'enableTouchDrag' : function (images, slots, placeOn)
+	{
+		var THRESHOLD = 8;
+		var EDGE = 40;
+
+		var slotAt = function (x, y)
+		{
+			var el = document.elementFromPoint (x, y);
+
+			for (var i = 0; el && i < slots.length; i ++)
+			{
+				if (slots[i].slot === el || slots[i].slot.contains (el))
+				{
+					return slots[i];
+				}
+			}
+
+			return null;
+		};
+
+		var scrollerAt = function (x, y)
+		{
+			for (var i = 0; i < slots.length; i ++)
+			{
+				var scroller = slots[i].options.scrollid;
+				var box = scroller ? scroller.getBoundingClientRect () : null;
+
+				if (box && y >= box.top && y <= box.bottom && x >= box.left && x <= box.right)
+				{
+					return { 'el' : scroller, 'box' : box };
+				}
+			}
+
+			return null;
+		};
+
+		images.each (function (img)
+		{
+			var start = null;
+			var ghost = null;
+			var over = null;
+			var last = null;
+			var timer = null;
+
+			var setOver = function (entry)
+			{
+				if (over === entry)
+				{
+					return;
+				}
+
+				if (over)
+				{
+					over.slot.removeClassName ('touch-over');
+				}
+
+				over = entry;
+
+				if (over)
+				{
+					over.slot.addClassName ('touch-over');
+				}
+			};
+
+			// Scroll a slot row while the finger rests near its edge.
+			var autoScroll = function ()
+			{
+				timer = null;
+
+				if (!ghost || !last)
+				{
+					return;
+				}
+
+				var row = scrollerAt (last[0], last[1]);
+				var step = 0;
+
+				if (row && last[0] < row.box.left + EDGE)
+				{
+					step = -12;
+				}
+				else if (row && last[0] > row.box.right - EDGE)
+				{
+					step = 12;
+				}
+
+				if (step != 0)
+				{
+					row.el.scrollLeft += step;
+					setOver (slotAt (last[0], last[1]));
+					timer = setTimeout (autoScroll, 30);
+				}
+			};
+
+			var finish = function ()
+			{
+				if (ghost && ghost.parentNode)
+				{
+					ghost.parentNode.removeChild (ghost);
+				}
+
+				if (timer)
+				{
+					clearTimeout (timer);
+				}
+
+				ghost = null;
+				start = null;
+				timer = null;
+				setOver (null);
+			};
+
+			img.addEventListener ('touchstart', function (event)
+			{
+				if (event.touches.length != 1)
+				{
+					finish ();
+					return;
+				}
+
+				var t = event.touches[0];
+				start = [ t.clientX, t.clientY ];
+			}, { 'passive' : true });
+
+			img.addEventListener ('touchmove', function (event)
+			{
+				if (!start || event.touches.length != 1)
+				{
+					return;
+				}
+
+				var t = event.touches[0];
+				last = [ t.clientX, t.clientY ];
+
+				if (!ghost)
+				{
+					if (Math.abs (last[0] - start[0]) < THRESHOLD && Math.abs (last[1] - start[1]) < THRESHOLD)
+					{
+						return;
+					}
+
+					var box = img.getBoundingClientRect ();
+
+					ghost = img.cloneNode (false);
+					ghost.removeAttribute ('id');
+					ghost.className = 'touch-drag-ghost';
+					ghost.style.width = box.width + 'px';
+					ghost.style.height = box.height + 'px';
+					ghost.offsetX = start[0] - box.left;
+					ghost.offsetY = start[1] - box.top;
+					document.body.appendChild (ghost);
+				}
+
+				// Dragging: the page must not scroll under the finger.
+				event.preventDefault ();
+
+				ghost.style.left = (last[0] - ghost.offsetX) + 'px';
+				ghost.style.top = (last[1] - ghost.offsetY) + 'px';
+				setOver (slotAt (last[0], last[1]));
+
+				if (!timer)
+				{
+					autoScroll ();
+				}
+			}, { 'passive' : false });
+
+			img.addEventListener ('touchend', function (event)
+			{
+				if (!ghost)
+				{
+					// A tap: leave it to the click handler (tap-to-place).
+					finish ();
+					return;
+				}
+
+				// No click (and no tap-select) after a drag.
+				event.preventDefault ();
+
+				var t = event.changedTouches[0];
+				var entry = slotAt (t.clientX, t.clientY);
+
+				finish ();
+
+				if (entry)
+				{
+					placeOn (img, entry, event);
+				}
+			}, { 'passive' : false });
+
+			img.addEventListener ('touchcancel', finish);
 		});
 	},
 
