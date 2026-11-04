@@ -45,100 +45,77 @@ $starttime = time ();
 
 if ($lock->setLock ('cron_const', 0, $locktime))
 {
-	//$iIdleTime = 60*15;
-	$iIdleTime = 0;
-
 	// Collect all queues of all villages
 	$db = Neuron_DB_Database::__getInstance ();
 
 	$profiler = Neuron_Profiler_Profiler::getInstance ();
 
-	// Only check once every 15 minutes!
-	$queues = $db->query
+	// Every village with something in its queue, the one that waited longest
+	// first. Players that are online get their queue processed by the
+	// statusbar as soon as a counter runs out; this catches everyone else.
+	$villageIds = $db->query
 	("
 		SELECT
-			*
+			pq_vid,
+			MIN(COALESCE(pq_lastcheck, FROM_UNIXTIME(0))) AS lastcheck
 		FROM
 			premium_queue
-		WHERE
-		    pq_lastcheck IS NULL OR
-			pq_lastcheck < FROM_UNIXTIME(".(time()-$iIdleTime).")
+		GROUP BY
+			pq_vid
 		ORDER BY
-			pq_lastcheck ASC
+			lastcheck ASC
 	");
-	
+
 	$count = 0;
-	$total = count ($queues);
+	$total = count ($villageIds);
 
-	foreach ($queues as $queue)
-	{	
-		echo "Loaded queue {$queue['pq_id']}\n";
-	
-		$profiler->start ('Executing queue ' . $queue['pq_id'] . ' (' . $queue['pq_action'] . ')');
+	foreach ($villageIds as $row)
+	{
+		$profiler->start ('Executing queue of village ' . $row['pq_vid']);
 
-		$bRemove = true;
+		$village = Dolumar_Players_Village::getFromId ($row['pq_vid']);
 
-		$profiler->start ('Loading village');
-		$village = Dolumar_Players_Village::getFromId ($queue['pq_vid']);
-		$profiler->stop ();
-	
-		if ($village && $village->isActive () && !$village->getOwner ()->inVacationMode ())
+		if ($village)
 		{
-			$bRemove = $village->premium->executeQueuedAction ($queue['pq_action'], json_decode ($queue['pq_data'], true));
+			$village->premium->processQueue ();
 		}
-
-		if ($bRemove)
+		else
 		{
-			echo "Removing queue {$queue['pq_id']}\n";
+			echo "Removing queues of missing village {$row['pq_vid']}\n";
 
-			// Remove the queue
 			$db->query
 			("
 				DELETE FROM
 					premium_queue
 				WHERE
-					pq_id = {$queue['pq_id']}
-			");	
+					pq_vid = " . intval ($row['pq_vid']) . "
+			");
 		}
-		else
-		{
-			echo "Updating queue {$queue['pq_id']}\n";
 
-			// Update the queue
-			$db->query
-			("
-				UPDATE
-					premium_queue
-				SET
-					pq_lastcheck = FROM_UNIXTIME(".time().")
-				WHERE
-					pq_id = {$queue['pq_id']}
-			");	
-		}
-		
 		$memory = memory_get_usage ();
-		
+
 		$count ++;
-		echo 'Executed queue ' . $count . ' / ' . $total . "\n";
-		echo 'Memory usage: '.round($memory / (1024 * 1024)).'kB' . "\n";
+		echo 'Executed queues of village ' . $count . ' / ' . $total . "\n";
+		echo 'Memory usage: '.round($memory / (1024 * 1024)).'MB' . "\n";
 		echo "---\n";
 
-		$profiler->start ('Destroying village');
-		$village->__destruct ();
+		if ($village)
+		{
+			$village->__destruct ();
+		}
+
 		$profiler->stop ();
-	
-		$profiler->stop ();
-		
-		if 
+
+		if
 		(
-			$memory > $maxmemory 
+			$memory > $maxmemory
 			|| $starttime < (time () - $locktime)
 		)
 		{
 			break;
 		}
 	}
-	
+
 	// Settle pending credit purchases (missed notifies). Only when credits are configured.
 	try
 	{
