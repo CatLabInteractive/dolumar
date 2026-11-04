@@ -58,6 +58,20 @@ class Dolumar_Players_NPCPlayer extends Dolumar_Players_Player
 		return false;
 	}
 
+	/*
+		The tribe has no account row, so it never has premium.
+		The engine reads premiumEndDate from that row (dolumar #61).
+	*/
+	public function isPremium ()
+	{
+		return false;
+	}
+
+	public function isProperPremium ()
+	{
+		return false;
+	}
+
     /*
         This function is called whenever the score gets updated.
     */

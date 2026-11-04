@@ -21,34 +21,30 @@
  *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-class Dolumar_Quests_S4BuildBarrack extends Neuron_GameServer_Quest
+class Dolumar_Quests_S4BuildBarrack extends Dolumar_Quests_Quest
 {
 	public function onStart (Neuron_GameServer_Player $player)
 	{
-		$player->guide->setAllRead ();
-		
-		$player->guide->addMessage ('s3complete', array (), 'guide', 'happy');
-		$player->guide->addMessage ('s4units', array (), 'guide', 'neutral');
-		$player->guide->addMessage ('s4buildbarrack', array (), 'guide', 'neutral');
-		
+		$this->say ($player, 's4buildbarrack', 'neutral');
 	}
-	
+
+	public function getObjective (Neuron_GameServer_Player $player)
+	{
+		return 'buildbarrack';
+	}
+
+	public function getAction (Neuron_GameServer_Player $player)
+	{
+		return $this->openBuildWindow ($player);
+	}
+
 	public function isFinished (Neuron_GameServer_Player $player)
 	{
-		$village = $player->getMainVillage ();
-		
-		// Check if we already have a farm
-		return $village->buildings->hasBuilding 
-		(
-			Dolumar_Buildings_Building::getBuilding (20, $village->getRace ()), 
-			true
-		);
+		return $this->hasBuilding ($player, 20);
 	}
-	
+
 	public function onComplete (Neuron_GameServer_Player $player)
 	{
-		$player->guide->addMessage ('s4consumption', array (), 'guide', 'neutral');
-		$player->guide->addMessage ('s4finished', array (), 'guide', 'neutral');
+		$player->quests->addQuest (new Dolumar_Quests_S5TrainUnits ());
 	}
 }
-?>

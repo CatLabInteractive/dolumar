@@ -1,3 +1,3 @@
-Welcome, [b]@@player[/b]. I will guide you through the world of Dolumar. Everything might be a bit confusing at first, but I promise, it's quite easy.
+Welcome, [b]@@player[/b]! I am your guide.
 
-Follow my advice and you will control the world in no time. You can hide and show me by clicking the [b]right corner button[/b].
+This is how a round of Dolumar is won: late in the round a portal opens to [b]Dor Daedeloth[/b], and the clan that holds its castle rules the world. To get there you need a strong village, an army and allies. Let's start building.

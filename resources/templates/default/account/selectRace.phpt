@@ -30,9 +30,10 @@
 		</ol>
 	</fieldset>
 
+	<!-- Optional for a first-time player (a random spot, no clan), so folded away. -->
+	<details class="select-location">
+		<summary><?=$this->getText('selectLocation');?></summary>
 	<fieldset class="lines">
-		<legend><?=$this->getText('selectLocation');?></legend>
-	
 		<ol>
 			<li>
 				<label><?=$this->getText ('joinClan')?>:</label>
@@ -62,11 +63,13 @@
 				</select>
 			</li>
 
-			<li>
-				<button type="submit" value="<?=$submit?>"><?=$submit?></button>
-			</li>
 		</ol>
 	</fieldset>
+	</details>
+
+	<p>
+		<button type="submit" value="<?=$submit?>"><?=$submit?></button>
+	</p>
 </form>
 
 <?php if (isset ($tracker_url)) { ?>

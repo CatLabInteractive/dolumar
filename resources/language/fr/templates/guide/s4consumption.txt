@@ -1,5 +1,5 @@
-Bravo ! Vous avez un baraquement. Il est temps de former des troupes !
+Bravo ! Vous avez une caserne. Il est temps d'entraîner des troupes.
 
-Toutes vos troupes [b]consomme de la nourriture[/b] et certaines troupes spéciales consomment d'autres types de ressources. Vous pouvez voir les niveaux de consommations dans la fenêtre des unités.
+Toutes vos troupes [b]mangent du grain[/b], et certaines troupes spéciales consomment aussi d'autres ressources. Vous voyez la consommation de votre armée dans la fenêtre [b]Unités[/b].
 
-Cliquez sur le baraquement et formez quelques troupes.
+Ouvrez votre caserne et entraînez des troupes.

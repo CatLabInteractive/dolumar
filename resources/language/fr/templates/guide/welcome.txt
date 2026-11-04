@@ -1,3 +1,3 @@
-Bienvenue, [b]@@player[/b]. Je vous guiderai à travers le monde de Dolumar. Tout doit vous sembler un peu confus au premier abord, mais je vous l'assure, tout est très simple.
- 
-Suivez mes conseils et vous contrôlerez un puissant village et une redoutable armée en un rien de temps ! Vous pouvez activer / désactiver le tutoriel en cliquant sur [b]le bouton dans le coin inférieur droit[/b].
+Bienvenue, [b]@@player[/b] ! Je suis votre guide.
+
+Voici comment on gagne une partie de Dolumar : vers la fin de la partie, un portail s'ouvre vers [b]Dor Daedeloth[/b], et le clan qui tient son château règne sur le monde. Pour y arriver, il vous faut un village puissant, une armée et des alliés. Commençons à construire.

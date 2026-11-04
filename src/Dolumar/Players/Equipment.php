@@ -292,7 +292,10 @@ class Dolumar_Players_Equipment implements Neuron_GameServer_Interfaces_Logable
 		{
 			if (!in_array ($k, $ignore))
 			{
-				$amount = ($v > 0 ? '+' : '-') . abs ($v);
+				// Percentage stats are stored as strings like "15%" (dolumar #58).
+				$suffix = is_string ($v) && substr ($v, -1) === '%' ? '%' : '';
+				$number = floatval ($v);
+				$amount = ($number > 0 ? '+' : '-') . abs ($number) . $suffix;
 				$out .= $text->get ($k, 'unitStats', 'main') . ": " . $amount . "\n";
 			}
 		}
