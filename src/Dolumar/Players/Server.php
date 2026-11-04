@@ -31,6 +31,16 @@ class Dolumar_Players_Server
 	const GAMESTATE_ENDGAME_FINISHED = 40;
 	const GAMESTATE_WAITINGFORRESET = 50;
 
+	/**
+	 * A never-ending world has no endgame: no Dor Daedeloth spell, no winner and no reset.
+	 * Set with the NEVERENDING environment variable.
+	 * @return bool
+	 */
+	public static function isNeverending ()
+	{
+		return defined ('NEVERENDING') && NEVERENDING;
+	}
+
 	public function canRegister ()
 	{
 		return true;
@@ -62,6 +72,13 @@ class Dolumar_Players_Server
 	*/
 	public function updateStatus ()
 	{
+		// A never-ending world never moves towards the endgame, never finishes and is never reset.
+		if (self::isNeverending ())
+		{
+			$this->closeEndgameMissions ();
+			return;
+		}
+
 		$state = $this->getData ('gamestate');
 
 		if (!$state)
@@ -174,8 +191,42 @@ class Dolumar_Players_Server
 		}
 	}
 
+	/**
+	 * On a never-ending world, end a Dor Daedeloth mission that was started before the flag was set. It is removed
+	 * the same way a won mission is (Objectives::onWin), which releases the regiments that were sent into it.
+	 */
+	protected function closeEndgameMissions ()
+	{
+		foreach ($this->getEndgameMissions () as $mission)
+		{
+			$mission->destroy ();
+		}
+	}
+
+	/**
+	 * @return Dolumar_Underworld_Models_Mission[]
+	 */
+	protected function getEndgameMissions ()
+	{
+		$out = array ();
+		foreach (Dolumar_Underworld_Mappers_MissionMapper::getGlobalMissions () as $mission)
+		{
+			if ($mission->getObjectiveName () === 'DorDaedeloth')
+			{
+				$out[] = $mission;
+			}
+		}
+		return $out;
+	}
+
 	public function reset ()
 	{
+		if (self::isNeverending ())
+		{
+			// Never wipe a never-ending world.
+			return;
+		}
+
 		// Truncate all tables
 		$db = Neuron_DB_Database::getInstance ();
 

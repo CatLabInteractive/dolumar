@@ -323,6 +323,13 @@ if (!defined ('PREMIUM_SPEEDUP_SCOUTING_PRICE'))
 if (!defined ('PREMIUM_SPEEDUP_SCOUTING_UNIT'))
 	define ('PREMIUM_SPEEDUP_SCOUTING_UNIT', 1800);
 
+/*
+* Never-ending world. With NEVERENDING=1 this server has no endgame: the Dor Daedeloth spell is never
+* offered, nobody can win the round and the server is never reset. Players are told so in game.
+*/
+if (!defined ('NEVERENDING'))
+	define ('NEVERENDING', filter_var (getenv ('NEVERENDING'), FILTER_VALIDATE_BOOLEAN));
+
 // Default: 6 months
 if (!defined ('GAME_RUNNING_DURATION'))
 	define ('GAME_RUNNING_DURATION', 60 * 60 * 24 * 30 * 6);

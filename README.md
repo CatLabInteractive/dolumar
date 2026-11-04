@@ -45,6 +45,9 @@ the most important ones are:
   silently invalidates every player's subscription. Without them notifications are off.
 * `PREMIUM_SPEEDUP_BUILDINGS`, `PREMIUM_SPEEDUP_TRAINING`, `PREMIUM_SPEEDUP_SCOUTING`: set to `1` to let players pay
   credits to speed up that queue. Off by default.
+* `NEVERENDING`: set to `1` for a world without an endgame. The Dor Daedeloth spell is never offered, no clan can
+  win and the server is never reset. Players see a notice on the welcome screen, the ranking, the race selection
+  and the server settings. Off by default.
 * `NPC_AGGRESSION`: how far the goblin tribes go when raided: `off` (they only build and defend), `counter`
   (default: scouts, an envoy, then counter-attacks against raiders), or `full` (also strikes against players who
   attack the tribe's allies). `NPC_PROTECTION_RUNES` (default 10): players with fewer runes are never attacked,

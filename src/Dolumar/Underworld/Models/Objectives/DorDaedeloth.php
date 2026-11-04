@@ -39,6 +39,12 @@ class Dolumar_Underworld_Models_Objectives_DorDaedeloth
 
 	protected function winnerBenefits (Dolumar_Underworld_Models_Side $side)
 	{
+		// Holding Dor Daedeloth wins nothing on a never-ending world.
+		if (Dolumar_Players_Server::isNeverending ())
+		{
+			return;
+		}
+
 		$server = Neuron_GameServer::getServer ();
 
 		// Load clans

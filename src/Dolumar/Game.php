@@ -207,7 +207,10 @@ class Dolumar_Game implements Neuron_GameServer_Interfaces_Game
 			}
 		}
 
-		if ($server->getData ('gamestate') >= Dolumar_Players_Server::GAMESTATE_ENDGAME_FINISHED)
+		if (
+			!Dolumar_Players_Server::isNeverending () &&
+			$server->getData ('gamestate') >= Dolumar_Players_Server::GAMESTATE_ENDGAME_FINISHED
+		)
 		{
 			header("Content-Type:text/html;charset=utf-8");
 			
