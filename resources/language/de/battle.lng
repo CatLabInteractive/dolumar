@@ -17,7 +17,7 @@ slot="Gebiet"
 vacationMode="Schädel, Knochen,verrottendes Fleisch und alles, was dir sagt, das du hier nichts zu suchen hast, umgeben diesen Ort. Hier wütet die Pest. Du traust dich nicht, diesen Ort anzugreifen. (Spieler ist im Urlaubsmodus)."
 attack="Angreifen"
 bdone="Deine Truppen machen sich auf den Weg zur Schlacht."
-dragTroops="Versetze zumindest eine deiner verfügbaren Truppen in die Schlachtzone."
+dragTroops="Versetze zumindest eine deiner verfügbaren Truppen in die Schlachtzone, oder tippe auf eine Truppe und dann auf ein Feld."
 clear="Löschen"
 
 [specialUnits]

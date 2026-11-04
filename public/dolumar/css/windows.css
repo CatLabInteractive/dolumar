@@ -100,6 +100,24 @@ div.battle img
 	margin-left: 2px;
 }
 
+/* Tap-to-place (touch screens can't drag): the tapped unit and the slots it can go to. */
+img.tap-unit
+{
+	cursor: pointer;
+}
+
+img.tap-selected
+{
+	outline: 2px solid #f0c040;
+	outline-offset: 1px;
+}
+
+.tap-placing div.battlefield-slot
+{
+	cursor: pointer;
+	box-shadow: inset 0 0 0 2px rgba(240, 192, 64, 0.8);
+}
+
 div.battle img.unit-selected
 {
 	position: absolute;

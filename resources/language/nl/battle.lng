@@ -17,7 +17,7 @@ s_attack="Val @@target aan"
 s_support="Stuur hulptroepen naar @@target"
 vacationMode="Dit dorp is in vakantiemodus en kan niet aangevallen worden."
 clear="Wissen"
-dragTroops="Sleep minstens één van je beschikbare troepen naar het slagveld."
+dragTroops="Sleep minstens één van je beschikbare troepen naar het slagveld, of tik op een troep en daarna op een vak."
 bdone="Jouw troepen zijn op weg naar de vijand."
 
 [specialUnits]
