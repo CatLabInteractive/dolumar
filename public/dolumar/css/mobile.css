@@ -755,19 +755,18 @@ body.layout-mobile .mobile-more-list span.guide-icon
 */
 body.layout-mobile .sheet-content
 {
-	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+	font-family: Verdana, Tahoma, Arial, sans-serif;
 	font-size: 15px;
 	line-height: 1.4;
 	overflow-wrap: break-word;
 }
 
-/* Three sizes: serif titles, 15px body, 13px meta. */
+/* Three sizes: 19px titles, 15px body, 13px meta. One typeface (Verdana, see .ai/style-guide.md). */
 body.layout-mobile .sheet-content h1,
 body.layout-mobile .sheet-content h2,
 body.layout-mobile .sheet-content h3
 {
 	margin: 0 0 4px;
-	font-family: Georgia, 'Times New Roman', serif;
 	color: #2c261d;
 }
 
@@ -860,10 +859,10 @@ body.layout-mobile .sheet-content .table-scroll > table
 	max-width: none;
 }
 
-/* Links: the desktop's dark brown on the parchment sheet; actions are buttons (below). */
+/* Links: the classic blue of the desktop windows; main actions are buttons (below). */
 body.layout-mobile .sheet-content a
 {
-	color: #40331f;
+	color: #000097;
 	text-decoration: underline;
 }
 
@@ -909,13 +908,13 @@ body.layout-mobile .sheet-content input[type=button]
 	padding: 0 18px;
 	box-sizing: border-box;
 	border: 1px solid #8a7550;
-	border-radius: 6px;
-	background: linear-gradient(#f9efd6, #e2d0a2);
-	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 1px 2px rgba(0, 0, 0, 0.25);
-	color: #2c261d;
+	border-radius: 3px;
+	background: #f3e7c4;
+	box-shadow: 0 1px 0 rgba(64, 51, 31, 0.2);
+	color: #000;
 	font-family: inherit;
 	font-size: 15px;
-	font-weight: bold;
+	font-weight: normal;
 	line-height: 1.2;
 	text-decoration: none;
 	text-shadow: none;
@@ -923,13 +922,12 @@ body.layout-mobile .sheet-content input[type=button]
 	-webkit-tap-highlight-color: transparent;
 }
 
-body.layout-mobile .sheet-content a.action-button.primary
+/* Same look as .ui-btn in ui.css: flat parchment, the main action bold with a dark border (never red). */
+body.layout-mobile .sheet-content a.action-button.primary,
+body.layout-mobile .sheet-content button.primary
 {
-	border-color: #5a0a0e;
-	background: linear-gradient(#b8262e, #8c0f16);
-	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 2px rgba(0, 0, 0, 0.35);
-	color: #fff2d6;
-	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.6);
+	border-color: #40331f;
+	font-weight: bold;
 }
 
 body.layout-mobile .sheet-content select
@@ -1152,10 +1150,9 @@ body.layout-mobile .sheet-content .building-card
 {
 	margin: 0 0 10px;
 	padding: 10px;
-	border: 1px solid rgba(90, 70, 40, 0.35);
-	border-radius: 8px;
-	background: rgba(255, 255, 255, 0.22);
-	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+	border: 1px solid #c9b58a;
+	border-radius: 3px;
+	background: rgba(255, 250, 232, 0.5);
 }
 
 body.layout-mobile .sheet-content .building-card.shaded
@@ -1248,8 +1245,8 @@ body.layout-mobile .sheet-content .building-card span.resource
 	align-items: center;
 	min-height: 24px;
 	padding: 0 9px 0 30px;
-	border-radius: 12px;
-	background-color: rgba(90, 70, 40, 0.12);
+	border-radius: 3px;
+	background-color: rgba(90, 70, 40, 0.08);
 	background-position: 2px center;
 	font-size: 13px;
 	color: #2c261d;
@@ -1273,9 +1270,8 @@ body.layout-mobile .sheet-content .building-card img.icon-building
 	width: 80px;
 	height: auto;
 	box-sizing: border-box;
-	border: 1px solid #5a4a30;
-	border-radius: 4px;
-	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+	border: 1px solid #8a7550;
+	border-radius: 0;
 }
 
 body.layout-mobile .sheet-content .building-card tr + tr td + td
@@ -1419,7 +1415,7 @@ body.layout-mobile #sheets .sheet-bar
 body.layout-mobile #sheets .sheet-title
 {
 	color: #2c261d;
-	font-family: Georgia, 'Times New Roman', serif;
+	font-family: Verdana, Tahoma, Arial, sans-serif;
 	font-size: 17px;
 	line-height: 1.2;
 }
@@ -1501,8 +1497,8 @@ body.layout-mobile .sheet-content input[type=search]
 {
 	background: #fff8e4;
 	color: #40331f;
-	border: 1px solid #a08c5a;
-	border-radius: 4px;
+	border: 1px solid #8a7550;
+	border-radius: 3px;
 }
 
 /* Newsflash (Game.gui.newsflashHost): scrolls over the resource strip, as it did over the Newsbar. */

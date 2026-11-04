@@ -70,12 +70,10 @@ Kit classes all start with `ui-` because older templates already use plain names
 
 ## Not yet aligned (2026-11-04)
 
-These parts predate the guide and still clash. Bring them in line when you touch them, or in a dedicated pull
-request:
+These parts predate the guide and still clash. Bring them in line when you touch them:
 
-- `mobile.css`: the sheet button rule (`body.layout-mobile .sheet-content button`, `a.action-button`) draws cream
-  and red gradient pills; sheet links are brown instead of blue; sheet text uses the system UI font and sheet titles and headings use Georgia
-  (`ui.css` already restores the kit look for `ui-*` components inside sheets).
-- `build.tpl`: "Construct building" and "Bonus buildings" use `a.action-button` (pill on mobile, link on desktop).
 - Regiments (`.squads` in `windows.css`, PR #74): own gradient buttons, chips, Georgia names, uppercase labels.
 - Battle report (`battlereport.css`, PR #81): verdict banners, chips, gradient switch, emoji icons, Georgia.
+
+The mobile sheets (`mobile.css`: buttons, links, fonts, build cards) and the build window were aligned in PR #82.
+`a.action-button` still works in sheets and now looks like `.ui-btn`; use `.ui-btn` in new templates.
