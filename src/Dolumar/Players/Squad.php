@@ -532,14 +532,7 @@ class Dolumar_Players_Squad
 					"bs_squadId = ".$this->getId ()
 				);
 
-				$chk2 = $db->select
-				(
-					'underworld_armies_squads',
-					array ('uas_id'),
-					"s_id = ".$this->getId ()
-				);
-				
-				if (count ($chk) == 0 && count ($chk2) == 0)
+				if (count ($chk) == 0 && !$this->isInUnderworld ())
 				{					
 					$this->isIdle = !$this->isMoving ();
 				}
@@ -551,6 +544,34 @@ class Dolumar_Players_Squad
 		}
 
 		return $this->isIdle;
+	}
+
+	/*
+		Is this squad part of an underworld army in a mission that is still running?
+
+		underworld_armies has no foreign key to underworld_missions, so an army (and its squads) can outlive its
+		mission. Such a leftover army must not keep the squad busy forever.
+	*/
+	public function isInUnderworld ()
+	{
+		$db = Neuron_DB_Database::getInstance ();
+
+		$chk = $db->query
+		("
+			SELECT
+				uas.uas_id
+			FROM
+				underworld_armies_squads uas
+			INNER JOIN
+				underworld_armies ua ON ua.ua_id = uas.ua_id
+			INNER JOIN
+				underworld_missions um ON um.um_id = ua.um_id
+			WHERE
+				uas.s_id = ".$this->getId ()."
+			LIMIT 1
+		");
+
+		return count ($chk) > 0;
 	}
 	
 	/*
