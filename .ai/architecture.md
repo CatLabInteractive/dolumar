@@ -87,7 +87,13 @@ Under `src/Dolumar/`:
 - `Buildings/`, `Units/`, `SpecialUnits/`, `Technology/`, `Effects/` (spells and boosts), `Races/`, `Battle/`,
   `Quests/`, `Report/`, `Logable/` (game log entries).
 - `Map/` (old map logic, still the source of truth for locations) and `NewMap/` (adapter to the engine's map
-  renderer). `Dolumar_Game::getMap()` wraps the old map in the new one. `NewMap/` also holds the moving armies shown
+  renderer). `Dolumar_Game::getMap()` wraps the old map in the new one. The terrain is generated, not stored:
+  `Map_Map::getFreshTileData()` derives each tile from `PerlinGenerator` (height, in 25x25 squares) and
+  `Map_Map::getRandom()` (md5 of the coordinates and `RANDMAPFACTOR`); `Map_CacheMemcached` keeps the result per
+  25x25 area in memcache, without expiry. Generation is the slow part of a map request for an area nobody has
+  visited yet. The output must never change (every kingdom sits on it): `tests/Map/MapGenerationTest.php` pins it,
+  and the generator's per-square caches are cleared together with `randCache` because the off-map test in
+  `getNoise()` depends on which octave reads a lattice point first. `NewMap/` also holds the moving armies shown
   on the map: `MovingRows` (SQL for in-flight `battle` and `squad_commands` rows, the viewer's related villages, a
   20 s memcache of the rows), `ArmyFactory` (turns a row into a `Dolumar_NewMap_Army` with one engine `Movement` per
   phase: march out, wait at the target, march home; portal routes jump), and
