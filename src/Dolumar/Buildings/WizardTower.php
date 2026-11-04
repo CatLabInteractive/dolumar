@@ -299,7 +299,10 @@ class Dolumar_Buildings_WizardTower extends Dolumar_Buildings_SpecialUnits
 
 		// End game? End effect!
 		$server = Neuron_GameServer::getServer ();
-		if ($server->getData ('gamestate') == Dolumar_Players_Server::GAMESTATE_ENDGAME_STARTED)
+		if (
+			!Dolumar_Players_Server::isNeverending () &&
+			$server->getData ('gamestate') == Dolumar_Players_Server::GAMESTATE_ENDGAME_STARTED
+		)
 		{
 			$out[] = new Dolumar_Effects_Instant_DorDaedeloth ();
 		}

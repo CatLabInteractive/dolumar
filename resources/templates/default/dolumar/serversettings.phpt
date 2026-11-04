@@ -20,4 +20,8 @@
         <a href="<?php echo WIKI_GUIDE_URL; ?>">Wiki</a>
     </li>
 </ul>
-<p>End game starts in: <?=$endgame_start?>.</p>
+<?php if (Dolumar_Players_Server::isNeverending ()) { ?>
+	<?php $neverending_key = 'serversettings'; include (TEMPLATE_DIR.'blocks/neverending.phpt'); ?>
+<?php } else { ?>
+	<p>End game starts in: <?=$endgame_start?>.</p>
+<?php } ?>

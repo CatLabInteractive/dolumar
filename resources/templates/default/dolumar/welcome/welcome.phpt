@@ -13,6 +13,8 @@
 	);?>
 </p>
 
+<?php $neverending_key = 'welcome'; include (TEMPLATE_DIR.'blocks/neverending.phpt'); ?>
+
 <?php if (isset ($headline)) { ?>
 	<div class="fancybox">
 		<?=$headline?>

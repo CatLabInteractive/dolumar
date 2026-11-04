@@ -1,5 +1,7 @@
 <p><?=$select?></p>
 
+<?php $neverending_key = 'register'; include (TEMPLATE_DIR.'blocks/neverending.phpt'); ?>
+
 <?php if (isset ($error)) { echo '<p class="false">'.$error.'</p>'; } ?>
 
 <form onsubmit="return submitForm (this);" id="selectrace">

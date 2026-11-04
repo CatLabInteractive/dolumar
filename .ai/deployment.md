@@ -30,6 +30,8 @@ Key variables: `DATABASE_URL`, `MEMCACHED_URL`, `ABSOLUTE_URL`, `PROTOCOL`, `EMA
 `VAPID_*` (browser notifications; generated once with `php tools/vapid-keys.php` and never rotated, since a new pair
 breaks every existing subscription).
 `NPC_AGGRESSION` and `NPC_PROTECTION_RUNES` (NPC tribes, see architecture.md).
+`NEVERENDING=1` turns off the endgame for that server (no Dor Daedeloth spell, no winner, no reset); see
+`Dolumar_Players_Server::isNeverending()` for every place that checks it.
 
 Error reporting (`AIRBRAKE_*`) goes through `Dolumar_ErrorReporting_Notifier`, a phpbrake subclass. phpbrake drops a
 failed delivery silently, so the subclass logs it (`Error tracker: ...` in `dokku logs`): check there first when
