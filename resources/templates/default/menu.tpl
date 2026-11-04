@@ -11,7 +11,8 @@
 	data-label-nextvillage="<?=$this->getText ('mobileNextVillage')?>"
 	data-label-guide="<?=$this->getText ('mobileGuide')?>"
 	data-label-selectcancel="<?=$this->getText ('placeCancel')?>"
-	data-label-selectplace="<?=$this->getText ('placeConfirm')?>">
+	data-label-selectplace="<?=$this->getText ('placeConfirm')?>"
+	data-label-selecthint="<?=$this->getText ('placeHint')?>">
 	<ul class="left" id="menu-main">
 		<li data-tab="myAccount" onmouseover="this.className+=' over';" onmouseout="this.className=this.className.replace(/(^|\s)over(?=\s|$)/g,'');">
 			<a onclick="openWindow('myAccount');" href="javascript:void(0);" title="<?=$myAccount;?>" >
