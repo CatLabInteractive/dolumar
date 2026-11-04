@@ -569,6 +569,12 @@ body.layout-mobile .panel.minimap.mobile-visible
 	z-index: 999 !important;
 }
 
+/* The minimap keeps its fixed size on mobile: the drag-to-resize corner is a mouse control. */
+body.layout-mobile .panel.minimap .resize-corner
+{
+	display: none !important;
+}
+
 /* Guide: shown when it has new advice (Game.dolumar.mobile.syncGuide) or from the "Guide" entry in the More sheet. */
 body.layout-mobile .panel.guide.mobile-visible
 {
