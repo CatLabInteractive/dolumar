@@ -819,12 +819,12 @@ body.layout-mobile .tap-tooltip
 	pointer-events: none;
 }
 
-/* Page list (logbook and other paged windows): 44px buttons that wrap. */
+/* Page list (logbook and other paged windows): one row of 36px buttons, never wrapping. The template ranks the page
+   numbers by distance to the current page; the container queries below drop the farthest ones until the row fits
+   (the 4 arrows take 156px, each number 40px, or more for 4 and 5 digit numbers). */
 body.layout-mobile .sheet-content div.pagelist
 {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
+	flex-wrap: nowrap;
 	gap: 4px;
 	padding: 4px 0;
 }
@@ -834,12 +834,18 @@ body.layout-mobile .sheet-content div.pagelist span
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	min-width: 44px;
-	min-height: 44px;
+	flex: 0 1 auto;
+	min-width: 36px;
+	height: 40px;
 	margin: 0;
-	padding: 0;
+	padding: 0 2px;
 	box-sizing: border-box;
 	color: #40331f;
+}
+
+body.layout-mobile .sheet-content div.pagelist span.placeholder
+{
+	display: none;
 }
 
 body.layout-mobile .sheet-content div.pagelist span a
@@ -848,7 +854,7 @@ body.layout-mobile .sheet-content div.pagelist span a
 	align-items: center;
 	justify-content: center;
 	width: 100%;
-	min-height: 42px;
+	height: 100%;
 	color: #40331f;
 }
 
@@ -856,6 +862,82 @@ body.layout-mobile .sheet-content div.pagelist span.active a
 {
 	color: #a0121a;
 }
+
+/* 1 digit(s): 40px per number */
+@container pagelist (max-width: 235px) { body.layout-mobile div.pagelist.digits-1 span.rank-1 { display: none; } }
+@container pagelist (max-width: 275px) { body.layout-mobile div.pagelist.digits-1 span.rank-2 { display: none; } }
+@container pagelist (max-width: 315px) { body.layout-mobile div.pagelist.digits-1 span.rank-3 { display: none; } }
+@container pagelist (max-width: 355px) { body.layout-mobile div.pagelist.digits-1 span.rank-4 { display: none; } }
+@container pagelist (max-width: 395px) { body.layout-mobile div.pagelist.digits-1 span.rank-5 { display: none; } }
+@container pagelist (max-width: 435px) { body.layout-mobile div.pagelist.digits-1 span.rank-6 { display: none; } }
+@container pagelist (max-width: 475px) { body.layout-mobile div.pagelist.digits-1 span.rank-7 { display: none; } }
+@container pagelist (max-width: 515px) { body.layout-mobile div.pagelist.digits-1 span.rank-8 { display: none; } }
+@container pagelist (max-width: 555px) { body.layout-mobile div.pagelist.digits-1 span.rank-9 { display: none; } }
+@container pagelist (max-width: 595px) { body.layout-mobile div.pagelist.digits-1 span.rank-10 { display: none; } }
+@container pagelist (max-width: 635px) { body.layout-mobile div.pagelist.digits-1 span.rank-11 { display: none; } }
+@container pagelist (max-width: 675px) { body.layout-mobile div.pagelist.digits-1 span.rank-12 { display: none; } }
+@container pagelist (max-width: 715px) { body.layout-mobile div.pagelist.digits-1 span.rank-13 { display: none; } }
+@container pagelist (max-width: 755px) { body.layout-mobile div.pagelist.digits-1 span.rank-14 { display: none; } }
+/* 2 digit(s): 40px per number */
+@container pagelist (max-width: 235px) { body.layout-mobile div.pagelist.digits-2 span.rank-1 { display: none; } }
+@container pagelist (max-width: 275px) { body.layout-mobile div.pagelist.digits-2 span.rank-2 { display: none; } }
+@container pagelist (max-width: 315px) { body.layout-mobile div.pagelist.digits-2 span.rank-3 { display: none; } }
+@container pagelist (max-width: 355px) { body.layout-mobile div.pagelist.digits-2 span.rank-4 { display: none; } }
+@container pagelist (max-width: 395px) { body.layout-mobile div.pagelist.digits-2 span.rank-5 { display: none; } }
+@container pagelist (max-width: 435px) { body.layout-mobile div.pagelist.digits-2 span.rank-6 { display: none; } }
+@container pagelist (max-width: 475px) { body.layout-mobile div.pagelist.digits-2 span.rank-7 { display: none; } }
+@container pagelist (max-width: 515px) { body.layout-mobile div.pagelist.digits-2 span.rank-8 { display: none; } }
+@container pagelist (max-width: 555px) { body.layout-mobile div.pagelist.digits-2 span.rank-9 { display: none; } }
+@container pagelist (max-width: 595px) { body.layout-mobile div.pagelist.digits-2 span.rank-10 { display: none; } }
+@container pagelist (max-width: 635px) { body.layout-mobile div.pagelist.digits-2 span.rank-11 { display: none; } }
+@container pagelist (max-width: 675px) { body.layout-mobile div.pagelist.digits-2 span.rank-12 { display: none; } }
+@container pagelist (max-width: 715px) { body.layout-mobile div.pagelist.digits-2 span.rank-13 { display: none; } }
+@container pagelist (max-width: 755px) { body.layout-mobile div.pagelist.digits-2 span.rank-14 { display: none; } }
+/* 3 digit(s): 40px per number */
+@container pagelist (max-width: 235px) { body.layout-mobile div.pagelist.digits-3 span.rank-1 { display: none; } }
+@container pagelist (max-width: 275px) { body.layout-mobile div.pagelist.digits-3 span.rank-2 { display: none; } }
+@container pagelist (max-width: 315px) { body.layout-mobile div.pagelist.digits-3 span.rank-3 { display: none; } }
+@container pagelist (max-width: 355px) { body.layout-mobile div.pagelist.digits-3 span.rank-4 { display: none; } }
+@container pagelist (max-width: 395px) { body.layout-mobile div.pagelist.digits-3 span.rank-5 { display: none; } }
+@container pagelist (max-width: 435px) { body.layout-mobile div.pagelist.digits-3 span.rank-6 { display: none; } }
+@container pagelist (max-width: 475px) { body.layout-mobile div.pagelist.digits-3 span.rank-7 { display: none; } }
+@container pagelist (max-width: 515px) { body.layout-mobile div.pagelist.digits-3 span.rank-8 { display: none; } }
+@container pagelist (max-width: 555px) { body.layout-mobile div.pagelist.digits-3 span.rank-9 { display: none; } }
+@container pagelist (max-width: 595px) { body.layout-mobile div.pagelist.digits-3 span.rank-10 { display: none; } }
+@container pagelist (max-width: 635px) { body.layout-mobile div.pagelist.digits-3 span.rank-11 { display: none; } }
+@container pagelist (max-width: 675px) { body.layout-mobile div.pagelist.digits-3 span.rank-12 { display: none; } }
+@container pagelist (max-width: 715px) { body.layout-mobile div.pagelist.digits-3 span.rank-13 { display: none; } }
+@container pagelist (max-width: 755px) { body.layout-mobile div.pagelist.digits-3 span.rank-14 { display: none; } }
+/* 4 digit(s): 48px per number */
+@container pagelist (max-width: 251px) { body.layout-mobile div.pagelist.digits-4 span.rank-1 { display: none; } }
+@container pagelist (max-width: 299px) { body.layout-mobile div.pagelist.digits-4 span.rank-2 { display: none; } }
+@container pagelist (max-width: 347px) { body.layout-mobile div.pagelist.digits-4 span.rank-3 { display: none; } }
+@container pagelist (max-width: 395px) { body.layout-mobile div.pagelist.digits-4 span.rank-4 { display: none; } }
+@container pagelist (max-width: 443px) { body.layout-mobile div.pagelist.digits-4 span.rank-5 { display: none; } }
+@container pagelist (max-width: 491px) { body.layout-mobile div.pagelist.digits-4 span.rank-6 { display: none; } }
+@container pagelist (max-width: 539px) { body.layout-mobile div.pagelist.digits-4 span.rank-7 { display: none; } }
+@container pagelist (max-width: 587px) { body.layout-mobile div.pagelist.digits-4 span.rank-8 { display: none; } }
+@container pagelist (max-width: 635px) { body.layout-mobile div.pagelist.digits-4 span.rank-9 { display: none; } }
+@container pagelist (max-width: 683px) { body.layout-mobile div.pagelist.digits-4 span.rank-10 { display: none; } }
+@container pagelist (max-width: 731px) { body.layout-mobile div.pagelist.digits-4 span.rank-11 { display: none; } }
+@container pagelist (max-width: 779px) { body.layout-mobile div.pagelist.digits-4 span.rank-12 { display: none; } }
+@container pagelist (max-width: 827px) { body.layout-mobile div.pagelist.digits-4 span.rank-13 { display: none; } }
+@container pagelist (max-width: 875px) { body.layout-mobile div.pagelist.digits-4 span.rank-14 { display: none; } }
+/* 5 digit(s): 57px per number */
+@container pagelist (max-width: 269px) { body.layout-mobile div.pagelist.digits-5 span.rank-1 { display: none; } }
+@container pagelist (max-width: 326px) { body.layout-mobile div.pagelist.digits-5 span.rank-2 { display: none; } }
+@container pagelist (max-width: 383px) { body.layout-mobile div.pagelist.digits-5 span.rank-3 { display: none; } }
+@container pagelist (max-width: 440px) { body.layout-mobile div.pagelist.digits-5 span.rank-4 { display: none; } }
+@container pagelist (max-width: 497px) { body.layout-mobile div.pagelist.digits-5 span.rank-5 { display: none; } }
+@container pagelist (max-width: 554px) { body.layout-mobile div.pagelist.digits-5 span.rank-6 { display: none; } }
+@container pagelist (max-width: 611px) { body.layout-mobile div.pagelist.digits-5 span.rank-7 { display: none; } }
+@container pagelist (max-width: 668px) { body.layout-mobile div.pagelist.digits-5 span.rank-8 { display: none; } }
+@container pagelist (max-width: 725px) { body.layout-mobile div.pagelist.digits-5 span.rank-9 { display: none; } }
+@container pagelist (max-width: 782px) { body.layout-mobile div.pagelist.digits-5 span.rank-10 { display: none; } }
+@container pagelist (max-width: 839px) { body.layout-mobile div.pagelist.digits-5 span.rank-11 { display: none; } }
+@container pagelist (max-width: 896px) { body.layout-mobile div.pagelist.digits-5 span.rank-12 { display: none; } }
+@container pagelist (max-width: 953px) { body.layout-mobile div.pagelist.digits-5 span.rank-13 { display: none; } }
+@container pagelist (max-width: 1010px) { body.layout-mobile div.pagelist.digits-5 span.rank-14 { display: none; } }
 
 /* Tabs (squads, battle report): a wrapping row of 44px tabs instead of fixed 20px ones. */
 body.layout-mobile .sheet-content ul.tabs
