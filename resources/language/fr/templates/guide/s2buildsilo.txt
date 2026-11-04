@@ -1,1 +1,3 @@
-Vos ressources sont stockées dans l'entrepôt. Votre château peut stocker quelques ressources, mais pas assez pour permette à votre économie de se développer. Construisons donc un entrepôt !
+Bien. Chaque bâtiment coûte une [b]rune[/b] en plus des ressources, et votre château a commencé avec quelques runes de chaque type.
+
+Votre château ne stocke que peu de choses, et la production s'arrête quand vos réserves sont pleines. Construisez maintenant un [b]entrepôt[/b].

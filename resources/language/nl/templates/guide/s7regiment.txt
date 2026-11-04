@@ -1,0 +1,1 @@
+Soldaten vechten alleen in een [b]regiment[/b]. Open [b]Eenheden[/b], maak een regiment aan en zet je soldaten erin zodra ze getraind zijn.

@@ -1,0 +1,1 @@
+Żołnierze walczą tylko w [b]regimencie[/b]. Otwórz [b]Jednostki[/b], utwórz regiment i przydziel do niego żołnierzy, gdy tylko skończą szkolenie.

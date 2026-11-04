@@ -25,7 +25,11 @@ class Dolumar_Windows_MyAccount extends Neuron_GameServer_Windows_MyAccount
 {
 	protected function onLogin ()
 	{
-		openNewWindow ('Welcome');
+		$player = Neuron_GameServer::getPlayer ();
+		if (!$player || !Dolumar_Guide::isInProgress ($player))
+		{
+			openNewWindow ('Welcome');
+		}
 		parent::onLogin ();
 	}
 
@@ -108,8 +112,13 @@ class Dolumar_Windows_MyAccount extends Neuron_GameServer_Windows_MyAccount
 				$this->reloadLocation ($home[0], $home[1]);
 		
 				reloadEverything ();
-				
-				return $this->getContent (false);
+
+				// Start on the map with the guide rather than on the account page. The
+				// registration tracker that page carried is drawn by the Guide panel.
+				$_SESSION['dolumar_registration_tracker'] = true;
+				$this->closeWindow ();
+
+				return '<p></p>';
 			}
 			else
 			{

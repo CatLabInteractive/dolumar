@@ -1,0 +1,25 @@
+[guide]
+noadvice = "Ik heb op dit moment geen advies."
+
+[navigation]
+callguide = "Roep je gids"
+hide = "Verbergen"
+next = "Volgende"
+shownext = "Toon het volgende bericht"
+previous = "Vorige"
+showprevious = "Toon het vorige bericht"
+showme = "Toon me"
+objective = "Taak:"
+
+[objectives]
+buildfarm = "Bouw een boerderij"
+buildlumber = "Bouw een houthakkerskamp"
+buildsilo = "Bouw een opslagplaats"
+buildiron = "Bouw een ijzermijn"
+buildbarrack = "Bouw een kazerne"
+train = "Train soldaten in je kazerne"
+scout = "Zoek naar runen in je kasteel"
+regiment = "Zet soldaten in een regiment"
+attack = "Val de goblins aan"
+battle = "Wacht op het gevecht"
+clan = "Word lid van een clan"

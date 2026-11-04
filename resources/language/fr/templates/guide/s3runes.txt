@@ -1,5 +1,3 @@
-Les runes sont de loin la ressource la plus importante du jeu. Il est difficile de les acquérir, mais comme elles sont nécessaires à chaque construction, elles sont d'une importance capitale.
+Les runes sont la ressource la plus importante du jeu : chaque bâtiment en demande une, et elles sont difficiles à obtenir.
 
-Vous pouvez voir combien de runes vous possédez via la fenêtre économie.
-
-Les runes peuvent être trouvés partout à travers le monde. Pour trouver des runes, vous devrez envoyer vos éclaireurs en missions de recherche. Cliquez sur votre château pour explorer et trouver de nouvelles runes.
+Pour trouver de nouvelles runes, ouvrez votre [b]château[/b] et envoyez vos éclaireurs à leur recherche. Vous pouvez aussi voler des runes à vos ennemis.

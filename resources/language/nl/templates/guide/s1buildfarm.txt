@@ -1,0 +1,3 @@
+Je dorp produceert de hele tijd [b]grondstoffen[/b] (je ziet ze in de grondstoffenbalk). Laten we er meer maken: bouw een [b]boerderij[/b]. Boerderijen produceren graan, en daarmee voed je je troepen.
+
+Open het menu [b]Bouwen[/b], kies de boerderij en plaats ze bij je kasteel. [b]Toon me[/b] opent het menu voor je.

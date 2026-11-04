@@ -68,7 +68,13 @@ class Dolumar_Game implements Neuron_GameServer_Interfaces_Game
 	{
 		$out = array ();
 		
-		$out[] = $objServer->getWindow ('Welcome');
+		// A new player starts on the map with the guide, not on Welcome (clan logs, premium).
+		$player = Neuron_GameServer::getPlayer ();
+		if (!$player || !Dolumar_Guide::isInProgress ($player))
+		{
+			$out[] = $objServer->getWindow ('Welcome');
+		}
+
 		$out[] = $objServer->getWindow ('ChatPopper');
 		$out[] = $objServer->getWindow ('MiniMap');
 		$out[] = $objServer->getWindow ('Menu');

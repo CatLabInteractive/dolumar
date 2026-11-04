@@ -1,3 +1,3 @@
-Runy są najważniejszym surowcem w grze. Trudno jest je zdobyć, ale jednak są potrzebe do budowania.
+Runy to najważniejszy surowiec w grze: każdy budynek potrzebuje jednej, a trudno je zdobyć.
 
-W oknie gospodarki możesz sprawdzić ile run nie jest jeszcze w użytku.
+Aby znaleźć nowe runy, otwórz swój [b]zamek[/b] i wyślij zwiadowców na poszukiwania. Runy możesz też ukraść wrogom.
