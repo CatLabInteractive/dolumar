@@ -175,12 +175,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/CatLabInteractive/dolumar-engine.git",
-                "reference": "788043e9cc63788e2b8ebbba8a0f8dcf9e20d8ae"
+                "reference": "abf4a9df18e45ea67e614668bf02f5cfecaa51bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CatLabInteractive/dolumar-engine/zipball/788043e9cc63788e2b8ebbba8a0f8dcf9e20d8ae",
-                "reference": "788043e9cc63788e2b8ebbba8a0f8dcf9e20d8ae",
+                "url": "https://api.github.com/repos/CatLabInteractive/dolumar-engine/zipball/abf4a9df18e45ea67e614668bf02f5cfecaa51bc",
+                "reference": "abf4a9df18e45ea67e614668bf02f5cfecaa51bc",
                 "shasum": ""
             },
             "require": {
@@ -213,7 +213,7 @@
                 "source": "https://github.com/CatLabInteractive/dolumar-engine/tree/master",
                 "issues": "https://github.com/CatLabInteractive/dolumar-engine/issues"
             },
-            "time": "2026-11-04T07:56:20+00:00"
+            "time": "2026-11-04T08:08:33+00:00"
         },
         {
             "name": "graham-campbell/result-type",
