@@ -17,7 +17,7 @@
 2="@@attacker wacht niet en schiet @@amount troepen van @@defender af."
 
 [casualties_error]
-1="@@amount troepen stierven in een aanval van @@atacker tegen @@defender. ERROR!!!"
+1="@@amount troepen stierven in een aanval van @@attacker tegen @@defender. ERROR!!!"
 
 [specialunitdied]
 1="een level @@level @@unit is gestorven."
@@ -40,3 +40,98 @@
 [whipe]
 1="De lichamen van @@unit liggen, in mootjes gekapt, verspreid over het slagveld."
 
+
+[log_move]
+1 = "@@unit nemen positie in (@@terrain)."
+2 = "@@unit trekken op naar een nieuw vak (@@terrain)."
+
+[log_stunned]
+1 = "@@unit kunnen niets doen."
+
+[log_shooting]
+1 = "@@attacker schieten op @@defender."
+2 = "Een salvo van @@attacker treft @@defender."
+
+[log_melee]
+1 = "@@attacker vechten tegen @@defender."
+2 = "@@attacker stormen op @@defender af."
+3 = "@@attacker botsen op @@defender."
+
+[log_fled]
+1 = "@@unit breken en vluchten."
+2 = "@@unit verlaten het slagveld."
+
+[log_wiped]
+1 = "@@unit worden vernietigd."
+2 = "De laatsten van @@unit vallen."
+
+[log_magedied]
+1 = "@@unit (niveau @@level) is gestorven."
+
+[moment_volley]
+1 = "@@attacker schoten @@amount van @@defender neer."
+
+[moment_fled]
+1 = "@@unit braken en vluchtten. Hun linie stortte in."
+
+[moment_wiped]
+1 = "@@unit werden tot de laatste man vernietigd."
+
+[moment_loss]
+1 = "@@attacker doodden @@amount van @@defender."
+
+[chronicle_intro]
+1 = "De grond beefde toen het leger van @@attacker optrok naar @@defender."
+2 = "Stof steeg op boven de velden van @@defender toen het leger van @@attacker in zicht kwam."
+3 = "In @@defender klonken de hoorns: het leger van @@attacker was aangekomen."
+
+[chronicle_magic]
+1 = "Nog voor er een pijl vloog, sprak @@unit @@spell uit."
+
+[chronicle_magicfailed]
+1 = "@@unit probeerde @@spell uit te spreken, maar de spreuk mislukte."
+
+[chronicle_volley]
+1 = "@@unit schoten eerst, en @@amount vijanden vielen voor ze hun schilden konden heffen."
+2 = "Een wolk pijlen van @@unit verduisterde de lucht; @@amount vijanden vielen."
+
+[chronicle_volley_total]
+1 = "Het salvo kostte @@attacker in totaal @@attlost en @@defender @@deflost."
+
+[chronicle_novolley]
+1 = "Er vloog geen pijl. Beide legers gingen meteen op elkaar af."
+
+[chronicle_melee]
+1 = "Toen botsten de linies. @@unit vochten het hardst en doodden @@amount vijanden."
+2 = "Staal sloeg op staal. Niemand vocht harder dan @@unit, die @@amount vijanden doodden."
+
+[chronicle_broke_fled]
+1 = "@@unit braken en vluchtten."
+2 = "@@unit verloren de moed en sloegen op de vlucht."
+
+[chronicle_broke_wiped]
+1 = "@@unit werden tot de laatste man vernietigd."
+2 = "Niemand van @@unit verliet het veld levend."
+
+[chronicle_end_win]
+1 = "Uiteindelijk konden de verdedigers van @@defender het niet langer houden."
+2 = "Toen het stof ging liggen, was @@defender overgeleverd aan @@attacker."
+
+[chronicle_end_loss]
+1 = "Uiteindelijk keerde het leger van @@attacker verslagen terug."
+2 = "De muren van @@defender hielden stand, en het leger van @@attacker trok zich terug."
+
+[chronicle_spoils]
+1 = "De karren gingen zwaarbeladen naar huis: @@resources grondstoffen en @@runes runen."
+
+[chronicle_nospoils]
+1 = "Er werd niets buitgemaakt."
+
+[chronicle_verdict_win]
+1 = "Een overwinning van @@percent%. @@hero maakte het verschil."
+
+[chronicle_verdict_loss]
+1 = "De aanval werd afgeslagen. @@hero hield stand."
+
+[chronicle_verdict_plain]
+1 = "Een overwinning van @@percent%."

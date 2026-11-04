@@ -106,6 +106,64 @@ class Dolumar_Battle_Report
 		return $o;
 	}
 
+	private static function getVillageWhere ($village, $filter)
+	{
+		$id = intval (is_object ($village) ? $village->getId () : $village);
+		$now = intval (time ());
+
+		// A fight that is still playing is only listed under 'live'.
+		$done = " AND fightDate + fightDuration < $now";
+
+		switch ($filter)
+		{
+			case 'attacks':
+				return "fromId = $id" . $done;
+			case 'defences':
+				return "targetId = $id AND fromId != $id" . $done;
+			case 'live':
+				return "(fromId = $id OR targetId = $id) AND fightDate + fightDuration >= $now";
+		}
+		return "(fromId = $id OR targetId = $id)" . $done;
+	}
+
+	/**
+	 * Reports of one village, newest first. $filter: all, attacks, defences or live (fight still playing).
+	 */
+	public static function getVillageReports ($village, $filter = 'all', $start = 0, $length = 10)
+	{
+		$db = Neuron_Core_Database::__getInstance ();
+
+		$list = $db->select
+		(
+			'battle_report',
+			array ('*'),
+			self::getVillageWhere ($village, $filter),
+			'fightDate DESC',
+			intval ($start) . ", " . intval ($length)
+		);
+
+		$o = array ();
+		foreach ($list as $v)
+		{
+			$o[] = new self ($v['reportId'], $v);
+		}
+		return $o;
+	}
+
+	public static function countVillageReports ($village, $filter = 'all')
+	{
+		$db = Neuron_Core_Database::__getInstance ();
+
+		$count = $db->select
+		(
+			'battle_report',
+			array ('COUNT(reportId) AS total'),
+			self::getVillageWhere ($village, $filter)
+		);
+
+		return intval ($count[0]['total']);
+	}
+
 	public static function countPlayerReports ($villages)
 	{
 		$db = Neuron_Core_Database::__getInstance ();
@@ -281,6 +339,15 @@ class Dolumar_Battle_Report
 				$this->data = false;
 			}
 		}
+	}
+
+	/**
+	 * The battle_report row (false when not found or not visible to the village filter).
+	 */
+	public function getRawData ()
+	{
+		$this->loadData ();
+		return $this->data;
 	}
 
 	public function getVictory ()

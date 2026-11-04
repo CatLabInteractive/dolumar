@@ -92,11 +92,20 @@ class Dolumar_Windows_Battle extends Neuron_GameServer_Windows_Window
 			
 			elseif (isset ($input['report']))
 			{
-				// Refresh this window every xx seconds
 				$log = isset ($input['log']) ? $input['log'] : null;
-				$report = isset ($input['fightlog']) ? $input['fightlog'] == 1 : false;
-			
-				return $this->getBattleReport ($input['report'], $log, $report);
+
+				// Old links ask for the fight log with fightlog=1: that is the replay now.
+				$view = isset ($input['view']) ? $input['view'] : null;
+				if ($view === null && isset ($input['fightlog']) && $input['fightlog'] == 1)
+				{
+					$view = Dolumar_Battle_ReportView::VIEW_REPLAY;
+				}
+				if ($view === null && isset ($data['view']))
+				{
+					$view = $data['view'];
+				}
+
+				return $this->getBattleReport ($input['report'], $log, $view);
 			}
 			else
 			{
@@ -665,71 +674,83 @@ class Dolumar_Windows_Battle extends Neuron_GameServer_Windows_Window
 
 			if (isset ($data['report']) && !isset ($input['overview']))
 			{
-				$this->updateContent ($this->getBattleReport ($data['report'], null, true));
+				$view = isset ($data['view']) ? $data['view'] : null;
+				$this->updateContent ($this->getBattleReport ($data['report'], null, $view));
 			}
 		}
 	}
 
-	private function getBattleReport ($id, $logid = null, $showrep = false)
-	{	
+	private function getBattleReport ($id, $logid = null, $view = null)
+	{
+		$text = Neuron_Core_Text::getInstance ();
+
 		$report = new Dolumar_Battle_Report ($id);
-		
-		if (!$report->isFinished ())
+		$report->setVillageFilter ($this->village);
+
+		$reportView = new Dolumar_Battle_ReportView ($report, $this->village);
+		if (!$reportView->isFound ())
 		{
+			$this->setAjaxPollSeconds (0);
+			return '<p class="false">' . $text->get ('notFound', 'report', 'battle') . '</p>';
+		}
+
+		if (!in_array ($view, array (Dolumar_Battle_ReportView::VIEW_SUMMARY, Dolumar_Battle_ReportView::VIEW_REPLAY, Dolumar_Battle_ReportView::VIEW_CHRONICLE)))
+		{
+			$view = $reportView->isDone () ? Dolumar_Battle_ReportView::VIEW_SUMMARY : Dolumar_Battle_ReportView::VIEW_REPLAY;
+		}
+
+		if (!$reportView->isDone ())
+		{
+			// A fight that is still playing: refresh every 15 seconds, in the view the player is looking at.
 			$this->setAjaxPollSeconds (15);
-			$this->updateRequestData (array ('vid' => $this->village->getId (), 'report' => $id));
+			$this->updateRequestData (array ('vid' => $this->village->getId (), 'report' => $id, 'view' => $view));
 		}
 		else
 		{
 			$this->setAjaxPollSeconds (0);
 			$this->updateRequestData (array ('vid' => $this->village->getId ()));
 		}
-		
-		return $report->getReport ($this->village, $logid, $showrep);
+
+		return $reportView->render ($view, $logid, $this->village->getId ());
 	}
 
 	private function getBattleOverview ()
 	{
-		//$db = Neuron_Core_Database::__getInstance ();
-		
-		$text = Neuron_Core_Text::__getInstance ();
-		$text->setSection ('overview');
-		$text->setFile ('battle');
-		
 		$input = $this->getInputData ();
-		
-		// Get logs from this village
-		$objLogs = Dolumar_Players_Logs::getInstance ();
-		
-		$objLogs->addShowOnly ('attack');
-		$objLogs->addShowOnly ('defend');
-		
+
+		$filter = isset ($input['filter']) && in_array ($input['filter'], array ('attacks', 'defences')) ? $input['filter'] : 'all';
 		$iPage = isset ($input['page']) ? $input['page'] : 0;
-		
+
 		$page = new Neuron_Core_Template ();
-		
-		// Split in pages
-		$limit = Neuron_Core_Tools::splitInPages 
-		(
-			$page, 
-			$objLogs->countLogs ($this->village), 
-			$iPage, 
-			10
-		);
-		
-		$objLogs->addMyVillage ($this->village);
-		
-		$logs = $objLogs->getLogs ($this->village, $limit['start'], $limit['perpage'], 'DESC');
-		$loghtml = $this->getLogHTML ($page, $objLogs, $logs);
-		
-		$output = new Neuron_Core_Template ();
-		
-		$output->set ('vid', $this->village->getId ());
-		$output->set ('title', $text->get ('overview'));
-		$output->set ('loghtml', $loghtml);
-		return $output->parse ('battle/overview.tpl');
+		$page->setTextSection ('overview2', 'battle');
+
+		// Fights still playing, on top.
+		$live = array ();
+		foreach (Dolumar_Battle_Report::getVillageReports ($this->village, 'live', 0, 5) as $report)
+		{
+			$view = new Dolumar_Battle_ReportView ($report, $this->village);
+			$live[] = $view->getListRow ();
+		}
+
+		$total = Dolumar_Battle_Report::countVillageReports ($this->village, $filter);
+		$limit = Neuron_Core_Tools::splitInPages ($page, $total, $iPage, 10, 4, array ('filter' => $filter));
+
+		$rows = array ();
+		foreach (Dolumar_Battle_Report::getVillageReports ($this->village, $filter, $limit['start'], $limit['perpage']) as $report)
+		{
+			$view = new Dolumar_Battle_ReportView ($report, $this->village);
+			$rows[] = $view->getListRow ();
+		}
+
+		$page->set ('vid', $this->village->getId ());
+		$page->set ('filter', $filter);
+		$page->set ('total', $total);
+		$page->set ('live', $live);
+		$page->set ('rows', $rows);
+
+		return $page->parse ('battle/overview2.phpt');
 	}
-	
+
 	protected function getLogHTML ($page, $objLogs, $logs)
 	{
 		$text = Neuron_Core_Text::__getInstance ();
