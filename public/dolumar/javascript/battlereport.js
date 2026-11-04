@@ -173,7 +173,7 @@ var DolumarBattleReplay = (function ()
 		caption.querySelector ('.br-tx').innerHTML = event ? event.text : '';
 		var kills = caption.querySelector ('.br-kills');
 		kills.textContent = event && event.kills ? event.kills : '';
-		kills.className = 'br-kills' + (event && event.kills ? ' br-dmg ' + event.side : '');
+		kills.className = 'br-kills' + (event && event.kills ? (event.side === 'us' ? ' ui-bad' : ' ui-good') : '');
 
 		for (var s = 0; s < this.segEls.length; s ++)
 		{
@@ -192,8 +192,7 @@ var DolumarBattleReplay = (function ()
 		{
 			this.frame = 0;
 		}
-		this.playButton.textContent = '❚❚';
-		this.playButton.title = this.data.labels.pause;
+		this.playButton.textContent = this.data.labels.pause;
 		clearInterval (this.timer);
 		this.timer = setInterval (function ()
 		{
@@ -217,8 +216,7 @@ var DolumarBattleReplay = (function ()
 	{
 		clearInterval (this.timer);
 		this.timer = null;
-		this.playButton.textContent = '▶';
-		this.playButton.title = this.data.labels.play;
+		this.playButton.textContent = this.data.labels.play;
 		this.save ();
 	};
 

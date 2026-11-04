@@ -756,16 +756,8 @@ class Dolumar_Battle_ReportView
 
 	private function getShortPhaseLabel ($phase, $round)
 	{
-		switch ($phase)
-		{
-			case Dolumar_Battle_ReportAnalysis::PHASE_PREFIGHT:
-				return '✦';
-			case Dolumar_Battle_ReportAnalysis::PHASE_SHOOTING:
-				return '➶';
-			case Dolumar_Battle_ReportAnalysis::PHASE_MELEE:
-				return (string) max (1, $round);
-		}
-		return '■';
+		// Melee rounds are numbered under the scrubber; the other phases only have their full name as a tooltip.
+		return $phase === Dolumar_Battle_ReportAnalysis::PHASE_MELEE ? (string) max (1, $round) : '';
 	}
 
 	/*
@@ -956,7 +948,7 @@ class Dolumar_Battle_ReportView
 			}
 			$runes = $this->report->countStolenRunes ();
 			$sign = $this->readerTeam === Dolumar_Battle_ReportAnalysis::TEAM_ATTACKER ? '+' : '−';
-			$class = $sign === '+' ? 'good' : 'bad';
+			$class = $sign === '+' ? 'ui-good' : 'ui-bad';
 
 			$loot = array ();
 			if ($resources > 0)
@@ -996,7 +988,7 @@ class Dolumar_Battle_ReportView
 			'id' => intval ($this->report->getId ()),
 			'outcome' => $outcome,
 			'badge' => !$this->isDone () ? 'live' : ($this->isReaderWin () ? ($this->readerTeam === Dolumar_Battle_ReportAnalysis::TEAM_ATTACKER ? 'win' : 'held') : 'loss'),
-			'icon' => $this->readerTeam === Dolumar_Battle_ReportAnalysis::TEAM_ATTACKER ? '⚔' : '🛡',
+			'icon' => STATIC_ABSOLUTE_URL . 'dolumar/images/icons/menu/' . ($this->readerTeam === Dolumar_Battle_ReportAnalysis::TEAM_ATTACKER ? 'battle' : 'units') . '.png',
 			'title' => Neuron_Core_Tools::putIntoText ($this->text->get ('t_' . $outcome, 'overview2', 'battle'), array ($this->villageName ($opponent))),
 			'line' => implode (' · ', $parts),
 			'when' => $when,
