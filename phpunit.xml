@@ -11,6 +11,7 @@
 			<directory>tests/NewMap</directory>
 			<directory>tests/Buildings</directory>
 			<directory>tests/Server</directory>
+			<directory>tests/Squads</directory>
 			<file>tests/BootstrapTest.php</file>
 		</testsuite>
 		<!-- Needs the Docker database (production snapshot) and DATABASE_URL. -->

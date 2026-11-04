@@ -2010,4 +2010,120 @@ Game.dolumar.mobile =
 	}
 };
 
+/*
+	Regiment editor (squads/editor.tpl): the soldier stepper, the None/Half/All
+	buttons, the unit tiles and the equipment stock hints. The form still posts
+	through submitForm; this only keeps the fields in step with each other.
+*/
+Game.dolumar.squads =
+{
+	'sizeInput' : function (form)
+	{
+		return form ? form.down ('input[name=size]') : null;
+	},
+
+	'clamp' : function (input, value)
+	{
+		var min = parseInt (input.getAttribute ('min'), 10) || 0;
+		var max = parseInt (input.getAttribute ('max'), 10) || 0;
+		value = parseInt (value, 10);
+		if (isNaN (value))
+		{
+			value = min;
+		}
+		return Math.max (min, Math.min (max, value));
+	},
+
+	'step' : function (button, delta)
+	{
+		var form = Game.gui.getFormFromElement (button);
+		var input = Game.dolumar.squads.sizeInput (form);
+		if (input)
+		{
+			input.value = Game.dolumar.squads.clamp (input, parseInt (input.value, 10) + delta);
+			Game.dolumar.squads.refresh (form);
+		}
+	},
+
+	'setSize' : function (button, mode)
+	{
+		var form = Game.gui.getFormFromElement (button);
+		var input = Game.dolumar.squads.sizeInput (form);
+		if (!input)
+		{
+			return;
+		}
+
+		var max = parseInt (input.getAttribute ('max'), 10) || 0;
+		var value = mode == 'all' ? max : (mode == 'half' ? Math.ceil (max / 2) : 0);
+		input.value = Game.dolumar.squads.clamp (input, value);
+		Game.dolumar.squads.refresh (form);
+	},
+
+	'pickUnit' : function (radio)
+	{
+		var form = Game.gui.getFormFromElement (radio);
+		var input = Game.dolumar.squads.sizeInput (form);
+		var free = parseInt (radio.getAttribute ('data-free'), 10) || 0;
+
+		$(form).select ('.squad-unit-tile').each (function (tile) { tile.removeClassName ('selected'); });
+		$(radio.parentNode).addClassName ('selected');
+
+		if (input)
+		{
+			input.setAttribute ('max', free);
+			input.value = free;
+			$(form).select ('.squad-max').each (function (el) { el.update (free); });
+		}
+
+		// Keep the suggested name in step with the unit, unless the player typed one.
+		var name = form.down ('input[name=squadName]');
+		if (name && name.getAttribute ('data-suggested') == '1')
+		{
+			name.value = radio.getAttribute ('data-suggestion');
+		}
+
+		Game.dolumar.squads.refresh (form);
+	},
+
+	// Grey out items there aren't enough of for this many soldiers.
+	'refresh' : function (form)
+	{
+		var input = Game.dolumar.squads.sizeInput (form);
+		if (!input)
+		{
+			return;
+		}
+
+		var size = parseInt (input.value, 10) || 0;
+		var isShort = false;
+
+		$(form).select ('select.squad-item').each (function (select)
+		{
+			$A (select.options).each (function (option)
+			{
+				var left = option.getAttribute ('data-left');
+				if (left === null)
+				{
+					return;
+				}
+
+				var enough = parseInt (left, 10) >= size;
+				option.disabled = !enough && !option.selected;
+
+				if (!enough && option.selected)
+				{
+					isShort = true;
+				}
+			});
+		});
+
+		var warning = form.down ('.squad-short');
+		if (warning)
+		{
+			warning.style.display = isShort ? '' : 'none';
+		}
+	}
+};
+
 Event.observe (window, 'load', Game.dolumar.init, false);
