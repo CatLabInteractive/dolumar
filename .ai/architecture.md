@@ -55,8 +55,9 @@ an isometric map. Each window is a PHP class:
 ### Layout modes
 
 The client runs in one of two layout modes, `desktop` or `mobile`, shown as `body.layout-desktop` or
-`body.layout-mobile`. The player picks a preference (`desktop`, the default, `mobile` or `auto`) in MyAccount; it is
-stored as the player preference `layout`, and `?layout=desktop|mobile|auto` on the shell URL overrides it for one
+`body.layout-mobile`. The player picks a preference (`auto`, the default, `desktop` or `mobile`) in MyAccount; it is
+stored as the player preference `layoutMode` (the older key `layout` was saved while the default was `desktop`, so
+only a `mobile` stored there is still honoured), and `?layout=desktop|mobile|auto` on the shell URL overrides it for one
 page load. `auto` means mobile below a viewport width of 800 CSS pixels. In mobile mode every `window`-type dialog
 opens as a full-screen sheet in a stack (`#sheets`, back and close buttons) instead of a draggable window; the PHP
 windows and the dialog XML are the same in both modes. `panel` windows (Menu, Statusbar, Newsbar, MiniMap, Guide)
