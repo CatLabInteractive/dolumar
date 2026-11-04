@@ -27,6 +27,9 @@ if (getenv ('DATABASE_URL')) {
 		'STATIC_URL' => 'http://localhost/static/',
 		'IMAGE_URL' => 'http://localhost/static/images/',
 		'STATS_DIR' => dirname (__DIR__) . '/resources/stats/',
+		'LANGUAGE_TAG' => 'en',
+		'LANGUAGE_DIR' => dirname (__DIR__) . '/resources/language/',
+		'CATLAB_LANGUAGE_PATH' => dirname (__DIR__) . '/vendor/catlabinteractive/dolumar-engine/languages/',
 	] as $name => $value) {
 		if (!defined ($name)) {
 			define ($name, $value);
