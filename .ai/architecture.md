@@ -66,8 +66,9 @@ stay panels and are restyled by CSS. Switching mode moves open windows between t
 On a phone the Statusbar, Newsbar, MiniMap and Guide panels are hidden; their content still has to reach the player:
 the Newsbar feeds the header (village, resources, inbox) and newsflashes scroll over the resource strip
 (`Game.gui.newsflashHost`), the Statusbar's counters and links are copied into the ticker row and its sheet (the copy
-keeps the Statusbar's `dialogId`, so cancel and withdraw post to that window), the Guide shows itself when it renders
-new advice (the server marks advice read when it renders it), and the Map button shows the MiniMap. The header and
+keeps the Statusbar's `dialogId`, so cancel and withdraw post to that window), the Guide shows itself as a card above the tab
+bar when it renders new advice (the server marks advice read when it renders it) and folds to a one-line task chip
+while a guide quest is open, and the Map button shows the MiniMap. The header and
 tab bar lie above `#sheets`: while a confirm is up they do nothing, and while a building is being placed a tap on them
 cancels the placement first.
 
@@ -87,6 +88,12 @@ Under `src/Dolumar/`:
   for resources, buildings, units, honour, ...) and `Players/Server.php`.
 - `Buildings/`, `Units/`, `SpecialUnits/`, `Technology/`, `Effects/` (spells and boosts), `Races/`, `Battle/`,
   `Quests/`, `Report/`, `Logable/` (game log entries).
+- The guide: `Dolumar_Guide` starts the quest chain on registration (`Quests/S1BuildFarm` to `S10JoinClan`: five
+  buildings, train, scout runes, fill a regiment, attack the nearest goblins, the battle, a clan). Each step extends
+  `Dolumar_Quests_Quest`, adds one guide message (`resources/language/*/templates/guide/`) and names an objective
+  and a "Show me" action (`guide.lng`, `[objectives]`). `Dolumar_Windows_Guide` polls every 10 s and evaluates the
+  quests, so steps that are not buildings advance without a page load. While a new player (under 7 days) has an open
+  quest the game skips the Welcome window, and race selection closes My Account instead of showing it.
 - `Map/` (old map logic, still the source of truth for locations) and `NewMap/` (adapter to the engine's map
   renderer). `Dolumar_Game::getMap()` wraps the old map in the new one. The terrain is generated, not stored:
   `Map_Map::getFreshTileData()` derives each tile from `PerlinGenerator` (height, in 25x25 squares) and

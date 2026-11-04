@@ -23,6 +23,8 @@
 
 class Dolumar_Guide
 {
+	const NEW_PLAYER_SECONDS = 604800; // 7 days
+
 	public function __construct (Neuron_GameServer_Player $player)
 	{
 		$player->events->observe ('register', array (__CLASS__, 'onRegister'));
@@ -39,5 +41,32 @@ class Dolumar_Guide
 		// Add the first quest
 		$quest = new Dolumar_Quests_S1BuildFarm ();
 		$player->quests->addQuest ($quest);
+	}
+
+	/*
+		True while a new player is still following the guide's quests. During that time
+		the game opens on the map and the guide, not on the Welcome window.
+	*/
+	public static function isInProgress (Neuron_GameServer_Player $player)
+	{
+		if (!$player->isPlaying ())
+		{
+			return false;
+		}
+
+		// Only a recent account: a veteran with an old unfinished quest still gets Welcome.
+		if ($player->getCreationDate () < time () - self::NEW_PLAYER_SECONDS)
+		{
+			return false;
+		}
+
+		try
+		{
+			return count ($player->quests->getPendingQuests ()) > 0;
+		}
+		catch (Neuron_Core_Error $e)
+		{
+			return false;
+		}
 	}
 }

@@ -68,6 +68,12 @@ div.guide div.icon a
 	height: 50px;
 }
 
+/* The current task line is for the mobile layout (mobile.css); the desktop shows the icon. */
+div.guide div.objective
+{
+	display: none;
+}
+
 div.guide div.icon a span
 {
 	display: none;

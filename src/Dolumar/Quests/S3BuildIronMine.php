@@ -21,34 +21,30 @@
  *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-class Dolumar_Quests_S3BuildIronMine extends Neuron_GameServer_Quest
+class Dolumar_Quests_S3BuildIronMine extends Dolumar_Quests_Quest
 {
 	public function onStart (Neuron_GameServer_Player $player)
 	{
-		$player->guide->setAllRead ();
-		
-		$player->guide->addMessage ('s2acomplete', array (), 'guide', 'happy');
-		$player->guide->addMessage ('s3runes', array (), 'guide', 'neutral');
-		$player->guide->addMessage ('s3buildiron', array (), 'guide', 'happy');
-		
+		$this->say ($player, 's3buildiron', 'happy');
 	}
-	
+
+	public function getObjective (Neuron_GameServer_Player $player)
+	{
+		return 'buildiron';
+	}
+
+	public function getAction (Neuron_GameServer_Player $player)
+	{
+		return $this->openBuildWindow ($player);
+	}
+
 	public function isFinished (Neuron_GameServer_Player $player)
 	{
-		$village = $player->getMainVillage ();
-		
-		// Check if we already have a farm
-		return $village->buildings->hasBuilding 
-		(
-			Dolumar_Buildings_Building::getBuilding (13, $village->getRace ()), 
-			true
-		);
+		return $this->hasBuilding ($player, 13);
 	}
-	
+
 	public function onComplete (Neuron_GameServer_Player $player)
 	{
-		$quest = new Dolumar_Quests_S4BuildBarrack ();
-		$player->quests->addQuest ($quest);
+		$player->quests->addQuest (new Dolumar_Quests_S4BuildBarrack ());
 	}
 }
-?>

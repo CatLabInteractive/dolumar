@@ -1541,8 +1541,9 @@ Game.dolumar.mobile =
 
 	/*
 		The Guide panel is hidden on a phone, but the server marks advice as read when it
-		renders it. Show the panel when it renders new advice (a speech bubble) and hide it
-		again when the player hides the advice (back to the icon).
+		renders it. Show the panel when it renders new advice (a speech bubble). When the
+		player hides the advice, keep the current task on screen as a one-line chip
+		(div.objective, from Dolumar_Windows_Guide) while the guide has one, else hide it.
 	*/
 	'syncGuide' : function ()
 	{
@@ -1555,7 +1556,8 @@ Game.dolumar.mobile =
 		}
 
 		var bubble = panel.down ('blockquote.bubble');
-		var html = bubble ? bubble.innerHTML : null;
+		var objective = panel.down ('div.objective');
+		var html = bubble ? bubble.innerHTML : (objective ? 'objective:' + objective.innerHTML : null);
 
 		if (html === mobile.guideHtml)
 		{
@@ -1563,12 +1565,19 @@ Game.dolumar.mobile =
 		}
 		mobile.guideHtml = html;
 
-		if (html)
+		if (bubble)
 		{
+			panel.removeClassName ('mobile-chip');
+			panel.addClassName ('mobile-visible');
+		}
+		else if (objective)
+		{
+			panel.addClassName ('mobile-chip');
 			panel.addClassName ('mobile-visible');
 		}
 		else
 		{
+			panel.removeClassName ('mobile-chip');
 			panel.removeClassName ('mobile-visible');
 		}
 	},
