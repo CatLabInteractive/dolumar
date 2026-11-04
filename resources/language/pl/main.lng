@@ -108,6 +108,7 @@ mobilePrevVillage="Poprzednia wioska"
 mobileNextVillage="Następna wioska"
 placeCancel="Anuluj"
 placeConfirm="Umieść"
+placeHint="Przesuń mapę, aby ustawić budynek, a następnie dotknij Umieść."
 
 [onlinestatus]
 offline="Off-line"

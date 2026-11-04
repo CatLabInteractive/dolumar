@@ -39,6 +39,7 @@ class Dolumar_Players_Village_Buildings
      * @var string
      */
 	private $sError;
+	private $aErrorParams = array ();
 	
 	public function __construct ($objMember)
 	{
@@ -535,6 +536,9 @@ class Dolumar_Players_Village_Buildings
      */
     public function build(Dolumar_Buildings_Building $building, $x, $y)
     {
+        $this->sError = null;
+        $this->aErrorParams = array ();
+
         if (!$building->canBuildBuilding ($this->objMember)) {
             $this->sError = 'techlevel';
             return false;
@@ -542,6 +546,11 @@ class Dolumar_Players_Village_Buildings
 
         if (!$building->checkBuildingLevels ($this->objMember)) {
             $this->sError = 'buildinglevel';
+            $this->aErrorParams = array (
+                'building' => $building->getName (false),
+                'buildings' => $building->getName (true),
+                'level' => $this->getBuildingAmount ($building) + 1
+            );
             return false;
         }
 
@@ -553,8 +562,9 @@ class Dolumar_Players_Village_Buildings
         // Check range, overlap etc.
         $chk = $building->checkBuildLocation ($this->objMember, $x, $y);
         if (!$chk[0]) {
-            // Game error: town center not found
-            $this->error = 'notowncenter';
+            // outOfRange, buildingOverlap or townCenterNotFound
+            $this->sError = $chk[1];
+            $this->aErrorParams = isset ($chk[2]) ? $chk[2] : array ();
             return false;
         }
 
@@ -591,6 +601,15 @@ class Dolumar_Players_Village_Buildings
     public function getError()
     {
         return $this->sError;
+    }
+
+    /**
+     * Values to put into the translated error message (eg. the building range).
+     * @return array
+     */
+    public function getErrorParams()
+    {
+        return $this->aErrorParams;
     }
 
     /**

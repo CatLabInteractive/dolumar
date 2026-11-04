@@ -72,6 +72,7 @@ mobilePrevVillage = "Previous village"
 mobileNextVillage = "Next village"
 placeCancel = "Cancel"
 placeConfirm = "Place"
+placeHint = "Drag the map to move the building, then tap Place."
 
 [directions]
 r = "Random"

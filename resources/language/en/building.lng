@@ -43,6 +43,7 @@ selectRune = "You have to select a rune before you can build this building."
 upgradeFirst = "Upgrade your other @@buildings first."
 
 [buildError]
+townCenterNotFound = "Your Town Center could not be found, so you can't build here."
 noResources = "You don't have enough resources."
 noRunes = "You don't have the right rune to build this building."
 techlevel = "I'm sorry, you simply don't have the required tech level."
