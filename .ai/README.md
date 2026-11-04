@@ -8,6 +8,7 @@ This directory holds documentation written for AI coding agents (and useful to h
 | [architecture.md](architecture.md) | You need to understand how a request is handled, or where a feature lives. |
 | [development.md](development.md) | You want to run the game locally, run tests, or lint. |
 | [conventions.md](conventions.md) | You are about to write or change code. |
+| [style-guide.md](style-guide.md) | You add or change anything players see: windows, sheets, buttons, CSS. |
 | [deployment.md](deployment.md) | You touch configuration, cron, `app.json`, `Procfile` or anything deploy-related. |
 | [repositories.md](repositories.md) | A change needs the engine, or you wonder what `dolumar-portal` is. |
 | [superpowers/](superpowers/) | Background on past large changes (the PHP 8 + Dokku migration, the NPC tribes). |
