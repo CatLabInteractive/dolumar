@@ -8,11 +8,304 @@ Game.dolumar =
 		Game.dolumar.mobile.init ();
 	},
 	
+	/*
+		Tap-to-place for the battle and simulator unit pickers. Script.aculo.us only listens to
+		mouse events, so dragging a unit does nothing on a touch screen. Tapping a unit selects
+		it, tapping a slot then runs the same drop handler (and draggable start/end callbacks)
+		that a real drag-and-drop runs. Dragging keeps working unchanged.
+
+		images: the unit <img> elements (each with a .dragable Draggable).
+		slots:  [{ slot: slot div, options: the Droppables options passed for that slot }].
+	*/
+	'enableTapToPlace' : function (container, images, slots)
+	{
+		var selected = null;
+
+		var setSelected = function (img)
+		{
+			if (selected)
+			{
+				selected.removeClassName ('tap-selected');
+			}
+
+			selected = img;
+
+			if (selected)
+			{
+				selected.addClassName ('tap-selected');
+				container.addClassName ('tap-placing');
+			}
+			else
+			{
+				container.removeClassName ('tap-placing');
+			}
+		};
+
+		images.each (function (img)
+		{
+			var downAt = null;
+
+			img.addClassName ('tap-unit');
+			img.observe ('mousedown', function (event)
+			{
+				downAt = [ Event.pointerX (event), Event.pointerY (event) ];
+			});
+			img.observe ('click', function (event)
+			{
+				// A finished mouse drag can end in a click too; only a click that didn't move selects.
+				if (downAt && (Math.abs (Event.pointerX (event) - downAt[0]) > 5 || Math.abs (Event.pointerY (event) - downAt[1]) > 5))
+				{
+					return;
+				}
+
+				setSelected (selected === img ? null : img);
+			});
+		});
+
+		// Run what a real drag-and-drop runs: the draggable's start, the slot's drop, the draggable's end.
+		var placeOn = function (img, entry, event)
+		{
+			var drag = img.dragable ? img.dragable.options : null;
+
+			if (drag && drag.onStart)
+			{
+				drag.onStart.call (drag, img.dragable, event);
+			}
+
+			entry.options.onDrop.call (entry.options, img, entry.slot, event);
+
+			if (drag && drag.onEnd)
+			{
+				drag.onEnd.call (drag, img.dragable, event);
+			}
+
+			setSelected (null);
+		};
+
+		slots.each (function (entry)
+		{
+			entry.slot.observe ('click', function (event)
+			{
+				if (!selected || event.findElement ('.clear-button'))
+				{
+					return;
+				}
+
+				placeOn (selected, entry, event);
+			});
+		});
+
+		Game.dolumar.enableTouchDrag (images, slots, placeOn);
+	},
+
+	/*
+		Finger dragging for the battle unit pickers (script.aculo.us only drags with a mouse).
+		A unit follows the finger as a ghost image; letting go over a slot places it there through
+		placeOn. Near the left or right edge of a slot row, the row scrolls. A touch that doesn't
+		move stays a tap, so tap-to-place keeps working.
+	*/
+	'enableTouchDrag' : function (images, slots, placeOn)
+	{
+		var THRESHOLD = 8;
+		var EDGE = 40;
+
+		var slotAt = function (x, y)
+		{
+			var el = document.elementFromPoint (x, y);
+
+			for (var i = 0; el && i < slots.length; i ++)
+			{
+				if (slots[i].slot === el || slots[i].slot.contains (el))
+				{
+					return slots[i];
+				}
+			}
+
+			return null;
+		};
+
+		var scrollerAt = function (x, y)
+		{
+			for (var i = 0; i < slots.length; i ++)
+			{
+				var scroller = slots[i].options.scrollid;
+				var box = scroller ? scroller.getBoundingClientRect () : null;
+
+				if (box && y >= box.top && y <= box.bottom && x >= box.left && x <= box.right)
+				{
+					return { 'el' : scroller, 'box' : box };
+				}
+			}
+
+			return null;
+		};
+
+		images.each (function (img)
+		{
+			var start = null;
+			var ghost = null;
+			var over = null;
+			var last = null;
+			var timer = null;
+
+			var setOver = function (entry)
+			{
+				if (over === entry)
+				{
+					return;
+				}
+
+				if (over)
+				{
+					over.slot.removeClassName ('touch-over');
+				}
+
+				over = entry;
+
+				if (over)
+				{
+					over.slot.addClassName ('touch-over');
+				}
+			};
+
+			// Scroll a slot row while the finger rests near its edge.
+			var autoScroll = function ()
+			{
+				timer = null;
+
+				if (!ghost || !last)
+				{
+					return;
+				}
+
+				var row = scrollerAt (last[0], last[1]);
+				var step = 0;
+
+				if (row && last[0] < row.box.left + EDGE)
+				{
+					step = -12;
+				}
+				else if (row && last[0] > row.box.right - EDGE)
+				{
+					step = 12;
+				}
+
+				if (step != 0)
+				{
+					row.el.scrollLeft += step;
+					setOver (slotAt (last[0], last[1]));
+					timer = setTimeout (autoScroll, 30);
+				}
+			};
+
+			var finish = function ()
+			{
+				if (ghost && ghost.parentNode)
+				{
+					ghost.parentNode.removeChild (ghost);
+				}
+
+				if (timer)
+				{
+					clearTimeout (timer);
+				}
+
+				ghost = null;
+				start = null;
+				timer = null;
+				setOver (null);
+			};
+
+			img.addEventListener ('touchstart', function (event)
+			{
+				if (event.touches.length != 1)
+				{
+					finish ();
+					return;
+				}
+
+				var t = event.touches[0];
+				start = [ t.clientX, t.clientY ];
+			}, { 'passive' : true });
+
+			img.addEventListener ('touchmove', function (event)
+			{
+				if (!start || event.touches.length != 1)
+				{
+					return;
+				}
+
+				var t = event.touches[0];
+				last = [ t.clientX, t.clientY ];
+
+				if (!ghost)
+				{
+					if (Math.abs (last[0] - start[0]) < THRESHOLD && Math.abs (last[1] - start[1]) < THRESHOLD)
+					{
+						return;
+					}
+
+					var box = img.getBoundingClientRect ();
+
+					ghost = img.cloneNode (false);
+					ghost.removeAttribute ('id');
+					ghost.className = 'touch-drag-ghost';
+					ghost.style.width = box.width + 'px';
+					ghost.style.height = box.height + 'px';
+					ghost.offsetX = start[0] - box.left;
+					ghost.offsetY = start[1] - box.top;
+					document.body.appendChild (ghost);
+				}
+
+				// Dragging: the page must not scroll under the finger.
+				event.preventDefault ();
+
+				ghost.style.left = (last[0] - ghost.offsetX) + 'px';
+				ghost.style.top = (last[1] - ghost.offsetY) + 'px';
+				setOver (slotAt (last[0], last[1]));
+
+				if (!timer)
+				{
+					autoScroll ();
+				}
+			}, { 'passive' : false });
+
+			img.addEventListener ('touchend', function (event)
+			{
+				if (!ghost)
+				{
+					// A tap: leave it to the click handler (tap-to-place).
+					finish ();
+					return;
+				}
+
+				// No click (and no tap-select) after a drag.
+				event.preventDefault ();
+
+				var t = event.changedTouches[0];
+				var entry = slotAt (t.clientX, t.clientY);
+
+				finish ();
+
+				if (entry)
+				{
+					placeOn (img, entry, event);
+				}
+			}, { 'passive' : false });
+
+			img.addEventListener ('touchcancel', finish);
+		});
+	},
+
 	'initBattleSimulator' : function (oWindow)
 	{
 		var div = $(oWindow.div);
 		
 		var chooseUnitContainers = div.select('div.chooseUnitContainer');
+
+		// Touch screens can't drag: units are also placed by tapping a unit, then a slot.
+		var tapImages = [];
+		var tapSlots = [];
 		
 		if (chooseUnitContainers.length > 0)
 		{
@@ -42,6 +335,12 @@ Game.dolumar =
 				img.alt = id;
 			
 				imagelist[id] = img;
+
+				// The unit list is shared by every container; register each unit once.
+				if (tapImages.indexOf (img) < 0)
+				{
+					tapImages.push (img);
+				}
 				
 				// Make dragable
 				img.dragable = new Draggable 
@@ -93,9 +392,7 @@ Game.dolumar =
 				select.id = oWindow.sDialogId + 'sel' + chooseUnitContainersI + '_' + i;
 				
 				// On drop: set value
-				Droppables.add
-				(
-					divs[i].id, 
+				var dropOptions =
 					{
 						'el' : select,
 						'overlap' : 'horizontal',
@@ -158,10 +455,14 @@ Game.dolumar =
 							return true;
 						},
 						'scrollid' : scrolldiv
-					}
-				);
+					};
+
+				Droppables.add (divs[i].id, dropOptions);
+				tapSlots.push ({ 'slot' : divs[i], 'options' : dropOptions });
 			}
 		}
+
+		Game.dolumar.enableTapToPlace (div, tapImages, tapSlots);
 	},
 
 	/*
@@ -185,6 +486,10 @@ Game.dolumar =
 		
 			fieldset = fieldset[0];
 			scrolldiv = scrolldiv[0];
+
+			// Touch screens can't drag: units are also placed by tapping a unit, then a slot.
+			var tapImages = [];
+			var tapSlots = [];
 		
 			// Count the amount of divs:
 			var divs = fieldset.select('div');
@@ -205,6 +510,7 @@ Game.dolumar =
 				img.lastDropId = 0;
 			
 				imagelist[id] = img;
+				tapImages.push (img);
 				
 				// Make dragable
 				img.dragable = new Draggable 
@@ -291,9 +597,7 @@ Game.dolumar =
 				);
 				
 				// On drop: set value
-				Droppables.add
-				(
-					divs[i].id, 
+				var dropOptions =
 					{
 						'el' : select,
 						'overlap' : 'horizontal',
@@ -341,12 +645,16 @@ Game.dolumar =
 							return true;
 						},
 						'scrollid' : scrolldiv
-					}
-				);
+					};
+
+				Droppables.add (divs[i].id, dropOptions);
+				tapSlots.push ({ 'slot' : divs[i], 'options' : dropOptions });
 				
 				// Change opacity
 				divs[i].setOpacity (0.7);
 			}
+
+			Game.dolumar.enableTapToPlace (div, tapImages, tapSlots);
 		}
 		
 		else if (battlefield.length == 1)
