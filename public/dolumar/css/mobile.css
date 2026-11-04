@@ -793,7 +793,7 @@ body.layout-mobile .panel.guide.mobile-chip div.icon a
 	border-radius: 3px;
 	background: #f3e7c4 url('../images/characters/guide-grid.png') no-repeat;
 	background-size: 144px 120px;
-	background-position: -101px -63px;
+	background-position: -102px -72px;
 }
 
 body.layout-mobile .mobile-more-list span.guide-icon
@@ -806,7 +806,7 @@ body.layout-mobile .mobile-more-list span.guide-icon
 	border-radius: 3px;
 	background: #f3e7c4 url('../images/characters/guide-grid.png') no-repeat;
 	background-size: 96px 80px;
-	background-position: -67px -42px;
+	background-position: -68px -48px;
 }
 
 /*
