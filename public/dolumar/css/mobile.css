@@ -1223,8 +1223,8 @@ body.layout-mobile .sheet-content .building-card p.resources-cost
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
-	gap: 6px;
-	margin: 6px 0 0;
+	gap: 8px;
+	margin: 8px 0 0;
 	font-size: 13px;
 }
 
@@ -1255,7 +1255,7 @@ body.layout-mobile .sheet-content .building-card span.resource
 body.layout-mobile .sheet-content .building-card tr + tr
 {
 	gap: 10px;
-	margin-top: 8px;
+	margin-top: 12px;
 }
 
 body.layout-mobile .sheet-content .building-card tr + tr td:first-child
