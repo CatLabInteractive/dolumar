@@ -113,3 +113,5 @@ div.battle .battle-report .br-tok img,
 /* Mobile: the kit handles sizes; the transport keeps its buttons on one line. */
 body.layout-mobile .sheet-content .battle-report .br-transport .ui-btn { padding: 0 12px; }
 body.layout-mobile .sheet-content .battle-report .br-back a { text-decoration: none; }
+body.layout-mobile .sheet-content .battle-report h2,
+body.layout-mobile .sheet-content .battle-report h3 { font-family: Verdana, sans-serif; }
