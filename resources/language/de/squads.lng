@@ -1,4 +1,5 @@
 [overview]
+noEquipment="Keine Ausrüstung"
 squads="Regimenter"
 noSquads="Du hast noch keine Regimenter aufgestellt."
 toAdd="ein neues Regiment aufstellen"
@@ -68,6 +69,7 @@ available="@@0 verfügbar"
 addUnits="Einheiten entfernen"
 
 [editor]
+newTitle="Neues Regiment"
 back="Regimenter"
 unit="Einheit"
 name="Name"

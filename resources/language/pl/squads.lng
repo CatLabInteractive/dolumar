@@ -19,6 +19,7 @@ units_unavailable="Wybrałeś za dużo jednostek.  Wybierz tylko te dostępne."
 unit_squad_mismatch="Te jednostki nie należą do tego pułku."
 
 [overview]
+noEquipment="Brak wyposażenia"
 actions="Akcje"
 addsquad="Utwórz nowy pułk"
 addUnits="Dodaj jednostki"
@@ -76,6 +77,7 @@ notIdle="Ten pułk jest w użytku, nie możesz go teraz edytować."
 not_enough_items="Nie masz wystarczającej ilości tych przedmiotów aby wyposażyć wszystkie jednostki."
 
 [editor]
+newTitle="Nowy pułk"
 back="Pułki"
 unit="Jednostka"
 name="Nazwa"

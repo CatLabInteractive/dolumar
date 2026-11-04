@@ -1,4 +1,5 @@
 [overview]
+noEquipment = "No equipment"
 squads = "Regiments"
 noSquads = "You didn't create any regiments yet."
 toAdd = "to create a new regiment."
@@ -78,6 +79,7 @@ available = "@@0 available"
 addUnits = "Remove units"
 
 [editor]
+newTitle = "New regiment"
 back = "Regiments"
 unit = "Unit"
 name = "Name"

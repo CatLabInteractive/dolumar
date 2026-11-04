@@ -1,323 +1,75 @@
 /*
-	Regiments window (squads/squads.tpl and squads/editor.tpl)
+	Regiments window (squads/squads.tpl and squads/editor.tpl). Built from the ui-* kit (ui.css);
+	only the layout the kit has no component for lives here.
 */
-.squads p.squad-new
+.squads .squad-unit-tiles
 {
-	margin: 4px 0 10px;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+	gap: 0 8px;
 }
 
-.squads a.action-button,
-.squads .squad-editor button
+.squads label.squad-unit-tile
 {
-	display: inline-block;
-	padding: 5px 12px;
-	border: 1px solid #8a7550;
-	border-radius: 4px;
-	background: linear-gradient(#f9efd6, #e2d0a2);
-	color: #2c261d;
-	font-weight: bold;
-	text-decoration: none;
+	margin: 0 0 8px;
+	cursor: pointer;
 }
 
-.squads a.action-button.primary,
-.squads .squad-submit button.primary
+.squads label.squad-unit-tile.selected
 {
-	border-color: #5a0a0e;
-	background: linear-gradient(#b8262e, #8c0f16);
-	color: #fff2d6;
-	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.6);
-}
-
-.squads .squad-card
-{
-	margin: 0 0 6px;
-	border: 1px solid rgba(120, 95, 55, 0.45);
-	border-radius: 6px;
-	background: rgba(255, 250, 232, 0.55);
-}
-
-.squads .squad-card-main
-{
-	display: flex;
-	align-items: center;
-	gap: 8px;
-	padding: 6px;
-	color: inherit;
-	text-decoration: none;
-}
-
-.squads a.squad-card-main,
-.squads a.squad-card-main span
-{
-	text-decoration: none !important;
-}
-
-.squads a.squad-card-main:hover
-{
-	background: rgba(255, 240, 200, 0.6);
-}
-
-.squads .squad-portrait
-{
-	display: block;
-	flex: none;
-	width: 44px;
-	height: 44px;
-	border: 1px solid #6a5434;
-	border-radius: 4px;
-}
-
-.squads .squad-card-body
-{
-	display: block;
-	flex: 1;
-	min-width: 0;
-}
-
-.squads .squad-name
-{
-	display: block;
-	font-family: Georgia, 'Times New Roman', serif;
-	font-size: 14px;
-	font-weight: bold;
-	color: #2c261d;
-}
-
-.squads .squad-meta,
-.squads .squad-hint,
-.squads .squad-free,
-.squads .squad-status
-{
-	display: block;
-	color: #6a5a40;
-	font-size: 11px;
-}
-
-.squads .squad-status
-{
-	margin: 0;
-	padding: 0 6px 6px 58px;
-}
-
-.squads .squad-chips
-{
-	display: block;
-	margin-top: 3px;
-}
-
-.squads .squad-chip
-{
-	display: inline-block;
-	margin: 0 4px 2px 0;
-	padding: 1px 7px;
-	border: 1px solid #b59b64;
-	border-radius: 10px;
-	background: #efe2bd;
-	font-size: 11px;
-	white-space: nowrap;
-}
-
-.squads .squad-chip-weapon::before
-{
-	content: '\2694\FE0E  ';
-}
-
-.squads .squad-chip-armour::before
-{
-	content: '\25C8  ';
-}
-
-.squads .squad-chip-empty
-{
-	border-style: dashed;
-	background: transparent;
-	color: #8a7a5c;
-}
-
-.squads .squad-chevron
-{
-	flex: none;
-	color: #8a7246;
-	font-size: 20px;
-}
-
-/* Editor */
-.squads .squad-back
-{
-	margin: 0 0 6px;
+	border-color: #40331f;
 }
 
 .squads .squad-head
 {
 	display: flex;
+	gap: 10px;
 	align-items: center;
-	gap: 8px;
-	margin-bottom: 6px;
+	margin: 8px 0;
 }
 
-.squads .squad-field
+.squads .squad-head img
 {
-	margin: 0 0 10px;
-}
-
-.squads .squad-label
-{
-	display: block;
-	margin-bottom: 3px;
-	color: #6a5a40;
-	font-size: 10px;
-	letter-spacing: 0.05em;
-	text-transform: uppercase;
-}
-
-.squads input.squad-name-input
-{
-	width: 100%;
-	max-width: 260px;
-	box-sizing: border-box;
-}
-
-.squads .squad-unit-tiles
-{
-	display: flex;
-	flex-wrap: wrap;
-	gap: 6px;
-}
-
-.squads .squad-unit-tile
-{
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	width: 92px;
-	padding: 5px 2px;
-	box-sizing: border-box;
-	border: 1px solid rgba(120, 95, 55, 0.45);
-	border-radius: 6px;
-	background: rgba(255, 250, 232, 0.55);
-	font-size: 11px;
-	text-align: center;
-	cursor: pointer;
-}
-
-.squads .squad-unit-tile.selected
-{
-	border: 2px solid #8c0f16;
-	background: #fbf0d0;
-}
-
-.squads .squad-unit-tile input
-{
-	position: absolute;
-	opacity: 0;
-	pointer-events: none;
-}
-
-.squads .squad-unit-tile img
-{
-	width: 44px;
-	height: 44px;
-	border-radius: 3px;
-}
-
-.squads .squad-unit-free
-{
-	font-weight: bold;
+	width: 40px;
+	height: 40px;
+	border: 1px solid #8a7550;
 }
 
 .squads .squad-size
 {
 	display: flex;
 	flex-wrap: wrap;
+	gap: 6px;
 	align-items: center;
-	gap: 8px;
 }
 
-.squads .squad-stepper
+.squads .ui-field .squad-size input
 {
-	display: inline-flex;
-	align-items: stretch;
-}
-
-.squads .squad-stepper input
-{
-	width: 56px;
-	margin: 0 -1px;
+	width: 64px;
 	text-align: center;
 	-moz-appearance: textfield;
 }
 
-.squads .squad-stepper input::-webkit-inner-spin-button,
-.squads .squad-stepper input::-webkit-outer-spin-button
+.squads .squad-size input::-webkit-inner-spin-button,
+.squads .squad-size input::-webkit-outer-spin-button
 {
 	-webkit-appearance: none;
 	margin: 0;
 }
 
-.squads .squad-step
-{
-	min-width: 30px;
-	padding: 3px 0;
-	font-size: 15px;
-}
-
-.squads .squad-editor input[type=text],
-.squads .squad-editor input[type=number],
-.squads .squad-editor select
-{
-	padding: 4px 6px;
-	border: 1px solid #a48a58;
-	border-radius: 4px;
-	background: #fffaf0;
-	font-size: 13px;
-}
-
-.squads .squad-editor button[disabled],
-.squads .squad-editor input[disabled],
-.squads .squad-editor select[disabled]
-{
-	opacity: 0.5;
-}
-
 .squads .squad-quick
 {
-	display: flex;
-	gap: 6px;
-	margin-top: 6px;
-	max-width: 260px;
+	margin: 4px 0 0;
 }
 
-.squads .squad-quick button
-{
-	flex: 1;
-}
-
-.squads .squad-equipment
-{
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0 12px;
-}
-
-.squads .squad-equipment .squad-field
-{
-	flex: 1;
-	min-width: 200px;
-}
-
-.squads select.squad-item
+.squads .ui-field select
 {
 	width: 100%;
 }
 
-.squads .squad-disband a
-{
-	color: #8c0f16;
-}
-
 .squads div.stats
 {
-	margin: 6px 0;
+	margin: 8px 0;
 }
 
 /* Battle */

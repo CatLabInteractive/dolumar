@@ -19,6 +19,7 @@ units_unavailable="Vous avez choisi trop d'unités. Merci de choisir que les uni
 unit_squad_mismatch="Ces unités n'appartiennent pas à ce régiment."
 
 [overview]
+noEquipment="Pas d'équipement"
 actions="Actions"
 addsquad="Créer un nouveau régiment"
 addUnits="Ajouter unités"
@@ -76,6 +77,7 @@ toRemove="pour retirer des unités."
 toReturn="pour revenir à la page précédente."
 
 [editor]
+newTitle="Nouveau régiment"
 back="Régiments"
 unit="Unité"
 name="Nom"

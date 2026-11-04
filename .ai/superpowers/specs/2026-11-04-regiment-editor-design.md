@@ -18,6 +18,13 @@ chosen by Thijs.
   ordinals, de/pl use "Unit 2". Output always passes the `unitname` rule (transliterated, max 20 characters).
 - `Squad::rename()` added.
 
+## Look
+
+Built from the style guide's `ui-*` kit (`.ai/style-guide.md`, `ui.css`): `a.ui-card` rows, one `ui-btn primary`,
+`ui-field` labels, None/Half/All as links, `p.true`/`p.false` with `ui-msg`. `windows.css` keeps only layout for the unit
+picker, the stepper and the header; `mobile.css` forces Verdana and blue links inside this sheet until the general
+sheet rules are aligned.
+
 ## Rule change (approved by Thijs, 2026-11-04)
 
 Adding soldiers to a regiment used to take off all its equipment. `Squad::addUnits()` now keeps each equipped item when

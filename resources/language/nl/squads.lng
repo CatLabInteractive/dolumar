@@ -1,4 +1,5 @@
 [overview]
+noEquipment="Geen uitrusting"
 squads="regimenten"
 noSquads="Je hebt nog geen regimenten gemaakt."
 toAdd="om een nieuw regimenten te maken."
@@ -68,6 +69,7 @@ available="@@0 beschikbaar"
 addUnits="Verwijder troepen"
 
 [editor]
+newTitle="Nieuw regiment"
 back="Regimenten"
 unit="Eenheid"
 name="Naam"
