@@ -19,6 +19,7 @@ All AI-facing documentation is in `.ai/`. Start with [`.ai/README.md`](.ai/READM
 - [`.ai/architecture.md`](.ai/architecture.md): request flow, how game and engine fit together, where things live.
 - [`.ai/development.md`](.ai/development.md): local Docker setup, tests, linting, smoke test.
 - [`.ai/conventions.md`](.ai/conventions.md): code style, naming, database access, templates and translations.
+- [`.ai/style-guide.md`](.ai/style-guide.md): the visual style (classic look, `ui.css` components). Follow it for any UI change.
 - [`.ai/deployment.md`](.ai/deployment.md): Dokku, environment variables, cron, persistent storage.
 - [`.ai/repositories.md`](.ai/repositories.md): the three Dolumar repositories and how to change the engine.
 - [`.ai/superpowers/`](.ai/superpowers/): design specs and implementation plans from earlier work.
@@ -34,6 +35,8 @@ All AI-facing documentation is in `.ai/`. Start with [`.ai/README.md`](.ai/READM
   `PHP_SAPI !== 'cli'` guard.
 - The engine is a separate repository. Code under `vendor/` is never edited here; see
   [`.ai/repositories.md`](.ai/repositories.md) for how to change it.
+- UI follows [`.ai/style-guide.md`](.ai/style-guide.md): Verdana, blue links, classic message boxes, the `ui-*`
+  components. No gradient pills, coloured banners, extra fonts or emoji.
 - `pear/` is vendored legacy PEAR code. Leave it alone unless a task is specifically about it.
 - New design specs and plans go in `.ai/superpowers/specs/` and `.ai/superpowers/plans/`, not in `docs/`.
 
