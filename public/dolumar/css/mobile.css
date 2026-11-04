@@ -185,6 +185,17 @@ body.layout-mobile .mobile-resources
 	z-index: 1000;
 }
 
+/* Centred when the resources fit; auto margins collapse to 0 on overflow, so a narrow strip stays left-aligned and scrolls. */
+body.layout-mobile .mobile-resources > :first-child
+{
+	margin-left: auto;
+}
+
+body.layout-mobile .mobile-resources > :last-child
+{
+	margin-right: auto;
+}
+
 body.layout-mobile .mobile-resources::-webkit-scrollbar
 {
 	display: none;
