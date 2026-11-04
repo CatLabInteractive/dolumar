@@ -217,14 +217,7 @@ class Dolumar_Map_Map
 	
 	private static function calculateHeight ($x, $y)
 	{
-		$profiler = Neuron_Profiler_Profiler::__getInstance ();
-	
-		$profiler->start ('Calculating new height for ('.$x.','.$y.')');
-		$height = Dolumar_Map_PerlinGenerator::getPerlinNoise ($x, $y);
-		
-		$profiler->stop ();
-		
-		return $height;
+		return Dolumar_Map_PerlinGenerator::getPerlinNoise ($x, $y);
 	}
 	
 	// Get a random int based on $x, $y and $base
@@ -256,9 +249,6 @@ class Dolumar_Map_Map
 	*/
 	public static function getFreshTileData ($x, $y)
 	{
-		$profiler = Neuron_Profiler_Profiler::__getInstance ();
-		$profiler->start ('Generating new location data for ('.$x.','.$y.')');
-		
 		$x = floor ($x);
 		$y = floor ($y);
 
@@ -268,8 +258,8 @@ class Dolumar_Map_Map
 		
 		$height = self::getNewHeight ($x, $y);
 
-		// Get location data & store cache		
-		if (self::isWater ($x, $y))
+		// Get location data & store cache (same test as isWater ())
+		if ($height < 1)
 		{
 			$iTile = self::TILE_WATER;
 			$iRandom =  ($randomNumbers % 100) + 1;
@@ -311,8 +301,6 @@ class Dolumar_Map_Map
 			$iRandom =  ($randomNumbers % 15) + 1;
 		}
 		
-		$profiler->stop ();
-		
 		// Return thze data
 		return array
 		(
@@ -335,9 +323,10 @@ class Dolumar_Map_Map
 	
 		$cache = Dolumar_Map_CacheMemcached::getInstance ();
 		
-		if ($cache->hasLocationCache ($x, $y))
+		$data = $cache->getLocationCache ($x, $y);
+		if ($data !== false)
 		{
-			return $cache->getLocationCache ($x, $y);
+			return $data;
 		}
 		else
 		{
