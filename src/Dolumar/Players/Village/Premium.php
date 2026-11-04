@@ -80,6 +80,132 @@ class Dolumar_Players_Village_Premium
 	}
 	
 	/*
+		Start every queued action of this village that can start now, oldest
+		first. Called from the statusbar (so a queued action starts as soon as
+		the counter of the previous one runs out while the player is online)
+		and from cron/constantly.php (for players that are offline).
+		A lock per village keeps both from executing the same action twice.
+		Returns the number of queued actions that were started or dropped.
+	*/
+	public function processQueue ()
+	{
+		$villageId = intval ($this->village->getId ());
+
+		$db = $this->getDatabase ();
+
+		// Cheap check first: most villages have nothing queued.
+		$chk = $db->query
+		("
+			SELECT
+				pq_id
+			FROM
+				premium_queue
+			WHERE
+				pq_vid = {$villageId}
+			LIMIT 1
+		");
+
+		if (count ($chk) == 0)
+		{
+			return 0;
+		}
+
+		$lock = $this->getLock ();
+		if (!$lock->setLock ('premium_queue', $villageId, 60 * 5))
+		{
+			return 0;
+		}
+
+		$done = 0;
+
+		// The handlers below report what they do with echo. That belongs in the
+		// cron output, never in a web response.
+		ob_start ();
+
+		try
+		{
+			$queues = $db->query
+			("
+				SELECT
+					pq_id,
+					pq_action,
+					pq_data
+				FROM
+					premium_queue
+				WHERE
+					pq_vid = {$villageId}
+				ORDER BY
+					pq_id ASC
+			");
+
+			$canExecute = $this->village->isActive () && !$this->village->getOwner ()->inVacationMode ();
+
+			foreach ($queues as $queue)
+			{
+				echo "Loaded queue {$queue['pq_id']}\n";
+
+				$bRemove = true;
+				if ($canExecute)
+				{
+					$bRemove = $this->executeQueuedAction ($queue['pq_action'], json_decode ($queue['pq_data'], true));
+				}
+
+				$queueId = intval ($queue['pq_id']);
+
+				if ($bRemove)
+				{
+					echo "Removing queue {$queueId}\n";
+					$done ++;
+
+					$db->query
+					("
+						DELETE FROM
+							premium_queue
+						WHERE
+							pq_id = {$queueId}
+					");
+				}
+				else
+				{
+					echo "Updating queue {$queueId}\n";
+
+					$db->query
+					("
+						UPDATE
+							premium_queue
+						SET
+							pq_lastcheck = FROM_UNIXTIME(".time().")
+						WHERE
+							pq_id = {$queueId}
+					");
+				}
+			}
+		}
+		finally
+		{
+			$output = ob_get_clean ();
+			if (PHP_SAPI === 'cli')
+			{
+				echo $output;
+			}
+
+			$lock->releaseLock ('premium_queue', $villageId);
+		}
+
+		return $done;
+	}
+
+	protected function getDatabase ()
+	{
+		return Neuron_DB_Database::__getInstance ();
+	}
+
+	protected function getLock ()
+	{
+		return Neuron_Core_Lock::getInstance ();
+	}
+
+	/*
 		Executed a queued event.
 		Return TRUE if the processes has been completed.
 		In this case the que will be removed.

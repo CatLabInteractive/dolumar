@@ -39,7 +39,7 @@ tribes) and log in at http://localhost:8080/preview-login.php. Per-PR preview in
 |-------|---------|-------|
 | PHP 8.4 compatibility | `docker compose exec web vendor/bin/phpcs` | Uses `phpcs.xml.dist` (PHPCompatibility, `testVersion 8.4-`). |
 | Syntax | `docker compose exec web find src bootstrap cron tools public -name '*.php' -print0 \| xargs -0 -n1 php -l` | Quick and catches most breakage. |
-| Game tests | `docker compose exec web vendor/bin/phpunit` | `tests/` (PHPUnit 11, `phpunit.xml`). Suite `unit` (`tests/Npc`, `tests/Map`, `tests/NewMap`) needs no database (the map tests use `tests/NewMap/FakeDatabase.php`) and is what CI runs; suite `integration` (`tests/Integration`) runs the full game against the Docker database. `--testsuite unit` or `integration` picks one. |
+| Game tests | `docker compose exec web vendor/bin/phpunit` | `tests/` (PHPUnit 11, `phpunit.xml`). Suite `unit` (every directory under `tests/` except `tests/Integration`, so a new test directory needs no `phpunit.xml` change) needs no database (the map tests use `tests/NewMap/FakeDatabase.php`) and is what CI runs; suite `integration` (`tests/Integration`) runs the full game against the Docker database. `--testsuite unit` or `integration` picks one. |
 | Engine tests | `docker compose exec -w /engine web vendor/bin/phpunit` | Only if the engine was touched. Needs the engine's own `composer install` in `/engine`. |
 | Smoke test | `tools/smoke.sh http://localhost:8080` | Add `SMOKE_NO_OAUTH=1` when OIDC is not configured and `SMOKE_PUSH=1` when the `VAPID_*` keys are set. Fails on any PHP warning, notice or deprecation in the output. |
 | Mobile smoke setup | `npm install --no-save playwright && npx playwright install chromium` | Once per machine. |
