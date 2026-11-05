@@ -306,9 +306,10 @@
 					</li>
 				<?php } ?>
 
+				<?php $serversettings = Neuron_Core_Tools::output_varchar (Neuron_Core_Text::getInstance ()->get ('title', 'serversettings', 'serversettings')); ?>
 				<li>
-					<a href="javascript:void(0);" onclick="openWindow('serversettings');" title="Server settings">
-						Server settings
+					<a href="javascript:void(0);" onclick="openWindow('serversettings');" title="<?=$serversettings?>">
+						<?=$serversettings?>
 					</a>
 				</li>
 			</ul>

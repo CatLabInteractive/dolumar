@@ -1,27 +1,28 @@
-<p>Game speed: X<?=SPEED_FACTOR?></p>
-<ul>
-	<li>
-		Resources: X<?=GAME_SPEED_RESOURCES?>
-	</li>
+<div class="serversettings">
+	<p><?=$this->putIntoText ($this->getText ('intro'), array ('speed' => '<strong>' . $speed . '</strong>'))?></p>
 
-	<li>
-		Buildings: X<?=GAME_SPEED_BUILDINGS?>
-	</li>
+	<table class="serversettings-speeds">
+		<?php foreach ($speeds as $i => $v) { ?>
+			<tr<?php if ($i % 2 == 0) { echo ' class="even"'; } ?>>
+				<td><?=$v[0]?></td>
+				<td class="serversettings-value"><?=$v[1]?></td>
+			</tr>
+		<?php } ?>
+	</table>
 
-	<li>
-		Troop movement: X<?=GAME_SPEED_MOVEMENT?>
-	</li>
+	<h3><?=$this->getText ('endgame')?></h3>
 
-	<li>
-		Effects: X<?=GAME_SPEED_EFFECTS?>
-	</li>
+	<?php if ($endgame_state === Dolumar_Windows_Serversettings::ENDGAME_NEVER) { ?>
+		<?php $neverending_key = 'serversettings'; include (TEMPLATE_DIR.'blocks/neverending.phpt'); ?>
 
-    <li>
-        <a href="<?php echo WIKI_GUIDE_URL; ?>">Wiki</a>
-    </li>
-</ul>
-<?php if (Dolumar_Players_Server::isNeverending ()) { ?>
-	<?php $neverending_key = 'serversettings'; include (TEMPLATE_DIR.'blocks/neverending.phpt'); ?>
-<?php } else { ?>
-	<p>End game starts in: <?=$endgame_start?>.</p>
-<?php } ?>
+	<?php } elseif ($endgame_state === Dolumar_Windows_Serversettings::ENDGAME_STARTED) { ?>
+		<p class="maybe ui-msg"><strong class="ui-msg-title"><?=$this->getText ('started')?></strong><?=$this->getText ('startedText')?></p>
+
+	<?php } elseif ($endgame_state === Dolumar_Windows_Serversettings::ENDGAME_FINISHED) { ?>
+		<p class="maybe ui-msg"><?=$this->getText ('finished')?></p>
+
+	<?php } else { ?>
+		<p><?=$endgame_in?></p>
+		<p class="ui-muted"><?=$this->getText ('explain')?></p>
+	<?php } ?>
+</div>
