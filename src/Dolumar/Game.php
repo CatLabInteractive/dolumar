@@ -179,6 +179,9 @@ class Dolumar_Game implements Neuron_GameServer_Interfaces_Game
 	{
 		$server = Neuron_GameServer::getServer ();
 
+		// Pick up a changed SERVER_NAME without waiting for the daily cron or a reset.
+		$server->syncServerName ();
+
 		$launchdate = null;
 		if (defined ('LAUNCH_DATE'))
 		{

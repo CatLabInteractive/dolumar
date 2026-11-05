@@ -126,11 +126,11 @@ if (!$server->isInstalled ())
 		);
 
 		if ($request && isset ($request['id']) && isset ($request['name'])) {
-			$server->setServerName ($request['id'], $request['name']);
+			$server->setServerName ($request['id'], Dolumar_Players_Server::getConfiguredName () ?? $request['name']);
 		}
 	}
 	else {
-		$server->setServerName (1, 'Dolumar');
+		$server->setServerName (1, Dolumar_Players_Server::getConfiguredName () ?? 'Dolumar');
 	}
 }
 
@@ -167,7 +167,8 @@ else if (SERVERLIST_URL)
 		$out
 	);
 	
-	if ($request && isset ($request['name']))
+	// SERVER_NAME, when set, wins over the name the master server hands out.
+	if ($request && isset ($request['name']) && Dolumar_Players_Server::getConfiguredName () === null)
 	{
 		$server->updateServerName ($request['name']);
 	}

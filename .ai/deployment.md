@@ -37,6 +37,10 @@ breaks every existing subscription).
 x1 regardless) and `ROUND_DAYS` (default 180) is how long a round runs before the endgame. All are read through
 `dolumar_env_number()` in `bootstrap/env.php`, which falls back to the default for empty or invalid values.
 
+`SERVER_NAME` is the world's name (browser tab title is "Dolumar " plus this name). It is stored as `servername` in
+`n_server_data`; `Dolumar_Players_Server::syncServerName()` writes the env value there on page loads and the daily
+cron uses it when installing after a reset.
+
 Several worlds run side by side, one Dokku app each, all on the same commit; they differ only in config. The README
 section "Running several worlds" has the setup, and `tools/deploy.sh` deploys a commit to every app in turn.
 

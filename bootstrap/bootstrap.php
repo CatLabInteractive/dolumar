@@ -146,6 +146,11 @@ if (!defined ('STATIC_ABSOLUTE_URL'))
 if (!defined ('GAME_NAME'))
 	define ('GAME_NAME', 'Dolumar');
 
+// Name of this world, shown after "Dolumar" in the browser tab title (SERVER_NAME="x3 Speed" gives "Dolumar x3 Speed").
+// Unset or empty keeps the name in the database. See Dolumar_Players_Server::syncServerName().
+if (!defined ('SERVER_NAME'))
+	define ('SERVER_NAME', trim ((string) getenv ('SERVER_NAME')));
+
 // API
 if (!defined ('API_FULL_URL'))
 	define ('API_FULL_URL', ABSOLUTE_URL.'api/');
