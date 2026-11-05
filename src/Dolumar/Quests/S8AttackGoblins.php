@@ -25,7 +25,7 @@ class Dolumar_Quests_S8AttackGoblins extends Dolumar_Quests_Quest
 {
 	public function onStart (Neuron_GameServer_Player $player)
 	{
-		$this->say ($player, 's8attack', 'happy');
+		$this->say ($player, 's8attack', 'angry');
 	}
 
 	public function getObjective (Neuron_GameServer_Player $player)
