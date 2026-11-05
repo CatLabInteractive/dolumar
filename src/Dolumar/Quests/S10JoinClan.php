@@ -25,7 +25,45 @@ class Dolumar_Quests_S10JoinClan extends Dolumar_Quests_Quest
 {
 	public function onStart (Neuron_GameServer_Player $player)
 	{
-		$this->say ($player, Dolumar_Players_Server::isNeverending () ? 's10clan_neverending' : 's10clan', 'proud');
+		// The guide looks proud of a won first battle and sad about a lost one.
+		$this->say
+		(
+			$player,
+			Dolumar_Players_Server::isNeverending () ? 's10clan_neverending' : 's10clan',
+			$this->hasWonLastBattle ($player) ? 'proud' : 'sad'
+		);
+	}
+
+	/**
+	 * True when the main village won the last attack it fought (or the result is unknown).
+	 */
+	private function hasWonLastBattle (Neuron_GameServer_Player $player)
+	{
+		$village = $this->getVillage ($player);
+		if (!$village)
+		{
+			return true;
+		}
+
+		$db = Neuron_DB_Database::getInstance ();
+		$data = $db->query
+		("
+			SELECT
+				r.victory
+			FROM
+				battle b
+			INNER JOIN
+				battle_report r ON r.reportId = b.bLogId
+			WHERE
+				b.vid = " . intval ($village->getId ()) . " AND
+				b.isFought = 1
+			ORDER BY
+				b.fightDate DESC
+			LIMIT 1
+		");
+
+		// Same rule as the battle report: the attacker won from 1% victory up.
+		return count ($data) === 0 || floatval ($data[0]['victory']) >= 0.01;
 	}
 
 	public function getObjective (Neuron_GameServer_Player $player)
