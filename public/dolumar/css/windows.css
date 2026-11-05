@@ -805,3 +805,29 @@ h3 label
 {
 	background: red;
 }
+/*
+	Server settings
+*/
+.serversettings table.serversettings-speeds
+{
+	width: 100%;
+	border-collapse: collapse;
+	border-spacing: 0;
+	margin: 8px 0;
+}
+
+.serversettings table.serversettings-speeds td
+{
+	padding: 3px 6px;
+}
+
+.serversettings table.serversettings-speeds td.serversettings-value
+{
+	text-align: right;
+	font-weight: bold;
+}
+
+.serversettings h3
+{
+	margin-top: 16px;
+}
