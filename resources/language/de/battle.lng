@@ -97,6 +97,12 @@ row="Reihe"
 saved="Deine Formation wurde gespeichert."
 noSquads="Du hast noch keine Mannschaften."
 slot="Gebiet"
+help="Ziehe eine Mannschaft auf ein Gebiet, oder tippe auf eine Mannschaft und dann auf ein Gebiet. Diese Formation wird verwendet, wenn dein Dorf angegriffen wird."
+reserve="Reserve"
+reserveHelp="Eine Reserve übernimmt das Gebiet, wenn die Mannschaft davor nicht zu Hause ist."
+regiments="Deine Mannschaften"
+unplaced="Mannschaften, die du nicht aufstellst, kämpfen auf einem zufälligen freien Gebiet."
+clear="Leeren"
 
 [support]
 title="Sende Verstärkungstruppen nach @@target."

@@ -103,6 +103,12 @@ save = "Save formation"
 row = "Row"
 saved = "Your formation has been saved."
 noSquads = "You don't have any squads yet."
+help = "Drag a regiment onto a slot, or tap a regiment and then a slot. This formation is used whenever your village is attacked."
+reserve = "Reserve"
+reserveHelp = "A reserve takes the slot when the regiment in front of it is away from home."
+regiments = "Your regiments"
+unplaced = "Regiments you leave out fight in a random free slot."
+clear = "Clear"
 
 [support]
 title = "Send support units to @@target"

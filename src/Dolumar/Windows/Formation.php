@@ -51,8 +51,9 @@ class Dolumar_Windows_Formation extends Neuron_GameServer_Windows_Window
 			$this->setTitle ($text->get ('formation', 'menu', 'main'));
 		}
 		
-		$this->setSize (300, 300);
+		$this->setSize (460, 540);
 		$this->setClassName ('formation');
+		$this->setOnload ('Game.dolumar.initFormationWindow');
 		
 		$this->setAllowOnlyOnce ();
 	}
@@ -79,32 +80,77 @@ class Dolumar_Windows_Formation extends Neuron_GameServer_Windows_Window
 		// See how much rows that is
 		$rows = $this->countRows ($squads, $slots);
 		
-		$page->set ('rows', $rows);
-		$page->set ('slots', $slots);
-		
+		$text = Neuron_Core_Text::__getInstance ();
+
 		if (!empty ($msg))
 		{
 			$page->set ('message', $msg);
 			$page->set ('error', $failed);
 		}
-		
+
+		// The regiments that can be placed, and where each one stands now.
+		$placed = array ();
+
 		foreach ($squads as $v)
 		{
 			if ($v->getUnitsAmount () > 0)
 			{
-				$page->addListValue
-				(
-					'squads',
-					array
+				foreach ($v->getUnits () as $unit)
+				{
+					$key = $v->getId () . '_' . $unit->getUnitId ();
+
+					if ($unit->getDefaultSlot () > 0 && $unit->getSlotPriority () < $rows)
+					{
+						$placed[$unit->getDefaultSlot ()][$unit->getSlotPriority ()] = $key;
+					}
+
+					$page->addListValue
 					(
-						'sName' => Neuron_Core_Tools::output_varchar ($v->getName ()),
-						'oUnits' => $v->getUnits (),
-						'id' => $v->getId ()
-					)
-				);
+						'units',
+						array
+						(
+							'key' => $key,
+							'sName' => Neuron_Core_Tools::output_varchar ($v->getName ()),
+							'sUnit' => Neuron_Core_Tools::output_varchar ($unit->getName ()),
+							'amount' => $unit->getAvailableAmount (),
+							'image' => $unit->getImageUrl ()
+						)
+					);
+				}
 			}
 		}
-		
+
+		foreach ($slots as $slotId => $slot)
+		{
+			$cells = array ();
+
+			for ($i = 0; $i < $rows; $i ++)
+			{
+				$cells[$i] = isset ($placed[$slotId][$i]) ? $placed[$slotId][$i] : '0';
+			}
+
+			// A reserve only counts behind a regiment in front of it (see processInput).
+			if ($rows > 1 && $cells[0] === '0' && $cells[1] !== '0')
+			{
+				$cells[0] = $cells[1];
+				$cells[1] = '0';
+			}
+
+			$page->addListValue
+			(
+				'slots',
+				array
+				(
+					'id' => $slotId,
+					'sName' => $slot->getName (),
+					'sType' => $text->get ($slot->getName (), 'slots', 'battle'),
+					'cells' => $cells
+				)
+			);
+		}
+
+		$page->set ('rows', $rows);
+
 		return $page->parse ('battle/formation.phpt');
 	}
 	
