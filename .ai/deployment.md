@@ -17,7 +17,19 @@ the servers unless the owner asks for that specific action.
   [`dump/upgrades/README.md`](../dump/upgrades/README.md). To run it by hand: `dokku run <app> php tools/setup.php`.
 - `app.json` `scripts.dokku.postdeploy` runs `tools/postdeploy.sh`, which on preview instances only seeds test players
   (`tools/seed.php`).
-- `app.json` `cron` installs the cron jobs: `php cron/run.php` every minute and `php cron/ai.php` every 15 minutes.
+- The `worker` process in the `Procfile` runs the cron jobs: `tools/worker.sh` starts `php cron/run.php` every minute
+  and `php cron/ai.php` every 15 minutes, each as a new PHP process in the same long-running container. `app.json`
+  `formation` runs one `web` and one `worker` container per app. Dokku cron is not used: it started a new container
+  for every run, and on the one-vCPU droplet those starts overlapped and kept the load high.
+- The worker starts `cron/run.php` on every tick, also when the previous run is still busy, as cron did. The locks in
+  the scripts skip work that is already running, `timeout` kills a hung job, and at most two copies of `run.php` run
+  at once. A job that fails or times out is logged as `worker: ...` in `dokku logs <app> -p worker`.
+- On a deploy, Dokku sends SIGTERM to the old worker as soon as the new containers pass their check, waits
+  `wait-to-retire` (60 seconds) and then stops it with the stop timeout (30 seconds), so a running job gets about
+  90 seconds. The old and new worker overlap in that time; the locks keep that safe. A killed job leaves its lock in
+  `n_locks` until it expires (30 minutes for the queue job, 10 minutes for the AI job), and a killed AI run can stop
+  halfway through a village. `dokku ps:set <app> stop-timeout-seconds 600` gives the AI job its full time limit.
+- Because `app.json` has a `formation`, `dokku ps:scale` is disabled: change the process counts there.
 - Composer installs dependencies from `composer.lock`, so the engine version deployed is the commit pinned there.
 
 ## Configuration

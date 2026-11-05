@@ -61,7 +61,7 @@ the most important ones are:
 `CREDITS_*` and `SERVERLIST_*` are optional and off by default; the game works without them.
 
 ## NPC tribes
-Every player gets a goblin village nearby, run by `cron/ai.php` every five minutes. A tribe hoards resources,
+Every player gets a goblin village nearby, run by `cron/ai.php` every 15 minutes. A tribe hoards resources,
 keeps a hidden standing per player and reacts to how it is treated: raid it and it sends scouts, then an envoy
 with a price, then war parties; pay the envoy or beat a war party at home and you get a truce. Gifts and
 delivering the request shown on its village profile make it friendly, and friends get goblin reinforcements
@@ -108,13 +108,15 @@ dokku letsencrypt:cron-job --add
   [`dump/upgrades/`](dump/upgrades/) (see its README), so a schema change is an idempotent upgrade file there plus
   the same change in `dump/dump.sql`. A failing upgrade aborts the deploy and the previous release keeps running.
   To run it by hand: `dokku run <app> php tools/setup.php`.
-* The cron jobs (`cron/run.php` every minute, `cron/ai.php` every 5 minutes) are also defined in `app.json`
-  and are installed by Dokku automatically.
+* The cron jobs run in the `worker` process from the [`Procfile`](Procfile): [`tools/worker.sh`](tools/worker.sh)
+  runs `cron/run.php` every minute and `cron/ai.php` every 15 minutes. The `formation` in `app.json` starts one
+  worker per app, so no Dokku cron or host crontab is needed. Check it with `dokku ps:report dolumar` and
+  `dokku logs dolumar -p worker`.
 * Check a deployment with `tools/smoke.sh https://YOUR_DOMAIN`.
 
 ## Running several worlds
 Each world (game server) is its own Dokku app with its own database, memcached service, sign storage, domain and
-cron jobs, all built from the same commit. What makes worlds different is only their Dokku config:
+worker, all built from the same commit. What makes worlds different is only their Dokku config:
 
 | Setting | Long-running world | Regular world | Speed world |
 |---------|--------------------|---------------|-------------|
@@ -265,7 +267,7 @@ GitHub holds the only copy. Keep `/root/dolumar-preview-key.pub` and the `author
 Until `PREVIEW_SSH_HOST` is set the workflow does nothing. When `tools/preview/dolumar-preview` changes, run step 3
 again and check with `grep` that you got the new version. To remove a preview by hand: `dolumar-preview destroy <number>`.
 
-Each preview uses roughly 150 to 300 MB (Apache/PHP plus a small memcached) and runs the game's cron jobs. The
+Each preview uses roughly 150 to 300 MB (Apache/PHP plus a small memcached) and runs the game's cron jobs in its own worker container. The
 database server is shared. Keep an eye on memory if many pull requests are open at once.
 
 ## OpenID Connect

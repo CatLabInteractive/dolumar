@@ -54,7 +54,9 @@ function runCronjobFile($file) {
 	}
 }
 
-if ($lock->setLock('cronjobs', 60, 60)) {
+// 50 seconds, not 60: the lock only expires when it is more than the timeout old, so with 60 a run exactly one
+// minute later found it still set and skipped.
+if ($lock->setLock('cronjobs', 60, 50)) {
 	runCronjobFile(__DIR__ . '/constantly.php');
 	runCronjobFile(__DIR__ . '/push.php');
 } elseif (CRONJOB_OUTPUT) {
