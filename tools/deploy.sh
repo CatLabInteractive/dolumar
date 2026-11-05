@@ -3,13 +3,15 @@
 #
 #   tools/deploy.sh [options] [REF]
 #
-#   REF            branch, tag or commit to deploy (default: origin/master). Fetched from origin first.
+#   REF            branch, tag or commit to deploy (default: origin/master). A branch name (master, develop,
+#                  origin/master...) always means the branch as it is on GitHub now, never a local copy of it.
 #   -y, --yes      do not ask for confirmation
 #   -f, --force    force-push (needed when the apps run a commit that is not an ancestor of REF, e.g. a rollback)
 #   --only APP     deploy to this app only (repeatable)
 #   -h, --help     show this help
 #
-# Settings (environment variables, or put them in tools/deploy.env, which is not committed):
+# Settings (environment variables, or put them in tools/deploy.env, which is not committed; copy
+# tools/deploy.env.example. That file is sourced by bash, so a value with spaces needs quotes):
 #   DOLUMAR_DOKKU_HOST  Dokku server, e.g. dokku@dolumar.example.com. Default: the host of the "dokku" git remote.
 #   DOLUMAR_APPS        the apps, in deploy order. Default: "dolumar-speed dolumar-classic dolumar".
 #
@@ -84,17 +86,56 @@ dokku_cmd() {
 }
 
 # --- What gets deployed -------------------------------------------------------------------------------------------
+# A branch is fetched by an explicit refspec, so a clone with a narrowed fetch config (single-branch clone) or a stale
+# local branch of the same name can never put an old commit on the servers.
+fetch_branch() {
+	git fetch --quiet origin "+refs/heads/$1:refs/remotes/origin/$1"
+}
+
 echo "Fetching origin..."
-git fetch --quiet origin
-SHA="$(git rev-parse --verify --quiet "$REF^{commit}" || true)"
+BRANCH=""
+case "$REF" in
+	origin/*) BRANCH="${REF#origin/}" ;;
+	refs/heads/*) BRANCH="${REF#refs/heads/}" ;;
+	*) if git ls-remote --exit-code --heads origin "refs/heads/$REF" >/dev/null 2>&1; then BRANCH="$REF"; fi ;;
+esac
+if [ -n "$BRANCH" ]; then
+	if ! fetch_branch "$BRANCH"; then
+		echo "Cannot fetch branch '$BRANCH' from origin ($(git remote get-url origin))." >&2
+		exit 2
+	fi
+	SHA="$(git rev-parse --verify --quiet "refs/remotes/origin/$BRANCH^{commit}" || true)"
+	if [ "$REF" = "$BRANCH" ] && local_sha="$(git rev-parse --verify --quiet "refs/heads/$BRANCH^{commit}")" \
+		&& [ "$local_sha" != "$SHA" ]; then
+		echo "Note: your local '$BRANCH' (${local_sha:0:12}) differs from origin; deploying origin/$BRANCH."
+	fi
+else
+	git fetch --quiet --tags origin
+	SHA="$(git rev-parse --verify --quiet "$REF^{commit}" || true)"
+fi
 if [ -z "$SHA" ]; then
 	echo "Cannot resolve '$REF' to a commit." >&2
+	exit 2
+fi
+
+# The servers only have PHP 8.x. A commit from before the PHP 8 port fails in the build with a long Composer error
+# (zendframework packages that need PHP 5/7), so refuse it here with a clear message.
+if ! git show "$SHA:composer.json" 2>/dev/null | grep -Eq '"php"[[:space:]]*:[[:space:]]*"[^"]*8\.'; then
+	echo "Refusing to deploy $(git log -1 --format='%h %s (%cs)' "$SHA"):" >&2
+	echo "its composer.json does not require PHP 8, so it predates the PHP 8 port and cannot build on Dokku." >&2
+	echo "Is '$REF' the right ref? Check: git log --no-walk --format='%h %cs %s' origin/master origin/develop" >&2
 	exit 2
 fi
 
 echo
 echo "Deploying $(git log -1 --format='%h %s (%an, %ar)' "$SHA")"
 echo "Server:    $HOST"
+if [ "$BRANCH" != develop ] && fetch_branch develop 2>/dev/null; then
+	missing="$(git rev-list --count "$SHA..refs/remotes/origin/develop" 2>/dev/null || echo 0)"
+	if [ "$missing" -gt 0 ]; then
+		echo "Note:      origin/develop has $missing commit(s) that this commit does not (merge develop first?)"
+	fi
+fi
 echo
 printf '  %-24s %-14s %s\n' APP RUNNING URL
 for app in "${APPS[@]}"; do

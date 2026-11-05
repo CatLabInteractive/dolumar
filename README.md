@@ -161,7 +161,18 @@ tools/deploy.sh origin/develop --only dolumar-speed            # one world, anot
 It shows the commit and what each app runs now, asks for confirmation (`-y` skips that), skips apps that already run
 that commit and checks that each world answers over HTTP before going on. The apps and their order come from
 `DOLUMAR_APPS` (default `dolumar-speed dolumar-classic dolumar`); keep the long-running world last, so a broken
-schema upgrade fails on a young world first. Both settings can go in `tools/deploy.env` (not committed).
+schema upgrade fails on a young world first. Both settings can go in `tools/deploy.env` (not committed; copy
+[`tools/deploy.env.example`](tools/deploy.env.example)). Bash sources that file, so quote the app list:
+
+```
+DOLUMAR_DOKKU_HOST=dokku@YOUR_SERVER
+DOLUMAR_APPS="dolumar-speed dolumar-classic dolumar"
+```
+
+A branch name (`master`, `origin/develop`) always deploys that branch as it is on GitHub now, never a stale local
+copy, and the script refuses a commit whose `composer.json` does not require PHP 8 (anything from before the PHP 8
+port, which cannot build on Dokku). It also warns when the commit lacks commits that are on `develop`: merge
+`develop` into `master` before a release.
 
 ## Pull request previews
 Every pull request from a branch in this repository can get its own instance at `https://pr-<number>.preview.dolumar.com/`,
