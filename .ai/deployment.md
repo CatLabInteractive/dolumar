@@ -40,6 +40,11 @@ x1 regardless) and `ROUND_DAYS` (default 180) is how long a round runs before th
 Several worlds run side by side, one Dokku app each, all on the same commit; they differ only in config. The README
 section "Running several worlds" has the setup, and `tools/deploy.sh` deploys a commit to every app in turn.
 
+The app sits behind Dokku's nginx, so `REMOTE_ADDR` is the proxy (`172.17.0.1`). Read the visitor's address with
+`Neuron_Core_Tools::getClientIp()`, never `$_SERVER['REMOTE_ADDR']`. It trusts `X-Forwarded-For` / `X-Real-IP` only
+when the request comes from `TRUSTED_PROXIES` (comma separated CIDR ranges; default loopback and `172.16.0.0/12`).
+If a CDN or another proxy is put in front of nginx, add its ranges there, or every visitor gets the CDN's address.
+
 Error reporting (`AIRBRAKE_*`) goes through `Dolumar_ErrorReporting_Notifier`, a phpbrake subclass. phpbrake drops a
 failed delivery silently, so the subclass logs it (`Error tracker: ...` in `dokku logs`): check there first when
 errors do not show up in Errbit.

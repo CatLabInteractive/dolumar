@@ -541,7 +541,7 @@ DROP TABLE IF EXISTS `n_login_failures`;
 CREATE TABLE `n_login_failures` (
   `l_id` int(11) NOT NULL AUTO_INCREMENT,
   `l_plid` int(11) DEFAULT NULL,
-  `l_ip` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `l_ip` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `l_username` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `l_date` datetime NOT NULL,
   PRIMARY KEY (`l_id`)
@@ -558,7 +558,7 @@ DROP TABLE IF EXISTS `n_login_log`;
 CREATE TABLE `n_login_log` (
   `l_id` int(11) NOT NULL AUTO_INCREMENT,
   `l_plid` int(11) DEFAULT NULL,
-  `l_ip` varchar(20) NOT NULL,
+  `l_ip` varchar(45) NOT NULL,
   `l_datetime` datetime NOT NULL,
   PRIMARY KEY (`l_id`),
   KEY `l_plid` (`l_plid`)
