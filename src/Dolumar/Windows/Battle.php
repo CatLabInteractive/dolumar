@@ -76,18 +76,26 @@ class Dolumar_Windows_Battle extends Neuron_GameServer_Windows_Window
 				return '<p class="false">'.$text->get ('vacationMode', 'main', 'main').'</p>';
 			}
 		
+			// Back to the list, from any step: forget the target the window remembers.
+			elseif (isset ($input['overview']) && !isset ($input['report']))
+			{
+				$this->setAjaxPollSeconds (0);
+				$this->updateRequestData (array ('vid' => $this->village->getId ()));
+				return $this->getBattleOverview ();
+			}
+
+			// Choose a (new) target. Picking one sends the target along, which goes to the next step.
+			elseif (isset ($input['action']) && !isset ($input['target']))
+			{
+				$this->setAjaxPollSeconds (0);
+				$this->updateRequestData (array ('vid' => $this->village->getId ()));
+				return $this->getChooseTarget ();
+			}
+
 			elseif (isset ($data['target']))
 			{
 				$this->setAjaxPollSeconds (0);
-				//$this->updateRequestData (array ('vid' => $this->village->getId ()));
 				return $this->getChallenge ($data['target']);
-			}
-			
-			elseif (isset ($input['action']))
-			{
-				$this->setAjaxPollSeconds (0);
-				//$this->updateRequestData (array ('vid' => $this->village->getId ()));
-				return $this->getChooseTarget ();
 			}
 			
 			elseif (isset ($input['report']))
@@ -121,12 +129,108 @@ class Dolumar_Windows_Battle extends Neuron_GameServer_Windows_Window
 		}
 	}
 	
+	/*
+		Choose a target for an attack or support: tabs Suggested (attacks only), Nearby, Recent and Search.
+		Nearby and the honour cost are premium (Dolumar_Battle_TargetList::canSeeNeighbourhood).
+	*/
 	private function getChooseTarget ()
 	{
-		$structure = new Neuron_Structure_ChooseTarget ($this->getInputData (), $this->village, false, true);
-		return $structure->getHTML ();
+		$input = $this->getInputData ();
+		$mode = isset ($input['command']) && $input['command'] == 'support' ? 'support' : 'attack';
+
+		$premium = Dolumar_Battle_TargetList::canSeeNeighbourhood ($this->village->getOwner ());
+		$list = new Dolumar_Battle_TargetList ($this->village, $mode, $premium);
+
+		$suggestions = $list->getSuggestions ();
+
+		$tabs = array ();
+		if (count ($suggestions) > 0)
+		{
+			$tabs[] = 'suggested';
+		}
+		$tabs[] = 'nearby';
+		$tabs[] = 'recent';
+		$tabs[] = 'search';
+
+		$query = isset ($input['sVillageName']) ? (string) $input['sVillageName'] : '';
+
+		// Free players start on Recent rather than on the locked Nearby tab.
+		$default = $tabs[0] === 'nearby' && !$premium ? 'recent' : $tabs[0];
+		$tab = isset ($input['tab']) && in_array ($input['tab'], $tabs) ? $input['tab'] : $default;
+		if ($query !== '')
+		{
+			$tab = 'search';
+		}
+
+		$filter = isset ($input['filter']) && in_array ($input['filter'], array ('players', 'tribes')) ? $input['filter'] : 'all';
+
+		$page = new Neuron_Core_Template ();
+		$page->setTextSection ('targets', 'battle');
+
+		$page->set ('mode', $mode);
+		$page->set ('tabs', $tabs);
+		$page->set ('tab', $tab);
+		$page->set ('filter', $filter);
+		$page->set ('premium', $premium);
+		$page->set ('query', Neuron_Core_Tools::output_varchar ($query));
+		$page->set ('nearbyCount', Dolumar_Battle_TargetList::NEARBY);
+
+		$sections = array ();
+		switch ($tab)
+		{
+			case 'suggested':
+				$sections[] = array ('title' => null, 'rows' => $suggestions);
+			break;
+
+			case 'nearby':
+				if ($mode === 'support')
+				{
+					$sections[] = array ('title' => 'ownVillages', 'rows' => $list->getOwnVillages ());
+					$sections[] = array ('title' => 'clanVillages', 'rows' => $list->getClanVillages ());
+					$sections[] = array ('title' => 'otherVillages', 'rows' => $list->getNearby ($filter), 'nearby' => true);
+				}
+				else
+				{
+					$sections[] = array ('title' => null, 'rows' => $list->getNearby ($filter), 'nearby' => true);
+				}
+			break;
+
+			case 'recent':
+				if ($mode === 'attack')
+				{
+					$sections[] = array ('title' => 'attackedYou', 'rows' => $list->getAttackers ());
+				}
+				$sections[] = array ('title' => 'fought', 'rows' => $list->getFought ());
+				$sections[] = array ('title' => 'visited', 'rows' => $list->getVisited ());
+			break;
+
+			case 'search':
+				$sections[] = array ('title' => null, 'rows' => $list->search ($query), 'search' => $query !== '');
+			break;
+		}
+
+		$page->set ('sections', $sections);
+
+		return $page->parse ('battle/chooseTarget.phpt');
 	}
-	
+
+	/*
+		The way back from every step after a target was picked: choose another target, or the battle list.
+	*/
+	private function getBackLinks ($action = null)
+	{
+		if ($action === null)
+		{
+			$data = $this->getInputData ();
+			$action = isset ($data['command']) && $data['command'] == 'support' ? 'support' : 'attack';
+		}
+
+		$page = new Neuron_Core_Template ();
+		$page->setTextSection ('targets', 'battle');
+		$page->set ('action', $action);
+		return $page->parse ('battle/backLinks.phpt');
+	}
+
 	private function getChallenge ($targetId, $error = null)
 	{		
 		$text = Neuron_Core_Text::__getInstance ();
@@ -168,22 +272,22 @@ class Dolumar_Windows_Battle extends Neuron_GameServer_Windows_Window
 		)
 		{
 			// User is currently in vacation mode
-			return '<p class="false">'.$text->get ('vacationMode', 'challenge', 'battle').'</p>';
+			return $this->getBackLinks () . '<p class="false">'.$text->get ('vacationMode', 'challenge', 'battle').'</p>';
 		}
 		
 		elseif ($target->isFound () && $target->isActive () && $distance !== false)
 		{
-			return '<p class="false">'.$text->get ('ownVillage', 'challenge', 'battle').'</p>';
+			return $this->getBackLinks () . '<p class="false">'.$text->get ('ownVillage', 'challenge', 'battle').'</p>';
 		}
 		
 		elseif ($distance === false)
 		{
-			return '<p class="false">'.$text->get ('unreachable', 'challenge', 'battle').'</p>';
+			return $this->getBackLinks () . '<p class="false">'.$text->get ('unreachable', 'challenge', 'battle').'</p>';
 		}
 
 		else
 		{
-			return '<p class="false">'.$text->get ('teamNotFound', 'challenge', 'battle').'</p>';
+			return $this->getBackLinks () . '<p class="false">'.$text->get ('teamNotFound', 'challenge', 'battle').'</p>';
 		}
 	}
 	
@@ -218,7 +322,7 @@ class Dolumar_Windows_Battle extends Neuron_GameServer_Windows_Window
 			if ($this->village->attackVillage ($target, $squads, $specials))
 			{
 				reloadStatusCounters ();
-				return ('<p>'.$text->get ('bdone', 'challenge', 'battle').'</p>');
+				return $this->getBackLinks ('attack') . '<p class="true">'.$text->get ('bdone', 'challenge', 'battle').'</p>';
 			}
 			else
 			{			
@@ -264,6 +368,7 @@ class Dolumar_Windows_Battle extends Neuron_GameServer_Windows_Window
 		$page = new Neuron_Core_Template ();
 		$page->set ('target', Neuron_Core_Tools::output_varchar ($target->getName ()));		
 		$page->set ('action', 'support');
+		$page->set ('backLinks', $this->getBackLinks ('support'));
 		
 		$input = $this->getInputData ();
 		
@@ -333,6 +438,7 @@ class Dolumar_Windows_Battle extends Neuron_GameServer_Windows_Window
 		$page->set ('target', Neuron_Core_Tools::output_varchar ($target->getName ()));		
 		$page->set ('action', 'attack');
 		$page->set ('target_id', $target->getId ());
+		$page->set ('backLinks', $this->getBackLinks ('attack'));
 		
 		$showForm = true;
 		
@@ -426,6 +532,7 @@ class Dolumar_Windows_Battle extends Neuron_GameServer_Windows_Window
 		$page->setTextSection ('specialUnits', 'battle');
 		
 		$page->set ('error', $error);
+		$page->set ('backLinks', $this->getBackLinks ('attack'));
 		
 		$page->set ('target', Neuron_Core_Tools::output_varchar ($target->getName ()));
 		$page->set ('targetId', $target->getId ());
@@ -533,7 +640,7 @@ class Dolumar_Windows_Battle extends Neuron_GameServer_Windows_Window
 		}
 		else
 		{
-			$this->updateContent ('<p class="false">'.$text->get ('teamNotFound').'</p>');
+			$this->updateContent ($this->getBackLinks () . '<p class="false">'.$text->get ('teamNotFound').'</p>');
 		}
 	}
 	

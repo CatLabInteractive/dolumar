@@ -1,3 +1,4 @@
+<?php if (isset ($backLinks)) { echo $backLinks; } ?>
 <h2><?=$this->getText ('title')?></h2>
 
 <?php if (isset ($duration)) { ?>

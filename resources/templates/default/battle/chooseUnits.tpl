@@ -1,3 +1,4 @@
+<?php if (isset ($backLinks)) { echo $backLinks; } ?>
 <h2><?=$challenge?></h2>
 
 <?php include ('actionSelect.phpt'); ?>
