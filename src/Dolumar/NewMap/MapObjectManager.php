@@ -106,7 +106,7 @@ class Dolumar_NewMap_MapObjectManager extends Neuron_GameServer_Map_Managers_Map
 	const POLL_SECONDS = 30;
 
 	/**
-	*	Armies (attacks, returns, squad moves) touching any of $areas, for
+	*	Armies (attacks, returns, squad moves, thieves) touching any of $areas, for
 	*	the map/objects endpoint. $viewer is the player looking, or null.
 	*
 	*	@param Neuron_GameServer_Map_Area[] $areas
@@ -147,6 +147,21 @@ class Dolumar_NewMap_MapObjectManager extends Neuron_GameServer_Map_Managers_Map
 			}
 		}
 
+		$thieves = isset ($rows['thieves']) ? $rows['thieves'] : array ();
+		foreach ($thieves as $row)
+		{
+			if (!Dolumar_NewMap_MovingRows::touchesAreas (Dolumar_NewMap_MovingRows::pointsOfRow ($row, 'vsu_route'), $areas))
+			{
+				continue;
+			}
+
+			$army = Dolumar_NewMap_ArmyFactory::fromThiefRow ($row, $now);
+			if ($army)
+			{
+				$out[] = $army;
+			}
+		}
+
 		$related = is_object ($viewer) ? self::relatedVillageIds ($viewer) : array ();
 
 		return self::filterForViewer ($out, $related, $areas, $now);
@@ -170,6 +185,11 @@ class Dolumar_NewMap_MapObjectManager extends Neuron_GameServer_Map_Managers_Map
 		{
 			if (!$army->isRelatedTo ($relatedVillageIds))
 			{
+				if ($army->isSecret ())
+				{
+					continue;
+				}
+
 				$location = $army->getLocation ($now);
 				if (!Dolumar_NewMap_MovingRows::touchesAreas (array (array ($location->x (), $location->y ())), $areas))
 				{
@@ -201,7 +221,8 @@ class Dolumar_NewMap_MapObjectManager extends Neuron_GameServer_Map_Managers_Map
 				return array
 				(
 					'battles' => Dolumar_NewMap_MovingRows::battles ($db, $now),
-					'squads' => Dolumar_NewMap_MovingRows::squads ($db, $now)
+					'squads' => Dolumar_NewMap_MovingRows::squads ($db, $now),
+					'thieves' => Dolumar_NewMap_MovingRows::thieves ($db, $now)
 				);
 			}
 		);

@@ -284,7 +284,7 @@ class Dolumar_Windows_Ranking extends Neuron_GameServer_Windows_Window
 			{
 				$w_distances[$k] = Neuron_Core_Tools::output_distance 
 				(
-					Dolumar_Map_Map::getDistanceBetweenVillages ($vv, $v), 
+					Dolumar_Map_Map::getDistanceBetweenVillages ($vv, $v, true, false), 
 					true, 
 					true
 				);

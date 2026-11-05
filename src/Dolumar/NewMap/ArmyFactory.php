@@ -32,6 +32,7 @@ class Dolumar_NewMap_ArmyFactory
 	const KIND_WAITING = 'waiting';
 	const KIND_RETURNING = 'returning';
 	const KIND_SQUAD = 'squad';
+	const KIND_THIEF = 'thief';
 
 	/** Map object id of a battle (attack, wait, return) */
 	public static function battleId ($battleId)
@@ -43,6 +44,11 @@ class Dolumar_NewMap_ArmyFactory
 	public static function squadId ($scId)
 	{
 		return 's:' . intval ($scId);
+	}
+
+	public static function thiefId ($vsuId)
+	{
+		return 't:' . intval ($vsuId);
 	}
 
 	/**
@@ -76,7 +82,7 @@ class Dolumar_NewMap_ArmyFactory
 		$now = intval ($now);
 		$from = array ((float) $row['fromX'], (float) $row['fromY']);
 		$to = array ((float) $row['toX'], (float) $row['toY']);
-		$segments = self::segments (self::routeFromJson ($row['route'] ?? null, $from, $to));
+		$segments = self::routeSegments ($row['route'] ?? null, $from, $to);
 
 		$startDate = intval ($row['startDate']);
 		$arriveDate = intval ($row['arriveDate']);
@@ -150,7 +156,7 @@ class Dolumar_NewMap_ArmyFactory
 
 		$from = array ((float) $row['fromX'], (float) $row['fromY']);
 		$to = array ((float) $row['toX'], (float) $row['toY']);
-		$segments = self::segments (self::routeFromJson ($row['sc_route'] ?? null, $from, $to));
+		$segments = self::routeSegments ($row['sc_route'] ?? null, $from, $to);
 
 		$homeVid = intval ($row['homeVid']);
 		$army = new Dolumar_NewMap_Army
@@ -165,6 +171,44 @@ class Dolumar_NewMap_ArmyFactory
 		$army->setLocation (new Neuron_GameServer_Map_Location ($from[0], $from[1]));
 
 		self::addPhase ($army, $segments, intval ($row['s_start']), intval ($row['s_end']));
+
+		return $army;
+	}
+
+	/**
+	*	A thief walking to another village. Only its owner and their clan see
+	*	it: the target must not learn that a thief is on its way.
+	*
+	*	@param array $row villages_specialunits columns (moveStart, moveEnd as
+	*		unix timestamps) plus fromX, fromY, toX, toY, fromName, toName, homeVid
+	*	@param int $now
+	*	@return Dolumar_NewMap_Army|null
+	*/
+	public static function fromThiefRow (array $row, $now)
+	{
+		if (!self::hasCoordinates ($row))
+		{
+			return null;
+		}
+
+		$from = array ((float) $row['fromX'], (float) $row['fromY']);
+		$to = array ((float) $row['toX'], (float) $row['toY']);
+		$segments = self::routeSegments ($row['vsu_route'] ?? null, $from, $to);
+
+		$homeVid = intval ($row['homeVid']);
+		$army = new Dolumar_NewMap_Army
+		(
+			self::thiefId ($row['vsu_id']),
+			self::KIND_THIEF,
+			array ($homeVid),
+			$row['fromName'] . ' → ' . $row['toName'],
+			"openWindow ('Thievery', {'village': " . $homeVid . ", 'building': " . intval ($row['vsu_bid']) . "});",
+			self::spriteUrl (self::KIND_THIEF)
+		);
+		$army->setSecret (true);
+		$army->setLocation (new Neuron_GameServer_Map_Location ($from[0], $from[1]));
+
+		self::addPhase ($army, $segments, intval ($row['moveStart']), intval ($row['moveEnd']));
 
 		return $army;
 	}
@@ -224,9 +268,6 @@ class Dolumar_NewMap_ArmyFactory
 	}
 
 	/**
-	*	Decode a stored route; fall back to the straight line when missing or broken.
-	*/
-	/**
 	*	Route of a squad move recalled at $now: from where it is on its way
 	*	(the move from $from to $to along $json, between $start and $end)
 	*	back along the walked part to where it left. Returned as walked pairs
@@ -239,7 +280,7 @@ class Dolumar_NewMap_ArmyFactory
 	{
 		$from = array ((float) $from[0], (float) $from[1]);
 		$to = array ((float) $to[0], (float) $to[1]);
-		$segments = self::segments (self::routeFromJson ($json, $from, $to));
+		$segments = self::routeSegments ($json, $from, $to);
 
 		$start = intval ($start);
 		$end = intval ($end);
@@ -304,9 +345,15 @@ class Dolumar_NewMap_ArmyFactory
 		return $out;
 	}
 
-	private static function routeFromJson ($json, array $from, array $to)
+	/**
+	*	Walking segments of a stored route (see segments () and segmentsOfLegs ());
+	*	the straight line from $from to $to when it is missing or broken.
+	*
+	*	@return array list of array (array (x, y), array (x, y))
+	*/
+	public static function routeSegments ($json, array $from, array $to)
 	{
-		$fallback = array ($from, $to);
+		$fallback = array (array ($from, $to));
 
 		if ($json === null || $json === '')
 		{
@@ -314,21 +361,81 @@ class Dolumar_NewMap_ArmyFactory
 		}
 
 		$route = json_decode ($json, true);
-		if (!is_array ($route) || count ($route) < 2)
+		if (!is_array ($route) || count ($route) == 0)
 		{
 			return $fallback;
 		}
 
+		// Legs: list of (list of points), a portal jump between two legs.
+		if (isset ($route[0][0]) && is_array ($route[0][0]))
+		{
+			$legs = array ();
+			foreach ($route as $leg)
+			{
+				$points = is_array ($leg) ? self::points ($leg) : false;
+				if ($points === false || count ($points) == 0)
+				{
+					return $fallback;
+				}
+				$legs[] = $points;
+			}
+			return self::segmentsOfLegs ($legs);
+		}
+
+		// Older flat list of points.
+		$points = self::points ($route);
+		if ($points === false || count ($points) < 2)
+		{
+			return $fallback;
+		}
+		return self::segments ($points);
+	}
+
+	/**
+	*	Walking segments of a route stored as legs: each leg is walked point to
+	*	point; the gap between the end of a leg and the start of the next is a
+	*	portal jump.
+	*
+	*	@param array $legs list of (list of array (x, y))
+	*	@return array list of array (array (x, y), array (x, y))
+	*/
+	public static function segmentsOfLegs (array $legs)
+	{
 		$out = array ();
-		foreach ($route as $p)
+		foreach ($legs as $leg)
+		{
+			$count = count ($leg);
+			if ($count == 1)
+			{
+				$out[] = array ($leg[0], $leg[0]);
+			}
+			for ($i = 0; $i < $count - 1; $i ++)
+			{
+				$out[] = array ($leg[$i], $leg[$i + 1]);
+			}
+		}
+
+		if (count ($out) == 0)
+		{
+			return array (array (array (0, 0), array (0, 0)));
+		}
+		return $out;
+	}
+
+	/**
+	*	@return array|false list of array (x, y) as floats, false when malformed
+	*/
+	private static function points (array $list)
+	{
+		$out = array ();
+		foreach ($list as $p)
 		{
 			if (!is_array ($p) || !isset ($p[0], $p[1]) || !is_numeric ($p[0]) || !is_numeric ($p[1]))
 			{
-				return $fallback;
+				return false;
 			}
 			$out[] = array ((float) $p[0], (float) $p[1]);
 		}
-
 		return $out;
 	}
 

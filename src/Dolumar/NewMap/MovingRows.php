@@ -86,6 +86,37 @@ class Dolumar_NewMap_MovingRows
 	}
 
 	/**
+	*	Thieves (special units) on their way to another village. Units sent
+	*	before routes were stored (no vsu_from) are left out.
+	*	Row keys match ArmyFactory::fromThiefRow().
+	*/
+	public static function thieves (Neuron_DB_Database $db, $now)
+	{
+		$now = intval ($now);
+
+		return self::rows ($db->query
+		("
+			SELECT
+				vsu.vsu_id, vsu.vsu_bid, vsu.v_id AS homeVid,
+				vsu.vsu_from, vsu.vsu_location, vsu.vsu_route,
+				UNIX_TIMESTAMP(vsu.vsu_moveStart) AS moveStart,
+				UNIX_TIMESTAMP(vsu.vsu_moveEnd) AS moveEnd,
+				tc1.xas AS fromX, tc1.yas AS fromY,
+				tc2.xas AS toX, tc2.yas AS toY,
+				v1.vname AS fromName, v2.vname AS toName
+			FROM
+				villages_specialunits vsu
+			JOIN villages v1 ON v1.vid = vsu.vsu_from
+			JOIN villages v2 ON v2.vid = vsu.vsu_location
+			LEFT JOIN map_buildings tc1 ON tc1.village = vsu.vsu_from AND tc1.buildingType IN (1,3) AND tc1.destroyDate = 0
+			LEFT JOIN map_buildings tc2 ON tc2.village = vsu.vsu_location AND tc2.buildingType IN (1,3) AND tc2.destroyDate = 0
+			WHERE
+				vsu.vsu_from IS NOT NULL
+				AND vsu.vsu_moveEnd > FROM_UNIXTIME({$now})
+		"));
+	}
+
+	/**
 	*	Villages the player may see army details of: their own, plus every
 	*	village of every member of every clan they are in.
 	*	@return int[]
@@ -185,16 +216,28 @@ class Dolumar_NewMap_MovingRows
 		$route = isset ($row[$routeKey]) ? json_decode ($row[$routeKey], true) : null;
 		if (is_array ($route))
 		{
-			foreach ($route as $p)
-			{
-				if (is_array ($p) && isset ($p[0], $p[1]) && is_numeric ($p[0]) && is_numeric ($p[1]))
-				{
-					$points[] = array ($p[0], $p[1]);
-				}
-			}
+			self::collectPoints ($route, $points);
 		}
 
 		return $points;
+	}
+
+	/*
+		Points of a stored route: a flat list of (x, y), or a list of legs (lists of points).
+	*/
+	private static function collectPoints (array $list, array &$points)
+	{
+		foreach ($list as $p)
+		{
+			if (is_array ($p) && isset ($p[0], $p[1]) && is_numeric ($p[0]) && is_numeric ($p[1]))
+			{
+				$points[] = array ($p[0], $p[1]);
+			}
+			elseif (is_array ($p))
+			{
+				self::collectPoints ($p, $points);
+			}
+		}
 	}
 
 	/**

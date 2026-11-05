@@ -299,8 +299,10 @@ abstract class Dolumar_SpecialUnits_SpecialUnits
 	*/
 	public function moveUnit ($target)
 	{
-		// Calculate distance
-		$distance = Dolumar_Map_Map::getDistanceBetweenVillages ($this->getLocation (), $target);
+		// Calculate distance (around lakes) and the route for the map
+		$from = $this->getLocation ();
+		$routeData = Dolumar_Map_Map::getRouteBetweenVillages ($from, $target);
+		$distance = $routeData === false ? false : $routeData['distance'];
 		$duration = $this->getTravelDuration ($distance);
 		
 		// Update
@@ -313,10 +315,14 @@ abstract class Dolumar_SpecialUnits_SpecialUnits
 			(
 				'vsu_moveStart' => Neuron_Core_Tools::timestampToMysqlDatetime (time ()),
 				'vsu_moveEnd' => Neuron_Core_Tools::timestampToMysqlDatetime (time () + $duration),
-				'vsu_location' => $target->getId ()
+				'vsu_location' => $target->getId (),
+				'vsu_from' => $from->getId (),
+				'vsu_route' => $routeData === false ? '' : json_encode ($routeData['route'])
 			),
 			"vsu_id = ".$this->getId ()
 		);
+
+		Dolumar_NewMap_MapObjectManager::armiesChanged ();
 	}
 	
 	/*

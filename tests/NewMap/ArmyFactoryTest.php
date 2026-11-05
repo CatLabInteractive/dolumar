@@ -139,4 +139,54 @@ class ArmyFactoryTest extends TestCase
 	{
 		$this->assertEqualsWithDelta([[0, 0], [0, 0]], Dolumar_NewMap_ArmyFactory::recallRoute(null, [0, 0], [10, 0], 1000, 1100, 1000), 0.0001);
 	}
+
+	public function testRouteStoredAsLegsWalksAroundAndJumpsBetweenLegs(): void
+	{
+		// leg one walks (0,0) -> (5,5) -> (10,0), then a portal jump to (100,0) -> (110,0)
+		$segments = Dolumar_NewMap_ArmyFactory::routeSegments('[[[0,0],[5,5],[10,0]],[[100,0],[110,0]]]', [0, 0], [110, 0]);
+		$this->assertSame([[[0.0, 0.0], [5.0, 5.0]], [[5.0, 5.0], [10.0, 0.0]], [[100.0, 0.0], [110.0, 0.0]]], $segments);
+	}
+
+	public function testOldFlatRoutesStillRead(): void
+	{
+		$this->assertSame([[[0.0, 0.0], [10.0, 0.0]], [[100.0, 0.0], [110.0, 0.0]]],
+			Dolumar_NewMap_ArmyFactory::routeSegments('[[0,0],[10,0],[100,0],[110,0]]', [0, 0], [110, 0]));
+		$this->assertSame([[[0, 0], [10, 0]]], Dolumar_NewMap_ArmyFactory::routeSegments('[[[0,0]],"x"]', [0, 0], [10, 0]));
+	}
+
+	public function testBattleAroundALakeFollowsTheShore(): void
+	{
+		// 20 + 20 tiles via (10,10): at the halfway time the army is at the corner, not on the straight line.
+		$a = Dolumar_NewMap_ArmyFactory::fromBattleRow($this->row(['route' => '[[[0,0],[10,10],[20,0]]]', 'toX' => 20]), 1050);
+		$this->assertEqualsWithDelta(10.0, $a->getLocation(1050)->x(), 0.01);
+		$this->assertEqualsWithDelta(10.0, $a->getLocation(1050)->y(), 0.01);
+	}
+
+	private function thiefRow(array $o = []): array
+	{
+		return $o + ['vsu_id' => 4, 'vsu_bid' => 55, 'homeVid' => 1, 'vsu_from' => 1, 'vsu_location' => 2, 'vsu_route' => null,
+			'moveStart' => 1000, 'moveEnd' => 1100, 'fromX' => 0, 'fromY' => 0, 'toX' => 10, 'toY' => 0, 'fromName' => 'A', 'toName' => 'B'];
+	}
+
+	public function testThiefOnTheMove(): void
+	{
+		$a = Dolumar_NewMap_ArmyFactory::fromThiefRow($this->thiefRow(), 1050);
+		$this->assertSame('t:4', $a->getUOID());
+		$this->assertSame('thief', $a->getKind());
+		$this->assertTrue($a->isSecret());
+		$this->assertSame([1], $a->getRelatedVillageIds());
+		$this->assertEqualsWithDelta(5.0, $a->getLocation(1050)->x(), 0.001);
+		$this->assertSame("openWindow ('Thievery', {'village': 1, 'building': 55});", implode(' ', $a->getEvents('click')));
+		$this->assertStringEndsWith('images/sprites/armies/thief.png', $a->getDisplayObject()->getURI());
+	}
+
+	public function testThiefIsOnlySentToItsOwnerAndClan(): void
+	{
+		$a = Dolumar_NewMap_ArmyFactory::fromThiefRow($this->thiefRow(), 1050);
+		$areas = Neuron_GameServer_Map_Regions::toAreas([[0, 0]], 10);
+		$this->assertCount(1, Dolumar_NewMap_MapObjectManager::filterForViewer([$a], [1], $areas, 1050));
+		// the target (village 2) and strangers never see it, even when it walks through what they look at
+		$this->assertCount(0, Dolumar_NewMap_MapObjectManager::filterForViewer([$a], [2], $areas, 1050));
+		$this->assertCount(0, Dolumar_NewMap_MapObjectManager::filterForViewer([$a], [], $areas, 1050));
+	}
 }

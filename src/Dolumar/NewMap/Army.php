@@ -22,7 +22,7 @@
  */
 
 /**
-*	A marching army (attack, return trip or squad move) as a map object.
+*	A marching army (attack, return trip, squad move or thief) as a map object.
 *	Built by Dolumar_NewMap_ArmyFactory; the movements describe where it is
 *	at any moment. Only related viewers (the villages involved, or their
 *	clan mates) get the details, see isRelatedTo.
@@ -34,10 +34,11 @@ class Dolumar_NewMap_Army extends Neuron_GameServer_Map_MapObject
 	private $relatedVillageIds;
 	private $name;
 	private $spriteUrl;
+	private $secret = false;
 
 	/**
-	*	@param string $uoid e.g. "b:12" (battle) or "s:7" (squad command)
-	*	@param string $kind attack | waiting | returning | squad
+	*	@param string $uoid e.g. "b:12" (battle), "s:7" (squad command) or "t:3" (thief)
+	*	@param string $kind attack | waiting | returning | squad | thief
 	*	@param int[] $relatedVillageIds villages whose owners (and clan mates) may see details
 	*	@param string|null $name
 	*	@param string|null $click javascript to run on tap
@@ -88,6 +89,20 @@ class Dolumar_NewMap_Army extends Neuron_GameServer_Map_MapObject
 	public function getNeutralDisplayObject ()
 	{
 		return new Neuron_GameServer_Map_Display_Sprite (Dolumar_NewMap_ArmyFactory::spriteUrl ('neutral'));
+	}
+
+	/**
+	*	A secret object (a thief) is never sent to unrelated viewers, not even
+	*	as a neutral sprite.
+	*/
+	public function setSecret ($secret)
+	{
+		$this->secret = (bool) $secret;
+	}
+
+	public function isSecret ()
+	{
+		return $this->secret;
 	}
 
 	public function getRelatedVillageIds ()

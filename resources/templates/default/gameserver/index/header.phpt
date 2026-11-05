@@ -4,7 +4,7 @@
 	// Kind texts for the engine map-objects layer (javascript/mapobjects.js reads CONFIG_MAPOBJECT_TEXT)
 	$armyText = Neuron_Core_Text::__getInstance ();
 	$armyTexts = array ();
-	foreach (array ('attack', 'waiting', 'returning', 'squad', 'neutral', 'open', 'close') as $armyKind)
+	foreach (array ('attack', 'waiting', 'returning', 'squad', 'thief', 'neutral', 'open', 'close') as $armyKind)
 	{
 		$armyTexts[$armyKind] = $armyText->get ($armyKind, 'armies', 'map');
 	}

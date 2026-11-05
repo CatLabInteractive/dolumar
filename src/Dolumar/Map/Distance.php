@@ -28,9 +28,9 @@ class Dolumar_Map_Distance
 	/*
 		Distance only; see getDistanceAndRoute for the waypoints.
 	*/
-	public static function getDistance ($loc1, $loc2, $portals, $ignoreImpassable = true)
+	public static function getDistance ($loc1, $loc2, $portals, $ignoreImpassable = true, $overLand = true)
 	{
-		$result = self::getDistanceAndRoute ($loc1, $loc2, $portals, $ignoreImpassable);
+		$result = self::getDistanceAndRoute ($loc1, $loc2, $portals, $ignoreImpassable, $overLand);
 		if ($result === false)
 		{
 			return false;
@@ -39,15 +39,17 @@ class Dolumar_Map_Distance
 	}
 
 	/*
-		Returns array ('distance' => float, 'route' => array of array (x, y))
-		from $loc1 to $loc2 inclusive, with portal jumps as consecutive
-		waypoints, or false when no route exists.
+		Returns array ('distance' => float, 'route' => legs) or false when no
+		route exists. The route is a list of legs from $loc1 to $loc2, each leg a
+		list of array (x, y) walked point to point; between two legs is a portal
+		jump. With $overLand, walking goes around lakes (Dolumar_Map_LandRoute);
+		without, every walk is a straight line (cheap, for lists of distances).
 	*/
-	public static function getDistanceAndRoute ($loc1, $loc2, $portals, $ignoreImpassable = true)
+	public static function getDistanceAndRoute ($loc1, $loc2, $portals, $ignoreImpassable = true, $overLand = true)
 	{
 		if ($loc1[0] == $loc2[0] && $loc1[1] == $loc2[1])
 		{
-			return array ('distance' => 0, 'route' => array (array ($loc1[0], $loc1[1])));
+			return array ('distance' => 0, 'route' => array (array (array ($loc1[0], $loc1[1]))));
 		}
 	
 		// Show the route
@@ -75,7 +77,7 @@ class Dolumar_Map_Distance
 		}
 		$profiler->stop ();
 	
-		$distance = self::getShortestDistance ($loc1, $loc2, $portals, $ignoreImpassable);
+		$distance = self::getShortestDistance ($loc1, $loc2, $portals, $ignoreImpassable, $overLand);
 		
 		if ($distance === false)
 		{
@@ -93,11 +95,30 @@ class Dolumar_Map_Distance
 		
 		$profiler->stop ();
 		
-		// getRoute() builds the route destination-first with cost keys; flip it.
-		$route = array ();
-		foreach (array_reverse ($distance[1]) as $v)
+		// getRoute() builds the route destination-first; flip it and fill in
+		// the walked legs. 'jump' marks a node reached through a portal.
+		$nodes = array_reverse ($distance[1]);
+		$route = array (array (array ($nodes[0][0], $nodes[0][1])));
+		for ($i = 1; $i < count ($nodes); $i ++)
 		{
-			$route[] = array ($v[0], $v[1]);
+			$here = array ($nodes[$i][0], $nodes[$i][1]);
+
+			if (!empty ($nodes[$i]['jump']))
+			{
+				$route[] = array ($here);
+				continue;
+			}
+
+			$walk = $overLand
+				? Dolumar_Map_LandRoute::walk (array ($nodes[$i - 1][0], $nodes[$i - 1][1]), $here)
+				: array ('points' => array (array ($nodes[$i - 1][0], $nodes[$i - 1][1]), $here));
+
+			$leg = count ($route) - 1;
+			$points = $walk['points'];
+			for ($j = 1; $j < count ($points); $j ++)
+			{
+				$route[$leg][] = array ($points[$j][0], $points[$j][1]);
+			}
 		}
 		
 		return array ('distance' => $distance[0], 'route' => $route);
@@ -108,9 +129,10 @@ class Dolumar_Map_Distance
 		When max_distance is reached, skip any other calculations.
 		We are only interested in the shortest route.
 	*/
-	private static function getShortestDistance ($start, $destination, $portals, $ignoreIslands)
+	private static function getShortestDistance ($start, $destination, $portals, $ignoreIslands, $overLand)
 	{		
 		$came_from = array ();
+		$jump = array ();
 		
 		$g = array ();
 		$h = array ();
@@ -159,8 +181,9 @@ class Dolumar_Map_Distance
 			{
 				$route = array ($destination);	
 				$route[0]['d'] = 0;
+				$route[0]['jump'] = !empty ($jump[$fk]);
 				
-				self::getRoute ($came_from, $fk, $route);
+				self::getRoute ($came_from, $jump, $fk, $route);
 				
 				return array ($g[$fk], $route);
 			}
@@ -171,7 +194,7 @@ class Dolumar_Map_Distance
 				unset ($open[$fk]);
 				$closed[$fk] = $x;
 				
-				$neighbours = self::getNeighbourNodes ($x, $destination, $portals, $ignoreIslands);
+				$neighbours = self::getNeighbourNodes ($x, $destination, $portals, $ignoreIslands, $overLand);
 				
 				foreach ($neighbours as $k => $v)
 				{
@@ -196,6 +219,7 @@ class Dolumar_Map_Distance
 						
 						$came_from[$k] = $x;
 						$came_from[$k]['d'] = $v['cost'];
+						$jump[$k] = !empty ($v['jump']);
 					}
 				}
 			}
@@ -219,12 +243,15 @@ class Dolumar_Map_Distance
 		return false;
 	}
 	
-	private static function getRoute ($came_from, $k, &$array)
+	private static function getRoute ($came_from, $jump, $k, &$array)
 	{
 		if (isset ($came_from[$k]))
 		{
-			$array[] = $came_from[$k];			
-			self::getRoute ($came_from, self::getKeyName ($came_from[$k]), $array);
+			$node = $came_from[$k];
+			$nk = self::getKeyName ($node);
+			$node['jump'] = !empty ($jump[$nk]);
+			$array[] = $node;
+			self::getRoute ($came_from, $jump, $nk, $array);
 		}
 		return;
 	}
@@ -238,7 +265,7 @@ class Dolumar_Map_Distance
 		Return an array with all the neighbour locations
 		(output = array (array (x, y), distance))
 	*/
-	private static function getNeighbourNodes ($loc, $des, $portals, $ignoreIslands)
+	private static function getNeighbourNodes ($loc, $des, $portals, $ignoreIslands, $overLand)
 	{
 		$out = array ();
 		
@@ -248,7 +275,7 @@ class Dolumar_Map_Distance
 			$out[self::getKeyName ($des)] = array 
 			(
 				'key' => $des, 
-				'cost' => self::calculateDistance ($loc[0], $loc[1], $des[0], $des[1]),
+				'cost' => self::walkingDistance ($loc, $des, $overLand),
 				/* self::calculateDistance ($loc[0], $loc[1], $des[0], $des[1]) */
 				'heuristics' => self::calculateDistance ($loc[0], $loc[1], $des[0], $des[1])
 			);
@@ -256,7 +283,7 @@ class Dolumar_Map_Distance
 		
 		foreach ($portals as $v)
 		{			
-			self::addPortalNodes ($out, $v, $loc, $des);
+			self::addPortalNodes ($out, $v, $loc, $des, $overLand);
 		}
 		
 		return $out;
@@ -274,7 +301,7 @@ class Dolumar_Map_Distance
 		return $h;
 	}
 	
-	private static function addPortalNodes (&$out, $portal, $loc, $des)
+	private static function addPortalNodes (&$out, $portal, $loc, $des, $overLand)
 	{
 		$loc1 = $portal->getCasterLocation ();
 		$loc2 = $portal->getTargetLocation ();
@@ -295,7 +322,8 @@ class Dolumar_Map_Distance
 			(
 				'key' => $loc2, 
 				'cost' => $portal->getDistancePenalty (),
-				'heuristics' => self::getHeuristics ($loc2, $des, true)
+				'heuristics' => self::getHeuristics ($loc2, $des, true),
+				'jump' => true
 			);
 		}
 		
@@ -305,7 +333,7 @@ class Dolumar_Map_Distance
 			$out[self::getKeyName ($loc1)] = array 
 			(
 				'key' => $loc1, 
-				'cost' => self::calculateDistance ($loc1[0], $loc1[1], $loc[0], $loc[1]),
+				'cost' => self::walkingDistance ($loc, $loc1, $overLand),
 				'heuristics' => self::getHeuristics ($loc1, $des, true)
 			);
 		}
@@ -317,7 +345,8 @@ class Dolumar_Map_Distance
 			(
 				'key' => $loc1, 
 				'cost' => $portal->getDistancePenalty (),
-				'heuristics' => self::getHeuristics ($loc1, $des, true)
+				'heuristics' => self::getHeuristics ($loc1, $des, true),
+				'jump' => true
 			);
 		}
 		
@@ -327,10 +356,20 @@ class Dolumar_Map_Distance
 			$out[self::getKeyName ($loc2)] = array 
 			(
 				'key' => $loc2, 
-				'cost' => self::calculateDistance ($loc2[0], $loc2[1], $loc[0], $loc[1]),
+				'cost' => self::walkingDistance ($loc, $loc2, $overLand),
 				'heuristics' => self::getHeuristics ($loc2, $des, true)
 			);
 		}
+	}
+	
+	private static function walkingDistance ($from, $to, $overLand)
+	{
+		if (!$overLand)
+		{
+			return self::calculateDistance ($from[0], $from[1], $to[0], $to[1]);
+		}
+		$walk = Dolumar_Map_LandRoute::walk (array ($from[0], $from[1]), array ($to[0], $to[1]));
+		return $walk['distance'];
 	}
 	
 	public static function calculateDistance ($x1, $y1, $x2, $y2)
