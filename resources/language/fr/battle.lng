@@ -30,6 +30,12 @@ row="Ligne"
 save="Sauver la formation"
 saved="Votre formation a été sauvegardée."
 slot="Position"
+help="Faites glisser un peloton sur une position, ou touchez un peloton puis une position. Cette formation est utilisée chaque fois que votre village est attaqué."
+reserve="Réserve"
+reserveHelp="Une réserve prend la position quand le peloton devant elle n'est pas au village."
+regiments="Vos pelotons"
+unplaced="Les pelotons non placés combattent sur une position libre au hasard."
+clear="Retirer"
 
 [overview]
 actions="Actions"

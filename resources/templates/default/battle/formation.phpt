@@ -2,36 +2,61 @@
 
 <?php if (isset ($message)) { ?>
 	<?php if ($error) { ?>
-		<p class="false"><?=$this->getText ($message)?></p>
+		<p class="false ui-msg"><?=$this->getText ($message)?></p>
 	<?php } else { ?>
-		<p class="true"><?=$this->getText ($message)?></p>
+		<p class="true ui-msg"><?=$this->getText ($message)?></p>
 	<?php } ?>
 <?php } ?>
 
-<?php if (isset ($list_squads) && count ($list_squads) > 0) { ?>
-	<form onsubmit="return submitForm(this);">
-		<fieldset>
-			<?php foreach ($slots as $slotId => $slot) { ?>
-				<div class="challenge-slot">
-					<label><?=$this->getText ('slot')?> <?=$slotId?>: <?=$this->getText ($slot->getName (), 'slots', 'battle');?></label>
+<?php if (isset ($list_units) && count ($list_units) > 0) { ?>
+	<p class="formation-help"><?=$this->getText ('help')?></p>
 
-					<?php for ($i = 0; $i < $rows; $i ++) { ?>
-						<select class="unique" onchange="removeDuplicates(this.parentNode.parentNode, this);" name="slot_<?=$slotId?>_<?=$i?>">
-							<option value="0">&nbsp;</option>
-							<?php foreach ($list_squads as $squad) { ?>
-								<?php foreach ($squad['oUnits'] as $v) { ?>
-									<option value="<?=$squad['id']?>_<?=$v->getUnitId()?>" <?php if ($v->getDefaultSlot () == $slotId && $v->getSlotPriority () == $i) { ?>selected="selected"<?php } ?>>
-										<?=$squad['sName']?> (<?=$v->getName ()?>)
-									</option>
+	<form onsubmit="return submitForm(this);" class="formation-form">
+		<div class="formation-scroll">
+			<div class="formation-field">
+				<div class="battlefield-decoration-left">&nbsp;</div>
+
+				<?php foreach ($list_slots as $slot) { ?>
+					<div class="battlefield-slot formation-slot <?=$slot['sName']?> rows-<?=$rows?>">
+						<span class="formation-terrain"><?=$slot['id']?>. <?=$slot['sType']?></span>
+
+						<?php foreach ($slot['cells'] as $i => $unit) { ?>
+							<div class="formation-cell <?=$i == 0 ? 'front' : 'reserve'?>">
+								<input type="hidden" name="slot_<?=$slot['id']?>_<?=$i?>" value="<?=$unit?>" />
+								<?php if ($i > 0) { ?>
+									<span class="formation-cell-label"><?=$this->getText ('reserve')?></span>
 								<?php } ?>
-							<?php } ?>
-						</select>
-					<?php } ?>
+							</div>
+						<?php } ?>
+					</div>
+				<?php } ?>
+
+				<div class="battlefield-decoration-right">&nbsp;</div>
+			</div>
+		</div>
+
+		<?php if ($rows > 1) { ?>
+			<p class="ui-muted formation-note"><?=$this->getText ('reserveHelp')?></p>
+		<?php } ?>
+
+		<h3><?=$this->getText ('regiments')?></h3>
+		<div class="formation-pool">
+			<?php foreach ($list_units as $v) { ?>
+				<div class="formation-unit" data-unit="<?=$v['key']?>">
+					<img src="<?=$v['image']?>" alt="" title="<?=$v['sName']?> (<?=$v['amount']?> <?=$v['sUnit']?>)" />
+					<span class="formation-unit-name"><?=$v['sName']?></span>
+					<span class="formation-unit-amount ui-muted"><?=$v['amount']?> <?=$v['sUnit']?></span>
 				</div>
 			<?php } ?>
+		</div>
 
-			<button type="submit"><?=$this->getText ('save')?></button>
-		</fieldset>
+		<p class="ui-muted formation-note"><?=$this->getText ('unplaced')?></p>
+
+		<div class="ui-btn-row left">
+			<button type="submit" class="ui-btn primary"><?=$this->getText ('save')?></button>
+		</div>
+
+		<span class="formation-clear-text" style="display: none;"><?=$this->getText ('clear')?></span>
 	</form>
 <?php } else { ?>
 	<p><?=$this->getText ('noSquads')?></p>

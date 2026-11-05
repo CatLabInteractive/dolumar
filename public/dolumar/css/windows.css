@@ -805,6 +805,7 @@ h3 label
 {
 	background: red;
 }
+
 /*
 	Server settings
 */
@@ -830,4 +831,213 @@ h3 label
 .serversettings h3
 {
 	margin-top: 16px;
+}
+
+/*
+	Defense formation: the attack picker's terrain slots, each with a front place and
+	(with enough regiments) a reserve place below it. Regiments are dragged or tapped in.
+*/
+div.formation p.formation-help
+{
+	margin: 0 0 8px;
+}
+
+div.formation p.formation-note
+{
+	margin: 6px 0 0;
+	font-size: 0.9em;
+}
+
+div.formation div.formation-scroll
+{
+	overflow-x: auto;
+	overflow-y: hidden;
+	position: relative;
+	width: 100%;
+	-webkit-overflow-scrolling: touch;
+}
+
+div.formation div.formation-field
+{
+	overflow: hidden;
+	margin: 0 auto;
+}
+
+div.formation div.formation-slot
+{
+	float: left;
+	width: 75px;
+	height: 150px;
+	position: relative;
+}
+
+div.formation span.formation-terrain
+{
+	position: absolute;
+	left: 2px;
+	right: 2px;
+	top: 3px;
+	font-size: 10px;
+	line-height: 14px;
+	text-align: center;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	color: #40331f;
+	background: rgba(251, 243, 220, 0.85);
+	border-radius: 3px;
+}
+
+div.formation div.formation-cell
+{
+	position: absolute;
+	left: 9px;
+	width: 55px;
+	height: 55px;
+	border: 1px dashed rgba(251, 243, 220, 0.9);
+	border-radius: 3px;
+}
+
+div.formation div.formation-cell.front
+{
+	top: 22px;
+}
+
+div.formation div.formation-slot.rows-1 div.formation-cell.front
+{
+	top: 52px;
+}
+
+div.formation div.formation-cell.reserve
+{
+	top: 86px;
+}
+
+div.formation div.formation-cell.filled
+{
+	border-color: transparent;
+}
+
+div.formation span.formation-cell-label
+{
+	display: block;
+	margin-top: 19px;
+	font-size: 10px;
+	text-align: center;
+	color: #40331f;
+	background: rgba(251, 243, 220, 0.85);
+}
+
+div.formation div.formation-cell.filled span.formation-cell-label
+{
+	display: none;
+}
+
+div.formation div.formation-cell.reserve img.unit-selected
+{
+	opacity: 0.85;
+}
+
+div.formation img.unit-selected
+{
+	position: absolute;
+	left: 1px;
+	top: 1px;
+	width: 50px;
+	height: 50px;
+	border: 1px solid black;
+}
+
+div.formation div.clear-button
+{
+	position: absolute;
+	left: 2px;
+	right: 2px;
+	bottom: 3px;
+	text-align: center;
+	font-size: 10px;
+	line-height: 14px;
+}
+
+div.formation div.clear-button span
+{
+	display: block;
+	color: #000097;
+	text-decoration: underline;
+	background: rgba(251, 243, 220, 0.9);
+	cursor: pointer;
+}
+
+div.formation div.clear-button span:hover
+{
+	color: #b3261e;
+}
+
+.tap-placing div.formation-cell
+{
+	cursor: pointer;
+	box-shadow: inset 0 0 0 2px rgba(240, 192, 64, 0.8);
+}
+
+div.formation div.formation-cell.touch-over,
+div.formation div.formation-cell.hover
+{
+	box-shadow: inset 0 0 0 3px #f0c040;
+}
+
+div.formation div.formation-pool
+{
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+div.formation div.formation-unit
+{
+	width: 92px;
+	text-align: center;
+	font-size: 11px;
+	line-height: 14px;
+}
+
+div.formation div.formation-unit img
+{
+	display: block;
+	width: 50px;
+	height: 50px;
+	margin: 0 auto 2px;
+	border: 1px solid black;
+	position: relative;
+	z-index: 1;
+}
+
+div.formation div.formation-unit span
+{
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+div.formation div.formation-unit span.formation-unit-name
+{
+	font-weight: bold;
+}
+
+/* Placed regiments stay in the list (drag them again to move them), dimmed. */
+div.formation div.formation-unit.placed img,
+div.formation div.formation-unit.placed span
+{
+	opacity: 0.45;
+}
+
+div.formation div.ui-btn-row
+{
+	margin-top: 10px;
+}
+
+/* Tap-to-place marks the places, not the whole terrain column. */
+.tap-placing div.formation-slot
+{
+	box-shadow: none;
 }

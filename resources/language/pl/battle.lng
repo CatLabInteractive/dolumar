@@ -28,6 +28,12 @@ row="Rząd"
 save="Zapisz formację"
 saved="Twoja formacja została zapisana"
 slot="Otwór"
+help="Przeciągnij oddział na pole albo dotknij oddziału, a potem pola. Ta formacja jest używana zawsze, gdy twoja wioska zostanie zaatakowana."
+reserve="Rezerwa"
+reserveHelp="Rezerwa zajmuje pole, gdy oddział przed nią jest poza domem."
+regiments="Twoje oddziały"
+unplaced="Oddziały, których nie ustawisz, walczą na losowym wolnym polu."
+clear="Usuń"
 
 [overview]
 actions="Akcje"

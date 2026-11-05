@@ -500,8 +500,214 @@ Game.dolumar =
 	},
 
 	/*
+		Defense formation: the same terrain slots as the attack picker. A regiment is dragged
+		(or tapped, then a slot tapped) onto the front or reserve place of a slot. Each place
+		holds a hidden input slot_<slot>_<row> that the window saves. A regiment stands in one
+		place at a time; dropping it on a taken place swaps the two.
+	*/
+	'initFormationWindow' : function (oWindow)
+	{
+		var div = $(oWindow.div);
+		var form = div.select ('form.formation-form')[0];
+
+		if (!form)
+		{
+			return;
+		}
+
+		// Content is replaced after saving: forget drop targets that left the page.
+		Droppables.drops.slice (0).each (function (drop)
+		{
+			if (!document.body.contains (drop.element))
+			{
+				Droppables.remove (drop.element);
+			}
+		});
+
+		var scrolldiv = div.select ('div.formation-scroll')[0];
+		var field = div.select ('div.formation-field')[0];
+		var lng_clear = div.select ('span.formation-clear-text')[0].innerHTML;
+
+		var units = {};
+		var cells = div.select ('div.formation-cell');
+		var tapImages = [];
+		var tapSlots = [];
+
+		div.select ('div.formation-unit').each (function (box)
+		{
+			var img = box.select ('img')[0];
+			var key = box.getAttribute ('data-unit');
+
+			img.id = oWindow.sDialogId + 'fimg' + key;
+			img.unitKey = key;
+			units[key] = { 'box' : box, 'img' : img };
+			tapImages.push (img);
+
+			img.dragable = new Draggable
+			(
+				img.id,
+				{
+					'revert' : true,
+					'reverteffect' : function (element, top_offset, left_offset)
+					{
+						element.style.left = (parseInt (element.style.left) - left_offset) + 'px';
+						element.style.top = (parseInt (element.style.top) - top_offset) + 'px';
+					},
+					// No fade effects: they leave an inline opacity over the "placed" dimming.
+					'starteffect' : function (element)
+					{
+						element.style.opacity = 0.7;
+					},
+					'endeffect' : function (element)
+					{
+						element.style.opacity = '';
+					}
+				}
+			);
+		});
+
+		var inputOf = function (cell)
+		{
+			return cell.select ('input')[0];
+		};
+
+		var cellOf = function (key)
+		{
+			for (var i = 0; i < cells.length; i ++)
+			{
+				if (inputOf (cells[i]).value == key)
+				{
+					return cells[i];
+				}
+			}
+
+			return null;
+		};
+
+		// Draw a place from its input: the regiment's image and a clear link, or empty.
+		var render = function (cell)
+		{
+			cell.select ('img.unit-selected, div.clear-button').each (function (el)
+			{
+				el.remove ();
+			});
+
+			var key = inputOf (cell).value;
+			var unit = units[key];
+
+			if (!unit)
+			{
+				cell.removeClassName ('filled');
+				return;
+			}
+
+			cell.addClassName ('filled');
+
+			var img = document.createElement ('img');
+			img.src = unit.img.src;
+			img.title = unit.img.title;
+			img.alt = '';
+			img.className = 'unit-selected';
+			cell.appendChild (img);
+
+			var clear = document.createElement ('div');
+			clear.className = 'clear-button';
+			clear.innerHTML = '<span>' + lng_clear + '</span>';
+			clear.onclick = function ()
+			{
+				inputOf (cell).value = '0';
+				refresh ();
+			};
+			cell.appendChild (clear);
+		};
+
+		var refresh = function ()
+		{
+			// A reserve only counts behind a regiment in front of it: move it up.
+			div.select ('div.formation-slot').each (function (slot)
+			{
+				var places = slot.select ('div.formation-cell');
+
+				for (var i = 0; i < places.length - 1; i ++)
+				{
+					if (inputOf (places[i]).value == '0' && inputOf (places[i + 1]).value != '0')
+					{
+						inputOf (places[i]).value = inputOf (places[i + 1]).value;
+						inputOf (places[i + 1]).value = '0';
+					}
+				}
+			});
+
+			cells.each (render);
+
+			for (var key in units)
+			{
+				if (cellOf (key))
+				{
+					units[key].box.addClassName ('placed');
+				}
+				else
+				{
+					units[key].box.removeClassName ('placed');
+				}
+			}
+		};
+
+		var place = function (key, cell)
+		{
+			var from = cellOf (key);
+			var current = inputOf (cell).value;
+
+			if (from === cell)
+			{
+				return;
+			}
+
+			// Swap: the regiment that stood here takes the place the new one came from.
+			if (from)
+			{
+				inputOf (from).value = current;
+			}
+
+			inputOf (cell).value = key;
+			refresh ();
+		};
+
+		cells.each (function (cell, i)
+		{
+			cell.id = oWindow.sDialogId + 'fcell' + i;
+
+			var dropOptions =
+			{
+				'onDrop' : function (element, dropel)
+				{
+					place (element.unitKey, dropel);
+					return true;
+				},
+				'hoverclass' : 'hover',
+				'scrollid' : scrolldiv
+			};
+
+			Droppables.add (cell.id, dropOptions);
+			tapSlots.push ({ 'slot' : cell, 'options' : dropOptions });
+		});
+
+		// The slot row is as wide as its slots; on a narrow screen it scrolls.
+		var width = 0;
+		field.childElements ().each (function (el)
+		{
+			width += el.getWidth ();
+		});
+		field.style.width = (width + 1) + 'px';
+
+		refresh ();
+
+		Game.dolumar.enableTapToPlace (div, tapImages, tapSlots);
+	},
+
+	/*
 		Battle window
-		
+
 		TODO: Clean all dragables on destruction
 	*/
 	'initBattleWindow' : function (oWindow)

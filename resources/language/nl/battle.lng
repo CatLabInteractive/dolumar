@@ -99,6 +99,12 @@ save="Formatie opslaan"
 row="Rij"
 saved="Je aanvalsformatie is opgeslagen."
 noSquads="Je hebt nog geen regimenten."
+help="Sleep een regiment naar een plaats, of tik op een regiment en dan op een plaats. Deze formatie wordt gebruikt wanneer je dorp aangevallen wordt."
+reserve="Reserve"
+reserveHelp="Een reserve neemt de plaats in wanneer het regiment ervoor niet thuis is."
+regiments="Jouw regimenten"
+unplaced="Regimenten die je niet plaatst, vechten op een willekeurige vrije plaats."
+clear="Wissen"
 
 [support]
 title="Stuur hulptroepen naar @@target"
