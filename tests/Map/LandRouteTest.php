@@ -55,6 +55,15 @@ class LandRouteTest extends TestCase
 		$this->assertLessThanOrEqual(6, count($r['points']));
 	}
 
+	public function testWayBackIsTheSameRoute(): void
+	{
+		$this->lake(fn ($x, $y) => $x >= 5 && $x <= 15 && $y >= -10 && $y <= 7);
+		$out = Dolumar_Map_LandRoute::walk([0, 0], [20, 3]);
+		$back = Dolumar_Map_LandRoute::walk([20, 3], [0, 0]);
+		$this->assertSame($out['distance'], $back['distance']);
+		$this->assertSame(array_reverse($out['points']), $back['points']);
+	}
+
 	public function testCrossesTwoLakes(): void
 	{
 		$water = fn ($x, $y) => ($x >= 5 && $x <= 8 && abs($y) <= 6) || ($x >= 20 && $x <= 25 && $y >= -3 && $y <= 9);

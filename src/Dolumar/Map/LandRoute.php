@@ -74,6 +74,13 @@ class Dolumar_Map_LandRoute
 			return array ('distance' => 0, 'points' => array ($a, $b));
 		}
 
+		// Search one direction only, so a trip back takes exactly as long as the trip out.
+		if ($b[0] < $a[0] || ($b[0] == $a[0] && $b[1] < $a[1]))
+		{
+			$back = self::walk ($b, $a);
+			return array ('distance' => $back['distance'], 'points' => array_reverse ($back['points']));
+		}
+
 		$key = self::cacheKey ($a, $b);
 		if (isset (self::$memo[$key]))
 		{
@@ -165,6 +172,11 @@ class Dolumar_Map_LandRoute
 
 	private static function cacheKey (array $a, array $b)
 	{
+		// Loading Dolumar_Map_Map sets the seed global from RANDMAPFACTOR (tests change it).
+		if (defined ('RANDMAPFACTOR'))
+		{
+			class_exists ('Dolumar_Map_Map');
+		}
 		$seed = isset ($GLOBALS['MAP_CONFIG_RANDMAPFACTOR']) ? $GLOBALS['MAP_CONFIG_RANDMAPFACTOR'] : '';
 		return 'landroute_' . self::CACHE_VERSION . '_' . md5 ($seed) . '_' .
 			$a[0] . '_' . $a[1] . '_' . $b[0] . '_' . $b[1];
