@@ -1,1 +1,1 @@
-Twoja armia jest w drodze. Bitwa rozegra się, gdy dotrze na miejsce, a ja dam ci znać, kiedy się skończy. Możesz ją śledzić w [b]dzienniku[/b].
+Twoja armia jest w drodze. Bitwa rozegra się, gdy dotrze na miejsce, a ja dam ci znać, kiedy się skończy. Do tego czasu możesz ją śledzić w oknie [b]Bitwa[/b]; [b]Pokaż mi[/b] je otworzy.
