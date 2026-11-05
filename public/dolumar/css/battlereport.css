@@ -110,8 +110,24 @@ div.battle .battle-report .br-tok img,
 .battle-report .br-dot { display: inline-block; width: 10px; height: 10px; border: 2px solid #f3e7c4; background: #40331f; vertical-align: -2px; }
 .battle-report .br-dot.us { border-color: #000097; }
 
+/* Choose a target (battle/chooseTarget.phpt, battle/backLinks.phpt) */
+.battle-report .bt-target img { width: 40px; height: 40px; }
+.battle-report .bt-rt { flex: 1; min-width: 0; }
+.battle-report .bt-rt .ui-card-title { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.battle-report .bt-line { display: block; margin-top: 2px; }
+.battle-report .bt-note { font-style: italic; }
+.battle-report .bt-target.off { opacity: 0.6; }
+.battle-report .bt-target.off .ui-card-title { color: #40331f; text-decoration: none; }
+.battle-report .bt-intro { margin-top: 0; }
+.battle-report .bt-search .ui-field input { width: 100%; }
+.battle-report .bt-premium p { margin: 0; }
+.battle-report .bt-premium p.bt-premium-go { margin-top: 8px; }
+.battle-report .bt-honour-hint { margin: 12px 0 0; }
+.battle-report .ui-tab-panel h3:first-child { margin-top: 0; }
+
 /* Mobile: the kit handles sizes; the transport keeps its buttons on one line. */
 body.layout-mobile .sheet-content .battle-report .br-transport .ui-btn { padding: 0 12px; }
 body.layout-mobile .sheet-content .battle-report .br-back a { text-decoration: none; }
+body.layout-mobile .sheet-content .battle-report .bt-search .ui-field input { font-size: 16px; }
 body.layout-mobile .sheet-content .battle-report h2,
 body.layout-mobile .sheet-content .battle-report h3 { font-family: Verdana, sans-serif; }

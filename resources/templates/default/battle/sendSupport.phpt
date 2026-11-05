@@ -1,4 +1,5 @@
 <?=$this->setTextSection ('support', 'battle');?>
+<?php if (isset ($backLinks)) { echo $backLinks; } ?>
 <h2><?=Neuron_Core_Tools::putIntoText ($this->getText ('title'), array ('target' => $target))?></h2>
 <?php include ('actionSelect.phpt'); ?>
 

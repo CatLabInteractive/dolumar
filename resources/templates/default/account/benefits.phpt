@@ -7,4 +7,5 @@
 	<li><?=$this->getText ('tqueue'); ?></li>
 	<li><?=$this->getText ('uinfo'); ?></li>
 	<li><?=$this->getText ('searchtool'); ?></li>
+	<li><?=$this->getText ('premiumBenefit', 'targets', 'battle'); ?></li>
 </ul>
