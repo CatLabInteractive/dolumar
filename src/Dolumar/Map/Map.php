@@ -691,7 +691,12 @@ class Dolumar_Map_Map
 		return Dolumar_Map_Distance::calculateDistance ($x1, $y1, $x2, $y2);
 	}
 
-	public static function getDistanceBetweenVillages ($village1, $village2, $ignoreImpassable = true)
+	/*
+		Travel distance between two town centres (through portals). With
+		$overLand (the default) the walk goes around lakes; pass false for a
+		quick straight-line estimate, e.g. in lists of many villages.
+	*/
+	public static function getDistanceBetweenVillages ($village1, $village2, $ignoreImpassable = true, $overLand = true)
 	{
 		$tc1 = $village1->buildings->getTownCenter ();
 		if (!$tc1)
@@ -706,7 +711,7 @@ class Dolumar_Map_Map
 		}
 		
 		//return self::getDistanceBetweenVillages_simple ($village1, $village2);
-		return self::getDistanceBetweenVillages_pathbased ($village1, $village2, $ignoreImpassable);
+		return self::getDistanceBetweenVillages_pathbased ($village1, $village2, $ignoreImpassable, $overLand);
 	}
 	
 	private static function getDistanceBetweenVillages_simple ($village1, $village2, $ignoreImpassable = true)
@@ -744,7 +749,8 @@ class Dolumar_Map_Map
 	
 	/*
 		Like getDistanceBetweenVillages, but returns
-		array ('distance' => float, 'route' => array of array (x, y)) or false.
+		array ('distance' => float, 'route' => legs) or false; see
+		Dolumar_Map_Distance::getDistanceAndRoute ().
 	*/
 	public static function getRouteBetweenVillages ($village1, $village2, $ignoreImpassable = true)
 	{
@@ -762,7 +768,7 @@ class Dolumar_Map_Map
 		return Dolumar_Map_Distance::getDistanceAndRoute ($loc1, $loc2, $portals, $ignoreImpassable);
 	}
 	
-	private static function getDistanceBetweenVillages_pathbased ($village1, $village2, $ignoreImpassable = true)
+	private static function getDistanceBetweenVillages_pathbased ($village1, $village2, $ignoreImpassable = true, $overLand = true)
 	{		
 		$tc1 = $village1->buildings->getTownCenter ();
 		$tc2 = $village2->buildings->getTownCenter ();	
@@ -771,7 +777,7 @@ class Dolumar_Map_Map
 		
 		// Fetch portals
 		$portals = Dolumar_Map_Portal::getFromVillages (array ($village1, $village2));
-		return Dolumar_Map_Distance::getDistance ($loc1, $loc2, $portals, $ignoreImpassable);
+		return Dolumar_Map_Distance::getDistance ($loc1, $loc2, $portals, $ignoreImpassable, $overLand);
 	}
 	
 	/*

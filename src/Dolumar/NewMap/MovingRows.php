@@ -185,16 +185,28 @@ class Dolumar_NewMap_MovingRows
 		$route = isset ($row[$routeKey]) ? json_decode ($row[$routeKey], true) : null;
 		if (is_array ($route))
 		{
-			foreach ($route as $p)
-			{
-				if (is_array ($p) && isset ($p[0], $p[1]) && is_numeric ($p[0]) && is_numeric ($p[1]))
-				{
-					$points[] = array ($p[0], $p[1]);
-				}
-			}
+			self::collectPoints ($route, $points);
 		}
 
 		return $points;
+	}
+
+	/*
+		Points of a stored route: a flat list of (x, y), or a list of legs (lists of points).
+	*/
+	private static function collectPoints (array $list, array &$points)
+	{
+		foreach ($list as $p)
+		{
+			if (is_array ($p) && isset ($p[0], $p[1]) && is_numeric ($p[0]) && is_numeric ($p[1]))
+			{
+				$points[] = array ($p[0], $p[1]);
+			}
+			elseif (is_array ($p))
+			{
+				self::collectPoints ($p, $points);
+			}
+		}
 	}
 
 	/**

@@ -277,7 +277,7 @@ class Dolumar_Windows_PlayerProfile extends Neuron_GameServer_Windows_Window
 						)
 					);
 				
-					$distance = Dolumar_Map_Map::getDistanceBetweenVillages ($v, $objVillage);
+					$distance = Dolumar_Map_Map::getDistanceBetweenVillages ($v, $objVillage, true, false);
 				
 					$page->addListValue
 					(
