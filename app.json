@@ -5,10 +5,10 @@
   "logo": "https://master.dolumar.com/images/logos/logo-64x64.jpg",
   "keywords": ["php", "pbbg", "game", "browsergame"],
   "website": "https://www.dolumar.com/",
-  "cron": [
-    {"command": "php cron/run.php", "schedule": "* * * * *"},
-    {"command": "php cron/ai.php", "schedule": "*/15 * * * *"}
-  ],
+  "formation": {
+    "web": {"quantity": 1},
+    "worker": {"quantity": 1}
+  },
   "scripts": {
     "dokku": {
       "predeploy": "bash tools/predeploy.sh",
