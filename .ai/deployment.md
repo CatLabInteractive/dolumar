@@ -33,6 +33,13 @@ breaks every existing subscription).
 `NEVERENDING=1` turns off the endgame for that server (no Dor Daedeloth spell, no winner, no reset); see
 `Dolumar_Players_Server::isNeverending()` for every place that checks it.
 
+`SPEED_FACTOR` (default 1) is the world's game speed; `GAME_SPEED_*` override one part each (movement defaults to
+x1 regardless) and `ROUND_DAYS` (default 180) is how long a round runs before the endgame. All are read through
+`dolumar_env_number()` in `bootstrap/env.php`, which falls back to the default for empty or invalid values.
+
+Several worlds run side by side, one Dokku app each, all on the same commit; they differ only in config. The README
+section "Running several worlds" has the setup, and `tools/deploy.sh` deploys a commit to every app in turn.
+
 The app sits behind Dokku's nginx, so `REMOTE_ADDR` is the proxy (`172.17.0.1`). Read the visitor's address with
 `Neuron_Core_Tools::getClientIp()`, never `$_SERVER['REMOTE_ADDR']`. It trusts `X-Forwarded-For` / `X-Real-IP` only
 when the request comes from `TRUSTED_PROXIES` (comma separated CIDR ranges; default loopback and `172.16.0.0/12`).

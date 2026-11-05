@@ -10,14 +10,14 @@
 1 = "@@unit is stunned and cannot attack it foes."
 
 [casualties_melee]
-1 = "@@attacker (frontage @@frontage) kill @@amount units from @@defender in a melee."
+1 = "@@attacker kill @@amount units from @@defender in a melee."
 
 [casualties_shooting]
 1 = "A well placed salvo of @@attacker kills @@amount units from @@defender."
 2 = "@@attacker don't wait and kill @@amount units of @@defender."
 
 [casualties_error]
-1 = "@@amount units died in an attack from @@atacker to @@defender. ERROR!!!"
+1 = "@@amount units died in an attack from @@attacker to @@defender. ERROR!!!"
 
 [specialunitdied]
 1 = "A level @@level @@unit died."
@@ -43,3 +43,98 @@
 
 [whipe]
 1 = "The bodies of @@unit lie shattered, in a pool of blood, on the battlefield."
+
+[log_move]
+1 = "@@unit move to the @@terrain."
+2 = "@@unit march over to the @@terrain."
+
+[log_stunned]
+1 = "@@unit cannot act."
+
+[log_shooting]
+1 = "@@attacker shoot at @@defender."
+2 = "A salvo from @@attacker hits @@defender."
+
+[log_melee]
+1 = "@@attacker fight @@defender."
+2 = "@@attacker charge @@defender."
+3 = "@@attacker clash with @@defender."
+
+[log_fled]
+1 = "@@unit break and flee."
+2 = "@@unit leave the battlefield."
+
+[log_wiped]
+1 = "@@unit are wiped out."
+2 = "The last of @@unit fall."
+
+[log_magedied]
+1 = "@@unit (level @@level) died."
+
+[moment_volley]
+1 = "@@attacker loosed and cut down @@amount of @@defender."
+
+[moment_fled]
+1 = "@@unit broke and fled. Their line collapsed."
+
+[moment_wiped]
+1 = "@@unit were wiped out to the last man."
+
+[moment_loss]
+1 = "@@attacker killed @@amount of @@defender."
+
+[chronicle_intro]
+1 = "The ground trembled as the army of @@attacker marched on @@defender."
+2 = "Dust rose over the fields of @@defender as the army of @@attacker came into view."
+3 = "Horns sounded at @@defender: the army of @@attacker had arrived."
+
+[chronicle_magic]
+1 = "Before a single arrow flew, @@unit cast @@spell."
+
+[chronicle_magicfailed]
+1 = "@@unit tried to cast @@spell, but the spell came to nothing."
+
+[chronicle_volley]
+1 = "@@unit loosed first, and @@amount of the enemy fell before they could raise their shields."
+2 = "A cloud of arrows from @@unit darkened the sky; @@amount of the enemy fell."
+
+[chronicle_volley_total]
+1 = "In all, the volley cost @@attacker @@attlost and @@defender @@deflost."
+
+[chronicle_novolley]
+1 = "No arrows flew. Both armies went straight for each other."
+
+[chronicle_melee]
+1 = "Then the lines clashed. @@unit fought hardest and cut down @@amount of the enemy."
+2 = "Steel met steel. Nobody fought harder than @@unit, who cut down @@amount of the enemy."
+
+[chronicle_broke_fled]
+1 = "@@unit broke and fled."
+2 = "@@unit lost heart and ran."
+
+[chronicle_broke_wiped]
+1 = "@@unit were wiped out to the last man."
+2 = "Not one of @@unit left the field alive."
+
+[chronicle_end_win]
+1 = "In the end the defenders of @@defender could hold no longer."
+2 = "When the dust settled, @@defender was at the mercy of @@attacker."
+
+[chronicle_end_loss]
+1 = "In the end the army of @@attacker turned back, beaten."
+2 = "The walls of @@defender held, and the army of @@attacker withdrew."
+
+[chronicle_spoils]
+1 = "The carts went home heavy: @@resources resources and @@runes runes."
+
+[chronicle_nospoils]
+1 = "Nothing was taken."
+
+[chronicle_verdict_win]
+1 = "A @@percent% victory. @@hero won the day."
+
+[chronicle_verdict_loss]
+1 = "The attack was repelled. @@hero held the line."
+
+[chronicle_verdict_plain]
+1 = "A @@percent% victory."

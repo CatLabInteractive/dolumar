@@ -78,11 +78,11 @@ class Dolumar_Windows_Statusbar
 	/*
 		Put one counter to the array.
 	*/
-	private function addCounter ($futureTime, $village, $txt, $type, $showVillage = false, $speedUpData = null)
+	private function addCounter ($futureTime, $village, $txt, $type, $showVillage = false, $speedUpData = null, $onClick = null)
 	{
 		$villageName = $this->getVillageName($village);
 
-		$this->addCounterRaw($futureTime, $villageName, $txt, $type, $showVillage, $speedUpData);
+		$this->addCounterRaw($futureTime, $villageName, $txt, $type, $showVillage, $speedUpData, $onClick);
 	}
 
 	/**
@@ -92,8 +92,9 @@ class Dolumar_Windows_Statusbar
 	 * @param $type
 	 * @param bool $showVillage
 	 * @param null $speedUpData
+	 * @param string|null $onClick script for a click on the line outside its links (e.g. jump to an army)
 	 */
-	private function addCounterRaw($futureTime, $villageName, $txt, $type, $showVillage = false, $speedUpData = null)
+	private function addCounterRaw($futureTime, $villageName, $txt, $type, $showVillage = false, $speedUpData = null, $onClick = null)
 	{
 		$this->counters[] = array
 		(
@@ -102,7 +103,8 @@ class Dolumar_Windows_Statusbar
 			$txt,
 			$type,
 			$showVillage,
-			$speedUpData
+			$speedUpData,
+			$onClick
 		);
 	}
 
@@ -339,6 +341,7 @@ class Dolumar_Windows_Statusbar
 		$movements = $db->query
 		("
 			SELECT
+				MAX(sc_id) AS sc_id,
 				s_from,
 				s_to,
 				s_id,
@@ -371,12 +374,17 @@ class Dolumar_Windows_Statusbar
 				)
 			);
 		
+			$from = Dolumar_Players_Village::getVillage ($v['s_from']);
+
 			$this->addCounter
 			(
 				$v['aankomst'],
-				Dolumar_Players_Village::getVillage ($v['s_from']),
+				$from,
 				$txt,
-				'moving'
+				'moving',
+				false,
+				null,
+				$this->armyFocus (Dolumar_NewMap_ArmyFactory::squadId ($v['sc_id']), $from)
 			);
 		}
 	}
@@ -654,7 +662,9 @@ class Dolumar_Windows_Statusbar
 						$village,
 						$txt, //'Sending troops to '.$target->getName (),
 						'troops sending',
-						true
+						true,
+						null,
+						$this->armyFocus (Dolumar_NewMap_ArmyFactory::battleId ($v['battleId']), $village)
 					);
 				}
 			}
@@ -667,7 +677,9 @@ class Dolumar_Windows_Statusbar
 					$village,
 					Neuron_Core_Tools::putIntoText ($text->get ('battle_preparing'), $output), //'(aprox) Preparing troops to fight in '.$target->getName (),
 					'troops preparing',
-					true
+					true,
+					null,
+					$this->armyFocus (Dolumar_NewMap_ArmyFactory::battleId ($v['battleId']), $target)
 				);
 			}
 			
@@ -705,7 +717,9 @@ class Dolumar_Windows_Statusbar
 					$village,
 					Neuron_Core_Tools::putIntoText ($text->get ('battle_returning'), $output), //'Returning troops from '.$target->getName (),
 					'troops returning',
-					true
+					true,
+					null,
+					$this->armyFocus (Dolumar_NewMap_ArmyFactory::battleId ($v['battleId']), $target)
 				);
 			}
 			
@@ -811,6 +825,13 @@ class Dolumar_Windows_Statusbar
 		
 		foreach ($this->counters as $v)
 		{
+			// A line that follows an army on the map (links inside it keep their own action)
+			$li = '<li class="'.$v[3].'">';
+			if (!empty ($v[6]))
+			{
+				$li = '<li class="'.$v[3].' mapobject-link" onclick="'.$v[6].'">';
+			}
+
 			// Can speed up?
 			if (isset ($v[5]))
 			{
@@ -826,7 +847,7 @@ class Dolumar_Windows_Statusbar
 			{
 				if ($showVillageName || $v[4])
 				{
-					$p .= '<li class="'.$v[3].'">['
+					$p .= $li.'['
 						. Neuron_Core_Tools::getCountdown ($v[0]).'] '
 						. $v[1] . ': '
 						. $v[2].$s.'</li>';
@@ -834,7 +855,7 @@ class Dolumar_Windows_Statusbar
 
 				else
 				{
-					$p .= '<li class="'.$v[3].'">['.Neuron_Core_Tools::getCountdown ($v[0]).'] '
+					$p .= $li.'['.Neuron_Core_Tools::getCountdown ($v[0]).'] '
 						. $v[2].$s.'</li>';
 				}
 			}
@@ -843,12 +864,12 @@ class Dolumar_Windows_Statusbar
 			{
 				if ($showVillageName || $v[4])
 				{
-					$l .= '<li class="'.$v[3].'">'.$v[1]. ': '.$v[2].$s.'</li>';
+					$l .= $li.$v[1]. ': '.$v[2].$s.'</li>';
 				}
 
 				else
 				{
-					$l .= '<li class="'.$v[3].'">'.$v[2].$s.'</li>';
+					$l .= $li.$v[2].$s.'</li>';
 				}
 			}
 		}
@@ -928,6 +949,20 @@ class Dolumar_Windows_Statusbar
 		$this->updateContent ();
 	}
 	
+	/**
+	*	Click script for a counter line of a moving army. The village's town
+	*	centre is where the map looks when the army is not loaded yet.
+	*/
+	private function armyFocus ($id, $village)
+	{
+		if (!$village)
+		{
+			return null;
+		}
+
+		return Dolumar_NewMap_ArmyFactory::focusScript ($id, $village->buildings->getTownCenterLocation ());
+	}
+
 	private function getVillageName ($village)
 	{
 		return '<a href="javascript:void(0);" onclick="openWindow(\'villageProfile\',{\'village\':'.$village->getId().'});">'.

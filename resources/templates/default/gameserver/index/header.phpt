@@ -1,9 +1,10 @@
 <script type="text/javascript" src="<?=STATIC_ABSOLUTE_URL?>dolumar/javascript/dolumar.js?version=<?=$application_version?>"></script>
+<script type="text/javascript" src="<?=STATIC_ABSOLUTE_URL?>dolumar/javascript/battlereport.js?version=<?=$application_version?>"></script>
 <?php
 	// Kind texts for the engine map-objects layer (javascript/mapobjects.js reads CONFIG_MAPOBJECT_TEXT)
 	$armyText = Neuron_Core_Text::__getInstance ();
 	$armyTexts = array ();
-	foreach (array ('attack', 'waiting', 'returning', 'squad', 'neutral', 'open') as $armyKind)
+	foreach (array ('attack', 'waiting', 'returning', 'squad', 'neutral', 'open', 'close') as $armyKind)
 	{
 		$armyTexts[$armyKind] = $armyText->get ($armyKind, 'armies', 'map');
 	}
@@ -15,6 +16,7 @@
 <link href="<?=STATIC_ABSOLUTE_URL?>dolumar/css/guide.css?version=<?=$application_version?>" rel="stylesheet" type="text/css" />
 <link href="<?=STATIC_ABSOLUTE_URL?>dolumar/css/icons.css?version=<?=$application_version?>" rel="stylesheet" type="text/css" />
 <link href="<?=STATIC_ABSOLUTE_URL?>dolumar/css/windows.css?version=<?=$application_version?>" rel="stylesheet" type="text/css" />
+<link href="<?=STATIC_ABSOLUTE_URL?>dolumar/css/battlereport.css?version=<?=$application_version?>" rel="stylesheet" type="text/css" />
 <link href="<?=STATIC_ABSOLUTE_URL?>dolumar/css/menu.css?version=<?=$application_version?>" rel="stylesheet" type="text/css" />
 <link href="<?=STATIC_ABSOLUTE_URL?>dolumar/css/main.css?version=<?=$application_version?>" rel="stylesheet" type="text/css" />
 <link href="<?=STATIC_ABSOLUTE_URL?>dolumar/css/ui.css?version=<?=$application_version?>" rel="stylesheet" type="text/css" />

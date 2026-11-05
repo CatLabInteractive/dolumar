@@ -24,6 +24,7 @@
 class Dolumar_Players_Squad
 {
 	private $id, $data = null, $items = array (), $error = null, $isIdle = null;
+	private $unequippedItems = array ();
 	private $aUnits = false;
 	private $effects = array ();
 	
@@ -69,6 +70,24 @@ class Dolumar_Players_Squad
 		return $this->data['s_name'];
 	}
 	
+	/*
+		Rename the regiment. The caller validates the name ('unitname' rule).
+	*/
+	public function rename ($sName)
+	{
+		$this->loadData ();
+
+		$db = Neuron_Core_Database::__getInstance ();
+		$db->update
+		(
+			'villages_squads',
+			array ('s_name' => $sName),
+			"s_id = '".$this->getId ()."'"
+		);
+
+		$this->data['s_name'] = $sName;
+	}
+
 	public function getDisplayName ()
 	{
 		return Neuron_Core_Tools::output_varchar ($this->getName ());
@@ -263,8 +282,10 @@ class Dolumar_Players_Squad
 
 			else
 			{
-				$this->unequipItems ($objUnit);
-				
+				// Keep each equipped item when the village has one for every new soldier;
+				// only the slots it can't cover are taken off.
+				$this->unequipShortItems ($objUnit, $amount);
+
 				$db->update
 				(
 					'squad_units',
@@ -464,6 +485,55 @@ class Dolumar_Players_Squad
 		}
 	}
 
+	/*
+		Before $extra soldiers join $objUnit's stack: take off every equipped
+		item the village has fewer than $extra spare of. The names of the items
+		taken off are kept for getUnequippedItems ().
+	*/
+	private function unequipShortItems ($objUnit, $extra)
+	{
+		$this->unequippedItems = array ();
+
+		$squadUnit = $this->getUnit ($objUnit->getUnitId ());
+		if (!$squadUnit)
+		{
+			return;
+		}
+
+		$stock = $this->getVillage ()->getEquipment ();
+
+		foreach ($squadUnit->getEquipment () as $item)
+		{
+			$type = $item->getItemType ();
+			$spare = 0;
+
+			if (isset ($stock[$type]))
+			{
+				foreach ($stock[$type] as $owned)
+				{
+					if ($owned->getId () == $item->getId ())
+					{
+						$spare = $owned->getAvailableAmount ();
+					}
+				}
+			}
+
+			if ($spare < $extra)
+			{
+				$this->unequipItem ($objUnit, $item->getItemTypeId ());
+				$this->unequippedItems[] = $item;
+			}
+		}
+	}
+
+	/*
+		Items (Dolumar_Players_Equipment) the last addUnits () took off because there weren't enough.
+	*/
+	public function getUnequippedItems ()
+	{
+		return $this->unequippedItems;
+	}
+
 	public function unequipItems ($objUnit)
 	{
 		$this->unequipItem ($objUnit);
@@ -591,7 +661,10 @@ class Dolumar_Players_Squad
 		("
 			SELECT
 				UNIX_TIMESTAMP(s_start) AS vertrek,
-				UNIX_TIMESTAMP(s_end) AS aankomst
+				UNIX_TIMESTAMP(s_end) AS aankomst,
+				s_from,
+				s_to,
+				sc_route
 			FROM
 				squad_commands
 			WHERE
@@ -607,6 +680,10 @@ class Dolumar_Players_Squad
 			// This squad is currently travelling, this is a recall.
 			// Moveing back takes as long as moving overthere.
 			$duration = NOW - $current[0]['vertrek'];
+
+			// The map route goes back from where the regiment turned around, not from
+			// its old destination (which getCurrentLocation () already returns).
+			$route = $this->getRecallRoute ($current[0], $db);
 			
 			// Remove all others
 			$db->query
@@ -665,11 +742,39 @@ class Dolumar_Players_Squad
 				s_to = ".$target->getId().",
 				sc_route = ".$route."
 		");
+
+		Dolumar_NewMap_MapObjectManager::armiesChanged ();
 		
 		reloadStatusCounters ();
 		reloadEverything ();
 	}
 	
+	/**
+	*	Route (SQL literal) for a recall of the move in $command: back along the
+	*	walked part of its way. See Dolumar_NewMap_ArmyFactory::recallRoute ().
+	*/
+	private function getRecallRoute ($command, $db)
+	{
+		$from = Dolumar_Players_Village::getVillage ($command['s_from']);
+		$to = Dolumar_Players_Village::getVillage ($command['s_to']);
+		if (!$from || !$to)
+		{
+			return 'NULL';
+		}
+
+		$points = Dolumar_NewMap_ArmyFactory::recallRoute
+		(
+			$command['sc_route'],
+			$from->buildings->getTownCenterLocation (),
+			$to->buildings->getTownCenterLocation (),
+			$command['vertrek'],
+			$command['aankomst'],
+			NOW
+		);
+
+		return "'" . $db->escape (json_encode ($points)) . "'";
+	}
+
 	/*
 		Move squad home
 	*/

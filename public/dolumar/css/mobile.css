@@ -632,6 +632,22 @@ body.layout-mobile .panel.guide div.avatar.angry { background-position: 0 -80px;
 body.layout-mobile .panel.guide div.avatar.surprised { background-position: -64px -80px; }
 body.layout-mobile .panel.guide div.avatar.neutral { background-position: -128px -80px; }
 
+/*
+	The guide's card and task line follow .ai/style-guide.md: Verdana, a flat parchment box with a
+	1px border and 3px corners, blue links, and "Show me" as the one main button (.ui-btn.primary).
+*/
+body.layout-mobile .panel.guide blockquote.bubble,
+body.layout-mobile .panel.guide.mobile-chip div.objective
+{
+	border: 1px solid #8a7550;
+	border-radius: 3px;
+	background: #fbf3dc;
+	box-shadow: 0 1px 0 rgba(64, 51, 31, 0.2);
+	font-family: Verdana, sans-serif;
+	font-size: 15px;
+	color: #40331f;
+}
+
 body.layout-mobile .panel.guide blockquote.bubble
 {
 	position: relative;
@@ -642,10 +658,18 @@ body.layout-mobile .panel.guide blockquote.bubble
 	overflow-y: auto;
 	margin: 0 0 0 56px;
 	padding: 10px 12px;
-	font-size: 15px;
 	line-height: 1.4;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
 	-webkit-overflow-scrolling: touch;
+}
+
+body.layout-mobile .panel.guide blockquote.bubble p:first-child
+{
+	margin-top: 0;
+}
+
+body.layout-mobile .panel.guide blockquote.bubble p:last-of-type
+{
+	margin-bottom: 0;
 }
 
 /* The tail points left, at the small portrait. */
@@ -659,8 +683,9 @@ body.layout-mobile .panel.guide .bubble ul.navigation
 	float: none;
 	display: flex;
 	flex-wrap: wrap;
+	align-items: center;
 	justify-content: flex-end;
-	gap: 6px;
+	gap: 4px 16px;
 	margin: 8px 0 0 0;
 	padding: 0;
 }
@@ -671,28 +696,57 @@ body.layout-mobile .panel.guide .bubble ul.navigation li
 	padding: 0;
 }
 
-body.layout-mobile .panel.guide .bubble ul.navigation a,
-body.layout-mobile .panel.guide div.objective a.guide-showme
+/* Previous, Next and Hide are plain links, with a 44px tap height. */
+body.layout-mobile .panel.guide .bubble ul.navigation a
 {
 	display: inline-block;
+	line-height: 44px;
+	color: #000097;
+	text-decoration: underline;
+}
+
+body.layout-mobile .panel.guide .bubble ul.navigation a:hover
+{
+	color: #b3261e;
+}
+
+/* "Show me": the .ui-btn.primary look (ui.css), never red. */
+body.layout-mobile .panel.guide .bubble ul.navigation li:has(a.guide-showme)
+{
+	order: 1;
+}
+
+body.layout-mobile .panel.guide .bubble ul.navigation a.guide-showme,
+body.layout-mobile .panel.guide div.objective a.guide-showme
+{
+	display: inline-flex;
+	align-items: center;
+	flex: none;
 	min-height: 36px;
-	line-height: 36px;
-	padding: 0 12px;
-	border-radius: 18px;
-	background: rgba(64, 51, 31, 0.12);
-	color: #40331f;
+	line-height: 1.2;
+	padding: 6px 14px;
+	box-sizing: border-box;
+	border: 1px solid #40331f;
+	border-radius: 3px;
+	background: #f3e7c4;
+	box-shadow: 0 1px 0 rgba(64, 51, 31, 0.2);
+	color: #000;
 	font-weight: bold;
 	text-decoration: none;
+	white-space: nowrap;
 }
 
-body.layout-mobile .panel.guide div.objective a.guide-showme,
-body.layout-mobile .panel.guide .bubble ul.navigation a.guide-showme
+body.layout-mobile .panel.guide .bubble ul.navigation a.guide-showme:hover,
+body.layout-mobile .panel.guide div.objective a.guide-showme:hover
 {
-	background: #8c1d1d;
-	color: #fff;
+	background: #fbf3dc;
+	color: #000;
 }
 
-/* Folded away: only the current task, one line, and the portrait as its icon. */
+/*
+	Folded away: one bar with the current task. The guide's portrait sits at its left edge and
+	opens the guide again; it replaces the old yellow "Guide" picture.
+*/
 body.layout-mobile .panel.guide div.objective
 {
 	display: none;
@@ -703,36 +757,43 @@ body.layout-mobile .panel.guide.mobile-chip div.objective
 	display: flex;
 	align-items: center;
 	gap: 8px;
-	min-height: 44px;
-	margin-left: 56px;
-	padding: 4px 6px 4px 12px;
-	border-radius: 22px;
-	background: #f5e494;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
-	font-size: 15px;
-	color: #40331f;
+	box-sizing: border-box;
+	height: 50px;
+	margin: 0;
+	padding: 0 6px 0 56px;
+}
+
+body.layout-mobile .panel.guide.mobile-chip div.objective span.objective-label
+{
+	flex: none;
+	color: #7a6a4c;
 }
 
 body.layout-mobile .panel.guide.mobile-chip div.objective > a:first-of-type
 {
 	flex: 1;
 	min-width: 0;
+	line-height: 48px;
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
-	color: #40331f;
-	font-weight: bold;
-	text-decoration: none;
+	color: #000097;
+	text-decoration: underline;
 }
 
 body.layout-mobile .panel.guide.mobile-chip div.icon a
 {
-	left: 0;
+	left: 6px;
 	right: auto;
-	bottom: -2px;
-	width: 48px;
-	height: 48px;
-	background-size: contain;
+	bottom: 6px;
+	width: 38px;
+	height: 38px;
+	box-sizing: border-box;
+	border: 1px solid #8a7550;
+	border-radius: 3px;
+	background: #f3e7c4 url('../images/characters/guide-grid.png') no-repeat;
+	background-size: 144px 120px;
+	background-position: -102px -72px;
 }
 
 body.layout-mobile .mobile-more-list span.guide-icon
@@ -740,8 +801,12 @@ body.layout-mobile .mobile-more-list span.guide-icon
 	display: inline-block;
 	width: 25px;
 	height: 25px;
-	background: url('../images/characters/guide-icon.png') no-repeat center;
-	background-size: contain;
+	box-sizing: border-box;
+	border: 1px solid #8a7550;
+	border-radius: 3px;
+	background: #f3e7c4 url('../images/characters/guide-grid.png') no-repeat;
+	background-size: 96px 80px;
+	background-position: -68px -48px;
 }
 
 /*
@@ -1310,15 +1375,50 @@ body.layout-mobile .sheet-content table.resources th
 	vertical-align: middle;
 }
 
-/* Squads: unit image, equipment and stats one under the other. */
-body.layout-mobile .sheet.squads div.equipment
+/* Regiments: one unit tile per row and full-width inputs (the kit sets the 44px tap height).
+   The style guide's Verdana and blue links, until the general sheet rules are aligned. */
+body.layout-mobile .sheet.squads .sheet-content,
+body.layout-mobile .sheet.squads .sheet-content h2,
+body.layout-mobile .sheet.squads .sheet-content strong,
+body.layout-mobile .sheet.squads .sheet-content label
 {
-	float: none;
+	font-family: Verdana, sans-serif;
 }
 
-body.layout-mobile .sheet.squads div.equipment select
+body.layout-mobile .sheet.squads .sheet-content p a,
+body.layout-mobile .sheet.squads .sheet-content .ui-muted a
+{
+	color: #000097;
+}
+
+body.layout-mobile .sheet.squads .squad-unit-tiles,
+body.layout-mobile .sheet.squads .ui-columns
+{
+	display: block;
+}
+
+body.layout-mobile .sheet.squads .ui-field input.squad-name-input
 {
 	width: 100%;
+	font-size: 16px;
+}
+
+body.layout-mobile .sheet.squads .ui-field .squad-size input
+{
+	font-size: 16px;
+}
+
+body.layout-mobile .sheet.squads .squad-step
+{
+	min-width: 44px;
+}
+
+body.layout-mobile .sheet.squads .squad-quick a,
+body.layout-mobile .sheet.squads .squad-back a
+{
+	display: inline-flex;
+	align-items: center;
+	min-height: 44px;
 }
 
 /* Logbook: date above the text, the action link on its own line. */

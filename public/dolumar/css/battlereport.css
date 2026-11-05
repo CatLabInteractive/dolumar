@@ -1,0 +1,117 @@
+/*
+	Battle window: list of reports and the report (summary, replay, chronicle).
+	Markup: resources/templates/default/battle/overview2.phpt and battle/report/view.phpt.
+	Player: javascript/battlereport.js.
+
+	The look comes from the ui-* kit (ui.css, .ai/style-guide.md). This file only lays out what the kit has no
+	component for: the list row parts, the armies, the fight log and the replay battlefield.
+*/
+
+.battle-report,
+.battle-report h2,
+.battle-report h3,
+.battle-report button { font-family: Verdana, sans-serif; }
+.battle-report h2 { font-size: 15px; }
+.battle-report h3 { font-size: 13px; margin-top: 16px; }
+
+.battle-report b.us,
+.battle-report b.them { font-weight: bold; color: #000; }
+
+/* The Battle window gives every img a black border and a margin (windows.css); not here. */
+div.battle .battle-report img { border-width: 1px; margin: 0; }
+
+/* Report list */
+.battle-report .br-rep img.br-icon { width: 32px; height: 32px; border: 0; }
+.battle-report .br-rt { flex: 1; min-width: 0; }
+.battle-report .br-rt .ui-card-title { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.battle-report .br-rt .ui-muted { display: block; margin-top: 2px; }
+.battle-report .br-rep .br-when { white-space: nowrap; }
+.battle-report .br-rep .br-when + .ui-card-go { margin-left: 0; }
+.battle-report .br-rep.live { border-color: #8a7550; }
+.battle-report .br-watch { margin-left: auto; white-space: nowrap; color: #000097; text-decoration: underline; }
+.battle-report .br-watch .ui-card-go { text-decoration: none; }
+.battle-report .br-filters { display: flex; flex-wrap: wrap; gap: 6px; align-items: baseline; margin: 12px 0 8px; }
+.battle-report .br-count { margin-left: auto; }
+
+/* Report header */
+.battle-report .br-back { margin: 0 0 8px; }
+.battle-report .br-verdict { margin: 0 0 8px; line-height: 1.5; }
+.battle-report .br-spoils { display: block; margin-top: 4px; }
+.battle-report .br-spoil { white-space: nowrap; margin-right: 8px; }
+.battle-report .br-spoil span.resource { display: inline-block; width: 28px; height: 14px; padding: 0; margin-right: 3px; background-position: center; vertical-align: middle; }
+.battle-report .br-spoil span.rune { display: inline-block; width: 14px; height: 14px; padding: 0; margin-right: 3px; background-position: center; background-repeat: no-repeat; vertical-align: middle; }
+
+/* Armies */
+.battle-report .br-sidehead { display: flex; justify-content: space-between; gap: 6px; margin-bottom: 4px; }
+.battle-report .br-sidehead strong:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.battle-report .br-reg { display: flex; gap: 8px; align-items: center; padding: 6px 0; border-top: 1px solid #e0d2ae; }
+.battle-report .br-sidehead + .br-reg { border-top: 0; padding-top: 2px; }
+.battle-report .br-reg img { width: 30px; height: 30px; border: 1px solid #8a7550; flex: none; }
+.battle-report .br-reg.dead img { opacity: .5; }
+.battle-report .br-n { min-width: 0; flex: 1; line-height: 1.4; }
+
+/* Key moments and actions */
+.battle-report .br-mtx { flex: 1; line-height: 1.4; }
+.battle-report .br-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin: 12px 0 8px; }
+
+/* Folded fight log */
+.battle-report details.br-log { margin-top: 8px; }
+.battle-report details.br-log summary { cursor: pointer; padding: 4px 0; }
+.battle-report .br-phase { display: flex; justify-content: space-between; margin: 10px 0 2px; padding-bottom: 2px; border-bottom: 1px solid #40331f; }
+.battle-report .br-logrow { display: flex; gap: 6px; align-items: center; padding: 3px 0; line-height: 1.3; }
+.battle-report .br-logrow img, .battle-report .br-logrow .br-noimg { width: 22px; height: 22px; flex: none; border: 1px solid #8a7550; }
+.battle-report .br-logrow .br-noimg { border: 0; }
+.battle-report .br-lt { flex: 1; }
+.battle-report .br-logrow strong { white-space: nowrap; }
+
+/* Chronicle */
+.battle-report .br-chron h2 { margin: 0; }
+.battle-report .br-chron h3 { clear: both; }
+.battle-report .br-chron p { line-height: 1.5; }
+.battle-report .br-margin { float: right; width: 120px; margin: 0 0 6px 10px; line-height: 1.4; }
+.battle-report .br-hero { display: flex; gap: 10px; align-items: center; margin-top: 12px; clear: both; }
+.battle-report .br-hero img { width: 40px; height: 40px; border: 1px solid #8a7550; }
+
+/* Replay: the battlefield is game art, framed like the classic battle window. */
+.battle-report .br-replay { margin-bottom: 8px; }
+.battle-report .br-field { border: 1px solid #40331f; padding: 2px; background: #40331f; }
+.battle-report .br-slots { display: flex; gap: 2px; justify-content: center; }
+.battle-report .br-slot { flex: 1 1 0; max-width: 110px; min-width: 0; height: 220px; background-size: 100% 100%; position: relative; }
+.battle-report .br-slot .br-sl { position: absolute; left: 0; right: 0; top: 50%; margin-top: -7px; text-align: center; font-size: 10px; color: #fff; text-shadow: 0 1px 2px #000; overflow: hidden; white-space: nowrap; }
+.battle-report .br-tok { position: absolute; left: 0; right: 0; text-align: center; transition: opacity .3s; }
+.battle-report .br-tok.def { top: 8px; }
+.battle-report .br-tok.att { bottom: 8px; }
+div.battle .battle-report .br-tok img,
+.battle-report .br-tok img { width: 46px; height: 46px; max-width: 86%; height: auto; aspect-ratio: 1; border: 2px solid #f3e7c4; display: block; margin: 0 auto; transition: border-color .2s; }
+.battle-report .br-tok.us img { border-color: #000097; }
+.battle-report .br-tok .br-cnt { display: inline-block; margin-top: -8px; position: relative; background: #f3e7c4; color: #000; font-size: 10px; font-weight: bold; padding: 0 4px; border: 1px solid #40331f; border-radius: 3px; }
+.battle-report .br-tok .br-hp { height: 4px; width: 46px; max-width: 86%; margin: 2px auto 0; background: #b3261e; overflow: hidden; }
+.battle-report .br-tok .br-hp i { display: block; height: 100%; background: #2f7a1f; transition: width .4s; }
+.battle-report .br-tok.hit img { border-color: #b3261e; }
+.battle-report .br-tok.acting img { border-color: #fff; }
+.battle-report .br-tok.fled img, .battle-report .br-tok.wiped img { opacity: .45; }
+.battle-report .br-tok.gone { display: none; }
+.battle-report .br-flag { display: block; margin: 1px auto 0; width: max-content; font-size: 10px; background: #f3e7c4; color: #b3261e; padding: 0 4px; border: 1px solid #40331f; border-radius: 3px; }
+.battle-report .br-float { position: absolute; right: 2px; top: 0; font-weight: bold; font-size: 14px; color: #fff; text-shadow: 0 0 2px #000, 0 1px 2px #000; animation: br-float 1s ease-out forwards; pointer-events: none; }
+@keyframes br-float { from { transform: translateY(6px); opacity: 1; } to { transform: translateY(-10px); opacity: 0; } }
+
+.battle-report .br-transport { display: flex; align-items: center; gap: 6px; margin-top: 8px; }
+.battle-report .br-transport .ui-btn { flex: none; padding-left: 10px; padding-right: 10px; }
+.battle-report .br-transport .br-play { min-width: 64px; }
+.battle-report .br-scrub { flex: 1; min-width: 0; }
+.battle-report .br-segs { display: flex; gap: 2px; height: 10px; cursor: pointer; }
+.battle-report .br-segs div { background: #c9b58a; position: relative; overflow: hidden; min-width: 4px; border-radius: 2px; }
+.battle-report .br-segs div i { position: absolute; left: 0; top: 0; bottom: 0; background: #40331f; }
+.battle-report .br-names { display: flex; gap: 2px; font-size: 9px; color: #7a6a4c; margin-top: 2px; }
+.battle-report .br-names div { text-align: center; overflow: hidden; white-space: nowrap; min-width: 4px; }
+.battle-report .br-caption { margin-top: 8px; line-height: 1.4; min-height: 36px; }
+.battle-report .br-caption .br-kills { font-weight: bold; }
+.battle-report .br-legend { margin: 6px 0 0; }
+.battle-report .br-dot { display: inline-block; width: 10px; height: 10px; border: 2px solid #f3e7c4; background: #40331f; vertical-align: -2px; }
+.battle-report .br-dot.us { border-color: #000097; }
+
+/* Mobile: the kit handles sizes; the transport keeps its buttons on one line. */
+body.layout-mobile .sheet-content .battle-report .br-transport .ui-btn { padding: 0 12px; }
+body.layout-mobile .sheet-content .battle-report .br-back a { text-decoration: none; }
+body.layout-mobile .sheet-content .battle-report h2,
+body.layout-mobile .sheet-content .battle-report h3 { font-family: Verdana, sans-serif; }

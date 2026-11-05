@@ -33,6 +33,33 @@ class Dolumar_NewMap_ArmyFactory
 	const KIND_RETURNING = 'returning';
 	const KIND_SQUAD = 'squad';
 
+	/** Map object id of a battle (attack, wait, return) */
+	public static function battleId ($battleId)
+	{
+		return 'b:' . intval ($battleId);
+	}
+
+	/** Map object id of a squad move */
+	public static function squadId ($scId)
+	{
+		return 's:' . intval ($scId);
+	}
+
+	/**
+	*	Onclick script that centres the map on an army. $fallback (x, y) is where
+	*	to look when the army is not loaded on the map yet (a town centre it
+	*	passes); the map then follows the army once it is loaded.
+	*	Safe inside a double-quoted HTML attribute.
+	*/
+	public static function focusScript ($id, array $fallback)
+	{
+		$id = preg_replace ('/[^a-z0-9:]/i', '', $id);
+		$x = is_numeric ($fallback[0]) ? floatval ($fallback[0]) : 0;
+		$y = is_numeric ($fallback[1]) ? floatval ($fallback[1]) : 0;
+
+		return "Game.dolumar.focusArmy(event, '" . $id . "', " . $x . ", " . $y . ");";
+	}
+
 	/**
 	*	@param array $row battle columns plus fromX, fromY, toX, toY, fromName, toName
 	*	@param int $now
@@ -88,7 +115,7 @@ class Dolumar_NewMap_ArmyFactory
 		$vid = intval ($row['vid']);
 		$army = new Dolumar_NewMap_Army
 		(
-			'b:' . intval ($row['battleId']),
+			self::battleId ($row['battleId']),
 			$kind,
 			array ($vid, intval ($row['targetId'])),
 			$row['fromName'] . ' → ' . $row['toName'],
@@ -128,7 +155,7 @@ class Dolumar_NewMap_ArmyFactory
 		$homeVid = intval ($row['homeVid']);
 		$army = new Dolumar_NewMap_Army
 		(
-			's:' . intval ($row['sc_id']),
+			self::squadId ($row['sc_id']),
 			self::KIND_SQUAD,
 			array (intval ($row['s_from']), intval ($row['s_to']), $homeVid),
 			$row['squadName'] . ' → ' . $row['toName'],
@@ -199,6 +226,84 @@ class Dolumar_NewMap_ArmyFactory
 	/**
 	*	Decode a stored route; fall back to the straight line when missing or broken.
 	*/
+	/**
+	*	Route of a squad move recalled at $now: from where it is on its way
+	*	(the move from $from to $to along $json, between $start and $end)
+	*	back along the walked part to where it left. Returned as walked pairs
+	*	(an even number of points), so portal jumps are taken back too.
+	*	Timing follows addPhase(): time is spread over the legs by length.
+	*
+	*	@return array list of array (x, y)
+	*/
+	public static function recallRoute ($json, array $from, array $to, $start, $end, $now)
+	{
+		$from = array ((float) $from[0], (float) $from[1]);
+		$to = array ((float) $to[0], (float) $to[1]);
+		$segments = self::segments (self::routeFromJson ($json, $from, $to));
+
+		$start = intval ($start);
+		$end = intval ($end);
+
+		$total = 0;
+		foreach ($segments as $seg)
+		{
+			$total += self::length ($seg);
+		}
+
+		$back = array ();
+		$t = $start;
+		$count = count ($segments);
+		foreach ($segments as $i => $seg)
+		{
+			if ($i == $count - 1)
+			{
+				$te = $end;
+			}
+			elseif ($total > 0)
+			{
+				$te = $t + (int) round (($end - $start) * self::length ($seg) / $total);
+			}
+			else
+			{
+				$te = $t;
+			}
+
+			$a = array ((float) $seg[0][0], (float) $seg[0][1]);
+			$b = array ((float) $seg[1][0], (float) $seg[1][1]);
+
+			if ($now >= $te)
+			{
+				array_unshift ($back, array ($b, $a));
+			}
+			elseif ($now > $t)
+			{
+				$f = ($now - $t) / ($te - $t);
+				$here = array ($a[0] + ($b[0] - $a[0]) * $f, $a[1] + ($b[1] - $a[1]) * $f);
+				array_unshift ($back, array ($here, $a));
+				break;
+			}
+			else
+			{
+				break;
+			}
+
+			$t = $te;
+		}
+
+		if (count ($back) == 0)
+		{
+			return array ($from, $from);
+		}
+
+		$out = array ();
+		foreach ($back as $pair)
+		{
+			$out[] = $pair[0];
+			$out[] = $pair[1];
+		}
+		return $out;
+	}
+
 	private static function routeFromJson ($json, array $from, array $to)
 	{
 		$fallback = array ($from, $to);
