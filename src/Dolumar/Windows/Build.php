@@ -159,6 +159,21 @@ class Dolumar_Windows_Build extends Neuron_GameServer_Windows_Window
 				
 				if ($building->canBuildBuilding ($this->village))
 				{
+					$action = new Dolumar_View_SelectBuildLocation 
+					(
+						$building->getBuildingId (), 
+						'build',
+						'building_' . $building->getBuildingId (),
+						$building->getDisplayObject ($race),
+						null,
+						$selectrunewarning
+					);
+
+					if ($building instanceof Dolumar_Buildings_Producing)
+					{
+						$action->setPreview ($building->getPlacementPreview ($this->village));
+					}
+
 					$duration = $building->getConstructionTime ($this->village);
 					
 					$dur = Neuron_Core_Tools::getDuration ($duration);
@@ -186,15 +201,7 @@ class Dolumar_Windows_Build extends Neuron_GameServer_Windows_Window
 						
 						'myBuildingsName' => $building->getName ($this->village->buildings->getBuildingAmount ($building) > 1),
 						
-						'action' => new Dolumar_View_SelectBuildLocation 
-						(
-							$building->getBuildingId (), 
-							'build',
-							'building_' . $building->getBuildingId (),
-							$building->getDisplayObject ($race),
-							null,
-							$selectrunewarning
-						)
+						'action' => $action
 					);
 				}
 			}

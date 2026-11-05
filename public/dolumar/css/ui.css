@@ -254,6 +254,48 @@ a.ui-card:hover
 }
 
 /* Text helpers. */
+/* Number table: where a total comes from (income breakdown). Label left, amount right, total row at the bottom. */
+table.ui-breakdown
+{
+	width: 100%;
+	margin: 8px 0;
+	border-collapse: collapse;
+}
+
+table.ui-breakdown td
+{
+	padding: 3px 4px;
+	border-bottom: 1px solid #c9b58a;
+	vertical-align: middle;
+	text-align: left;
+}
+
+table.ui-breakdown td.number
+{
+	text-align: right;
+	white-space: nowrap;
+}
+
+table.ui-breakdown td.tile
+{
+	width: 32px;
+	padding: 0 4px 0 0;
+}
+
+table.ui-breakdown td.tile img
+{
+	display: block;
+	width: 32px;
+	height: auto;
+}
+
+table.ui-breakdown tr.total td
+{
+	border-top: 1px solid #40331f;
+	border-bottom: 0;
+	font-weight: bold;
+}
+
 .ui-muted { color: #7a6a4c; }
 .ui-good { color: #2f7a1f; }
 .ui-bad { color: #b3261e; }
@@ -349,4 +391,26 @@ body.layout-mobile .sheet-content .ui-card .ui-card-title
 {
 	color: #000097;
 	text-decoration: underline;
+}
+
+/* The sheet's generic table rules (separate borders, centred numbers, top alignment) do not apply. */
+body.layout-mobile .sheet-content table.ui-breakdown
+{
+	border-collapse: collapse;
+}
+
+body.layout-mobile .sheet-content table.ui-breakdown td
+{
+	padding: 6px 4px;
+	vertical-align: middle;
+}
+
+body.layout-mobile .sheet-content table.ui-breakdown td.number
+{
+	text-align: right;
+}
+
+body.layout-mobile .sheet-content table.ui-breakdown td.tile
+{
+	padding: 0 4px 0 0;
 }

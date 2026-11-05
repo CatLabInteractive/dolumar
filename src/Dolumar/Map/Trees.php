@@ -42,6 +42,11 @@ class Dolumar_Map_Trees extends Dolumar_Map_Location
 	{
 		return array ('wood' => 20);
 	}
+
+	public function getBonusKey ()
+	{
+		return 'trees';
+	}
 }
 
 ?>

@@ -31,6 +31,7 @@ class Dolumar_View_SelectBuildLocation
 	private $runeclassname;
 	private $extradata = "''";
 	private $error;
+	private $preview = null;
 
 	public function __construct 
 	(
@@ -53,6 +54,14 @@ class Dolumar_View_SelectBuildLocation
 		$this->error = $errormessage;
 	}
 	
+	/*
+		Show what each spot is worth while choosing (Game.map.placementPreview).
+	*/
+	public function setPreview (?array $preview)
+	{
+		$this->preview = $preview;
+	}
+
 	public function setSendFormData ()
 	{
 		$this->sendformdata = true;
@@ -70,7 +79,13 @@ class Dolumar_View_SelectBuildLocation
 		
 		$sendformdata = $this->sendformdata ? 'true' : 'false';
 	
-		return 'selectBuildLocation (this, '.$data.', '.$this->runeclassname.', '.$image.', '.$this->extradata.', \'' . $this->error . '\');';
+		$preview = '';
+		if (isset ($this->preview))
+		{
+			$preview = ', ' . htmlentities (json_encode ($this->preview), ENT_COMPAT);
+		}
+	
+		return 'selectBuildLocation (this, '.$data.', '.$this->runeclassname.', '.$image.', '.$this->extradata.', \'' . $this->error . '\''.$preview.');';
 	}
 }
 ?>

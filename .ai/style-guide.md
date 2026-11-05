@@ -46,6 +46,7 @@ in the project's shared files, with the background in `01-style-guide-options.md
 | `.ui-box`, `.ui-columns` | Bordered group, two-column grid of groups | Same border and fill as a card |
 | `.ui-bar` with an `<i style="width:N%">` | Health or progress | 6px, green part `#2f7a1f`, rest `#b3261e` (`.neutral` for a tan rest) |
 | `.ui-field` | Label above its input | Bold label, input with 1px `#8a7550` border and 3px corners |
+| `table.ui-breakdown` | Where a total comes from (income per building): `td.tile` for a 32px map tile image, `td.number` for amounts, `tr.total` last | Full width, thin tan line under each row, bold total row with a dark line above |
 | `.ui-muted`, `.ui-good`, `.ui-bad` | Secondary text, good and bad numbers | `#7a6a4c`, `#2f7a1f`, `#b3261e` |
 | `p.true.ui-msg` etc. | Classic message box with room | 8px 10px padding, 3px corners |
 

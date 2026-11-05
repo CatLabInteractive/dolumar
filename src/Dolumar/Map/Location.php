@@ -72,6 +72,15 @@ class Dolumar_Map_Location implements Neuron_GameServer_Interfaces_Map_Location
 		return array ();
 	}
 
+	/*
+		Name of the bonus tile ('trees', 'haystack', 'stone', 'iron', 'gems')
+		used for its label and image; null for tiles without an income bonus.
+	*/
+	public function getBonusKey ()
+	{
+		return null;
+	}
+
 	public function isWater ()
 	{
 		return false;
