@@ -7,7 +7,7 @@
 		<a href="javascript:void(0)" onclick="windowAction(this,{'page':<?=$nextPage?>});" style="text-decoration: none;"><span>»</span></a>
 	</div>
 
-	<div style="float: right; margin-right: -28px; margin-top: 2px;">
+	<div class="newsbar-icons">
 		<a href="javascript:void(0);" onclick="mapIsoJump('<?=$homecors[0]?>','<?=$homecors[1]?>'); return false;">
 			<span class="footer-navigation home"><span><?=$home?></span></span>
 		</a>
