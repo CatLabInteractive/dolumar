@@ -119,12 +119,12 @@ Game data that is not code lives in `resources/`: `templates/default/` (views), 
 
 ## Background work
 
-There is no queue worker. Time-based progress (building, training, battles, AI) is computed lazily on access and by
-cron:
+Time-based progress (building, training, battles, AI) is computed lazily on access and by the cron scripts. The
+`worker` process (`tools/worker.sh`, see deployment.md) starts them as fresh PHP processes:
 
-- `cron/run.php`, every minute: runs `cron/constantly.php` (premium queues and periodic processing) and
-  `cron/daily.php` under `Neuron_Core_Lock` locks so they never overlap.
-- `cron/ai.php`, every 5 minutes: the NPC tribes (below).
+- `cron/run.php`, every minute: runs `cron/constantly.php` (premium queues and periodic processing), `cron/push.php`
+  and, once a day, `cron/daily.php`, under `Neuron_Core_Lock` locks so they never overlap.
+- `cron/ai.php`, every 15 minutes: the NPC tribes (below).
 
 Cron and setup scripts refuse to run outside the CLI.
 
