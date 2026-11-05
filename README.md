@@ -48,6 +48,9 @@ the most important ones are:
 * `NEVERENDING`: set to `1` for a world without an endgame. The Dor Daedeloth spell is never offered, no clan can
   win and the server is never reset. Players see a notice on the welcome screen, the ranking, the race selection
   and the server settings. Off by default.
+* `SERVER_NAME`: the world's name, shown after "Dolumar" in the browser tab title (`x3 Speed` gives
+  "Dolumar x3 Speed") and on the launch and end-of-round pages. It is applied on the next page load and survives a
+  reset. Unset keeps the name in the database (`Dolumar` unless a server list assigned one).
 * `NPC_AGGRESSION`: how far the goblin tribes go when raided: `off` (they only build and defend), `counter`
   (default: scouts, an envoy, then counter-attacks against raiders), or `full` (also strikes against players who
   attack the tribe's allies). `NPC_PROTECTION_RUNES` (default 10): players with fewer runes are never attacked,
@@ -115,6 +118,7 @@ cron jobs, all built from the same commit. What makes worlds different is only t
 |---------|--------------------|---------------|-------------|
 | `NEVERENDING` | `1` | unset | unset |
 | `SPEED_FACTOR` | unset (x1) | unset (x1) | `3` |
+| `SERVER_NAME` | your choice | your choice | e.g. `x3 Speed` |
 | `ROUND_DAYS` | ignored | your choice (default 180) | your choice (default 180) |
 | `AIRBRAKE_ENVIRONMENT` | `production` | `production-classic` | `production-speed` |
 
@@ -138,11 +142,11 @@ dokku domains:set dolumar-speed speed.dolumar.com
 # the same settings as the existing world (SMTP, OpenID Connect, credits, VAPID keys, Errbit), see below,
 # plus what is specific to this world:
 dokku config:set --no-restart dolumar-speed PROTOCOL=https ABSOLUTE_URL=https://speed.dolumar.com/ \
-  SPEED_FACTOR=3 AIRBRAKE_ENVIRONMENT=production-speed
+  SPEED_FACTOR=3 SERVER_NAME="x3 Speed" AIRBRAKE_ENVIRONMENT=production-speed
 ```
 
 Copying the shared settings: `dokku config:export --format envfile dolumar` prints the existing world's settings.
-Leave out `DATABASE_URL`, `MEMCACHED_URL`, `ABSOLUTE_URL`, `NEVERENDING`, `GIT_REV` and the `DOKKU_*` keys (they
+Leave out `DATABASE_URL`, `MEMCACHED_URL`, `ABSOLUTE_URL`, `NEVERENDING`, `SERVER_NAME`, `GIT_REV` and the `DOKKU_*` keys (they
 belong to that app) and set the rest on the new app. The VAPID keys can be the same pair on every world.
 
 Then deploy it (below), which installs the schema into the empty database, and enable HTTPS with

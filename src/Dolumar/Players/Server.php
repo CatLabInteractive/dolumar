@@ -41,6 +41,32 @@ class Dolumar_Players_Server
 		return defined ('NEVERENDING') && NEVERENDING;
 	}
 
+	/**
+	 * The world name from the SERVER_NAME environment variable, or null when it is not set.
+	 * @return string|null
+	 */
+	public static function getConfiguredName ()
+	{
+		return defined ('SERVER_NAME') && SERVER_NAME !== '' ? SERVER_NAME : null;
+	}
+
+	/**
+	 * Store the SERVER_NAME world name when it differs from the one in the database. The stored name is what the
+	 * browser tab title, the launch and end-of-round pages and player logs show. Does nothing when SERVER_NAME is
+	 * not set or the server is not installed yet (the daily cron installs it with this name).
+	 * @return bool true when the name was changed
+	 */
+	public function syncServerName ()
+	{
+		$name = self::getConfiguredName ();
+		if ($name === null || !$this->isInstalled () || $this->getServerName () === $name) {
+			return false;
+		}
+
+		$this->setData ('servername', $name);
+		return true;
+	}
+
 	public function canRegister ()
 	{
 		return true;
