@@ -106,9 +106,14 @@ Under `src/Dolumar/`:
   20 s memcache of the rows), `ArmyFactory` (turns a row into a `Dolumar_NewMap_Army` with one engine `Movement` per
   phase: march out, wait at the target, march home; portal routes jump), and
   `MapObjectManager::getMovingObjects()`, which the engine's `map/objects` endpoint calls. Routes are stored at
-  dispatch time in `battle.route` and `squad_commands.sc_route` (JSON waypoints from `Dolumar_Map_Distance`).
+  dispatch time in `battle.route`, `squad_commands.sc_route` and `villages_specialunits.vsu_route` (JSON legs from
+  `Dolumar_Map_Distance`: a list of point lists, a portal jump between legs; older rows hold a flat point list and
+  are still read). Walking goes around lakes: `Map_LandRoute` keeps the straight line and only searches a way
+  around each stretch that crosses water (grid A* in a box around it), smooths the result, caches it in memcache
+  and falls back to the straight line when there is no way around. Ranking and profile lists pass
+  `$overLand = false` for a cheap straight-line distance.
   Related viewers (own or clan villages involved) get the full path and a tap action; everyone else sees a neutral
-  sprite with only the next 30 s of movement. The kind texts come from `resources/language/*/map.lng` through
+  sprite with only the next 30 s of movement. Thieves are secret: only their owner and clan see them at all. The kind texts come from `resources/language/*/map.lng` through
   `CONFIG_MAPOBJECT_TEXT` in `gameserver/index/header.phpt`; the engine layer itself is generic (`Game.mapObjects`, `mapobjects.js`).
 - `Underworld/`: a separate, turn-based mini-game with its own models, mappers and windows.
 - `Mappers/` and `Underworld/Mappers/`: the few classes that follow a mapper pattern. Most models query the database

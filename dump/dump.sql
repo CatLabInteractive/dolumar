@@ -1548,6 +1548,8 @@ CREATE TABLE `villages_specialunits` (
   `vsu_location` int(11) DEFAULT NULL,
   `vsu_moveStart` datetime DEFAULT NULL,
   `vsu_moveEnd` datetime DEFAULT NULL,
+  `vsu_from` int(11) DEFAULT NULL,
+  `vsu_route` text DEFAULT NULL,
   PRIMARY KEY (`vsu_id`),
   KEY `v_id` (`v_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1638 DEFAULT CHARSET=utf8;

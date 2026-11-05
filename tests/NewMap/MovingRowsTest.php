@@ -89,6 +89,22 @@ class MovingRowsTest extends TestCase
 		}
 	}
 
+	public function testThiefRowsSelectTheFactoryAliases(): void
+	{
+		$db = new FakeDatabase(['villages_specialunits vsu' => [['vsu_id' => 1]]]);
+		Dolumar_NewMap_MovingRows::thieves($db, 1000);
+		$sql = $db->queries[0];
+		foreach (['vsu_id', 'vsu_bid', 'homeVid', 'vsu_route', 'AS moveStart', 'AS moveEnd', 'fromX', 'toY', 'fromName', 'toName', 'vsu_from IS NOT NULL', 'FROM_UNIXTIME(1000)'] as $needle) {
+			$this->assertStringContainsString($needle, $sql);
+		}
+	}
+
+	public function testPointsOfRowReadLegs(): void
+	{
+		$row = ['fromX' => 0, 'fromY' => 0, 'toX' => 9, 'toY' => 0, 'route' => '[[[0,0],[4,6]],[[50,50],[9,0]]]'];
+		$this->assertSame([[0, 0], [9, 0], [0, 0], [4, 6], [50, 50], [9, 0]], Dolumar_NewMap_MovingRows::pointsOfRow($row, 'route'));
+	}
+
 	public function testCacheMissWithoutMemcacheStillAnswers(): void
 	{
 		$cache = new FakeCache();

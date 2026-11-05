@@ -32,6 +32,7 @@ class Dolumar_NewMap_ArmyFactory
 	const KIND_WAITING = 'waiting';
 	const KIND_RETURNING = 'returning';
 	const KIND_SQUAD = 'squad';
+	const KIND_THIEF = 'thief';
 
 	/** Map object id of a battle (attack, wait, return) */
 	public static function battleId ($battleId)
@@ -43,6 +44,11 @@ class Dolumar_NewMap_ArmyFactory
 	public static function squadId ($scId)
 	{
 		return 's:' . intval ($scId);
+	}
+
+	public static function thiefId ($vsuId)
+	{
+		return 't:' . intval ($vsuId);
 	}
 
 	/**
@@ -165,6 +171,44 @@ class Dolumar_NewMap_ArmyFactory
 		$army->setLocation (new Neuron_GameServer_Map_Location ($from[0], $from[1]));
 
 		self::addPhase ($army, $segments, intval ($row['s_start']), intval ($row['s_end']));
+
+		return $army;
+	}
+
+	/**
+	*	A thief walking to another village. Only its owner and their clan see
+	*	it: the target must not learn that a thief is on its way.
+	*
+	*	@param array $row villages_specialunits columns (moveStart, moveEnd as
+	*		unix timestamps) plus fromX, fromY, toX, toY, fromName, toName, homeVid
+	*	@param int $now
+	*	@return Dolumar_NewMap_Army|null
+	*/
+	public static function fromThiefRow (array $row, $now)
+	{
+		if (!self::hasCoordinates ($row))
+		{
+			return null;
+		}
+
+		$from = array ((float) $row['fromX'], (float) $row['fromY']);
+		$to = array ((float) $row['toX'], (float) $row['toY']);
+		$segments = self::routeSegments ($row['vsu_route'] ?? null, $from, $to);
+
+		$homeVid = intval ($row['homeVid']);
+		$army = new Dolumar_NewMap_Army
+		(
+			self::thiefId ($row['vsu_id']),
+			self::KIND_THIEF,
+			array ($homeVid),
+			$row['fromName'] . ' → ' . $row['toName'],
+			"openWindow ('Thievery', {'village': " . $homeVid . ", 'building': " . intval ($row['vsu_bid']) . "});",
+			self::spriteUrl (self::KIND_THIEF)
+		);
+		$army->setSecret (true);
+		$army->setLocation (new Neuron_GameServer_Map_Location ($from[0], $from[1]));
+
+		self::addPhase ($army, $segments, intval ($row['moveStart']), intval ($row['moveEnd']));
 
 		return $army;
 	}
