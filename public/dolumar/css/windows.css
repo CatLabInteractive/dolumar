@@ -532,6 +532,26 @@ div.clan p
 	outline: none;
 }
 
+/* Home, minimap and inbox at the right end: even gaps, centred in the bar, clear of the scroll curl. */
+.newsbar div.newsbar-icons
+{
+	float: right;
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	height: 21px;
+	margin-right: -18px;
+	position: relative;
+	z-index: 3;
+}
+
+.newsbar div.newsbar-icons a
+{
+	display: block;
+	line-height: 0;
+	text-decoration: none;
+}
+
 .newsbar .goLeft a span,
 .newsbar .goRight a span
 {
