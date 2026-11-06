@@ -64,6 +64,11 @@ class Dolumar_Map_Resource extends Dolumar_Map_Location
 			$this->getRes () => 20
 		);
 	}
+
+	public function getBonusKey ()
+	{
+		return $this->getRes ();
+	}
 }
 
 ?>

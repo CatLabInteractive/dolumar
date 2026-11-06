@@ -111,6 +111,48 @@ class Dolumar_Map_Map
 		}
 	}
 	
+	/*
+		All tiles with an income bonus within $radius of ($cx, $cy):
+		array of array (x, y, Dolumar_Map_Location). Tiles are generated
+		fresh: they never change and this is much faster than the cache
+		for a few thousand tiles.
+	*/
+	public static function getBonusTilesAround ($cx, $cy, $radius)
+	{
+		static $cache = array ();
+
+		$cx = floor ($cx);
+		$cy = floor ($cy);
+		$radius = (int)$radius;
+
+		$key = $cx . '_' . $cy . '_' . $radius;
+		if (isset ($cache[$key]))
+		{
+			return $cache[$key];
+		}
+
+		$out = array ();
+		for ($x = $cx - $radius; $x <= $cx + $radius; $x ++)
+		{
+			for ($y = $cy - $radius; $y <= $cy + $radius; $y ++)
+			{
+				if (pow ($x - $cx, 2) + pow ($y - $cy, 2) > $radius * $radius)
+				{
+					continue;
+				}
+
+				$location = self::getLocation ($x, $y, false, false);
+				if ($location->getBonusKey () !== null)
+				{
+					$out[] = array ($x, $y, $location);
+				}
+			}
+		}
+
+		$cache[$key] = $out;
+		return $out;
+	}
+
 	public static function isWater ($x, $y)
 	{
 		/*

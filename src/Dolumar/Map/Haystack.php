@@ -48,6 +48,11 @@ class Dolumar_Map_Haystack extends Dolumar_Map_Location
 		//return array ();
 		return array ('grain' => 20);
 	}
+
+	public function getBonusKey ()
+	{
+		return 'haystack';
+	}
 }
 
 ?>

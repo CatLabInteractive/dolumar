@@ -1715,8 +1715,11 @@ class Dolumar_Players_Village
 		The bonus returned should be the average bonus between that time.
 		
 		The income bonus returns the hourly income bonus!
+
+		Pass an array as $steps to get every technology or effect that
+		changed the value, with the value after it: array (object, value).
 	*/
-	public function procBonusses ($function, $arguments = array (), $now = NOW, $since = NOW)
+	public function procBonusses ($function, $arguments = array (), $now = NOW, $since = NOW, ?array &$steps = null)
 	{
 		$profiler = Neuron_Profiler_Profiler::getInstance ();
 		
@@ -1750,6 +1753,11 @@ class Dolumar_Players_Village
 			if (method_exists ($technology, $function))
 			{
 				$arguments[0] = call_user_func_array (array ($technology, $function), $arguments);
+
+				if (isset ($steps))
+				{
+					$steps[] = array ($technology, $arguments[0]);
+				}
 			}
 		}
 		$profiler->stop ();
@@ -1770,6 +1778,11 @@ class Dolumar_Players_Village
 			if (method_exists ($v, $function))
 			{
 				$arguments[0] = call_user_func_array (array ($v, $function), $arguments);
+
+				if (isset ($steps))
+				{
+					$steps[] = array ($v, $arguments[0]);
+				}
 			}
 		}
 		$profiler->stop ();
