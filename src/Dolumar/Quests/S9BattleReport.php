@@ -36,7 +36,7 @@ class Dolumar_Quests_S9BattleReport extends Dolumar_Quests_Quest
 	public function getAction (Neuron_GameServer_Player $player)
 	{
 		$village = $this->getVillage ($player);
-		return $village ? "openWindow('logbook', {'village':" . intval ($village->getId ()) . "});" : null;
+		return $village ? "openWindow('battle', {'vid':" . intval ($village->getId ()) . "});" : null;
 	}
 
 	public function isFinished (Neuron_GameServer_Player $player)

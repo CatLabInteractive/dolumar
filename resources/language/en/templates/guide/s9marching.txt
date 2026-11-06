@@ -1,1 +1,1 @@
-Your army is on its way. The battle is fought when it arrives, and I'll let you know when it is over. You can follow it in your [b]logbook[/b].
+Your army is on its way. The battle is fought when it arrives, and I'll let you know when it is over. Until then you can follow it in the [b]Battle[/b] window; [b]Show me[/b] opens it.
